@@ -1,0 +1,283 @@
+/* ===========================================================================
+   MagnoCreative Design System — Tokens
+   ---------------------------------------------------------------------------
+   Three tiers, in dependency order:
+
+     1. PRIMITIVES  Raw values. Perceptually-even ramps in OKLCH. No meaning
+                    attached. Never referenced directly by a component.
+     2. SEMANTIC    Roles, not values. `--surface-raised`, not `--neutral-100`.
+                    This is the only tier a component is allowed to consume,
+                    and the only tier that changes between light and dark.
+     3. COMPONENT   Per-component overrides, declared next to the component
+                    itself, aliasing the semantic tier.
+
+   Retheming the entire site means editing tier 1 and the two role blocks in
+   tier 2. Nothing else. That constraint is the point of the system.
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. PRIMITIVES
+   OKLCH keeps lightness perceptually uniform across hues, so neutral-600 and
+   accent-600 carry the same visual weight. That is what makes contrast ratios
+   predictable instead of hand-tuned per color.
+   --------------------------------------------------------------------------- */
+
+:root {
+  /* Neutral — very slightly cool, so it reads as considered rather than default grey */
+  --p-neutral-0: oklch(100% 0 0);
+  --p-neutral-25: oklch(99% 0.002 260);
+  --p-neutral-50: oklch(97.4% 0.003 260);
+  --p-neutral-100: oklch(94.6% 0.004 260);
+  --p-neutral-200: oklch(89.2% 0.006 260);
+  --p-neutral-300: oklch(81.5% 0.008 260);
+  --p-neutral-400: oklch(69.8% 0.011 260);
+  --p-neutral-500: oklch(58.4% 0.013 260);
+  --p-neutral-600: oklch(48.2% 0.014 260);
+  --p-neutral-700: oklch(38.6% 0.014 260);
+  --p-neutral-800: oklch(28.4% 0.013 260);
+  --p-neutral-900: oklch(20.1% 0.012 260);
+  --p-neutral-950: oklch(14.8% 0.011 260);
+  --p-neutral-1000: oklch(10.2% 0.009 260);
+
+  /* Accent — PLACEHOLDER. Retune the hue angle here and the whole site follows. */
+  --p-accent-50: oklch(96.8% 0.022 232);
+  --p-accent-100: oklch(93.2% 0.045 232);
+  --p-accent-200: oklch(87.4% 0.078 232);
+  --p-accent-300: oklch(79.6% 0.108 232);
+  --p-accent-400: oklch(70.2% 0.132 232);
+  --p-accent-500: oklch(61.4% 0.142 232);
+  --p-accent-600: oklch(53.2% 0.138 232);
+  --p-accent-700: oklch(44.8% 0.118 232);
+  --p-accent-800: oklch(36.4% 0.094 232);
+  --p-accent-900: oklch(28.8% 0.072 232);
+
+  /* Functional — a portfolio barely needs these, a design system case study does */
+  --p-success-500: oklch(62.4% 0.146 152);
+  --p-success-700: oklch(45.8% 0.118 152);
+  --p-warning-500: oklch(75.6% 0.148 76);
+  --p-warning-700: oklch(56.2% 0.126 76);
+  --p-danger-500: oklch(59.8% 0.192 22);
+  --p-danger-700: oklch(46.4% 0.168 22);
+}
+
+/* ---------------------------------------------------------------------------
+   2. SEMANTIC — light (default)
+   --------------------------------------------------------------------------- */
+
+:root {
+  /* Surfaces, ordered by elevation */
+  --surface-page: var(--p-neutral-25);
+  --surface-raised: var(--p-neutral-0);
+  --surface-sunken: var(--p-neutral-50);
+  --surface-inverse: var(--p-neutral-950);
+
+  /* Text, ordered by emphasis */
+  --text-primary: var(--p-neutral-950);
+  --text-secondary: var(--p-neutral-700);
+  --text-tertiary: var(--p-neutral-500);
+  --text-inverse: var(--p-neutral-25);
+  --text-accent: var(--p-accent-700);
+
+  /* Borders */
+  --border-subtle: var(--p-neutral-100);
+  --border-default: var(--p-neutral-200);
+  --border-strong: var(--p-neutral-400);
+  --border-inverse: var(--p-neutral-800);
+
+  /* Interactive */
+  --interactive-default: var(--p-accent-600);
+  --interactive-hover: var(--p-accent-700);
+  --interactive-active: var(--p-accent-800);
+  --interactive-subtle: var(--p-accent-50);
+  --interactive-on: var(--p-neutral-0);
+
+  /* Focus — one ring, everywhere, never removed without a replacement */
+  --focus-ring: var(--p-accent-600);
+  --focus-ring-offset: var(--surface-page);
+
+  /* Status */
+  --status-success: var(--p-success-700);
+  --status-warning: var(--p-warning-700);
+  --status-danger: var(--p-danger-700);
+}
+
+/* ---------------------------------------------------------------------------
+   2b. SEMANTIC — dark
+   Roles are remapped, never redefined. A component that reads --text-primary
+   needs no dark-mode branch of its own; that is the whole contract.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface-page: var(--p-neutral-1000);
+    --surface-raised: var(--p-neutral-950);
+    --surface-sunken: oklch(8% 0.008 260);
+    --surface-inverse: var(--p-neutral-25);
+
+    --text-primary: var(--p-neutral-50);
+    --text-secondary: var(--p-neutral-300);
+    --text-tertiary: var(--p-neutral-400);
+    --text-inverse: var(--p-neutral-950);
+    --text-accent: var(--p-accent-300);
+
+    --border-subtle: var(--p-neutral-900);
+    --border-default: var(--p-neutral-800);
+    --border-strong: var(--p-neutral-600);
+    --border-inverse: var(--p-neutral-200);
+
+    --interactive-default: var(--p-accent-400);
+    --interactive-hover: var(--p-accent-300);
+    --interactive-active: var(--p-accent-200);
+    --interactive-subtle: oklch(28% 0.048 232);
+    --interactive-on: var(--p-neutral-1000);
+
+    --focus-ring: var(--p-accent-300);
+
+    --status-success: var(--p-success-500);
+    --status-warning: var(--p-warning-500);
+    --status-danger: var(--p-danger-500);
+  }
+}
+
+[data-theme="dark"] {
+  --surface-page: var(--p-neutral-1000);
+  --surface-raised: var(--p-neutral-950);
+  --surface-sunken: oklch(8% 0.008 260);
+  --surface-inverse: var(--p-neutral-25);
+
+  --text-primary: var(--p-neutral-50);
+  --text-secondary: var(--p-neutral-300);
+  --text-tertiary: var(--p-neutral-400);
+  --text-inverse: var(--p-neutral-950);
+  --text-accent: var(--p-accent-300);
+
+  --border-subtle: var(--p-neutral-900);
+  --border-default: var(--p-neutral-800);
+  --border-strong: var(--p-neutral-600);
+  --border-inverse: var(--p-neutral-200);
+
+  --interactive-default: var(--p-accent-400);
+  --interactive-hover: var(--p-accent-300);
+  --interactive-active: var(--p-accent-200);
+  --interactive-subtle: oklch(28% 0.048 232);
+  --interactive-on: var(--p-neutral-1000);
+
+  --focus-ring: var(--p-accent-300);
+
+  --status-success: var(--p-success-500);
+  --status-warning: var(--p-warning-500);
+  --status-danger: var(--p-danger-500);
+}
+
+/* ---------------------------------------------------------------------------
+   3. THEME — expose the semantic tier to Tailwind as utilities.
+   `@theme inline` keeps the var() reference intact, so `bg-surface-raised`
+   resolves at runtime and follows the theme instead of being frozen at build.
+   --------------------------------------------------------------------------- */
+
+@theme inline {
+  --color-surface-page: var(--surface-page);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-inverse: var(--surface-inverse);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-accent: var(--text-accent);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  --color-border-inverse: var(--border-inverse);
+
+  --color-interactive: var(--interactive-default);
+  --color-interactive-hover: var(--interactive-hover);
+  --color-interactive-active: var(--interactive-active);
+  --color-interactive-subtle: var(--interactive-subtle);
+  --color-interactive-on: var(--interactive-on);
+
+  --color-focus-ring: var(--focus-ring);
+
+  --color-status-success: var(--status-success);
+  --color-status-warning: var(--status-warning);
+  --color-status-danger: var(--status-danger);
+}
+
+/* ---------------------------------------------------------------------------
+   TYPE, SPACE, MOTION
+   These are static — they do not vary by theme — so they sit in a plain
+   @theme block and compile straight to utilities.
+   --------------------------------------------------------------------------- */
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale — 1.25 major third, tuned by hand at the display end where a
+     pure ratio goes limp. Line heights are ratios, not pixel values. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.45;
+  --text-2xs--letter-spacing: 0.04em;
+
+  --text-xs: 0.78125rem;
+  --text-xs--line-height: 1.5;
+  --text-xs--letter-spacing: 0.02em;
+
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.45;
+  --text-xl--letter-spacing: -0.005em;
+
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.3;
+  --text-2xl--letter-spacing: -0.012em;
+
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 1.2;
+  --text-3xl--letter-spacing: -0.018em;
+
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 1.1;
+  --text-4xl--letter-spacing: -0.024em;
+
+  --text-5xl: 4rem;
+  --text-5xl--line-height: 1.04;
+  --text-5xl--letter-spacing: -0.03em;
+
+  --text-6xl: 5.25rem;
+  --text-6xl--line-height: 0.98;
+  --text-6xl--letter-spacing: -0.034em;
+
+  /* Radius */
+  --radius-xs: 0.1875rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+
+  /* Motion — durations short enough to feel instant, easing that decelerates.
+     `--ease-out-quart` is the house curve; everything uses it unless there is
+     a stated reason not to. */
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-instant: 90ms;
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+
+  /* Layout */
+  --container-prose: 68ch;
+  --container-text: 44rem;
+  --container-wide: 84rem;
+}
