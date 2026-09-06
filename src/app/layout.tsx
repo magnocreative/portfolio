@@ -6,6 +6,7 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/newsreader";
 import "@fontsource-variable/jetbrains-mono";
 import "./globals.css";
+import { themeInitScript } from "@/design-system/components/ThemeToggle";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://magnocreative.com"),
@@ -28,6 +29,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Applies the stored theme before first paint. Without it the page
+            renders at the system theme for one frame — the flash that makes
+            an otherwise careful dark mode feel cheap. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );

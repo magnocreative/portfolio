@@ -99,7 +99,12 @@
      reading lengths. */
   --text-primary: light-dark(var(--p-paper-950), var(--p-slate-100));
   --text-secondary: light-dark(var(--p-paper-700), var(--p-slate-300));
-  --text-tertiary: light-dark(var(--p-paper-500), var(--p-slate-400));
+  /* paper-600, not paper-500. Tertiary carries the mono metadata — dates,
+     disciplines, section labels — which is small text and therefore needs the
+     full 4.5:1, not the 3:1 large-text allowance. paper-500 measured 3.92:1
+     against the page, which is the exact kind of near-miss a design system is
+     supposed to catch. */
+  --text-tertiary: light-dark(var(--p-paper-600), var(--p-slate-400));
   --text-inverse: light-dark(var(--p-paper-25), var(--p-slate-950));
   --text-accent: light-dark(var(--p-accent-700), var(--p-accent-300));
 
