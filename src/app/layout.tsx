@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 // no render-blocking round trip, no external dependency at runtime, and nothing
 // leaking a visitor's IP to Google. Two axes ship in one file each.
 import "@fontsource-variable/inter";
+import "@fontsource-variable/newsreader";
 import "@fontsource-variable/jetbrains-mono";
 import "./globals.css";
 

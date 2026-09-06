@@ -5,53 +5,69 @@
 
      1. PRIMITIVES  Raw values. Perceptually-even ramps in OKLCH. No meaning
                     attached. Never referenced directly by a component.
-     2. SEMANTIC    Roles, not values. `--surface-raised`, not `--neutral-100`.
-                    This is the only tier a component is allowed to consume,
-                    and the only tier that changes between light and dark.
-     3. COMPONENT   Per-component overrides, declared next to the component
-                    itself, aliasing the semantic tier.
+     2. SEMANTIC    Roles, not values. `--surface-raised`, not `--paper-100`.
+                    This is the only tier a component consumes.
+     3. COMPONENT   Per-component overrides, declared next to the component,
+                    aliasing the semantic tier.
 
-   Retheming the entire site means editing tier 1 and the two role blocks in
-   tier 2. Nothing else. That constraint is the point of the system.
+   The light and dark themes are NOT one palette inverted. Light is paper:
+   warm neutrals, the register of a well-set document. Dark is instrument:
+   cool neutrals, the register of the operational tools this work is about.
+   Two ramps, one set of roles — which is why every component below works in
+   both without a single theme branch of its own.
    =========================================================================== */
 
 /* ---------------------------------------------------------------------------
    1. PRIMITIVES
-   OKLCH keeps lightness perceptually uniform across hues, so neutral-600 and
-   accent-600 carry the same visual weight. That is what makes contrast ratios
+   OKLCH keeps lightness perceptually uniform across hues, so paper-600 and
+   accent-600 carry the same visual weight. That is what makes contrast
    predictable instead of hand-tuned per color.
    --------------------------------------------------------------------------- */
 
 :root {
-  /* Neutral — very slightly cool, so it reads as considered rather than default grey */
-  --p-neutral-0: oklch(100% 0 0);
-  --p-neutral-25: oklch(99% 0.002 260);
-  --p-neutral-50: oklch(97.4% 0.003 260);
-  --p-neutral-100: oklch(94.6% 0.004 260);
-  --p-neutral-200: oklch(89.2% 0.006 260);
-  --p-neutral-300: oklch(81.5% 0.008 260);
-  --p-neutral-400: oklch(69.8% 0.011 260);
-  --p-neutral-500: oklch(58.4% 0.013 260);
-  --p-neutral-600: oklch(48.2% 0.014 260);
-  --p-neutral-700: oklch(38.6% 0.014 260);
-  --p-neutral-800: oklch(28.4% 0.013 260);
-  --p-neutral-900: oklch(20.1% 0.012 260);
-  --p-neutral-950: oklch(14.8% 0.011 260);
-  --p-neutral-1000: oklch(10.2% 0.009 260);
+  /* Paper — warm neutrals for the light theme. Chroma stays under 0.008 so it
+     reads as warm, never as beige. */
+  --p-paper-0: oklch(100% 0 0);
+  --p-paper-25: oklch(99.2% 0.003 85);
+  --p-paper-50: oklch(97.8% 0.004 85);
+  --p-paper-100: oklch(95.2% 0.006 84);
+  --p-paper-200: oklch(90.4% 0.008 82);
+  --p-paper-300: oklch(82.8% 0.009 80);
+  --p-paper-400: oklch(71.2% 0.010 78);
+  --p-paper-500: oklch(59.6% 0.011 76);
+  --p-paper-600: oklch(49.4% 0.011 74);
+  --p-paper-700: oklch(39.6% 0.010 72);
+  --p-paper-800: oklch(29.2% 0.009 70);
+  --p-paper-900: oklch(20.8% 0.008 68);
+  --p-paper-950: oklch(15.2% 0.007 66);
 
-  /* Accent — PLACEHOLDER. Retune the hue angle here and the whole site follows. */
-  --p-accent-50: oklch(96.8% 0.022 232);
-  --p-accent-100: oklch(93.2% 0.045 232);
-  --p-accent-200: oklch(87.4% 0.078 232);
-  --p-accent-300: oklch(79.6% 0.108 232);
-  --p-accent-400: oklch(70.2% 0.132 232);
-  --p-accent-500: oklch(61.4% 0.142 232);
-  --p-accent-600: oklch(53.2% 0.138 232);
-  --p-accent-700: oklch(44.8% 0.118 232);
-  --p-accent-800: oklch(36.4% 0.094 232);
-  --p-accent-900: oklch(28.8% 0.072 232);
+  /* Slate — cool neutrals for the dark theme. */
+  --p-slate-100: oklch(94.2% 0.004 250);
+  --p-slate-200: oklch(88.6% 0.006 250);
+  --p-slate-300: oklch(80.8% 0.008 250);
+  --p-slate-400: oklch(68.6% 0.011 250);
+  --p-slate-500: oklch(57.2% 0.013 250);
+  --p-slate-600: oklch(47.4% 0.014 250);
+  --p-slate-700: oklch(37.8% 0.014 250);
+  --p-slate-800: oklch(27.6% 0.013 250);
+  --p-slate-900: oklch(19.4% 0.012 250);
+  --p-slate-950: oklch(14.2% 0.010 250);
+  --p-slate-1000: oklch(9.8% 0.008 250);
 
-  /* Functional — a portfolio barely needs these, a design system case study does */
+  /* Accent — ink blue. Deliberately not warm: the warmth lives in the paper,
+     so the accent can stay in the register of a printed rule or a signature. */
+  --p-accent-100: oklch(92.8% 0.042 258);
+  --p-accent-200: oklch(86.4% 0.076 258);
+  --p-accent-300: oklch(77.8% 0.108 258);
+  --p-accent-400: oklch(67.6% 0.138 258);
+  --p-accent-500: oklch(57.8% 0.158 258);
+  --p-accent-600: oklch(49.2% 0.162 258);
+  --p-accent-700: oklch(41.4% 0.142 258);
+  --p-accent-800: oklch(33.2% 0.112 258);
+  --p-accent-subtle-light: oklch(96.4% 0.018 258);
+  --p-accent-subtle-dark: oklch(26.5% 0.055 258);
+
+  /* Functional */
   --p-success-500: oklch(62.4% 0.146 152);
   --p-success-700: oklch(45.8% 0.118 152);
   --p-warning-500: oklch(75.6% 0.148 76);
@@ -61,118 +77,69 @@
 }
 
 /* ---------------------------------------------------------------------------
-   2. SEMANTIC — light (default)
+   2. SEMANTIC ROLES
+   `light-dark()` states both themes in one declaration, so the two can never
+   drift apart the way twin light/dark blocks always eventually do. Which
+   branch resolves is decided by `color-scheme` alone — set to `light dark`
+   here, meaning "follow the visitor's system setting," and pinned by the
+   toggle below.
    --------------------------------------------------------------------------- */
 
 :root {
-  /* Surfaces, ordered by elevation */
-  --surface-page: var(--p-neutral-25);
-  --surface-raised: var(--p-neutral-0);
-  --surface-sunken: var(--p-neutral-50);
-  --surface-inverse: var(--p-neutral-950);
+  color-scheme: light dark;
 
-  /* Text, ordered by emphasis */
-  --text-primary: var(--p-neutral-950);
-  --text-secondary: var(--p-neutral-700);
-  --text-tertiary: var(--p-neutral-500);
-  --text-inverse: var(--p-neutral-25);
-  --text-accent: var(--p-accent-700);
+  /* Surfaces, ordered by elevation */
+  --surface-page: light-dark(var(--p-paper-25), var(--p-slate-1000));
+  --surface-raised: light-dark(var(--p-paper-0), var(--p-slate-950));
+  --surface-sunken: light-dark(var(--p-paper-50), oklch(7.6% 0.007 250));
+  --surface-inverse: light-dark(var(--p-paper-950), var(--p-slate-100));
+
+  /* Text, ordered by emphasis. Dark-mode body text stops at slate-100 rather
+     than pure white — full-contrast white on near-black haloes badly at long
+     reading lengths. */
+  --text-primary: light-dark(var(--p-paper-950), var(--p-slate-100));
+  --text-secondary: light-dark(var(--p-paper-700), var(--p-slate-300));
+  --text-tertiary: light-dark(var(--p-paper-500), var(--p-slate-400));
+  --text-inverse: light-dark(var(--p-paper-25), var(--p-slate-950));
+  --text-accent: light-dark(var(--p-accent-700), var(--p-accent-300));
 
   /* Borders */
-  --border-subtle: var(--p-neutral-100);
-  --border-default: var(--p-neutral-200);
-  --border-strong: var(--p-neutral-400);
-  --border-inverse: var(--p-neutral-800);
+  --border-subtle: light-dark(var(--p-paper-100), var(--p-slate-900));
+  --border-default: light-dark(var(--p-paper-200), var(--p-slate-800));
+  --border-strong: light-dark(var(--p-paper-400), var(--p-slate-600));
+  --border-rule: light-dark(var(--p-paper-950), var(--p-slate-300));
 
-  /* Interactive */
-  --interactive-default: var(--p-accent-600);
-  --interactive-hover: var(--p-accent-700);
-  --interactive-active: var(--p-accent-800);
-  --interactive-subtle: var(--p-accent-50);
-  --interactive-on: var(--p-neutral-0);
+  /* Interactive. The accent lightens in dark rather than darkening — chroma
+     that reads as confident on paper reads as murky on near-black. */
+  --interactive-default: light-dark(var(--p-accent-600), var(--p-accent-300));
+  --interactive-hover: light-dark(var(--p-accent-700), var(--p-accent-200));
+  --interactive-active: light-dark(var(--p-accent-800), var(--p-accent-100));
+  --interactive-subtle: light-dark(var(--p-accent-subtle-light), var(--p-accent-subtle-dark));
+  --interactive-on: light-dark(var(--p-paper-0), var(--p-slate-1000));
 
   /* Focus — one ring, everywhere, never removed without a replacement */
-  --focus-ring: var(--p-accent-600);
-  --focus-ring-offset: var(--surface-page);
+  --focus-ring: light-dark(var(--p-accent-600), var(--p-accent-300));
 
   /* Status */
-  --status-success: var(--p-success-700);
-  --status-warning: var(--p-warning-700);
-  --status-danger: var(--p-danger-700);
+  --status-success: light-dark(var(--p-success-700), var(--p-success-500));
+  --status-warning: light-dark(var(--p-warning-700), var(--p-warning-500));
+  --status-danger: light-dark(var(--p-danger-700), var(--p-danger-500));
+
+  /* Screenshots and diagrams are authored on light grounds. Rather than let
+     them glare out of a dark page, they sit on their own light plate. */
+  --media-plate: light-dark(var(--p-paper-0), var(--p-slate-200));
 }
 
-/* ---------------------------------------------------------------------------
-   2b. SEMANTIC — dark
-   Roles are remapped, never redefined. A component that reads --text-primary
-   needs no dark-mode branch of its own; that is the whole contract.
-   --------------------------------------------------------------------------- */
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --surface-page: var(--p-neutral-1000);
-    --surface-raised: var(--p-neutral-950);
-    --surface-sunken: oklch(8% 0.008 260);
-    --surface-inverse: var(--p-neutral-25);
-
-    --text-primary: var(--p-neutral-50);
-    --text-secondary: var(--p-neutral-300);
-    --text-tertiary: var(--p-neutral-400);
-    --text-inverse: var(--p-neutral-950);
-    --text-accent: var(--p-accent-300);
-
-    --border-subtle: var(--p-neutral-900);
-    --border-default: var(--p-neutral-800);
-    --border-strong: var(--p-neutral-600);
-    --border-inverse: var(--p-neutral-200);
-
-    --interactive-default: var(--p-accent-400);
-    --interactive-hover: var(--p-accent-300);
-    --interactive-active: var(--p-accent-200);
-    --interactive-subtle: oklch(28% 0.048 232);
-    --interactive-on: var(--p-neutral-1000);
-
-    --focus-ring: var(--p-accent-300);
-
-    --status-success: var(--p-success-500);
-    --status-warning: var(--p-warning-500);
-    --status-danger: var(--p-danger-500);
-  }
-}
-
-[data-theme="dark"] {
-  --surface-page: var(--p-neutral-1000);
-  --surface-raised: var(--p-neutral-950);
-  --surface-sunken: oklch(8% 0.008 260);
-  --surface-inverse: var(--p-neutral-25);
-
-  --text-primary: var(--p-neutral-50);
-  --text-secondary: var(--p-neutral-300);
-  --text-tertiary: var(--p-neutral-400);
-  --text-inverse: var(--p-neutral-950);
-  --text-accent: var(--p-accent-300);
-
-  --border-subtle: var(--p-neutral-900);
-  --border-default: var(--p-neutral-800);
-  --border-strong: var(--p-neutral-600);
-  --border-inverse: var(--p-neutral-200);
-
-  --interactive-default: var(--p-accent-400);
-  --interactive-hover: var(--p-accent-300);
-  --interactive-active: var(--p-accent-200);
-  --interactive-subtle: oklch(28% 0.048 232);
-  --interactive-on: var(--p-neutral-1000);
-
-  --focus-ring: var(--p-accent-300);
-
-  --status-success: var(--p-success-500);
-  --status-warning: var(--p-warning-500);
-  --status-danger: var(--p-danger-500);
-}
+/* The toggle. Setting `color-scheme` is the entire mechanism — every role
+   above re-resolves, and the browser's own form controls, scrollbars and
+   caret follow along, which a class-based theme never manages. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 
 /* ---------------------------------------------------------------------------
    3. THEME — expose the semantic tier to Tailwind as utilities.
    `@theme inline` keeps the var() reference intact, so `bg-surface-raised`
-   resolves at runtime and follows the theme instead of being frozen at build.
+   resolves at runtime and follows the theme instead of freezing at build.
    --------------------------------------------------------------------------- */
 
 @theme inline {
@@ -190,7 +157,7 @@
   --color-border-subtle: var(--border-subtle);
   --color-border-default: var(--border-default);
   --color-border-strong: var(--border-strong);
-  --color-border-inverse: var(--border-inverse);
+  --color-border-rule: var(--border-rule);
 
   --color-interactive: var(--interactive-default);
   --color-interactive-hover: var(--interactive-hover);
@@ -199,6 +166,7 @@
   --color-interactive-on: var(--interactive-on);
 
   --color-focus-ring: var(--focus-ring);
+  --color-media-plate: var(--media-plate);
 
   --color-status-success: var(--status-success);
   --color-status-warning: var(--status-warning);
@@ -207,13 +175,12 @@
 
 /* ---------------------------------------------------------------------------
    TYPE, SPACE, MOTION
-   These are static — they do not vary by theme — so they sit in a plain
-   @theme block and compile straight to utilities.
+   Static — they do not vary by theme — so they compile straight to utilities.
    --------------------------------------------------------------------------- */
 
 @theme {
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Newsreader Variable", Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Type scale — 1.25 major third, tuned by hand at the display end where a
@@ -259,12 +226,12 @@
   --text-6xl--line-height: 0.98;
   --text-6xl--letter-spacing: -0.034em;
 
-  /* Radius */
-  --radius-xs: 0.1875rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.875rem;
-  --radius-xl: 1.25rem;
+  /* Radius — restrained. A documentation register does not round much. */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 1rem;
 
   /* Motion — durations short enough to feel instant, easing that decelerates.
      `--ease-out-quart` is the house curve; everything uses it unless there is
