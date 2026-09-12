@@ -31,7 +31,7 @@ export const caseStudies: CaseStudy[] = [
       "I inherited a design system built on a vendor's platform. Then the vendor moved on without us. This is the case I made for building our own, and what it cost to make it.",
     disciplines: ["Design systems", "Platform strategy", "Governance"],
     employer: "JPMorganChase",
-    period: "2024 —",
+    period: "2024 to now",
     status: "draft",
   },
   {
@@ -48,7 +48,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "sixteen-applications-one-blind-spot",
     title: "Sixteen applications, and no way to know when they'd break",
     standfirst:
-      "Eighty-two people told me they didn't want better applications — they wanted to know when the ones they had would be down. I recommended one design language across all sixteen. Leadership said no, and they were right.",
+      "Eighty-two people told me they didn't want better applications. They wanted to know when the ones they had would be down. I recommended one design language across all sixteen. Leadership said no, and they were right.",
     disciplines: ["Enterprise UX", "Research", "Consolidation"],
     employer: "USAA",
     period: "2021",

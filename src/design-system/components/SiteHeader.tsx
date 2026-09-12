@@ -41,7 +41,7 @@ export function SiteHeader() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="font-mono text-2xs uppercase tracking-[0.12em] text-text-secondary transition-colors duration-[160ms] hover:text-text-primary"
+                      className="font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-secondary transition-colors duration-[160ms] hover:text-text-primary"
                     >
                       {item.label}
                     </Link>
@@ -50,7 +50,7 @@ export function SiteHeader() {
                 <li>
                   <Link
                     href="/resume"
-                    className="font-mono text-2xs uppercase tracking-[0.12em] text-text-accent transition-colors duration-[160ms] hover:text-interactive-hover"
+                    className="font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-accent transition-colors duration-[160ms] hover:text-interactive-hover"
                   >
                     Résumé
                   </Link>

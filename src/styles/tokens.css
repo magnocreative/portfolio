@@ -118,6 +118,12 @@
      allowance. */
   --text-tertiary: light-dark(var(--p-paper-600), var(--p-slate-400));
   --text-inverse: light-dark(var(--p-paper-25), var(--p-slate-950));
+  /* One accent value for every size. Small uppercase mono used to get its own
+     deeper role, on the theory that it read washed out because the ratio was
+     too low. It was not: it measured 6.86:1, which is AAA. The cause was
+     stroke weight, tracking and the flat band all-caps produces, none of which
+     WCAG models. Fixing those made the second colour redundant, and a token
+     that resolves to the same value as another token is noise. */
   --text-accent: light-dark(var(--p-blue-700), var(--p-blue-300));
 
   /* Borders */

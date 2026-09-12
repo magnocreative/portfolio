@@ -7,13 +7,13 @@ import { ContrastAudit, type AuditRow } from "@/design-system/components/Contras
 export const metadata: Metadata = {
   title: "The design system",
   description:
-    "The tokens, themes and accessibility model behind this site — three tiers, two neutral ramps, one set of semantic roles, and contrast measured rather than asserted.",
+    "The tokens, themes and accessibility model behind this site: three tiers, two neutral grounds, one set of semantic roles, and contrast measured rather than asserted.",
 };
 
 const textRoles: AuditRow[] = [
   { token: "--text-primary", note: "Body and headings" },
   { token: "--text-secondary", note: "Standfirsts, supporting copy" },
-  { token: "--text-tertiary", note: "Mono metadata — dates, disciplines, labels" },
+  { token: "--text-tertiary", note: "Mono metadata: dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
   { token: "--interactive-default", note: "Interactive elements, rules" },
 ];
@@ -28,7 +28,7 @@ const tiers = [
   {
     n: "02",
     name: "Semantic",
-    holds: "Roles — surface-raised, text-secondary, interactive-hover",
+    holds: "Roles: surface-raised, text-secondary, interactive-hover",
     who: "Components",
   },
   {
@@ -50,7 +50,7 @@ const decisions = [
   },
   {
     title: "The switch sets color-scheme, not a class",
-    body: "Native form controls, scrollbars and the text caret follow color-scheme. A class-based theme leaves all of them light while the page goes dark — the detail that makes a dark mode feel almost right and never quite.",
+    body: "Native form controls, scrollbars and the text caret follow color-scheme. A class-based theme leaves all of them light while the page goes dark. That is the detail that makes a dark mode feel almost right and never quite.",
   },
   {
     title: "Components never reach past the semantic tier",
@@ -58,7 +58,7 @@ const decisions = [
   },
   {
     title: "Contrast is measured, not asserted",
-    body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme — under the 4.5:1 its small mono metadata requires — and it looked completely fine to me on screen.",
+    body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small mono metadata requires, and it looked completely fine to me on screen.",
   },
   {
     title: "Borders are allowed to fail",
@@ -79,7 +79,7 @@ export default function SystemPage() {
               A system you can read, not a claim you have to take on trust.
             </h1>
             <p className="mt-10 max-w-[54ch] text-lg leading-[1.65] text-text-secondary">
-              This site runs on the system documented below. Everything here is live — the swatches are the real tokens,
+              This site runs on the system documented below. Everything here is live. The swatches are the real tokens,
               and the contrast figures are measured in your browser as you read them. Change your device to dark mode
               and every number on this page changes with it.
             </p>
@@ -172,7 +172,7 @@ export default function SystemPage() {
                 </h2>
                 <p className="mt-5 max-w-[52ch] text-base text-text-secondary">
                   The tokens are one file. The components are next to their own stories. Nothing here is a screenshot of
-                  work done elsewhere — it is the thing itself, and you are looking at it running.
+                  work done elsewhere. It is the thing itself, and you are looking at it running.
                 </p>
               </div>
 

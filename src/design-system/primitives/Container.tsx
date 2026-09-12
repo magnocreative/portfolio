@@ -30,8 +30,14 @@ export function Container({
 }
 
 /**
- * Small uppercase mono label. Used for section headings and metadata — the
- * documentation register the whole site is written in.
+ * Small uppercase mono label. The documentation register the whole site is
+ * written in.
+ *
+ * Set at medium weight and slightly tighter tracking than it started with.
+ * 12px uppercase mono at regular weight with 0.14em tracking has thin strokes,
+ * no ascenders or descenders, and low ink density. WCAG models none of that,
+ * so a label can measure 6.86:1 and still read as washed out next to body
+ * copy. Weight and tracking fix the cause; a higher ratio alone does not.
  */
 export function Label({
   children,
@@ -44,7 +50,7 @@ export function Label({
 }) {
   return (
     <Tag
-      className={`font-mono text-2xs uppercase tracking-[0.14em] text-text-tertiary ${className}`}
+      className={`font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-tertiary ${className}`}
     >
       {children}
     </Tag>

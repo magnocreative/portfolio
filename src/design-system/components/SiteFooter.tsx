@@ -29,7 +29,7 @@ export function SiteFooter() {
               <li key={item.label}>
                 <Link
                   href={item.href}
-                  className="font-mono text-2xs uppercase tracking-[0.12em] text-text-tertiary transition-colors duration-[160ms] hover:text-text-primary"
+                  className="font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-tertiary transition-colors duration-[160ms] hover:text-text-primary"
                 >
                   {item.label}
                 </Link>
@@ -40,7 +40,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-2 border-t border-border-subtle py-6 font-mono text-2xs text-text-tertiary sm:flex-row sm:justify-between">
           <div>Prosper, Texas</div>
-          <div>Built from scratch. The design system is open — read it on GitHub.</div>
+          <div>Built from scratch. The design system is open, and you can read it on GitHub.</div>
         </div>
       </Container>
     </footer>
