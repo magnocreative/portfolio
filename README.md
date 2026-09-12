@@ -20,7 +20,11 @@ A component never reaches past the semantic tier. That single constraint is what
 
 **Why OKLCH.** Lightness in OKLCH is perceptually uniform across hues, so `paper-600` and `accent-600` carry the same visual weight. Contrast becomes predictable rather than hand-tuned per colour.
 
-**Light and dark are not one palette inverted.** Light is *paper* — warm neutrals, the register of a well-set document. Dark is *instrument* — cool neutrals, the register of the operational tools this work is about. Two ramps resolving into one set of roles, stated once each via CSS `light-dark()`, so the themes cannot drift apart the way twin light/dark blocks always eventually do.
+**The palette starts from the logo.** The mark is two mountains in `#4f729a` and `#7297b7`. Those are anchor points in the blue ramp, not colours used directly: `blue-600` is the deep peak exactly, `blue-400` sits essentially on the light one. Neither works as a link colour on its own, since the deep peak measures 4.83:1 on cream and 3.85:1 on the dark ground and the light peak fails on cream outright. The interactive roles come from the steps either side.
+
+**Light and dark are not one palette inverted.** Light is *paper*, a warm cream, the register of a well-set document. Dark is *slate*, the mark's own blue taken down to a ground, so the logo sits natively in it. Two grounds resolving into one set of roles, stated once each via CSS `light-dark()`, so the themes cannot drift apart the way twin light/dark blocks always eventually do.
+
+Slate bottoms out at 17% lightness rather than the ~10% a dark theme usually reaches for. At 10% sRGB has almost no room for chroma, so a hue specified down there renders as black however much saturation it carries. Raising the ground is what makes the colour visible; the chroma is secondary.
 
 Three details that matter more than they sound:
 

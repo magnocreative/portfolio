@@ -91,10 +91,10 @@ export const TheIndex: Story = {
           paddingBottom: "1rem",
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6875rem", textTransform: "uppercase", letterSpacing: "0.14em" }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", textTransform: "uppercase", letterSpacing: "0.14em" }}>
           Selected work
         </span>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6875rem", letterSpacing: "0.14em", color: "var(--text-tertiary)" }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", letterSpacing: "0.14em", color: "var(--text-tertiary)" }}>
           {String(caseStudies.length).padStart(2, "0")}
         </span>
       </div>

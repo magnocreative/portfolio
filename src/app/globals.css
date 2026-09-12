@@ -17,6 +17,13 @@
     scroll-behavior: smooth;
   }
 
+  /* The header is sticky, so anything jumped to by an in-page link would land
+     underneath it. Push every anchorable target clear of the bar. */
+  :target,
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
   body {
     background-color: var(--surface-page);
     color: var(--text-primary);

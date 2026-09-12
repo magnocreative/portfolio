@@ -42,11 +42,11 @@ const tiers = [
 const decisions = [
   {
     title: "Two ramps, not one inverted",
-    body: "Light is paper — warm neutrals, the register of a well-set document. Dark is instrument — cool neutrals, the register of the operational tools this work is about. Most dual-theme sites invert a single palette and end up with one real design and one afterthought. The cost of doing it this way is a second ramp to maintain; the benefit is that both themes are deliberate.",
+    body: "Light is paper, a warm cream, the register of a well-set document. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Most dual-theme sites invert a single palette and end up with one real design and one afterthought. The cost of doing it this way is a second ramp to maintain. The benefit is that both themes are deliberate.",
   },
   {
     title: "Both themes stated in one declaration",
-    body: "Every role is written once, as light-dark(paper, slate). Twin light and dark blocks always drift eventually — someone edits one and forgets the other, and the bug ships because nobody looks at both themes on the same day. Stating them together makes drift structurally impossible rather than a matter of discipline.",
+    body: "Every role is written once, as light-dark(paper, slate). Twin light and dark blocks always drift eventually. Someone edits one and forgets the other, and the bug ships because nobody looks at both themes on the same day. Stating them together makes drift structurally impossible rather than a matter of discipline.",
   },
   {
     title: "The switch sets color-scheme, not a class",
@@ -75,7 +75,7 @@ export default function SystemPage() {
         <Container>
           <section className="pt-24 pb-4 md:pt-32">
             <Label>The design system</Label>
-            <h1 className="text-optical mt-8 max-w-[18ch] font-display text-[2.75rem] leading-[1.06] tracking-[-0.025em] text-text-primary text-pretty md:text-[3.75rem]">
+            <h1 className="text-optical mt-8 max-w-[18ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-pretty md:text-4xl lg:text-5xl">
               A system you can read, not a claim you have to take on trust.
             </h1>
             <p className="mt-10 max-w-[54ch] text-lg leading-[1.65] text-text-secondary">

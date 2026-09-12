@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { resolveToken, contrastRatio, level, hex, type Level } from "@/design-system/utils/contrast";
+import {
+  resolveToken,
+  contrastRatio,
+  level,
+  hex,
+  type Level,
+  type TokenKind,
+} from "@/design-system/utils/contrast";
 
 export type AuditRow = {
   token: string;
@@ -17,6 +24,10 @@ const verdictClass: Record<Level, string> = {
   AA: "text-text-accent bg-interactive-subtle",
   "AA Large": "text-text-tertiary",
   Fail: "text-status-danger",
+  "Non-text AA": "text-text-accent bg-interactive-subtle",
+  // Not a failure and not styled like one. A divider under 3:1 is a decision.
+  Decorative: "text-text-tertiary",
+  Reference: "text-text-tertiary",
 };
 
 /**
@@ -30,7 +41,7 @@ const verdictClass: Record<Level, string> = {
  * light theme, under the 4.5:1 its small mono metadata requires. It looked
  * completely fine on screen.
  */
-export function ContrastAudit({ rows }: { rows: AuditRow[] }) {
+export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?: TokenKind }) {
   const [measured, setMeasured] = useState<Measured[] | null>(null);
 
   useEffect(() => {
@@ -42,7 +53,7 @@ export function ContrastAudit({ rows }: { rows: AuditRow[] }) {
           const fg = resolveToken(r.token);
           if (!fg) return { ...r, hex: "—", ratio: 0, verdict: "Fail" as Level };
           const ratio = contrastRatio(fg, bg);
-          return { ...r, hex: hex(fg), ratio, verdict: level(ratio, r.large) };
+          return { ...r, hex: hex(fg), ratio, verdict: level(ratio, r.large, kind) };
         }),
       );
     };
@@ -58,7 +69,7 @@ export function ContrastAudit({ rows }: { rows: AuditRow[] }) {
       observer.disconnect();
       media.removeEventListener("change", measure);
     };
-  }, [rows]);
+  }, [rows, kind]);
 
   return (
     <div className="overflow-x-auto">
@@ -103,7 +114,9 @@ export function ContrastAudit({ rows }: { rows: AuditRow[] }) {
               </td>
               <td className="py-3.5 pr-4 font-mono text-2xs text-text-tertiary">{m.hex || "—"}</td>
               <td className="py-3.5 pr-4 text-right font-mono text-xs text-text-primary">
-                {measured ? `${m.ratio.toFixed(2)}:1` : "—"}
+                {/* A surface measured against itself is 1.00:1 by definition.
+                    Printing that invites the reader to treat it as a result. */}
+                {!measured ? "—" : m.token === "--surface-page" ? "—" : `${m.ratio.toFixed(2)}:1`}
               </td>
               <td className="py-3.5 text-right">
                 {measured && (

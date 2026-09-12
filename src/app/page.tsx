@@ -8,7 +8,7 @@ import { caseStudies } from "@/content/case-studies";
 const systemFacts = [
   { key: "tokens", value: "three tiers" },
   { key: "color", value: "OKLCH ramps" },
-  { key: "themes", value: "paper / instrument" },
+  { key: "themes", value: "paper / slate" },
   { key: "contrast", value: "WCAG AA" },
 ];
 
@@ -24,7 +24,7 @@ export default function Home() {
           <section className="pt-24 pb-4 md:pt-36">
             <Label>Senior Experience Designer — design systems &amp; operational tools</Label>
 
-            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-[3.25rem] leading-[1.04] tracking-[-0.025em] text-text-primary text-pretty md:text-[4.5rem] lg:text-[5rem]">
+            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.04] tracking-[-0.025em] text-text-primary text-pretty md:text-5xl lg:text-6xl">
               I design the systems behind the tools people use all day.
             </h1>
 

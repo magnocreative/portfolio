@@ -51,7 +51,7 @@ export const InContext: Story = {
               key={l}
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "0.6875rem",
+                fontSize: "var(--text-2xs)",
                 textTransform: "uppercase",
                 letterSpacing: "0.12em",
                 color: "var(--text-secondary)",

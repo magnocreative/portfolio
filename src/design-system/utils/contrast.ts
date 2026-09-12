@@ -12,7 +12,22 @@
  * carries requires — and it looked completely fine on screen.
  */
 
-export type Level = "AAA" | "AA" | "AA Large" | "Fail";
+export type Level = "AAA" | "AA" | "AA Large" | "Fail" | "Non-text AA" | "Decorative" | "Reference";
+
+/**
+ * What a token is FOR decides which rule applies to it. Judging everything by
+ * the text threshold is how a table ends up marking a row divider as a
+ * failure — the divider is fine, the judgement is wrong.
+ *
+ *  text     WCAG 1.4.3 — 4.5:1, or 3:1 at large sizes
+ *  nontext  WCAG 1.4.11 — 3:1, and ONLY for UI component boundaries and
+ *           graphics needed to understand content. Decorative rules and
+ *           dividers are explicitly out of scope, so falling under 3:1 is a
+ *           choice, not a defect
+ *  surface  no threshold exists. A background measured against another
+ *           background is information, not a pass or a fail
+ */
+export type TokenKind = "text" | "nontext" | "surface";
 
 let ctx: CanvasRenderingContext2D | null = null;
 
@@ -79,10 +94,20 @@ export function contrastRatio(
 }
 
 /**
- * WCAG 2.2 thresholds. `large` means 24px, or 18.66px at 600+ weight —
- * on this site that is display type only, never the mono metadata.
+ * WCAG 2.2 thresholds, applied according to what the token is for.
+ * `large` means 24px, or 18.66px at 600+ weight — on this site that is
+ * display type only, never the mono metadata.
  */
-export function level(ratio: number, large = false): Level {
+export function level(ratio: number, large = false, kind: TokenKind = "text"): Level {
+  if (kind === "surface") return "Reference";
+
+  if (kind === "nontext") {
+    // 3:1 is the bar for anything a user must be able to perceive as an
+    // interface boundary. Below it means decorative — which these dividers
+    // are, deliberately.
+    return ratio >= 3 ? "Non-text AA" : "Decorative";
+  }
+
   if (large) {
     if (ratio >= 4.5) return "AAA";
     if (ratio >= 3) return "AA Large";

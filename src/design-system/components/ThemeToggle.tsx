@@ -107,13 +107,13 @@ export function ThemeToggle() {
             title={option.label}
             onClick={() => select(option.value)}
             className={[
-              "grid h-6 w-6 place-items-center rounded-[3px] transition-colors duration-[160ms]",
+              "grid h-7 w-7 place-items-center rounded-[3px] transition-colors duration-[160ms]",
               active
                 ? "bg-surface-inverse text-text-inverse"
                 : "text-text-tertiary hover:bg-interactive-subtle hover:text-text-secondary",
             ].join(" ")}
           >
-            <span className="h-3.5 w-3.5">{option.icon}</span>
+            <span className="h-4 w-4">{option.icon}</span>
           </button>
         );
       })}
