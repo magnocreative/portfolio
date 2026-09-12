@@ -19,12 +19,24 @@ export type AuditRow = {
 
 type Measured = AuditRow & { hex: string; ratio: number; verdict: Level };
 
+/**
+ * The chip gets an edge, not a darker fill.
+ *
+ * A tint on a 97.2% page cannot carry its own shape by luminance alone: even
+ * pushing the fill until it starts reading as a grey box only reached 1.15:1,
+ * which is still not a visible boundary. A hairline solves it at a contrast
+ * the eye actually registers, and leaves the fill light enough that the text
+ * inside it keeps its own ratio.
+ */
+const chip =
+  "border border-[color-mix(in_oklab,var(--text-accent)_35%,transparent)] bg-interactive-subtle text-text-accent";
+
 const verdictClass: Record<Level, string> = {
-  AAA: "text-text-accent bg-interactive-subtle",
-  AA: "text-text-accent bg-interactive-subtle",
+  AAA: chip,
+  AA: chip,
   "AA Large": "text-text-tertiary",
   Fail: "text-status-danger",
-  "Non-text AA": "text-text-accent bg-interactive-subtle",
+  "Non-text AA": chip,
   // Not a failure and not styled like one. A divider under 3:1 is a decision.
   Decorative: "text-text-tertiary",
   Reference: "text-text-tertiary",
@@ -121,7 +133,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
               <td className="py-3.5 text-right">
                 {measured && (
                   <span
-                    className={`inline-block rounded-xs px-2 py-1 font-mono text-2xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
+                    className={`inline-block rounded-xs px-2 py-0.5 font-mono text-2xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
                   >
                     {m.verdict}
                   </span>

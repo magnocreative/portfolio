@@ -75,8 +75,8 @@
   --p-blue-700: oklch(45.0% 0.072 253);
   --p-blue-800: oklch(36.0% 0.062 254);
   --p-blue-900: oklch(27.0% 0.050 254);
-  --p-blue-subtle-light: oklch(96.0% 0.014 250);
-  --p-blue-subtle-dark: oklch(26.0% 0.040 252);
+  --p-blue-subtle-light: oklch(94.4% 0.020 250);
+  --p-blue-subtle-dark: oklch(29.0% 0.046 252);
 
   /* Functional */
   --p-success-500: oklch(62.4% 0.146 152);
