@@ -11,11 +11,12 @@ const nav = [
 
 export function SiteHeader() {
   return (
-    // Sticky, with an opaque page-coloured ground. Not translucent-with-blur:
+    // Sticky, with an opaque ground one step above the page. Not
+    // translucent-with-blur:
     // this site is set in a documentation register, and a frosted bar with
     // type sliding under it reads as an app chrome that belongs to a different
     // design. The border is the whole separation it needs.
-    <header className="sticky top-0 z-50 border-b border-border-subtle bg-surface-page">
+    <header className="sticky top-0 z-50 border-b border-border-subtle bg-surface-raised">
       <Container>
         {/* Below sm this becomes two rows: identity and theme control on one,
             navigation on the next. Five items plus a control will not fit on a
@@ -27,7 +28,7 @@ export function SiteHeader() {
               className="flex items-center gap-3 text-sm font-medium text-text-primary"
             >
               <Logo className="h-[26px] w-auto" />
-              <span>Alejandro Fernandini</span>
+              <span>Alejandro Magno Fernandini</span>
             </Link>
             <div className="sm:hidden">
               <ThemeToggle />
