@@ -29,7 +29,7 @@ export default function Home() {
               I design the systems behind the tools people use all day.
             </h1>
 
-            <div className="mt-14 flex max-w-[38rem] gap-6">
+            <div className="mt-14 flex max-w-[46rem] gap-6">
               <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
               <p className="text-lg leading-[1.65] text-text-secondary">
                 Ten years on internal software: compliance platforms, audit tooling, and the CRM
