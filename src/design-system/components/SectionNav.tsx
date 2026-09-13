@@ -23,11 +23,15 @@ export type Section = { id: string; label: string };
  *
  * Two things that will bite whoever uses this next.
  *
- * **Sticky only works inside its own parent's box.** Wrapping this in a
- * one-line div makes the div scroll away and take the sticky bar with it,
- * silently, with no error. The horizontal bar must be a direct child of an
- * element that spans the scrolling region. There is a `sticky` prop for the
- * vertical rail, where the parent is the content column and this is safe.
+ * **Sticky only works inside its own parent's box**, and this bites from both
+ * directions. Wrapping the bar in a one-line div makes the div scroll away and
+ * take the bar with it, silently, with no error. And in a grid, reaching for
+ * `self-start` on the rail's cell to stop it stretching collapses that cell to
+ * the height of the list, which is the same bug wearing a different hat: the
+ * rail then travels for one screen and disappears.
+ *
+ * Let the grid cell stretch. The tall cell is not a layout accident, it is the
+ * track the sticky element runs down.
  *
  * **Which side of the content it sits on is a layout decision, not a prop.**
  * Put it in the left or right column of the grid; the component does not care.
@@ -36,10 +40,22 @@ export type Section = { id: string; label: string };
  * it marks. The rule belongs immediately beside the text it indexes, and the
  * text is left-aligned either way, so the rule stays on the left either way.
  *
- * **The sections need `scroll-mt`.** Clicking an anchor scrolls the target to
- * the very top of the viewport, which puts it underneath a sticky header. This
- * component cannot fix that from the outside, because it does not own the
- * targets. Give each section `scroll-mt-32` or thereabouts.
+ * **The sections need `scroll-mt`, and their spacing has to be margin rather
+ * than padding.** Two separate traps that look like one bug.
+ *
+ * `scroll-margin-top` decides where a section's BORDER BOX lands, and a sticky
+ * header will cover whatever sits above that, so without it the heading ends
+ * up underneath the header. That part is well known.
+ *
+ * The second half is not. If the section carries its spacing as `pt-24`, the
+ * border box top is 96px above the heading, so landing the box at 112px puts
+ * the heading at 208px and leaves a strip of the PREVIOUS section showing in
+ * the gap. It reads exactly like a scroll that stopped short, and no amount of
+ * tuning `scroll-mt` fixes it, because the two numbers are fighting.
+ *
+ * Use `mt-*` for the space above a section and `scroll-mt-*` for the landing
+ * offset. Margin sits outside the border box, so the box top is the heading
+ * and `scroll-mt` then means what it looks like it means.
  */
 
 export function SectionNav({

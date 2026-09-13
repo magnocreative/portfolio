@@ -85,7 +85,9 @@ export default function SystemPage() {
 
       <main>
         <Container>
-          <section className="pt-24 pb-4 md:pt-32">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
+            <div>
+              <section className="pt-24 pb-4 md:pt-32">
             <Label>The design system</Label>
             <h1 className="text-optical mt-8 max-w-[18ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-pretty md:text-4xl lg:text-5xl">
               A system you can read, not a claim you have to take on trust.
@@ -95,14 +97,9 @@ export default function SystemPage() {
               and the contrast figures are measured in your browser as you read them. Change your device to dark mode
               and every number on this page changes with it.
             </p>
-          </section>
-        </Container>
-
-        <Container>
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
-            <div>
+              </section>
               {/* Three tiers */}
-            <section id="tiers" className="scroll-mt-28 pt-24" aria-labelledby="tiers-heading">
+            <section id="tiers" className="scroll-mt-28 mt-24" aria-labelledby="tiers-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="tiers-heading">Three tiers, in dependency order</span>
@@ -136,7 +133,7 @@ export default function SystemPage() {
             </section>
 
               {/* Live audit */}
-            <section id="contrast" className="scroll-mt-28 pt-24" aria-labelledby="contrast-heading">
+            <section id="contrast" className="scroll-mt-28 mt-24" aria-labelledby="contrast-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="contrast-heading">Text roles, measured live</span>
@@ -151,7 +148,7 @@ export default function SystemPage() {
             </section>
 
               {/* Decisions */}
-            <section id="decisions" className="scroll-mt-28 pt-24" aria-labelledby="decisions-heading">
+            <section id="decisions" className="scroll-mt-28 mt-24" aria-labelledby="decisions-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="decisions-heading">Decisions, and what each one cost</span>
@@ -171,7 +168,7 @@ export default function SystemPage() {
             </section>
 
               {/* Where to read it */}
-            <section id="source" className="scroll-mt-28 pt-24">
+            <section id="source" className="scroll-mt-28 mt-24">
             <div className="grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_22rem] lg:items-center lg:gap-20">
               <div>
                 <Label className="!text-text-accent">Read the source</Label>
@@ -211,7 +208,11 @@ export default function SystemPage() {
                 page itself first rather than a list of places they could go.
                 Which side it sits on is a grid decision; the component does not
                 know or care. */}
-            <div className="order-first lg:order-none">
+            {/* No `self-start` here. Letting the grid item stretch is what gives the
+                sticky nav inside it a tall containing block to travel down; hugging
+                the content collapses that block to 146px and the rail scrolls away
+                after one screen. The same sticky trap, from the other side. */}
+            <div className="order-first mt-24 lg:order-none lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

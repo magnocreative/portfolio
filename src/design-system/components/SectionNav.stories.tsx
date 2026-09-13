@@ -12,7 +12,7 @@ const beats = [
 
 function Section({ id, title }: { id: string; title: string }) {
   return (
-    <section id={id} className="scroll-mt-32 border-b border-border-subtle py-16">
+    <section id={id} className="mt-16 scroll-mt-32 border-b border-border-subtle pb-16">
       <h2 className="font-display text-2xl leading-[1.2] tracking-[-0.018em] text-text-primary">
         {title}
       </h2>
@@ -21,9 +21,9 @@ function Section({ id, title }: { id: string; title: string }) {
         changes. Scroll the story and watch the rule move.
       </p>
       <p className="mt-4 max-w-[46rem] text-base text-text-secondary">
-        Every section carries `scroll-mt-32`, which is the detail that stops a clicked anchor from
-        parking the heading underneath a sticky header. The component cannot do it for you, because
-        it does not own these elements.
+        Every section carries `mt-16 scroll-mt-32`, not `py-16`. Spacing above a section has to be
+        margin: padding sits inside the border box, so the anchor lands 96px above the heading and
+        leaves a strip of the previous section showing, which reads as a scroll that stopped short.
       </p>
     </section>
   );
