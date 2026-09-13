@@ -45,7 +45,14 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
         <span className="font-mono text-xs text-text-tertiary">{study.period}</span>
       </div>
 
-      <h3 className="mt-5 max-w-[22ch] font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
+      {/* 28ch, not the 22ch this started at. The card's inner width is 538px
+          and 22ch measured 349, so every title sat 189px short of its own
+          right edge and the longer ones broke to three lines against empty
+          space. 28ch is 444px: two lines for every current title, and the
+          leftover reads as rag rather than a hole. Not wider — at 30ch the
+          shortest title collapses to one line, and a single-line title beside
+          two-line ones unbalances the row. */}
+      <h3 className="mt-5 max-w-[28ch] font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
         {study.title}
       </h3>
 
@@ -71,10 +78,13 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   );
 
   const shell =
-    "group flex h-full flex-col rounded-sm border bg-surface-raised p-7 transition-colors duration-[160ms] ease-[var(--ease-out-quart)]";
+    "flex h-full flex-col rounded-sm border bg-surface-raised p-7 transition-colors duration-[160ms] ease-[var(--ease-out-quart)]";
 
   // A draft is not a link, so it gets no hover and no pointer. Nobody should
-  // click into a page that has not been written.
+  // click into a page that has not been written. `group` lives here rather
+  // than in `shell` for that reason: while both branches carried it, hovering
+  // a draft turned its title accent blue and promised a link that was not
+  // there.
   if (isDraft) {
     return <div className={`${shell} border-border-subtle`}>{body}</div>;
   }
@@ -82,7 +92,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   return (
     <Link
       href={`/work/${study.slug}`}
-      className={`${shell} border-border-subtle hover:border-border-interactive`}
+      className={`group ${shell} border-border-subtle hover:border-border-interactive`}
     >
       {body}
     </Link>

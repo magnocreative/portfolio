@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const TwoLevels: Story = {
-  args: { items: [{ label: "Home", href: "/" }, { label: "System" }] },
+  args: { items: [{ label: "Home", href: "/" }, { label: "Design system" }] },
   parameters: {
     docs: {
       description: {

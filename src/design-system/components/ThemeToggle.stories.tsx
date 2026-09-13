@@ -46,7 +46,7 @@ export const InContext: Story = {
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "1.75rem" }}>
         <div style={{ display: "flex", gap: "1.75rem" }}>
-          {["Work", "System", "About"].map((l) => (
+          {["Work", "Design system", "About"].map((l) => (
             <span
               key={l}
               style={{

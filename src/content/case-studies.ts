@@ -24,6 +24,20 @@ export type CaseStudy = {
 };
 
 export const caseStudies: CaseStudy[] = [
+  // PLACEHOLDER. The title, standfirst and period below are written to the
+  // right shape, not from the real account — replace all three once the draft
+  // is voice-checked. Everything here stays on the safe side of the rule
+  // above: no platform name, no capability names, no vendor named.
+  {
+    slug: "self-serve-instead-of-a-request-queue",
+    title: "Replacing a request queue with a portal people can use themselves",
+    standfirst:
+      "Four lines of business, each asking for platform changes a different way. I built the prototype in grayscale first, so the people reviewing it argued about structure instead of colour.",
+    disciplines: ["Prototyping", "Discovery", "Documentation"],
+    employer: "JPMorganChase",
+    period: "2025 to now",
+    status: "draft",
+  },
   {
     slug: "design-system-through-a-migration",
     title: "The system behind sixteen CRM surfaces",
