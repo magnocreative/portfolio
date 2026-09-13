@@ -89,14 +89,17 @@ export default function SystemPage() {
             <div>
               <section className="pt-24 pb-4 md:pt-32">
             <Label>The design system</Label>
-            <h1 className="text-optical mt-8 max-w-[18ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-pretty md:text-4xl lg:text-5xl">
+            <h1 className="text-optical mt-8 max-w-[15ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl xl:max-w-[21ch] lg:text-5xl">
               A system you can read, not a claim you have to take on trust.
             </h1>
-            <p className="mt-10 max-w-[54ch] text-lg leading-[1.65] text-text-secondary">
-              This site runs on the system documented below. Everything here is live. The swatches are the real tokens,
-              and the contrast figures are measured in your browser as you read them. Change your device to dark mode
-              and every number on this page changes with it.
-            </p>
+            <div className="mt-10 flex max-w-[46rem] gap-6">
+              <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
+              <p className="text-lg leading-[1.65] text-text-secondary">
+                This site runs on the system documented below. Everything here is live. The swatches are the real
+                tokens, and the contrast figures are measured in your browser as you read them. Change your device to
+                dark mode and every number on this page changes with it.
+              </p>
+            </div>
               </section>
               {/* Three tiers */}
             <section id="tiers" className="scroll-mt-28 mt-24" aria-labelledby="tiers-heading">
