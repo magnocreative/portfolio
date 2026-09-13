@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { Container, Label } from "@/design-system/primitives/Container";
+import { Button } from "@/design-system/components/Button";
+import { ArrowRight } from "@/design-system/components/Icon";
 import { SiteHeader } from "@/design-system/components/SiteHeader";
 import { SiteFooter } from "@/design-system/components/SiteFooter";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
@@ -76,12 +77,11 @@ export default function Home() {
                   and open. The strongest thing a systems designer can show isn&rsquo;t a
                   screenshot. It&rsquo;s a system somebody else can inspect, use, and disagree with.
                 </p>
-                <Link
-                  href="/system"
-                  className="mt-7 inline-block font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-accent transition-colors duration-[160ms] hover:text-interactive-hover"
-                >
-                  Read the system →
-                </Link>
+                <div className="mt-7">
+                  <Button href="/system" variant="secondary" iconAfter={<ArrowRight />}>
+                    Read the system
+                  </Button>
+                </div>
               </div>
 
               <dl className="font-mono text-xs">
