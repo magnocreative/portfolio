@@ -3,6 +3,7 @@ import { Container, Label } from "@/design-system/primitives/Container";
 import { SiteHeader } from "@/design-system/components/SiteHeader";
 import { SiteFooter } from "@/design-system/components/SiteFooter";
 import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
+import { SectionNav } from "@/design-system/components/SectionNav";
 
 export const metadata: Metadata = {
   title: "The design system",
@@ -16,6 +17,13 @@ const textRoles: AuditRow[] = [
   { token: "--text-tertiary", note: "Mono metadata: dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
   { token: "--interactive-default", note: "Interactive elements, rules" },
+];
+
+const contents = [
+  { id: "tiers", label: "Three tiers" },
+  { id: "contrast", label: "Contrast, measured" },
+  { id: "decisions", label: "Decisions" },
+  { id: "source", label: "Read the source" },
 ];
 
 const tiers = [
@@ -90,12 +98,14 @@ export default function SystemPage() {
           </section>
         </Container>
 
-        {/* Three tiers */}
         <Container>
-          <section className="pt-24" aria-labelledby="tiers">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
+            <div>
+              {/* Three tiers */}
+            <section id="tiers" className="scroll-mt-28 pt-24" aria-labelledby="tiers-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
-                <span id="tiers">Three tiers, in dependency order</span>
+                <span id="tiers-heading">Three tiers, in dependency order</span>
               </Label>
             </div>
 
@@ -123,15 +133,13 @@ export default function SystemPage() {
                 </div>
               ))}
             </div>
-          </section>
-        </Container>
+            </section>
 
-        {/* Live audit */}
-        <Container>
-          <section className="pt-24" aria-labelledby="contrast">
+              {/* Live audit */}
+            <section id="contrast" className="scroll-mt-28 pt-24" aria-labelledby="contrast-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
-                <span id="contrast">Text roles, measured live</span>
+                <span id="contrast-heading">Text roles, measured live</span>
               </Label>
             </div>
             <p className="mt-8 mb-10 max-w-[62ch] text-base text-text-secondary">
@@ -140,15 +148,13 @@ export default function SystemPage() {
               large-text allowance, because it is small.
             </p>
             <ContrastAudit rows={textRoles} />
-          </section>
-        </Container>
+            </section>
 
-        {/* Decisions */}
-        <Container>
-          <section className="pt-24" aria-labelledby="decisions">
+              {/* Decisions */}
+            <section id="decisions" className="scroll-mt-28 pt-24" aria-labelledby="decisions-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
-                <span id="decisions">Decisions, and what each one cost</span>
+                <span id="decisions-heading">Decisions, and what each one cost</span>
               </Label>
             </div>
 
@@ -162,12 +168,10 @@ export default function SystemPage() {
                 </div>
               ))}
             </div>
-          </section>
-        </Container>
+            </section>
 
-        {/* Where to read it */}
-        <Container>
-          <section className="pt-24">
+              {/* Where to read it */}
+            <section id="source" className="scroll-mt-28 pt-24">
             <div className="grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_22rem] lg:items-center lg:gap-20">
               <div>
                 <Label className="!text-text-accent">Read the source</Label>
@@ -199,7 +203,18 @@ export default function SystemPage() {
                 ))}
               </dl>
             </div>
-          </section>
+            </section>
+            </div>
+
+            {/* The rail is in the right column and lives in the source order
+                AFTER the content, so keyboard and screen-reader users meet the
+                page itself first rather than a list of places they could go.
+                Which side it sits on is a grid decision; the component does not
+                know or care. */}
+            <div className="order-first lg:order-none">
+              <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
+            </div>
+          </div>
         </Container>
       </main>
 
