@@ -52,7 +52,9 @@ export default function Home() {
               </span>
             </div>
 
-            <div>
+            {/* Two columns from lg. One below, because a card at 390px wide
+                with a three-line summary is already a full-width object. */}
+            <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
               {caseStudies.map((study, i) => (
                 <WorkEntry key={study.slug} study={study} index={i} />
               ))}
