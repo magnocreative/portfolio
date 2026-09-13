@@ -102,7 +102,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
               <th
                 key={h.label}
                 scope="col"
-                className={`pb-3 font-mono text-2xs font-normal uppercase tracking-[0.14em] text-text-tertiary ${
+                className={`pb-3 font-mono text-xs font-normal uppercase tracking-[0.14em] text-text-tertiary ${
                   i >= 3 ? "text-right" : ""
                 }`}
               >
@@ -124,7 +124,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
                 <div className="font-mono text-xs text-text-primary">{m.token}</div>
                 <div className="mt-0.5 text-xs text-text-tertiary">{m.note}</div>
               </td>
-              <td className="py-3.5 pr-4 font-mono text-2xs text-text-tertiary">{m.hex || "—"}</td>
+              <td className="py-3.5 pr-4 font-mono text-xs text-text-tertiary">{m.hex || "—"}</td>
               <td className="py-3.5 pr-4 text-right font-mono text-xs text-text-primary">
                 {/* A surface measured against itself is 1.00:1 by definition.
                     Printing that invites the reader to treat it as a result. */}
@@ -133,7 +133,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
               <td className="py-3.5 text-right">
                 {measured && (
                   <span
-                    className={`inline-block rounded-[var(--radius-pill)] px-2.5 py-0.5 font-mono text-2xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
+                    className={`inline-block rounded-[var(--radius-pill)] px-2.5 py-0.5 font-mono text-xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
                   >
                     {m.verdict}
                   </span>
@@ -144,7 +144,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
         </tbody>
       </table>
       {!measured && (
-        <p className="mt-3 font-mono text-2xs text-text-tertiary">Measuring…</p>
+        <p className="mt-3 font-mono text-xs text-text-tertiary">Measuring…</p>
       )}
     </div>
   );

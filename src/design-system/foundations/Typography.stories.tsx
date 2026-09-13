@@ -5,10 +5,17 @@ import { useEffect, useState } from "react";
  * The scale is READ from the tokens, never restated here.
  *
  * The previous version of this file listed sizes as literal strings next to
- * each step. The moment a token changed, the documentation started lying —
- * which is exactly what happened when 2xs went from 11px to 12px. Only the
- * step names and their intended use live in this file now; every number on
- * screen comes from the stylesheet at runtime.
+ * each step. The moment a token changed the documentation started lying, which
+ * is exactly what happened twice: once when the smallest step went from 11px
+ * to 12px, and again when it was removed entirely. Only the step names and
+ * their intended use live here now; every number on screen is read from the
+ * stylesheet at runtime.
+ *
+ * The working floor is `xs` at 13px. The two steps below it exist and are
+ * deliberately unused: 12px uppercase mono read small enough to be a
+ * complaint, and 12 against 13 is a distinction nobody perceives. They stay on
+ * the scale so a future dense surface has somewhere defined to go rather than
+ * inventing a raw value, which is the same rule the colour ramps follow.
  */
 const steps = [
   { name: "6xl", use: "Reserved. Nothing on the site uses it yet." },
@@ -20,8 +27,9 @@ const steps = [
   { name: "lg", use: "Hero standfirst" },
   { name: "base", use: "Body copy" },
   { name: "sm", use: "Header, dense UI" },
-  { name: "xs", use: "Mono metadata — dates, disciplines" },
-  { name: "2xs", use: "Uppercase mono labels" },
+  { name: "xs", use: "All mono: labels, metadata, dates, disciplines" },
+  { name: "2xs", use: "Reserved. Nothing on the site uses it." },
+  { name: "3xs", use: "Reserved. Nothing on the site uses it." },
 ];
 
 type Measured = { name: string; use: string; rem: string; px: string };
@@ -87,7 +95,7 @@ function TypeDocs() {
           },
         ].map((f) => (
           <div key={f.label} className="border-t border-border-default pt-4">
-            <div className="mb-3.5 font-mono text-2xs uppercase tracking-[0.14em] text-text-tertiary">{f.label}</div>
+            <div className="mb-3.5 font-mono text-xs uppercase tracking-[0.14em] text-text-tertiary">{f.label}</div>
             <div className={`${f.className} max-w-[34ch] text-text-primary`}>{f.sample}</div>
           </div>
         ))}
@@ -111,8 +119,8 @@ function TypeDocs() {
             className="grid grid-cols-[3.5rem_5rem_4rem_1fr] items-baseline gap-6 border-b border-border-subtle py-4"
           >
             <div className="font-mono text-xs text-text-accent">{s.name}</div>
-            <div className="font-mono text-2xs text-text-tertiary">{s.rem}</div>
-            <div className="font-mono text-2xs text-text-tertiary">{s.px}</div>
+            <div className="font-mono text-xs text-text-tertiary">{s.rem}</div>
+            <div className="font-mono text-xs text-text-tertiary">{s.px}</div>
             <div>
               <div
                 className="font-display leading-[1.2] tracking-[-0.015em] text-text-primary"

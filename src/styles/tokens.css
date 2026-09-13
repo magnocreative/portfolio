@@ -297,10 +297,29 @@
   /* Type scale — a 1.25 major third, tuned by hand at the display end where a
      pure ratio goes limp. Every step is a whole pixel. Line heights are
      ratios, not fixed values. */
+  /* Two steps below the working floor, held in reserve.
+
+     Nothing on the site uses them, and that is deliberate rather than an
+     oversight: 13px is the smallest size in use, because at 12px the uppercase
+     mono read small enough to be a complaint and 12 against 13 is a
+     distinction nobody perceives anyway. They stay on the scale so a future
+     dense surface has somewhere defined to go instead of inventing a raw
+     value. Same rule as the colour ramps: a scale may carry unused steps, a
+     semantic role may not.
+
+     Both carry more tracking than the steps above them. Small type needs the
+     letterspacing back that it loses to its own size. */
+  --text-3xs: 0.625rem;
+  --text-3xs--line-height: 1.4;
+  --text-3xs--letter-spacing: 0.06em;
+
   --text-2xs: 0.75rem;
   --text-2xs--line-height: 1.45;
   --text-2xs--letter-spacing: 0.04em;
 
+  /* The working floor, and where all the small type actually lives: uppercase
+     mono labels, mono metadata, and the short sans notes in the contrast
+     table. Nothing rendered on the site is smaller than this. */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.5;
   --text-xs--letter-spacing: 0.02em;

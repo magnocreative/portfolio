@@ -47,7 +47,7 @@ export default function Home() {
               <Label as="h2" className="!text-text-primary">
                 <span id="work-heading">Selected work</span>
               </Label>
-              <span className="font-mono text-2xs tracking-[0.14em] text-text-tertiary">
+              <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
                 {String(caseStudies.length).padStart(2, "0")}
               </span>
             </div>

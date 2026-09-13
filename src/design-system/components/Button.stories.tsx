@@ -282,7 +282,7 @@ export const InContext: Story = {
   args: { children: "Read the system" },
   render: () => (
     <div className="max-w-[44rem] rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12">
-      <div className="font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-accent">
+      <div className="font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-accent">
         Live artifact
       </div>
       <h2 className="mt-5 max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">

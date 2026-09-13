@@ -44,7 +44,7 @@ export function Breadcrumbs({
 }) {
   return (
     <nav aria-label={label} className={className}>
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-2xs font-medium uppercase tracking-[0.11em]">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs font-medium uppercase tracking-[0.11em]">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
           return (

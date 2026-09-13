@@ -40,8 +40,8 @@ export const InContext: Story = {
         padding: "1.25rem 2rem",
       }}
     >
-      <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem", fontSize: "0.875rem", fontWeight: 500 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--text-accent)" }}>AF</span>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem", fontSize: "var(--text-sm)", fontWeight: 500 }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", color: "var(--text-accent)" }}>AF</span>
         <span>Alejandro Fernandini</span>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "1.75rem" }}>
@@ -51,7 +51,7 @@ export const InContext: Story = {
               key={l}
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "var(--text-2xs)",
+                fontSize: "var(--text-xs)",
                 textTransform: "uppercase",
                 letterSpacing: "0.12em",
                 color: "var(--text-secondary)",

@@ -50,7 +50,7 @@ export function Label({
 }) {
   return (
     <Tag
-      className={`font-mono text-2xs font-medium uppercase tracking-[0.11em] text-text-tertiary ${className}`}
+      className={`font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary ${className}`}
     >
       {children}
     </Tag>

@@ -110,7 +110,7 @@ export function Tabs({
               onClick={() => !t.disabled && setActive(t.id)}
               className={[
                 "-mb-px border-b-2 pb-3 pt-1",
-                "font-mono text-2xs font-medium uppercase tracking-[0.11em] whitespace-nowrap",
+                "font-mono text-xs font-medium uppercase tracking-[0.11em] whitespace-nowrap",
                 "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
                 // Disabled is an explicit colour, never opacity. An
                 // opacity-dimmed label has a ratio that depends on whatever is

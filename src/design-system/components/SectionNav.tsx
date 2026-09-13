@@ -122,7 +122,7 @@ export function SectionNav({
                 href={`#${i.id}`}
                 aria-current={on ? "true" : undefined}
                 className={[
-                  "block font-mono text-2xs font-medium uppercase tracking-[0.11em]",
+                  "block font-mono text-xs font-medium uppercase tracking-[0.11em]",
                   "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
                   vertical ? "border-l-2 py-2 pl-4" : "whitespace-nowrap border-b-2 pb-3 pt-1",
                   on
