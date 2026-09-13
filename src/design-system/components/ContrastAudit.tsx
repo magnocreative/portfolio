@@ -116,7 +116,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
             <tr key={m.token} className="border-b border-border-subtle">
               <td className="py-3.5 pr-4">
                 <span
-                  className="block h-8 w-8 rounded-xs border border-border-default"
+                  className="block h-8 w-8 rounded-sm border border-border-default"
                   style={{ background: `var(${m.token})` }}
                 />
               </td>
@@ -133,7 +133,7 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
               <td className="py-3.5 text-right">
                 {measured && (
                   <span
-                    className={`inline-block rounded-xs px-2 py-0.5 font-mono text-2xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
+                    className={`inline-block rounded-[var(--radius-pill)] px-2.5 py-0.5 font-mono text-2xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
                   >
                     {m.verdict}
                   </span>

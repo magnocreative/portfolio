@@ -62,7 +62,7 @@ export default function Home() {
         {/* The system, as an artifact rather than a claim */}
         <Container>
           <section className="pt-28" aria-labelledby="system-heading">
-            <div className="grid grid-cols-1 gap-12 border border-border-rule p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
+            <div className="grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
               <div>
                 <Label className="!text-text-accent">Live artifact</Label>
                 <h2

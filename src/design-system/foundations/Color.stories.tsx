@@ -51,7 +51,7 @@ function Ramp({ prefix, steps, label }: { prefix: string; steps: (number | strin
       <div className="flex gap-0.5">
         {steps.map((s) => (
           <div key={s} className="flex-1">
-            <div className="h-14 border border-border-subtle" style={{ background: `var(--p-${prefix}-${s})` }} />
+            <div className="h-14 rounded-sm border border-border-subtle" style={{ background: `var(--p-${prefix}-${s})` }} />
             <div className="mt-1 text-center font-mono text-[0.625rem] text-text-tertiary">{s}</div>
           </div>
         ))}
@@ -91,13 +91,13 @@ function ColorDocs() {
           taken from the steps either side, which is the normal relationship between a logo and a design system.
         </p>
         <p className="mt-2 mb-7 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
-          Two neutral grounds, not one inverted. Paper is a warm cream; slate is the mark&rsquo;s own blue taken down to
+          Two neutral grounds, not one inverted. Paper is a near-neutral grey carrying a fifth of the warmth it started with; slate is the mark&rsquo;s own blue taken down to
           a ground, so the logo sits natively in dark instead of being placed on top of something unrelated. Slate
           bottoms out at 17% lightness rather than the ~10% a dark theme usually reaches for, because at 10% sRGB has
           almost no room for chroma and a hue specified down there renders as black however much saturation it carries.
           No component references any of these directly. Only the semantic roles above do.
         </p>
-        <Ramp label="Paper — warm cream, light theme" prefix="paper" steps={[0, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+        <Ramp label="Paper — near-neutral warm grey, light theme" prefix="paper" steps={[0, 5, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
         <Ramp label="Slate — the mark's blue as a ground, dark theme" prefix="slate" steps={[100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]} />
         <Ramp label="Blue — the brand ramp, anchored on the logo, serves both themes" prefix="blue" steps={[100, 200, 300, 400, 500, 600, 700, 800, 900]} />
       </section>

@@ -42,7 +42,7 @@ const tiers = [
 const decisions = [
   {
     title: "Two ramps, not one inverted",
-    body: "Light is paper, a warm cream, the register of a well-set document. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Most dual-theme sites invert a single palette and end up with one real design and one afterthought. The cost of doing it this way is a second ramp to maintain. The benefit is that both themes are deliberate.",
+    body: "Light is paper, a near-neutral grey with just enough warmth left in it to not read as grey. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Paper began five times warmer, a proper cream, and it was lovely until a cool blue fill sat on it: warm ground against cool tint is a complementary clash, and a tint that faint loses that argument every time. The lightness of every step is untouched, so no contrast figure on this page moved. Only the amount of hue did.",
   },
   {
     title: "Both themes stated in one declaration",
@@ -59,6 +59,10 @@ const decisions = [
   {
     title: "Contrast is measured, not asserted",
     body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small mono metadata requires, and it looked completely fine to me on screen.",
+  },
+  {
+    title: "Two hairlines, both below the bar, for different reasons",
+    body: "A panel edge sits at 1.13:1 and a secondary button's edge at about 1.9:1. Both are under the 3:1 non-text minimum, and they are under it for different reasons worth separating. The panel edge is decoration: the bar governs controls and meaningful graphics, a container outline is neither, and an edge drawn to meet it is a heavy line that turns a document into a form. The button edge is a genuine trade. WCAG 1.4.11 asks 3:1 of the visual information required to identify a component, and at 1.9:1 that edge is not what identifies the button. The label is, at 6.35:1, inside a real button element with a 40px target. Somebody who cannot resolve the line still finds the control. What the trade buys is that at 3:1 the edge reads as an outline and a quiet variant stops being quiet, which is the call every mainstream system this pattern comes from also makes. It was built at 3.64:1, softened to 3.10:1, and landed here. Recording that mattered more than winning it: a system that only documents the rules it passes is a brochure.",
   },
   {
     title: "Borders are allowed to fail",
@@ -164,7 +168,7 @@ export default function SystemPage() {
         {/* Where to read it */}
         <Container>
           <section className="pt-24">
-            <div className="grid grid-cols-1 gap-10 border border-border-rule p-8 md:p-12 lg:grid-cols-[1fr_22rem] lg:items-center lg:gap-20">
+            <div className="grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_22rem] lg:items-center lg:gap-20">
               <div>
                 <Label className="!text-text-accent">Read the source</Label>
                 <h2 className="mt-5 max-w-[26ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">

@@ -14,7 +14,8 @@
    mountains in #4f729a and #7297b7, and those two values are anchor points in
    the blue ramp below rather than colours used directly.
 
-   Light is paper: a warm cream, the register of a well-set document. Dark is
+   Light is paper: a near-neutral warm grey, the register of a well-set page.
+   Dark is
    slate: the mark's own deep blue, so the logo sits natively in it instead of
    being placed on top of something unrelated. Two grounds, one set of roles.
    =========================================================================== */
@@ -27,20 +28,34 @@
    --------------------------------------------------------------------------- */
 
 :root {
-  /* Paper — warm cream neutrals for the light theme. */
+  /* Paper — near-neutral warm greys for the light theme.
+     This ramp started at five times the chroma it carries now, a proper cream
+     at #F9F5EF. It read beautifully on its own and fought the moment a blue
+     tint sat on it: warm ground against cool fill is a complementary clash,
+     and the secondary button's tint is too faint to win that argument. The
+     lightness of every step is untouched, so nothing in the contrast model
+     moved. Only the amount of hue did, down to a fifth, which is enough to
+     keep the ground from reading as grey without it reading as yellow. */
   --p-paper-0: oklch(100% 0 0);
-  --p-paper-25: oklch(97.2% 0.009 78);
-  --p-paper-50: oklch(95.6% 0.011 77);
-  --p-paper-100: oklch(93.2% 0.014 76);
-  --p-paper-200: oklch(88.8% 0.017 75);
-  --p-paper-300: oklch(81.6% 0.018 74);
-  --p-paper-400: oklch(70.2% 0.018 72);
-  --p-paper-500: oklch(59.0% 0.018 70);
-  --p-paper-600: oklch(48.8% 0.017 68);
-  --p-paper-700: oklch(39.0% 0.016 66);
-  --p-paper-800: oklch(28.6% 0.014 64);
-  --p-paper-900: oklch(20.2% 0.012 62);
-  --p-paper-950: oklch(14.6% 0.010 60);
+  /* The value for a card with no border, where the step off the page is the
+     only thing saying the card is there: 1.063:1 against 97.2%, where pure
+     white manages 1.082:1 and reads as a hole cut in the page rather than a
+     sheet laid on it. A bordered panel does not need it, because the border is
+     already doing that work, which is why `raised` sits at paper-0. Unused
+     today. Ramps are allowed unused steps; semantic roles are not. */
+  --p-paper-5: oklch(99.3% 0.001 78);
+  --p-paper-25: oklch(97.2% 0.002 78);
+  --p-paper-50: oklch(95.6% 0.002 77);
+  --p-paper-100: oklch(93.2% 0.003 76);
+  --p-paper-200: oklch(88.8% 0.003 75);
+  --p-paper-300: oklch(81.6% 0.004 74);
+  --p-paper-400: oklch(70.2% 0.004 72);
+  --p-paper-500: oklch(59.0% 0.004 70);
+  --p-paper-600: oklch(48.8% 0.003 68);
+  --p-paper-700: oklch(39.0% 0.003 66);
+  --p-paper-800: oklch(28.6% 0.003 64);
+  --p-paper-900: oklch(20.2% 0.002 62);
+  --p-paper-950: oklch(14.6% 0.002 60);
 
   /* Slate — the dark ground, drawn from the mark's own blue.
      Bottoms out at 17% lightness rather than the ~10% a dark theme usually
@@ -75,8 +90,21 @@
   --p-blue-700: oklch(45.0% 0.072 253);
   --p-blue-800: oklch(36.0% 0.062 254);
   --p-blue-900: oklch(27.0% 0.050 254);
+  /* A soft blue for a control's edge. Deliberately below the 3:1 non-text bar,
+     which is a real choice with a real cost rather than an oversight: see
+     `--border-interactive` for what it buys and what it gives up. */
+  --p-blue-muted-light: oklch(78.0% 0.025 251);
+  --p-blue-muted-dark: oklch(38.0% 0.035 252);
   --p-blue-subtle-light: oklch(94.4% 0.020 250);
   --p-blue-subtle-dark: oklch(29.0% 0.046 252);
+  /* Two further steps of the same tint, so a filled-but-quiet control has
+     somewhere to go on hover and when it is the current choice. Each step is
+     roughly 4% of lightness, the smallest move that reads as a state change
+     rather than a rendering difference. */
+  --p-blue-subtle-light-hover: oklch(90.6% 0.028 250);
+  --p-blue-subtle-light-selected: oklch(86.8% 0.036 250);
+  --p-blue-subtle-dark-hover: oklch(33.4% 0.052 252);
+  --p-blue-subtle-dark-selected: oklch(37.8% 0.056 252);
 
   /* Functional */
   --p-success-500: oklch(62.4% 0.146 152);
@@ -97,10 +125,15 @@
 :root {
   color-scheme: light dark;
 
-  /* Surfaces, ordered by elevation. The light page sits at 97.2% rather than
-     flush against white, so `raised` has somewhere to go. At 98.8% the step
-     between a page and a card on it measured 1.03:1, which is no step at all. */
+  /* Surfaces, ordered by elevation, three levels per theme and deliberately
+     matched: light runs 95.6 / 97.2 / 99.3 and dark runs 13.8 / 17.0 / 20.4.
+     Light has the tighter range of the two, 3.7 points against 6.6, which is
+     why it gets three levels and not four. There is room on paper for a
+     fourth, but not room for it to be visible. */
   --surface-page: light-dark(var(--p-paper-25), var(--p-slate-1000));
+  /* Pure white, and it can be, because every raised surface on this site
+     carries a hairline. Take the border away and this has to drop to paper-5
+     or the card stops reading as a card. */
   --surface-raised: light-dark(var(--p-paper-0), var(--p-slate-950));
   /* Sunken sits BELOW the page, so in dark it goes further down than
      slate-1000 rather than up. Hand-authored because the ramp bottoms out at
@@ -127,6 +160,13 @@
   --text-accent: light-dark(var(--p-blue-700), var(--p-blue-300));
 
   /* Borders */
+  /* Dividers between rows, and the edge of a raised panel. Both are the same
+     job, so they are the same token: mark where one thing ends without being
+     looked at. On a panel it measures 1.13:1 in light and 1.20:1 in dark,
+     which is barely a line at all, and that is correct here because the fill
+     is already carrying the separation. The border is only resolving the
+     corner. A blue hairline lived here for one build; it made the panel an
+     object you notice instead of a surface you read on. */
   --border-subtle: light-dark(var(--p-paper-100), var(--p-slate-900));
   --border-default: light-dark(var(--p-paper-200), var(--p-slate-800));
   /* paper-500, not paper-400. Unlike the dividers, border-strong does
@@ -134,14 +174,45 @@
      the 3:1 non-text bar. */
   --border-strong: light-dark(var(--p-paper-500), var(--p-slate-600));
   --border-rule: light-dark(var(--p-paper-950), var(--p-slate-300));
+  /* The edge of a filled-but-quiet control. It sits at roughly 1.9:1 against
+     the surfaces behind it, under the 3:1 non-text bar, and the honest way to
+     describe that is a trade rather than a pass.
+
+     What it gives up: the boundary is not what identifies the control. WCAG
+     1.4.11 asks 3:1 of "visual information required to identify" a component,
+     and this edge is not carrying that. What carries it instead is the label,
+     at 6.35:1, inside a real <button> or <a>, announced correctly, in a 40px
+     target. Somebody who cannot resolve a 1.9:1 line still finds the control;
+     they find it the way a screen reader user always has.
+
+     What it buys: at 3:1 the edge reads as an outline and the quiet variant
+     stops being quiet. Every mainstream system this pattern comes from makes
+     the same call. Recording it here matters more than winning it, because a
+     system that only documents the rules it passes is a brochure. */
+  --border-interactive: light-dark(var(--p-blue-muted-light), var(--p-blue-muted-dark));
 
   /* Interactive. The accent lightens in dark rather than darkening: chroma
      that reads as confident on cream reads as murky on a dark ground. */
   --interactive-default: light-dark(var(--p-blue-700), var(--p-blue-300));
   --interactive-hover: light-dark(var(--p-blue-800), var(--p-blue-200));
-  --interactive-active: light-dark(var(--p-blue-900), var(--p-blue-100));
+  --interactive-selected: light-dark(var(--p-blue-900), var(--p-blue-100));
   --interactive-subtle: light-dark(var(--p-blue-subtle-light), var(--p-blue-subtle-dark));
+  --interactive-subtle-hover: light-dark(
+    var(--p-blue-subtle-light-hover),
+    var(--p-blue-subtle-dark-hover)
+  );
+  --interactive-subtle-selected: light-dark(
+    var(--p-blue-subtle-light-selected),
+    var(--p-blue-subtle-dark-selected)
+  );
   --interactive-on: light-dark(var(--p-paper-0), var(--p-slate-1000));
+  /* A disabled control's fill. It used to borrow `surface-sunken`, which was
+     fine until a disabled button landed on a sunken well and measured 1.00:1
+     against it: the same value, so the control vanished completely. A control
+     cannot share a value with a surface it might sit on. This one sits off the
+     ramp from every surface in both themes, so it is always a step away from
+     whatever is behind it. */
+  --interactive-disabled: light-dark(var(--p-paper-100), var(--p-slate-900));
 
   /* Focus — one ring, everywhere, never removed without a replacement */
   --focus-ring: light-dark(var(--p-blue-700), var(--p-blue-300));
@@ -191,12 +262,16 @@
   --color-border-default: var(--border-default);
   --color-border-strong: var(--border-strong);
   --color-border-rule: var(--border-rule);
+  --color-border-interactive: var(--border-interactive);
 
   --color-interactive: var(--interactive-default);
   --color-interactive-hover: var(--interactive-hover);
-  --color-interactive-active: var(--interactive-active);
+  --color-interactive-selected: var(--interactive-selected);
   --color-interactive-subtle: var(--interactive-subtle);
+  --color-interactive-subtle-hover: var(--interactive-subtle-hover);
+  --color-interactive-subtle-selected: var(--interactive-subtle-selected);
   --color-interactive-on: var(--interactive-on);
+  --color-interactive-disabled: var(--interactive-disabled);
 
   --color-focus-ring: var(--focus-ring);
   --color-media-plate: var(--media-plate);
@@ -263,12 +338,22 @@
   --text-6xl--line-height: 0.98;
   --text-6xl--letter-spacing: -0.034em;
 
-  /* Radius — restrained. A documentation register does not round much. */
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.625rem;
-  --radius-xl: 1rem;
+  /* Radius. Nothing on this site is square-cornered and nothing sits at a
+     hairline either: 2px reads as a rendering artefact rather than a decision,
+     so the scale starts at 8px, a radius you can actually see. Tailwind's own
+     2px step is removed rather than left available, because a floor nobody can
+     reach under is worth more than a floor written in a comment.
+
+     Controls take `sm` and containers take `lg`. They deliberately do not
+     match. A 40px-tall button rounded to 16px is four fifths of the way to a
+     pill, which left the pill variant with nothing to say; at 8px the button
+     is a control and the pill is a decision. `pill` is a shape, not a step. */
+  --radius-xs: initial;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-pill: 62.4375rem;
 
   /* Motion — durations short enough to feel instant, easing that decelerates.
      `--ease-out-quart` is the house curve. */

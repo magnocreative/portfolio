@@ -107,7 +107,7 @@ export function ThemeToggle() {
             title={option.label}
             onClick={() => select(option.value)}
             className={[
-              "grid h-7 w-7 place-items-center rounded-[3px] transition-colors duration-[160ms]",
+              "grid h-7 w-7 place-items-center rounded-sm transition-colors duration-[160ms]",
               active
                 ? "bg-surface-inverse text-text-inverse"
                 : "text-text-tertiary hover:bg-interactive-subtle hover:text-text-secondary",
