@@ -69,7 +69,7 @@ function TypeDocs() {
       <h2 className="font-display text-2xl tracking-[-0.015em] text-text-primary">
         Three faces, each with a job
       </h2>
-      <p className="mt-2 mb-10 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
+      <p className="mt-2 mb-10 max-w-measure text-sm leading-relaxed text-text-secondary">
         Newsreader carries argument — headlines and case study titles, where the writing is the work. Inter carries
         explanation. JetBrains Mono carries record: dates, disciplines, section labels, anything that behaves like an
         entry in a table of contents. All three are self-hosted, so nothing render-blocks on a font CDN and no
@@ -103,12 +103,12 @@ function TypeDocs() {
       </div>
 
       <h2 className="font-display text-2xl tracking-[-0.015em] text-text-primary">The scale</h2>
-      <p className="mt-2 mb-8 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
+      <p className="mt-2 mb-8 max-w-measure text-sm leading-relaxed text-text-secondary">
         Every step is a whole pixel. Half-pixel steps are not steps — they are rounding errors that leave two sizes
         nobody can tell apart and nobody knows which to reach for. Line heights are ratios rather than fixed values, and
         tracking tightens as size increases, because large type set at body tracking always reads loose.
       </p>
-      <p className="mb-8 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
+      <p className="mb-8 max-w-measure text-sm leading-relaxed text-text-secondary">
         The rem and px columns below are read from the stylesheet as this page renders — not typed in. Change a token
         and this table changes with it.
       </p>

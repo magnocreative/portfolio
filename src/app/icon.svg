@@ -1,0 +1,26 @@
+<!--
+  The browser-tab mark. Three things differ from the Logo component, each for a
+  reason:
+
+  1. Literal hex, not var(--mark-deep). A favicon renders outside the document
+     and has no access to the page's custom properties. That used to mean
+     picking a theme and living with it; it does not any more, because the mark
+     resolves to one value in both themes. #4e729a and #80a2c4 ARE the tokens.
+
+  2. A square viewBox. The artboard is 270x203, and dropped into a square
+     favicon slot a 4:3 mark renders at 75% of the height available to it. The
+     300x300 box with the mark centred lets it fill the width, which is what
+     makes it survive 16px.
+
+  3. No snow-cap simplification, deliberately. The notches do mush at a literal
+     16 pixels, but an SVG favicon is rasterised at device pixel ratio, so 16px
+     of layout is 32 real pixels on any screen made in the last decade, and at
+     32 they hold. favicon.ico carries the same artwork at 16/32/48 for
+     anything that will not take an SVG.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <g transform="translate(14.66 48.32)">
+    <path fill="#80a2c4" d="M270.37,197.9L181.13,1.16c-.7-1.54-2.88-1.54-3.58-.01l-36.46,79.22c-.49,1.07-.5,2.31-.02,3.39l22.18,49.68c.39.88,1.65.87,2.03-.01l12.27-28.61c.7-1.55,2.9-1.55,3.59,0l43.73,97.39c.32.71,1.02,1.16,1.8,1.16h39.03c3.45,0,5.85-2.81,4.66-5.46ZM186.07,54.43l-6.67,7.6-7.2-7.6-13.33,12.52,20.53-45.21,20.53,45.21-13.87-12.52Z"/>
+    <path fill="#4e729a" d="M182.76,197.89L93.53,1.15c-.38-.84-1.21-1.21-1.99-1.13-.79-.08-1.61.29-1.99,1.13L.31,197.89c-1.19,2.65,1.21,5.46,4.66,5.46h39.03c.78,0,1.48-.46,1.8-1.16l43.73-97.39c.38-.85,1.22-1.22,2.01-1.13.79-.08,1.63.28,2.01,1.13l43.73,97.39c.32.71,1.02,1.16,1.8,1.16h39.03c3.45,0,5.85-2.81,4.66-5.46ZM98.23,54.47l-6.69,7.63-7.23-7.63-13.39,12.58,20.62-45.4,20.62,45.4-13.92-12.58Z"/>
+  </g>
+</svg>
