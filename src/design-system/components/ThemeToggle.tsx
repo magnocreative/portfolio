@@ -93,7 +93,14 @@ export function ThemeToggle() {
     <div
       role="radiogroup"
       aria-label="Color theme"
-      className="inline-flex items-center gap-px rounded-sm border border-border-default p-px"
+      // No enclosing box. The border was drawing a frame around three icons
+      // that already read as a set, and in the header it put a second
+      // rectangle inside a bar that is itself a rectangle. What groups these
+      // now is proximity: the gap between them is far tighter than the gap to
+      // anything else in the header, which is all a group of three needs.
+      // The selected option still carries a filled ground, so the state does
+      // not depend on the frame that is gone.
+      className="inline-flex items-center gap-px"
     >
       {options.map((option) => {
         const active = mounted && choice === option.value;
@@ -108,8 +115,23 @@ export function ThemeToggle() {
             onClick={() => select(option.value)}
             className={[
               "grid h-7 w-7 place-items-center rounded-sm transition-colors duration-[160ms]",
+              // The selected fill is the interactive blue, not the inverse
+              // surface. Inside a frame the inverse fill read as a segmented
+              // control; standing on its own it became the darkest object in
+              // the header, at 19.8:1 against the bar, which is more weight
+              // than a preference most visitors never touch deserves. The
+              // blue is 7.5:1 in light and 9.5:1 in dark — unmistakable, and
+              // a third of the visual force.
+              //
+              // The obvious quieter answer, the secondary button's tinted
+              // ground, was built and measured and rejected. The tint reached
+              // 1.17:1 against the header and the accent icon landed at
+              // 1.17:1 against the unselected icons: same lightness, only the
+              // hue apart. Selection would have rested on colour alone, which
+              // is exactly what WCAG 1.4.1 rules out, and axe passed it
+              // clean — a state being invisible is not a thing axe can see.
               active
-                ? "bg-surface-inverse text-text-inverse"
+                ? "bg-interactive text-interactive-on"
                 : "text-text-tertiary hover:bg-interactive-subtle hover:text-text-secondary",
             ].join(" ")}
           >
