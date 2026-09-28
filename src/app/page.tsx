@@ -65,15 +65,30 @@ export default function Home() {
         {/* The system, as an artifact rather than a claim */}
         <Container>
           <section className="pt-28" aria-labelledby="system-heading">
-            <div className="grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
+            {/* The same section head the work index uses. The page had one
+                sectioning device used once, which made the panel below read as
+                a floating object rather than a part of the document.
+
+                No count on the right. The work head carries one because four
+                case studies is a fact worth stating; a system is not a
+                quantity. The layout takes a missing second child without
+                complaint, which is the point of building the head as a flex
+                row rather than a grid with fixed columns. */}
+            <div className="border-b border-border-rule pb-4">
+              <Label as="h2" className="!text-text-primary">
+                <span id="system-heading">Design system</span>
+              </Label>
+            </div>
+
+            <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
               <div>
-                <Label className="!text-text-accent">Live artifact</Label>
-                <h2
-                  id="system-heading"
-                  className="mt-5 max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary"
-                >
+                {/* The "Live artifact" eyebrow that used to sit here is gone.
+                    With the section head above, it was the second of three
+                    labels stacked inside 200px, and the heading under it
+                    already says the same thing in a full sentence. */}
+                <h3 className="max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">
                   This site runs on a design system you can read.
-                </h2>
+                </h3>
                 <p className="mt-5 max-w-[52ch] text-base text-text-secondary">
                   Tokens, components, the accessibility model, and the reasoning behind each, published
                   and open. The strongest thing a systems designer can show isn&rsquo;t a

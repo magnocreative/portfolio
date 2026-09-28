@@ -55,7 +55,7 @@ export const Primary: Story = {
     docs: {
       description: {
         story:
-          "Solid fill on the interactive blue. It wins any competition it enters, which is the reason to allow it only once per view. Two primaries on a page means neither is primary. Label on fill measures 7.46:1 in light and 10.06:1 in dark.",
+          "Solid fill on the interactive blue. It wins any competition it enters, which is the reason to allow it only once per view. Two primaries on a page means neither is primary.\n\nThe fill is one value in both themes — blue-600, the deep peak of the mark itself — with a white label in both. It used to be a `light-dark()` pair, a deep slate-blue in light and a pale blue in dark, which meant the same control wore two different colours and its identity flipped with the theme rather than surviving it. A fill can hold a single value because its contrast obligation is to its own label, not to the page: white on it is 5.00:1, and the fill clears 3.60:1 against the darkest surface it can land on.",
       },
     },
   },
@@ -156,7 +156,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Hover forced on, since a static page cannot show it otherwise. Selected is a real prop, not a simulation: it holds the deepest tint for as long as it is true and it announces itself, `aria-pressed` on a button and `aria-current=\"page\"` on a link, so a filter chip or a current nav item is correct to a screen reader and not only to the eye. Pressing borrows the same values through `:active`, which makes a press a half-second preview of what being chosen looks like rather than a fourth idea to keep in step. Both filled variants move in one direction, deeper in light and lighter in dark, roughly four points of lightness per step. Four is the smallest move that reads as a state change rather than a rendering difference; further and a hover feels like a different button instead of the same one under a cursor. The lowest label anywhere in the set is 5.01:1, on a selected secondary in light.",
+          "Hover forced on, since a static page cannot show it otherwise. Selected is a real prop, not a simulation: it holds the deepest tint for as long as it is true and it announces itself, `aria-pressed` on a button and `aria-current=\"page\"` on a link, so a filter chip or a current nav item is correct to a screen reader and not only to the eye. Pressing borrows the same values through `:active`, which makes a press a half-second preview of what being chosen looks like rather than a fourth idea to keep in step. The two filled variants no longer move the same way. Secondary is still a `light-dark()` tint and steps about four points of lightness per state, four being the smallest move that reads as a state change rather than a rendering difference. Primary darkens in both themes, about nine points a step down the blue ramp, because it is now a single value and lightening it would cost the white label: blue-500 drops that to 3.94:1, under the 4.5 a 14px label needs.\n\nThat has a price, on the dark theme, and it is stated in the token rather than hidden. Against the dark raised surface the primary fill measures 3.60:1 at rest, 2.41:1 on hover and 1.65:1 while pressed — the last two under the 3:1 non-text bar. Both are transient and pointer-anchored, with labels at 7.46:1 and 10.90:1, so the control never becomes unidentifiable; it dims toward the ground for as long as it is touched. The alternative was keeping hover theme-dependent, which would have put the inversion back into the exact part of the button somebody is looking at while using it. The lowest label anywhere in the set is 5.00:1, on a primary at rest.",
       },
     },
   },
@@ -281,29 +281,52 @@ export const AsLink: Story = {
 export const InContext: Story = {
   args: { children: "Read the system" },
   render: () => (
-    <div className="max-w-[44rem] rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12">
-      <div className="font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-accent">
-        Live artifact
+    <div className="mx-auto max-w-[72rem]">
+      <div className="border-b border-border-rule pb-4">
+        <div className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-text-primary">
+          Design system
+        </div>
       </div>
-      <h2 className="mt-5 max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">
-        This site runs on a design system you can read.
-      </h2>
-      <p className="mt-5 max-w-[52ch] text-base text-text-secondary">
-        Tokens, components, the accessibility model, and the reasoning behind each, published and
-        open.
-      </p>
-      <div className="mt-7">
-        <Button href="/system" variant="secondary" iconAfter={<ArrowRight />}>
-          Read the system
-        </Button>
+      <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
+        <div>
+          <h3 className="max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">
+            This site runs on a design system you can read.
+          </h3>
+          <p className="mt-5 max-w-[52ch] text-base text-text-secondary">
+            Tokens, components, the accessibility model, and the reasoning behind each, published and
+            open.
+          </p>
+          <div className="mt-7">
+            <Button href="/system" variant="primary" iconAfter={<ArrowRight />}>
+              Read the system
+            </Button>
+          </div>
+        </div>
+        <dl className="font-mono text-xs">
+          {[
+            ["tokens", "three tiers"],
+            ["color", "OKLCH ramps"],
+            ["themes", "paper / slate"],
+            ["contrast", "WCAG AA"],
+          ].map(([k, v], i) => (
+            <div
+              key={k}
+              className={`flex justify-between py-3 ${i < 3 ? "border-b border-border-subtle" : ""}`}
+            >
+              <dt className="text-text-tertiary">{k}</dt>
+              <dd className="text-text-primary">{v}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   ),
   parameters: {
+    layout: "fullscreen",
     docs: {
       description: {
         story:
-          "The homepage panel with the plain text link replaced by a secondary button. Panel and button both round at 8px. The same radius reads differently at the two sizes: on a 40px control it is a fifth of the way to a pill and the corner is the shape, on a panel several hundred pixels wide it is a crisp edge you barely register.",
+          "The homepage system panel, in its real two-column shape and under its real section rule. The button here is the only primary on that page, which is what makes it mean anything: the panel is the single place the homepage sends a reviewer.\n\nPanel and button both round at 8px, and the same radius reads differently at the two sizes — on a 40px control it is a fifth of the way to a pill and the corner is the shape, on a panel several hundred pixels wide it is a crisp edge you barely register.",
       },
     },
   },

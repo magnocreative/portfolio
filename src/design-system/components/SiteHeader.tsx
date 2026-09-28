@@ -7,14 +7,26 @@ import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 import { Logo } from "@/design-system/brand/Logo";
 
 // Résumé sits in the same list as the rest rather than being appended by hand.
-// It only differs by colour, and a second copy of the markup meant every change
-// to a nav link had to be made twice — which is how it ended up as the one item
-// that could not show a selected state.
+// A second copy of the markup meant every change to a nav link had to be made
+// twice, which is how it ended up as the one item that could not show a
+// selected state.
+//
+// It also used to be the one item drawn in the accent blue, as a nudge toward
+// the thing a reviewer most wants. That stopped working the moment the nav
+// gained a real selected state: the state is blue, so a permanently blue item
+// read as permanently current, on every page. Worse, on /resume itself the
+// accent branch overrode the current branch, leaving the one item whose
+// selected state was weaker than everyone else's.
+//
+// Colour in this nav now means one thing — you are here — and nothing borrows
+// it for emphasis. Résumé does not need the help. It is the last item, it is
+// named the thing people are looking for, and this site argues for restraint
+// everywhere else.
 const nav = [
   { href: "/work", label: "Work" },
   { href: "/system", label: "Design system" },
   { href: "/about", label: "About" },
-  { href: "/resume", label: "Résumé", accent: true },
+  { href: "/resume", label: "Résumé" },
 ];
 
 export function SiteHeader() {
@@ -23,7 +35,13 @@ export function SiteHeader() {
   // startsWith, not equality, so a case study at /work/some-slug still marks
   // Work as the section you are in. The trailing slash matters: without it
   // /workshop would light up Work too.
-  const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  //
+  // The null guard is not defensive noise. `usePathname` returns null wherever
+  // there is no app router above the component, which is exactly the case in
+  // Storybook, and without it the header threw and rendered nothing there. A
+  // component that only works inside one tree is one the library cannot show.
+  const isCurrent = (href: string) =>
+    pathname != null && (pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     // Sticky, with an opaque ground one step above the page. Not
@@ -78,13 +96,9 @@ export function SiteHeader() {
                         // the colour changes, so nothing shifts by two pixels
                         // when the section changes.
                         className={`border-b-2 pb-1 font-mono text-xs font-medium uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
-                          current ? "border-interactive" : "border-transparent"
-                        } ${
-                          item.accent
-                            ? "text-text-accent hover:text-interactive-hover"
-                            : current
-                              ? "text-text-primary"
-                              : "text-text-secondary hover:text-text-primary"
+                          current
+                            ? "border-interactive text-text-primary"
+                            : "border-transparent text-text-secondary hover:text-text-primary"
                         }`}
                       >
                         {item.label}

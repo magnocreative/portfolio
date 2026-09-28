@@ -158,7 +158,17 @@ export default function SystemPage() {
               </Label>
             </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-16 gap-y-10 lg:grid-cols-2">
+            {/* One column. These were two, and two columns is the wrong shape
+                for this content: each entry is a paragraph of argument, not a
+                specification, and two columns of unequal paragraphs makes a
+                reader choose a reading order the writing does not have. Down
+                one column they read in sequence, which is how they were
+                written — each decision setting up the next.
+
+                The measure stays at 52ch rather than widening into the space
+                the second column gave up. A column that fills the page is not
+                a better column; it is one nobody finishes. */}
+            <div className="mt-10 flex flex-col gap-10">
               {decisions.map((d) => (
                 <div key={d.title}>
                   <h3 className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">

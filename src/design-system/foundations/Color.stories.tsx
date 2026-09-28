@@ -7,7 +7,17 @@ const textRoles: AuditRow[] = [
   { token: "--text-secondary", note: "Standfirsts, supporting copy" },
   { token: "--text-tertiary", note: "Mono metadata — dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
-  { token: "--interactive-default", note: "Interactive elements, rules" },
+];
+
+/* --interactive-default used to sit in the text table above, which judged it
+   against the page at the 4.5:1 text bar and handed it a soft fail in dark.
+   That was the table contradicting the system: a fill owes its contrast to its
+   own label, not to the page behind it. It is audited here as a non-text role
+   instead, which is the bar that actually governs it. */
+const interactiveRoles: AuditRow[] = [
+  { token: "--interactive-default", note: "Filled controls, the focus ring, the mark — one value, both themes" },
+  { token: "--interactive-hover", note: "Hover on a filled control" },
+  { token: "--interactive-selected", note: "Pressed and selected" },
 ];
 
 const surfaces: AuditRow[] = [
@@ -65,8 +75,14 @@ function ColorDocs() {
     <div className="max-w-[68rem]">
       <Section
         title="Text roles, measured"
-        intro="These ratios are measured live in your browser against whichever theme the toolbar is set to — not written down and hoped for. Each token is painted to a canvas and the pixel is read back, because a computed custom property comes back as oklch() and anything that parses that as RGB produces confident nonsense. This table is how --text-tertiary was caught at 3.92:1 in the light theme, under the 4.5:1 its small mono metadata needs. Flip the theme in the toolbar and watch every number change."
+        intro="These ratios are measured live in your browser against whichever theme the toolbar is set to — not written down and hoped for. Each token is painted to a canvas and the pixel is read back, because a computed custom property comes back as oklch() and anything that parses that as RGB produces confident nonsense. This table is what caught --text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small mono metadata needs; it has since been moved to paper-600 and the row below shows it passing. Flip the theme in the toolbar and watch every number change."
         rows={textRoles}
+      />
+      <Section
+        title="Interactive fills"
+        kind="nontext"
+        intro="Judged at the 3:1 non-text bar, not the 4.5:1 text one, because a filled control owes its contrast to its own label rather than to the page behind it. That distinction is the whole reason these can be single values: --interactive-default is blue-600 in both themes, with a white label in both, and white on it measures 5.00:1. Flip the theme and watch the hex column stay put while the ratios move: same colours, different grounds. That is the whole change, visible in one table.\n\nThe ratios here are measured against the page. On the dark theme hover reads 2.56:1 and pressed 1.75:1 — 2.41:1 and 1.65:1 against a raised surface — and the audit marks both DECORATIVE, correctly. They are transient, pointer-anchored states carrying labels at 7.46:1 and 10.90:1, so the control never becomes unfindable; it dims toward the ground while touched. Lightening them instead would cost the white label, which is the one number that cannot move. Shown failing rather than quietly left out of the table."
+        rows={interactiveRoles}
       />
       <Section
         title="Surfaces"

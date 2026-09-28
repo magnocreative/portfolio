@@ -68,7 +68,7 @@ export const LongCurrentLabel: Story = {
     docs: {
       description: {
         story:
-          "A real case study title, truncating. Pass a short label for the current crumb rather than the full headline: the full one is already the h1 a few pixels below, so repeating it costs a line of the trail and tells the reader nothing new. The truncation is a safety net, not the plan, and the whole string stays in the title attribute. The budget is 28ch rather than a round 20, because `ch` measures the zero glyph and knows nothing about letterspacing, so at this tracking about a fifth of the box is gaps between characters rather than characters.",
+          "A real case study title, truncating. Pass a short label for the current crumb rather than the full headline: the full one is already the h1 a few pixels below, so repeating it costs a line of the trail and tells the reader nothing new. The truncation is a safety net, not the plan, and the whole string stays in the title attribute. The budget is 28ch rather than the 22 it started at, because `ch` measures the zero glyph and knows nothing about letterspacing, so at this tracking about a fifth of the box is gaps between characters rather than characters.",
       },
     },
   },

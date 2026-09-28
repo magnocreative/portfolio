@@ -80,7 +80,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Four states, measured. Selected is 18.28:1 in light with a 6.89:1 rule beneath it; rest is 8.85:1 and lifts to 18.28:1 on hover, which also brings in a grey rule so the hover previews the shape selection will take. Disabled is 5.87:1, drawn in an explicit colour rather than dimmed with opacity, because an opacity-dimmed label has a ratio that depends on whatever happens to be behind it. Disabled is also skipped by the arrow keys, not merely styled as unavailable, which is the part that separates a real disabled state from a grey one.",
+          "Four states, measured. Selected is 18.28:1 in light with a 4.62:1 rule beneath it — the rule is the interactive blue, which is now a single value in both themes rather than a per-theme pair, so it measures 4.62:1 on the light page and 3.82:1 on the dark one instead of two unrelated numbers. Rest is 8.85:1 and lifts to 18.28:1 on hover, which also brings in a grey rule so the hover previews the shape selection will take. Disabled is 5.87:1, drawn in an explicit colour rather than dimmed with opacity, because an opacity-dimmed label has a ratio that depends on whatever happens to be behind it. Disabled is also skipped by the arrow keys, not merely styled as unavailable, which is the part that separates a real disabled state from a grey one.",
       },
     },
   },

@@ -123,7 +123,9 @@ export const States: Story = {
     <div className="pb-24">
       <SectionNav {...args} />
       <p className="mt-8 max-w-[46rem] text-base text-text-secondary">
-        The first item is current and carries the rule at 6.89:1 with a label at 18.28:1. The rest
+        The first item is current and carries the rule at 4.62:1 with a label at 18.28:1. That rule is
+        the interactive blue, one value in both themes, so it reads 4.62:1 on the light page and
+        3.82:1 on the dark one rather than two unrelated numbers. The rest
         sit at 8.85:1 and lift to 18.28:1 on hover, bringing in a grey rule so the hover previews the
         shape being current will take. Hover the second item to see it. There is no disabled state,
         because a section either exists on the page or it does not.

@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
  * The previous version of this file listed sizes as literal strings next to
  * each step. The moment a token changed the documentation started lying, which
  * is exactly what happened twice: once when the smallest step went from 11px
- * to 12px, and again when it was removed entirely. Only the step names and
+ * to 12px, and again when everything at 12px moved to 13px and the two steps
+ * below became reserved rather than removed. Only the step names and
  * their intended use live here now; every number on screen is read from the
  * stylesheet at runtime.
  *
@@ -21,8 +22,8 @@ const steps = [
   { name: "6xl", use: "Reserved. Nothing on the site uses it yet." },
   { name: "5xl", use: "Hero headline, large viewports" },
   { name: "4xl", use: "Hero headline, mid viewports" },
-  { name: "3xl", use: "Case study titles" },
-  { name: "2xl", use: "Section headings" },
+  { name: "3xl", use: "Panel headings" },
+  { name: "2xl", use: "Work index card titles" },
   { name: "xl", use: "Footer prompt, callouts" },
   { name: "lg", use: "Hero standfirst" },
   { name: "base", use: "Body copy" },
