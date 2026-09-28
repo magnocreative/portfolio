@@ -463,8 +463,28 @@
   --duration-base: 240ms;
   --duration-slow: 420ms;
 
-  /* Layout */
-  --container-prose: 68ch;
+  /* Layout.
+
+     All three of these were dead until now: defined, never referenced, while
+     Container hardcoded 44rem and 84rem a second time and every prose block
+     picked its own ch value by hand. Three semantic roles resolving to nothing
+     is the same bug as two roles resolving to the same value, and the rule
+     this system keeps is that a ramp may carry unused steps but a role may
+     not. They are wired up now.
+
+     `measure` is the single-column body measure on a documentation page. It is
+     deliberately wide — about 106 characters at 16px, well past the 45–75 band
+     — because these sections are one column inside a 944px content column, and
+     a 525px paragraph in that column read as a hole rather than a margin. The
+     trade is real and is taken knowingly: a reader's eye has further to travel
+     back to the left edge. It binds only above roughly a 1400px viewport,
+     since the content column is 880px at 1280, so on most laptops it means
+     "fill the column".
+
+     `text` is the narrow variant for a page that is nothing but prose. Nothing
+     uses it yet; unlike the other two it has an obvious job waiting, which is
+     the case study template. */
+  --container-measure: 900px;
   --container-text: 44rem;
   --container-wide: 84rem;
 }

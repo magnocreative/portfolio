@@ -109,7 +109,7 @@ export default function SystemPage() {
               </Label>
             </div>
 
-            <div className="mt-8 max-w-[62ch]">
+            <div className="mt-8 max-w-measure">
               <p className="text-base text-text-secondary">
                 The order is the whole point. A component that reaches past the semantic tier into a raw value is a
                 component that will not follow a retheme, and will not be found until someone notices the wrong grey in
@@ -142,7 +142,7 @@ export default function SystemPage() {
                 <span id="contrast-heading">Text roles, measured live</span>
               </Label>
             </div>
-            <p className="mt-8 mb-10 max-w-[62ch] text-base text-text-secondary">
+            <p className="mt-8 mb-10 max-w-measure text-base text-text-secondary">
               Each token below is painted to a canvas and the resulting pixel read back, then checked against the
               WCAG 2.2 threshold for the size it is actually used at. Small mono metadata is held to 4.5:1, not the 3:1
               large-text allowance, because it is small.
@@ -174,20 +174,10 @@ export default function SystemPage() {
                   <h3 className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
                     {d.title}
                   </h3>
-                  {/* 900px, not the 52ch (525px) this was. 52ch left 419px of
-                      the 944px column empty, which read as a hole rather than
-                      a margin once the section went to one column.
-
-                      The cost, stated because this page is about stating
-                      costs: 525px put 62 characters on a line, inside the
-                      45–75 band where the eye reliably finds the next line.
-                      900px puts 106 there. Below about a 1400px viewport the
-                      cap stops binding anyway — the column is 880px at 1280 —
-                      so in practice this means "fill the column".
-
-                      46rem is the site's other wide-prose measure, used by the
-                      homepage standfirst, if this ever wants pulling back. */}
-                  <p className="mt-3 max-w-[900px] text-base text-text-secondary">{d.body}</p>
+                  {/* `measure`, the shared single-column body width, not a
+                      raw 900px repeated here and in two other sections. The
+                      reasoning and the cost live on the token. */}
+                  <p className="mt-3 max-w-measure text-base text-text-secondary">{d.body}</p>
                 </div>
               ))}
             </div>

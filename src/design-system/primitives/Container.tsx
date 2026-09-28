@@ -2,9 +2,13 @@ import type { ReactNode } from "react";
 
 type Width = "text" | "wide";
 
+// Read from the layout tokens rather than restated here. These were written
+// out twice — once in tokens.css, once as raw values in this file — which
+// meant the tokens were decoration and this was the real definition. Changing
+// one would have silently changed nothing.
 const widths: Record<Width, string> = {
-  text: "max-w-[44rem]",
-  wide: "max-w-[84rem]",
+  text: "max-w-text",
+  wide: "max-w-wide",
 };
 
 /**
