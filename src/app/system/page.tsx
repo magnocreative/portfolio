@@ -174,7 +174,20 @@ export default function SystemPage() {
                   <h3 className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
                     {d.title}
                   </h3>
-                  <p className="mt-3 max-w-[52ch] text-base text-text-secondary">{d.body}</p>
+                  {/* 900px, not the 52ch (525px) this was. 52ch left 419px of
+                      the 944px column empty, which read as a hole rather than
+                      a margin once the section went to one column.
+
+                      The cost, stated because this page is about stating
+                      costs: 525px put 62 characters on a line, inside the
+                      45–75 band where the eye reliably finds the next line.
+                      900px puts 106 there. Below about a 1400px viewport the
+                      cap stops binding anyway — the column is 880px at 1280 —
+                      so in practice this means "fill the column".
+
+                      46rem is the site's other wide-prose measure, used by the
+                      homepage standfirst, if this ever wants pulling back. */}
+                  <p className="mt-3 max-w-[900px] text-base text-text-secondary">{d.body}</p>
                 </div>
               ))}
             </div>
