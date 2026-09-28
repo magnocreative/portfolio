@@ -23,7 +23,13 @@ export default function Home() {
             one breath beats a paragraph that hedges it. */}
         <Container>
           <section className="pt-24 pb-4 md:pt-36">
-            <Label>Senior Experience Designer · design systems &amp; operational tools</Label>
+            {/* The title of record, not the functional one. It reads Senior
+                everywhere a person describes this work, and it will read
+                Senior here the day the promotion lands — but a public page
+                carrying a title that employment verification would not return
+                is a discrepancy waiting to be found at the worst moment. The
+                seniority is argued by the work below it instead. */}
+            <Label>Experience Designer · design systems &amp; operational tools</Label>
 
             <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.04] tracking-[-0.025em] text-text-primary text-balance md:text-5xl xl:max-w-[21ch] lg:text-6xl">
               I design the systems behind the tools people use all day.

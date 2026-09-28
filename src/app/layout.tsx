@@ -11,14 +11,14 @@ import { themeInitScript } from "@/design-system/components/ThemeToggle";
 export const metadata: Metadata = {
   metadataBase: new URL("https://magnocreative.com"),
   title: {
-    default: "Alejandro Fernandini — Experience Designer",
-    template: "%s — Alejandro Fernandini",
+    default: "Alejandro Magno Fernandini — Experience Designer",
+    template: "%s — Alejandro Magno Fernandini",
   },
   description:
-    "Senior experience designer working on complex operational systems — the internal tools people use all day to do difficult work.",
+    "Experience designer working on complex operational systems — the internal tools people use all day to do difficult work.",
   openGraph: {
     type: "website",
-    siteName: "Alejandro Fernandini",
+    siteName: "Alejandro Magno Fernandini",
     locale: "en_US",
   },
   robots: { index: true, follow: true },
