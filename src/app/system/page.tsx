@@ -16,7 +16,21 @@ const textRoles: AuditRow[] = [
   { token: "--text-secondary", note: "Standfirsts, supporting copy" },
   { token: "--text-tertiary", note: "Mono metadata: dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
-  { token: "--interactive-default", note: "Interactive elements, rules" },
+];
+
+/* --interactive-default used to sit in the table above, where it was judged
+   against the page at the 4.5:1 TEXT bar. That passed in light by luck (4.62:1)
+   and soft-failed in dark (3.82:1) — a failing verdict, on the public page, for
+   a token this same page argues is correct. The table was contradicting the
+   system.
+
+   A filled control owes its contrast to its own label, not to the page behind
+   it. That is the whole reason these three can be single values. Audited here
+   at the 3:1 non-text bar, which is the one that actually governs them. */
+const interactiveRoles: AuditRow[] = [
+  { token: "--interactive-default", note: "Filled controls, the focus ring, the mark — one value, both themes" },
+  { token: "--interactive-hover", note: "Hover on a filled control" },
+  { token: "--interactive-selected", note: "Pressed and selected" },
 ];
 
 const contents = [
@@ -148,6 +162,20 @@ export default function SystemPage() {
               large-text allowance, because it is small.
             </p>
             <ContrastAudit rows={textRoles} />
+
+            <h3 className="mt-14 font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
+              Interactive fills, at the non-text bar
+            </h3>
+            <p className="mt-3 mb-8 max-w-measure text-base text-text-secondary">
+              Judged at 3:1 rather than 4.5:1, because a filled control owes its contrast to its own
+              label and not to the page behind it. That distinction is why these can be single values:
+              the fill is blue-600 in both themes, with a white label in both, and white on it measures
+              5.00:1. Watch the hex column stay still while the ratios move when you change the theme.
+              Hover and pressed drop below the bar on the dark ground and are marked accordingly —
+              transient states carrying labels at 7.46:1 and 10.90:1, shown failing rather than left
+              out of the table.
+            </p>
+            <ContrastAudit rows={interactiveRoles} kind="nontext" />
             </section>
 
               {/* Decisions */}
