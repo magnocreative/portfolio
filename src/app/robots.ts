@@ -1,13 +1,18 @@
 import type { MetadataRoute } from "next";
 
 /**
- * Generated rather than a static file, so the host in the sitemap URL comes
- * from one place. `metadataBase` in layout.tsx is that place.
+ * Driven by the same SITE_PASSWORD variable as the gate in middleware.ts, so
+ * the two can never disagree. While the site is gated there is nothing for a
+ * crawler to reach anyway, and a sitemap full of URLs that all answer 401 is a
+ * set of promises the site cannot keep.
  *
- * Everything is crawlable. There is nothing here worth hiding, and a portfolio
- * that blocks crawlers is a portfolio nobody finds.
+ * Remove the variable and both the password and this restriction lift together.
  */
 export default function robots(): MetadataRoute.Robots {
+  if (process.env.SITE_PASSWORD) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+
   return {
     rules: { userAgent: "*", allow: "/" },
     sitemap: "https://magnocreative.com/sitemap.xml",
