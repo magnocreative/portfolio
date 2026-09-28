@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type ThemeChoice = "system" | "light" | "dark";
 
@@ -74,10 +74,23 @@ const options: { value: ThemeChoice; label: string; icon: React.ReactNode }[] = 
  * Three states, not two. A plain toggle silently discards "follow my system",
  * which is the setting most visitors actually want and the one they never get
  * back once a binary switch has been touched.
+ *
+ * Built to the ARIA radiogroup pattern, not merely labelled as one. For a
+ * while this carried `role="radiogroup"` and `role="radio"` while behaving
+ * like three unrelated buttons: three separate tab stops, arrow keys inert.
+ * That is a promise to a screen reader the keyboard does not keep — the
+ * announcement says "one of three" and the interaction says "three of three".
+ *
+ * axe passed it the whole time, which is the point worth keeping. The roles
+ * were present and correctly nested, and that is all a static scan can check.
+ * Whether the keys a role implies actually do anything is behaviour, and
+ * behaviour is not a thing a linter sees. Same lesson as the theme chip whose
+ * selected state was invisible and measured clean.
  */
 export function ThemeToggle() {
   const [choice, setChoice] = useState<ThemeChoice>("system");
   const [mounted, setMounted] = useState(false);
+  const refs = useRef<Partial<Record<ThemeChoice, HTMLButtonElement | null>>>({});
 
   useEffect(() => {
     setMounted(true);
@@ -100,6 +113,39 @@ export function ThemeToggle() {
     }
   }
 
+  // Selection follows focus, which is the rule for radios and the opposite of
+  // a listbox. Arrowing onto an option chooses it. That sounds aggressive
+  // until you consider what this control does: every option is reversible in
+  // one more keypress, and the result is visible instantly across the whole
+  // page. Requiring a second key to confirm would mean arrowing past a theme
+  // without ever seeing it.
+  function move(next: ThemeChoice) {
+    select(next);
+    refs.current[next]?.focus();
+  }
+
+  function onKeyDown(e: React.KeyboardEvent) {
+    const i = options.findIndex((o) => o.value === choice);
+    if (i === -1) return;
+    const last = options.length - 1;
+
+    // Both axes, because the group is horizontal in the header and there is no
+    // reliable way for a keyboard user to know that before they try.
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      move(options[(i + 1) % options.length].value);
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      move(options[(i - 1 + options.length) % options.length].value);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      move(options[0].value);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      move(options[last].value);
+    }
+  }
+
   return (
     <div
       role="radiogroup"
@@ -111,18 +157,29 @@ export function ThemeToggle() {
       // anything else in the header, which is all a group of three needs.
       // The selected option still carries a filled ground, so the state does
       // not depend on the frame that is gone.
+      onKeyDown={onKeyDown}
       className="inline-flex items-center gap-px"
     >
       {options.map((option) => {
         const active = mounted && choice === option.value;
+        // The roving tabindex, and the reason the group is ONE tab stop rather
+        // than three. Note it reads `choice` and not `active`: `active` is
+        // gated on mount so nothing renders as chosen before the stored
+        // preference is known, and hanging tabindex off that would give the
+        // server and the first client render two different tab orders.
+        const tabbable = choice === option.value;
         return (
           <button
             key={option.value}
+            ref={(el) => {
+              refs.current[option.value] = el;
+            }}
             type="button"
             role="radio"
             aria-checked={active}
             aria-label={option.label}
             title={option.label}
+            tabIndex={tabbable ? 0 : -1}
             onClick={() => select(option.value)}
             className={[
               "grid h-7 w-7 place-items-center rounded-sm transition-colors duration-[160ms]",
