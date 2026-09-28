@@ -84,11 +84,18 @@ function ColorDocs() {
       <section>
         <h2 className="font-display text-2xl tracking-[-0.015em] text-text-primary">The primitive ramps</h2>
         <p className="mt-2 mb-7 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
-          The palette starts from the logo. The mark is two mountains in #4f729a and #7297b7, and those two values are
-          anchor points in the blue ramp rather than colours used directly: blue-600 IS the deep peak, blue-400 sits
-          essentially on the light one. Neither can serve as a link colour on its own. The deep peak measures 4.83:1 on
-          cream and 3.85:1 on the dark ground; the light peak fails on cream outright. So the interactive roles are
-          taken from the steps either side, which is the normal relationship between a logo and a design system.
+          The palette starts from the logo. The mark is two mountains in #4f729a and #7297b7: blue-600 IS the deep peak,
+          blue-400 sits essentially on the light one. The deep peak is not an anchor the system works around, it is the
+          interactive colour. Every filled control, the focus ring and the mark itself are blue-600 in both themes,
+          one value, no light-dark() pair. It holds because a fill owes its contrast to its own label rather than to the
+          page: white on it is 5.00:1, and it clears 3.60:1 against the darkest surface it can land on.
+        </p>
+        <p className="mt-2 mb-7 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
+          Accent <em>text</em> is the exception, and it is arithmetic rather than preference. Text owes 4.5:1 to the page
+          behind it. Against paper that caps a colour&rsquo;s relative luminance at 0.183; against slate it demands at
+          least 0.263. No colour satisfies both, so no single blue can be a link on both grounds — blue-600 reaches only
+          3.82:1 as text on the dark page. A fill can be one colour. Text cannot. That is the whole rule, and it is why
+          exactly one accent role in this system still branches on theme.
         </p>
         <p className="mt-2 mb-7 max-w-[62ch] text-sm leading-relaxed text-text-secondary">
           Two neutral grounds, not one inverted. Paper is a near-neutral grey carrying a fifth of the warmth it started with; slate is the mark&rsquo;s own blue taken down to

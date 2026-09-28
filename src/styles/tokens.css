@@ -75,12 +75,17 @@
   --p-slate-1000: oklch(17.0% 0.042 254);
 
   /* Blue — the brand ramp. Step 600 IS the logo's deep peak (#4f729a) and
-     step 400 sits essentially on its light peak (#7297b7). Neither can serve
-     as a link colour on its own: the deep peak measures 4.83:1 on cream and
-     3.85:1 on the dark ground, and the light peak fails on cream outright.
-     So the brand values anchor the ramp and the interactive roles are taken
-     from the steps either side. That is the normal relationship between a
-     logo and a design system. */
+     step 400 sits essentially on its light peak (#7297b7).
+
+     blue-600 is not an anchor the system works around. It is the interactive
+     colour: every filled control, the focus ring and the mark are blue-600 in
+     both themes. A fill owes its contrast to its own label, and white on
+     blue-600 is 5.00:1 while the fill itself clears 3.60:1 against the darkest
+     surface it can land on.
+
+     It still cannot be a link, and neither can anything else: accent text owes
+     4.5:1 to the page, and the two grounds demand opposite directions. See
+     --text-accent for the arithmetic. A fill can be one colour; text cannot. */
   --p-blue-100: oklch(93.5% 0.022 250);
   --p-blue-200: oklch(87.5% 0.036 250);
   --p-blue-300: oklch(79.5% 0.050 249);
@@ -156,7 +161,19 @@
      too low. It was not: it measured 6.86:1, which is AAA. The cause was
      stroke weight, tracking and the flat band all-caps produces, none of which
      WCAG models. Fixing those made the second colour redundant, and a token
-     that resolves to the same value as another token is noise. */
+     that resolves to the same value as another token is noise.
+
+     This one stays a light-dark() pair, and it is the only accent role that
+     has to. The interactive FILL collapsed to a single blue because its
+     contrast obligation is to its own white label. Accent TEXT owes 4.5:1 to
+     the page behind it, and no colour on earth satisfies both directions at
+     once: against paper-25 that caps relative luminance at 0.183, against
+     slate-1000 it demands at least 0.263. There is no overlap. blue-600, which
+     serves every filled surface, reaches only 3.82:1 as text on the dark page.
+
+     So the rule the system now states plainly: a fill can be one colour, text
+     cannot. Anyone who tries to finish the job by making this constant too
+     will find the arithmetic, not an opinion. */
   --text-accent: light-dark(var(--p-blue-700), var(--p-blue-300));
 
   /* Borders */
@@ -206,11 +223,43 @@
      system that only documents the rules it passes is a brochure. */
   --border-interactive: light-dark(var(--p-blue-muted-light), var(--p-blue-muted-dark));
 
-  /* Interactive. The accent lightens in dark rather than darkening: chroma
-     that reads as confident on cream reads as murky on a dark ground. */
-  --interactive-default: light-dark(var(--p-blue-700), var(--p-blue-300));
-  --interactive-hover: light-dark(var(--p-blue-800), var(--p-blue-200));
-  --interactive-selected: light-dark(var(--p-blue-900), var(--p-blue-100));
+  /* Interactive. ONE blue, not two. This used to be a light-dark() pair, which
+     meant the primary button was a deep slate-blue on the light theme and a
+     pale blue on the dark one: the same control wearing two different colours,
+     so the identity flipped with the theme instead of surviving it.
+
+     A filled control can hold a single value because its contrast obligation
+     is to its own label, not to the page. blue-600 is the mark's own deep peak
+     and it clears every ground the button can land on:
+
+       white label on the fill   5.00:1
+       fill vs paper-0 (raised)  5.00:1
+       fill vs paper-25 (page)   4.62:1
+       fill vs slate-950 (raised) 3.60:1
+       fill vs slate-1000 (page) 3.82:1
+
+     Hover and pressed darken rather than lighten, in both themes, because
+     lightening costs the white label: blue-500 drops it to 3.94:1, under the
+     4.5 a 14px label needs. The cost lands at the other end, on the dark
+     theme, and it is real:
+
+                   label   vs paper-0   vs slate-950
+       rest         5.00      5.00          3.60
+       hover        7.46      7.46          2.41
+       pressed     10.90     10.90          1.65
+
+     Hover and pressed fall under the 3:1 non-text bar against the dark raised
+     surface, and pressed nearly matches it. Both are transient, pointer-
+     anchored states whose label is at 7.5:1 and 10.9:1, so the control is
+     never unidentifiable — it dims toward the ground for the moment it is
+     touched. The alternative was keeping hover theme-dependent, which would
+     have put the inversion back into the one part of the button a person is
+     actually looking at when they use it. Stated rather than hidden.
+
+     Note what this does NOT extend to: accent TEXT. See --text-accent. */
+  --interactive-default: var(--p-blue-600);
+  --interactive-hover: var(--p-blue-700);
+  --interactive-selected: var(--p-blue-800);
   --interactive-subtle: light-dark(var(--p-blue-subtle-light), var(--p-blue-subtle-dark));
   --interactive-subtle-hover: light-dark(
     var(--p-blue-subtle-light-hover),
@@ -220,7 +269,10 @@
     var(--p-blue-subtle-light-selected),
     var(--p-blue-subtle-dark-selected)
   );
-  --interactive-on: light-dark(var(--p-paper-0), var(--p-slate-1000));
+  /* White, in both themes, because the ground it sits on is now the same blue
+     in both themes. A label that flipped while its fill stayed put would be
+     the inversion problem moved one layer down. */
+  --interactive-on: var(--p-paper-0);
   /* A disabled control's fill. It used to borrow `surface-sunken`, which was
      fine until a disabled button landed on a sunken well and measured 1.00:1
      against it: the same value, so the control vanished completely. A control
@@ -229,15 +281,28 @@
      whatever is behind it. */
   --interactive-disabled: light-dark(var(--p-paper-100), var(--p-slate-900));
 
-  /* Focus — one ring, everywhere, never removed without a replacement */
-  --focus-ring: light-dark(var(--p-blue-700), var(--p-blue-300));
+  /* Focus — one ring, everywhere, never removed without a replacement. Now
+     literally one ring: blue-600 clears 3:1 against all four surfaces, so the
+     ring no longer changes colour when the theme does. */
+  --focus-ring: var(--p-blue-600);
 
-  /* The logo's two peaks. In light these are the brand values exactly. In
-     dark they lift a step up the ramp, because #4f729a against the dark
-     ground measures 3.85:1 and the mark would go soft. Reversed artwork is
-     normal brand practice; this is the same idea expressed as tokens. */
-  --mark-deep: light-dark(var(--p-blue-600), var(--p-blue-400));
-  --mark-light: light-dark(var(--p-blue-400), var(--p-blue-200));
+  /* The logo's two peaks, the brand values exactly, in both themes.
+
+     These used to lift a step in dark on the grounds that the deep peak "would
+     go soft". Measured rather than assumed, it does not: blue-600 reads 3.60:1
+     against the dark raised surface and 3.82:1 against the dark page, both over
+     the 3:1 a graphic needs. The lift was taste dressed as a requirement, and
+     it cost the thing that matters more — a mark that is the same colour
+     wherever a reader meets it.
+
+     The light peak measures 2.66:1 against white and does not clear 3:1 on the
+     light theme. That is fine and deliberate: it is the mark's internal tonal
+     division, not its silhouette. The deep peak carries the shape on every
+     ground, and 1.4.11 asks for the parts needed to understand the graphic,
+     not every part of it. A two-tone mark whose lighter half also had to clear
+     the bar would have no lighter half. */
+  --mark-deep: var(--p-blue-600);
+  --mark-light: var(--p-blue-400);
 
   /* Status */
   --status-success: light-dark(var(--p-success-700), var(--p-success-500));
