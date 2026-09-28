@@ -9,7 +9,13 @@ const elsewhere = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-32 border-t border-border-subtle">
+    // The same construction as the header: an opaque raised ground with a
+    // single hairline facing the page. The two of them bookend the document —
+    // the page is the sheet, these are the edges of it — and before this the
+    // footer sat on the page ground and simply trailed off, which made the end
+    // of the site feel like a page that had run out rather than one that had
+    // finished.
+    <footer className="mt-32 border-t border-border-subtle bg-surface-raised">
       <Container>
         <div className="flex flex-col gap-8 py-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -24,18 +30,33 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <ul className="flex gap-6">
-            {elsewhere.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className="font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary transition-colors duration-[160ms] hover:text-text-primary"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/* Wrapped in a nav and set at the header's link colour rather than
+              the tertiary these used to carry. Two reasons, and the second is
+              the real one: matching the header is the point, but tertiary is
+              the mono METADATA colour — dates, disciplines, the line about
+              Prosper below. These are links to somewhere else, and a link
+              wearing the metadata colour tells a reader it is a fact rather
+              than a door.
+
+              No `border-b-2` here, which the header links do carry. That
+              border exists there to reserve the two pixels the current-page
+              rule occupies, so nothing shifts when the section changes. These
+              go off-site and can never be current, so reserving space for a
+              state that cannot happen would be cargo cult. */}
+          <nav aria-label="Elsewhere">
+            <ul className="flex gap-6">
+              {elsewhere.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-secondary transition-colors duration-[160ms] hover:text-text-primary"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
         <div className="flex flex-col gap-2 border-t border-border-subtle py-6 font-mono text-xs text-text-tertiary sm:flex-row sm:justify-between">
