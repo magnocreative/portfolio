@@ -24,17 +24,18 @@ function applyTheme(choice: ThemeChoice) {
   }
 }
 
+// Light, dark, then system. The order used to put system first, which is the
+// order of importance — it is the default and the setting most visitors should
+// keep — but not the order anyone reads a control in. A three-state theme
+// switch is read as a spectrum: the two concrete choices, then the one that
+// says "decide for me". Every desktop OS that ships this control orders it the
+// same way, and a control that disagrees with the one in a person's system
+// settings costs them a moment working out what it is.
+//
+// This array is the single source of both the visual order and the arrow-key
+// order, because the radiogroup walks it directly. There is no second list to
+// keep in step.
 const options: { value: ThemeChoice; label: string; icon: React.ReactNode }[] = [
-  {
-    value: "system",
-    label: "Match system",
-    icon: (
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-        <rect x="2.5" y="3.5" width="15" height="10" rx="1.5" />
-        <path d="M7 16.5h6" strokeLinecap="round" />
-      </svg>
-    ),
-  },
   {
     value: "light",
     label: "Light",
@@ -54,6 +55,16 @@ const options: { value: ThemeChoice; label: string; icon: React.ReactNode }[] = 
     icon: (
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
         <path d="M16.3 11.6A6.9 6.9 0 018.4 3.7a6.9 6.9 0 107.9 7.9z" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    value: "system",
+    label: "Match system",
+    icon: (
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+        <rect x="2.5" y="3.5" width="15" height="10" rx="1.5" />
+        <path d="M7 16.5h6" strokeLinecap="round" />
       </svg>
     ),
   },
