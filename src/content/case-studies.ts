@@ -61,8 +61,14 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "sixteen-applications-one-blind-spot",
     title: "Sixteen applications, and no way to know when they'd break",
+    // The old version of this ended on the rejection: "Leadership said no, and
+    // they were right." Honest, but it made the case study about being
+    // gracefully overruled. The actual arc is better and was sitting one
+    // question away: he asked for the expensive fix, was told no, built the
+    // thing people had actually asked for, and it is still running years
+    // later. Ending on a verifiable fact beats ending on a good attitude.
     standfirst:
-      "Eighty-two people told me they didn't want better applications. They wanted to know when the ones they had would be down. I recommended one design language across all sixteen. Leadership said no, and they were right.",
+      "Eighty-two people told me they didn't want better applications. They wanted to know when the ones they had would be down. I recommended one design language across all sixteen; leadership said no, and they were right. What shipped instead is still in use.",
     disciplines: ["Enterprise UX", "Research", "Consolidation"],
     employer: "USAA",
     period: "2021",
