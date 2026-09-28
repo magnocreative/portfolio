@@ -173,7 +173,22 @@
      semantic work — link underlines and the marker dot — so it is held to
      the 3:1 non-text bar. */
   --border-strong: light-dark(var(--p-paper-500), var(--p-slate-600));
-  --border-rule: light-dark(var(--p-paper-950), var(--p-slate-300));
+  /* The line under a section heading. It was paper-950 / slate-300, which is
+     to say near-black on the light theme and near-white on the dark one: a bar
+     rather than a rule. A section divider is punctuation. It marks where one
+     part of the page stops, and at full contrast it competed with the heading
+     sitting on top of it and with the case study titles below.
+
+     Deliberately NOT paper-500 in the light theme, which would make this
+     resolve to the same value as border-strong. Two names for one colour is
+     the bug this system keeps deleting. The dark value is slate-500 rather
+     than a matching step down, because slate-600 and below disappear into the
+     ground: the dark theme needs more line, not less, to say the same thing.
+
+     No contrast bar governs this. It carries no meaning a reader would miss
+     if it vanished — the heading above it already says where the section
+     starts. */
+  --border-rule: light-dark(var(--p-paper-400), var(--p-slate-500));
   /* The edge of a filled-but-quiet control. It sits at roughly 1.9:1 against
      the surfaces behind it, under the 3:1 non-text bar, and the honest way to
      describe that is a trade rather than a pass.

@@ -45,7 +45,7 @@ export default function Home() {
           <section className="pt-32" aria-labelledby="work-heading">
             <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
-                <span id="work-heading">Selected work</span>
+                <span id="work-heading">Case studies</span>
               </Label>
               <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
                 {String(caseStudies.length).padStart(2, "0")}
@@ -80,7 +80,12 @@ export default function Home() {
                   screenshot. It&rsquo;s a system somebody else can inspect, use, and disagree with.
                 </p>
                 <div className="mt-7">
-                  <Button href="/system" variant="secondary" iconAfter={<ArrowRight />}>
+                  {/* Primary, and the only one on the page. The panel is the
+                      single thing the homepage asks a reviewer to go and read,
+                      so it gets the solid fill and nothing else competes for
+                      it. A second primary anywhere on this page would make
+                      both of them mean less. */}
+                  <Button href="/system" variant="primary" iconAfter={<ArrowRight />}>
                     Read the system
                   </Button>
                 </div>

@@ -21,7 +21,7 @@ const borders: AuditRow[] = [
   { token: "--border-subtle", note: "Row dividers" },
   { token: "--border-default", note: "Panel edges" },
   { token: "--border-strong", note: "Emphasis, markers" },
-  { token: "--border-rule", note: "Section rules — the heavy line" },
+  { token: "--border-rule", note: "Section rules — punctuation, not a bar" },
 ];
 
 function Section({
