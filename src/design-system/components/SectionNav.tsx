@@ -125,8 +125,22 @@ export function SectionNav({
                   "block font-mono text-xs font-medium uppercase tracking-[0.11em]",
                   "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
                   vertical ? "border-l-2 py-2 pl-4" : "whitespace-nowrap border-b-2 pb-3 pt-1",
+                  // Accent blue for the current section, matching the main nav
+                  // and the current breadcrumb, so "you are here" is one
+                  // treatment wherever it appears rather than three.
+                  //
+                  // The rule takes the same accent as the text. It was the
+                  // interactive blue while the text was primary, which put two
+                  // different blues against each other once the text turned;
+                  // `interactive` is the fill blue and `text-accent` is its
+                  // light/dark pair, and they are not the same value.
+                  //
+                  // Semibold as well, for the same reason it is on the other
+                  // two: the 2px rule already carries a non-color cue here, so
+                  // this is consistency rather than necessity, and monospace
+                  // means it costs no layout.
                   on
-                    ? "border-interactive text-text-primary"
+                    ? "border-text-accent font-semibold text-text-accent"
                     : "border-transparent text-text-secondary hover:border-border-strong hover:text-text-primary",
                 ].join(" ")}
               >

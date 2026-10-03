@@ -40,10 +40,20 @@ export default function About() {
 
       <main>
         <Container>
+          {/* The hero cap is 24ch, and 20ch is the trap. `text-balance` picks
+              the same break for 20, 22 and 24 — identical ink, 700px and 461px
+              — so by the loaded font they are indistinguishable and 20 looks
+              like the tidier number. Measured in the fallback it is not:
+              Newsreader is self-hosted and lands after first paint, and every
+              fallback serif sets this line wider, so at 20ch the hero renders
+              three lines on a cold load and snaps to two when the font
+              arrives. 24ch holds two lines in Newsreader and in ui-serif,
+              Georgia and the generic serif, at 870px against the 900px
+              measure. 26ch would clear the measure. */}
           <section className="pt-24 pb-4 md:pt-36">
             <Label>About</Label>
 
-            <h1 className="text-optical mt-10 max-w-[18ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl lg:text-5xl">
+            <h1 className="text-optical mt-10 max-w-[24ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl lg:text-5xl">
               Most of what I&rsquo;ve designed, you will never see.
             </h1>
 
