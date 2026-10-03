@@ -4,6 +4,7 @@ import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { SiteHeader } from "@/design-system/components/SiteHeader";
 import { SiteFooter } from "@/design-system/components/SiteFooter";
+import { Logo } from "@/design-system/brand/Logo";
 
 export const metadata: Metadata = {
   title: "About",
@@ -122,6 +123,76 @@ export default function About() {
                   </p>
                 </div>
               ))}
+            </div>
+          </section>
+        </Container>
+
+        {/* The mark */}
+        <Container>
+          <section className="pt-28" aria-labelledby="mark-heading">
+            <div className="border-b border-border-rule pb-4">
+              <Label as="h2" className="!text-text-primary">
+                <span id="mark-heading">The mark</span>
+              </Label>
+            </div>
+
+            {/* Deliberately NOT inside a raised panel. The ratios quoted below
+                are measured against the page ground, and putting the artwork on
+                a different surface would make a checkable claim quietly wrong.
+                This page is not the place to start asserting numbers. */}
+            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[15rem_1fr] lg:gap-16">
+              <div>
+                <Logo
+                  title="The Magno Creative mark"
+                  className="w-[180px] md:w-[220px] lg:w-full h-auto"
+                />
+                <dl className="mt-6 font-mono text-xs">
+                  {[
+                    ["--mark-deep", "#4e729a"],
+                    ["--mark-light", "#80a2c4"],
+                  ].map(([k, v]) => (
+                    <div key={k} className="flex justify-between gap-4 border-b border-border-subtle py-2">
+                      <dt className="text-text-tertiary">{k}</dt>
+                      <dd className="text-text-primary">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="flex max-w-measure flex-col gap-6 text-base leading-[1.7] text-text-secondary">
+                <p>
+                  Two peaks forming an M, the snowcaps cut as negative space. I&rsquo;m from the
+                  Pacific Northwest, and my middle name is Magno, which means great or large. The
+                  mountains were the obvious shape and they stuck.
+                </p>
+                <p>
+                  What makes it worth a section is what happened after it existed. The deep peak is{" "}
+                  <code className="font-mono text-sm text-text-primary">#4e729a</code>, and that is
+                  not a colour chosen to sit near the interface. It is{" "}
+                  <code className="font-mono text-sm text-text-primary">--interactive-default</code>{" "}
+                  itself: the one blue this site runs on, behind every button, every focus ring and
+                  every selected state. The dark theme was drawn from the mark rather than inverted
+                  from the light one, which is why the logo sits in it natively instead of being
+                  placed on top of something unrelated.
+                </p>
+                <p>
+                  Both fills are single values rather than a light pair and a dark pair, so the
+                  artwork above is identical in both themes while the ground underneath it changes.
+                  The deep peak measures 4.62:1 against paper and 3.82:1 against slate. Both clear
+                  the 3:1 bar a non-text element is held to, which is the whole reason one value can
+                  serve both themes. Switch your theme and watch the figures move while the hex
+                  column stays still.
+                </p>
+                <p className="text-text-primary">
+                  A mark that only appears in the corner of a page is decoration. This one produced
+                  the palette.
+                </p>
+                <div className="mt-2">
+                  <Button href="/system#contrast" variant="secondary" iconAfter={<ArrowRight />}>
+                    See it measured
+                  </Button>
+                </div>
+              </div>
             </div>
           </section>
         </Container>

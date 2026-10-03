@@ -2,13 +2,17 @@
  * The Magno Creative mark: two mountains forming an M, peaks left as negative
  * space.
  *
- * The two fills are tokens rather than the brand hex values, for one reason.
- * In light the tokens resolve to the brand colours exactly (#4f729a and
- * #7297b7). In dark they lift one step up the blue ramp, because the deep
- * peak against the dark ground measures 3.85:1 and the mark would go soft.
- * Reversed artwork is ordinary brand practice; this is that practice
- * expressed as tokens so it happens automatically rather than by remembering
- * to swap files.
+ * The two fills are tokens rather than literal hex values, and since the
+ * single-blue change they are single values rather than a light pair and a
+ * dark pair: --mark-deep paints #4e729a and --mark-light paints #80a2c4 in
+ * both themes. The artwork is therefore byte-identical everywhere while the
+ * contrast under it moves, 4.62:1 against paper and 3.82:1 against slate,
+ * both clearing the 3:1 bar a non-text element is held to.
+ *
+ * This comment used to say the fills lift one step up the ramp in dark. They
+ * did once. They stopped when --mark-deep was collapsed to one value, and the
+ * comment outlived the behaviour by a fortnight, which is the argument for
+ * measuring a token rather than trusting a note written next to it.
  */
 export function Logo({
   className = "",
