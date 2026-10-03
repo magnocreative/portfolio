@@ -456,7 +456,22 @@ export default function ComponentsPage() {
             {/* Rail in the right column, after the content in source order, so
                 keyboard and screen reader users meet the page before the list
                 of places they could go. */}
-            <div className="order-first mt-24 lg:order-none lg:mt-32">
+            {/* Desktop only. Below 1024 this stacked horizontally above the
+                content and ran 154 to 209px tall, which on a 390px phone put
+                the page title 59 to 66 percent of the way down the first
+                screen: the reader met a list of places they could go before
+                the page had said what it was.
+
+                A contents list earns that space on a wide screen, where it
+                sits in a column nothing else wanted and a reader arrives
+                wanting one specific part. On a phone there is no spare column,
+                and people scroll. Every section is still reachable; what is
+                gone is the index, not the content.
+
+                `hidden`, not a second layout. The horizontal variant still
+                exists in the component and in Storybook — it is simply not
+                what these pages want. */}
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

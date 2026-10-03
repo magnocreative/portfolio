@@ -86,7 +86,7 @@ export default function About() {
           </section>
 
         {/* The path here */}
-          <section id="short-version" className="scroll-mt-28 pt-32" aria-labelledby="path-heading">
+          <section id="short-version" className="scroll-mt-28 mt-32" aria-labelledby="path-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="path-heading">The short version</span>
@@ -120,7 +120,7 @@ export default function About() {
           </section>
 
         {/* The mark */}
-          <section id="mark" className="scroll-mt-28 pt-28" aria-labelledby="mark-heading">
+          <section id="mark" className="scroll-mt-28 mt-28" aria-labelledby="mark-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="mark-heading">The mark</span>
@@ -191,7 +191,7 @@ export default function About() {
           </section>
 
         {/* How I work */}
-          <section id="how-i-work" className="scroll-mt-28 pt-28" aria-labelledby="principles-heading">
+          <section id="how-i-work" className="scroll-mt-28 mt-28" aria-labelledby="principles-heading">
             <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="principles-heading">How I work</span>
@@ -219,7 +219,7 @@ export default function About() {
           </section>
 
         {/* What I'm after */}
-          <section id="interests" className="scroll-mt-28 pt-28" aria-labelledby="interest-heading">
+          <section id="interests" className="scroll-mt-28 mt-28" aria-labelledby="interest-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="interest-heading">What interests me</span>
@@ -251,7 +251,22 @@ export default function About() {
 
             {/* No `self-start`. Letting the grid item stretch is what gives the
                 sticky nav inside it a tall containing block to travel down. */}
-            <div className="order-first mt-24 lg:order-none lg:mt-32">
+            {/* Desktop only. Below 1024 this stacked horizontally above the
+                content and ran 154 to 209px tall, which on a 390px phone put
+                the page title 59 to 66 percent of the way down the first
+                screen: the reader met a list of places they could go before
+                the page had said what it was.
+
+                A contents list earns that space on a wide screen, where it
+                sits in a column nothing else wanted and a reader arrives
+                wanting one specific part. On a phone there is no spare column,
+                and people scroll. Every section is still reachable; what is
+                gone is the index, not the content.
+
+                `hidden`, not a second layout. The horizontal variant still
+                exists in the component and in Storybook — it is simply not
+                what these pages want. */}
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

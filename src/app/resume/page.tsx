@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 const experience = [
   {
     employer: "JPMorganChase",
+    id: "jpmorganchase",
     location: "Plano, Texas",
     roles: [
       {
@@ -43,6 +44,7 @@ const experience = [
   },
   {
     employer: "USAA",
+    id: "usaa",
     location: "San Antonio and Plano, Texas",
     roles: [
       {
@@ -59,6 +61,7 @@ const experience = [
   },
   {
     employer: "HCL Technologies",
+    id: "hcl",
     location: "On-site at USAA, San Antonio, Texas",
     roles: [
       {
@@ -136,8 +139,15 @@ function SectionHead({ id, children }: { id: string; children: React.ReactNode }
   );
 }
 
+// Built from `experience` rather than typed out beside it. A hand-kept copy
+// of this list is a second place to remember when an employer is added, and
+// the one that gets forgotten is always the nav.
 const contents = [
-  { id: "experience", label: "Experience" },
+  {
+    id: "experience",
+    label: "Experience",
+    children: experience.map((org) => ({ id: org.id, label: org.employer })),
+  },
   { id: "skills", label: "Skills" },
   { id: "education", label: "Education" },
 ];
@@ -209,12 +219,12 @@ export default function Resume() {
           </section>
 
         {/* Experience */}
-          <section id="experience" className="scroll-mt-28 pt-28" aria-labelledby="experience-heading">
+          <section id="experience" className="scroll-mt-28 mt-28" aria-labelledby="experience-heading">
             <SectionHead id="experience-heading">Experience</SectionHead>
 
             <div className="mt-10 flex flex-col gap-16">
               {experience.map((org) => (
-                <article key={org.employer}>
+                <article key={org.employer} id={org.id} className="scroll-mt-28">
                   <div className="flex max-w-measure flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                     <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                       {org.employer}
@@ -258,7 +268,7 @@ export default function Resume() {
           </section>
 
         {/* Skills */}
-          <section id="skills" className="scroll-mt-28 pt-28" aria-labelledby="skills-heading">
+          <section id="skills" className="scroll-mt-28 mt-28" aria-labelledby="skills-heading">
             <SectionHead id="skills-heading">Skills</SectionHead>
 
             <dl className="mt-10 flex flex-col gap-8">
@@ -276,7 +286,7 @@ export default function Resume() {
           </section>
 
         {/* Education */}
-          <section id="education" className="scroll-mt-28 pt-28" aria-labelledby="education-heading">
+          <section id="education" className="scroll-mt-28 mt-28" aria-labelledby="education-heading">
             <SectionHead id="education-heading">Education &amp; certification</SectionHead>
 
             <div className="mt-10 flex flex-col gap-8">
@@ -302,7 +312,22 @@ export default function Resume() {
 
             {/* No `self-start`. Letting the grid item stretch is what gives the
                 sticky nav inside it a tall containing block to travel down. */}
-            <div className="order-first mt-24 lg:order-none lg:mt-32">
+            {/* Desktop only. Below 1024 this stacked horizontally above the
+                content and ran 154 to 209px tall, which on a 390px phone put
+                the page title 59 to 66 percent of the way down the first
+                screen: the reader met a list of places they could go before
+                the page had said what it was.
+
+                A contents list earns that space on a wide screen, where it
+                sits in a column nothing else wanted and a reader arrives
+                wanting one specific part. On a phone there is no spare column,
+                and people scroll. Every section is still reachable; what is
+                gone is the index, not the content.
+
+                `hidden`, not a second layout. The horizontal variant still
+                exists in the component and in Storybook — it is simply not
+                what these pages want. */}
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>
