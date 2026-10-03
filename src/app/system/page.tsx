@@ -101,9 +101,9 @@ export default function SystemPage() {
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
             <div>
-              <section className="pt-24 pb-4 md:pt-32">
+              <section className="pt-24 pb-4 md:pt-36">
             <Label>The design system</Label>
-            <h1 className="text-optical mt-8 max-w-[15ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl xl:max-w-[24ch] lg:text-5xl">
+            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl xl:max-w-[24ch] lg:text-5xl">
               A system you can read, not a claim you have to take on trust.
             </h1>
             <div className="mt-10 flex max-w-[46rem] gap-6">

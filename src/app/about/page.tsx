@@ -43,7 +43,7 @@ export default function About() {
           <section className="pt-24 pb-4 md:pt-36">
             <Label>About</Label>
 
-            <h1 className="text-optical mt-10 max-w-[18ch] font-display text-4xl leading-[1.04] tracking-[-0.025em] text-text-primary text-balance md:text-5xl lg:text-6xl">
+            <h1 className="text-optical mt-10 max-w-[18ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl lg:text-5xl">
               Most of what I&rsquo;ve designed, you will never see.
             </h1>
 

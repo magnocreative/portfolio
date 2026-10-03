@@ -101,7 +101,7 @@ export default function ComponentsPage() {
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
             <div>
-              <section className="pt-24 pb-4 md:pt-32">
+              <section className="pt-24 pb-4 md:pt-36">
                 {/* The one page on this site deep enough to need a trail. The
                     top-level pages deliberately do not carry one: a breadcrumb
                     reading "Home / About" states what the nav already shows
@@ -116,7 +116,7 @@ export default function ComponentsPage() {
 
                 <Label className="mt-10">Components</Label>
 
-                <h1 className="text-optical mt-8 max-w-[15ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl xl:max-w-[24ch] lg:text-5xl">
+                <h1 className="text-optical mt-10 max-w-[15ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl xl:max-w-[24ch] lg:text-5xl">
                   Not screenshots of a system. The system, running.
                 </h1>
 

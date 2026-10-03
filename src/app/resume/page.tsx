@@ -146,7 +146,7 @@ export default function Resume() {
 
             {/* The name is the h1 here and nowhere else on the site. This page
                 is the document, so the document gets its title. */}
-            <h1 className="text-optical mt-10 font-display text-4xl leading-[1.05] tracking-[-0.025em] text-text-primary md:text-5xl">
+            <h1 className="text-optical mt-10 font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary md:text-4xl lg:text-5xl">
               Alejandro Magno Fernandini
             </h1>
 
