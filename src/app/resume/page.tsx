@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Label } from "@/design-system/primitives/Container";
+import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 
 export const metadata: Metadata = {
@@ -135,12 +136,25 @@ function SectionHead({ id, children }: { id: string; children: React.ReactNode }
   );
 }
 
+const contents = [
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "education", label: "Education" },
+];
+
 export default function Resume() {
   return (
     <>
 
       <main>
         <Container>
+          {/* One Container around a grid, rather than a Container per section.
+              The sticky contents nav needs a grid item that stretches the full
+              height of the content beside it; wrapping each section separately
+              gives it nothing to travel down and it scrolls away after the
+              first screen. Same sticky trap the /system page documents. */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
+            <div>
           <section className="pt-24 pb-4 md:pt-36">
             <Label>Résumé</Label>
 
@@ -193,11 +207,9 @@ export default function Resume() {
               </Button>
             </div>
           </section>
-        </Container>
 
         {/* Experience */}
-        <Container>
-          <section className="pt-28" aria-labelledby="experience-heading">
+          <section id="experience" className="scroll-mt-28 pt-28" aria-labelledby="experience-heading">
             <SectionHead id="experience-heading">Experience</SectionHead>
 
             <div className="mt-10 flex flex-col gap-16">
@@ -244,11 +256,9 @@ export default function Resume() {
               </div>
             </div>
           </section>
-        </Container>
 
         {/* Skills */}
-        <Container>
-          <section className="pt-28" aria-labelledby="skills-heading">
+          <section id="skills" className="scroll-mt-28 pt-28" aria-labelledby="skills-heading">
             <SectionHead id="skills-heading">Skills</SectionHead>
 
             <dl className="mt-10 flex flex-col gap-8">
@@ -264,11 +274,9 @@ export default function Resume() {
               ))}
             </dl>
           </section>
-        </Container>
 
         {/* Education */}
-        <Container>
-          <section className="pt-28" aria-labelledby="education-heading">
+          <section id="education" className="scroll-mt-28 pt-28" aria-labelledby="education-heading">
             <SectionHead id="education-heading">Education &amp; certification</SectionHead>
 
             <div className="mt-10 flex flex-col gap-8">
@@ -290,6 +298,14 @@ export default function Resume() {
               ))}
             </div>
           </section>
+            </div>
+
+            {/* No `self-start`. Letting the grid item stretch is what gives the
+                sticky nav inside it a tall containing block to travel down. */}
+            <div className="order-first mt-24 lg:order-none lg:mt-32">
+              <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
+            </div>
+          </div>
         </Container>
       </main>
     </>

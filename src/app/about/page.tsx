@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container, Label } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
+import { SectionNav } from "@/design-system/components/SectionNav";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
 
@@ -34,12 +35,29 @@ const principles = [
   },
 ];
 
+// The labels are the section headings verbatim. A contents list that
+// paraphrases is a second set of names to keep in step, and the one that drifts
+// is always the copy nobody is looking at.
+const contents = [
+  { id: "short-version", label: "The short version" },
+  { id: "mark", label: "The mark" },
+  { id: "how-i-work", label: "How I work" },
+  { id: "interests", label: "What interests me" },
+];
+
 export default function About() {
   return (
     <>
 
       <main>
         <Container>
+          {/* One Container around a grid, rather than a Container per section.
+              The sticky contents nav needs a grid item that stretches the full
+              height of the content beside it; wrapping each section separately
+              gives it nothing to travel down and it scrolls away after the
+              first screen. Same sticky trap the /system page documents. */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
+            <div>
           {/* The hero cap is 24ch, and 20ch is the trap. `text-balance` picks
               the same break for 20, 22 and 24 — identical ink, 700px and 461px
               — so by the loaded font they are indistinguishable and 20 looks
@@ -66,11 +84,9 @@ export default function About() {
               </p>
             </div>
           </section>
-        </Container>
 
         {/* The path here */}
-        <Container>
-          <section className="pt-32" aria-labelledby="path-heading">
+          <section id="short-version" className="scroll-mt-28 pt-32" aria-labelledby="path-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="path-heading">The short version</span>
@@ -102,11 +118,9 @@ export default function About() {
               </p>
             </div>
           </section>
-        </Container>
 
         {/* The mark */}
-        <Container>
-          <section className="pt-28" aria-labelledby="mark-heading">
+          <section id="mark" className="scroll-mt-28 pt-28" aria-labelledby="mark-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="mark-heading">The mark</span>
@@ -175,11 +189,9 @@ export default function About() {
               </div>
             </div>
           </section>
-        </Container>
 
         {/* How I work */}
-        <Container>
-          <section className="pt-28" aria-labelledby="principles-heading">
+          <section id="how-i-work" className="scroll-mt-28 pt-28" aria-labelledby="principles-heading">
             <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="principles-heading">How I work</span>
@@ -205,11 +217,9 @@ export default function About() {
               ))}
             </div>
           </section>
-        </Container>
 
         {/* What I'm after */}
-        <Container>
-          <section className="pt-28" aria-labelledby="interest-heading">
+          <section id="interests" className="scroll-mt-28 pt-28" aria-labelledby="interest-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="interest-heading">What interests me</span>
@@ -237,6 +247,14 @@ export default function About() {
               </Button>
             </div>
           </section>
+            </div>
+
+            {/* No `self-start`. Letting the grid item stretch is what gives the
+                sticky nav inside it a tall containing block to travel down. */}
+            <div className="order-first mt-24 lg:order-none lg:mt-32">
+              <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
+            </div>
+          </div>
         </Container>
       </main>
     </>
