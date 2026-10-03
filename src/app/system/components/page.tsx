@@ -129,7 +129,7 @@ export default function ComponentsPage() {
                     Every component below is the real one, rendered by this page, reading the same
                     tokens as everything else on the site. Change your theme and they all change with
                     it. Each sits next to the decision it embodies and what that decision cost,
-                    because a component library that only shows the happy state is a catalogue, not
+                    because a component library that only shows the happy state is a catalog, not
                     a system.
                   </p>
                 </div>
@@ -229,7 +229,7 @@ export default function ComponentsPage() {
                   passed it. For a while this also carried the radiogroup roles while behaving as
                   three separate tab stops with inert arrow keys, which announces &ldquo;one of
                   three&rdquo; and interacts as three of three. A static scan cannot see either of
-                  those, because both are behaviour.
+                  those, because both are behavior.
                 </Absent>
               </section>
 
@@ -425,7 +425,7 @@ export default function ComponentsPage() {
                 <Head
                   id="foundations"
                   title="Foundations"
-                  decision="Colour, type and spacing are not repeated here. They live on the system
+                  decision="Color, type and spacing are not repeated here. They live on the system
                   page with the contrast measured live in your browser, and duplicating them would
                   create a second source of truth that drifts from the first. A design system with
                   two swatch tables has a bug in it already."

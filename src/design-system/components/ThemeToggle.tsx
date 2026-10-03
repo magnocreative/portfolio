@@ -83,8 +83,8 @@ const options: { value: ThemeChoice; label: string; icon: React.ReactNode }[] = 
  *
  * axe passed it the whole time, which is the point worth keeping. The roles
  * were present and correctly nested, and that is all a static scan can check.
- * Whether the keys a role implies actually do anything is behaviour, and
- * behaviour is not a thing a linter sees. Same lesson as the theme chip whose
+ * Whether the keys a role implies actually do anything is behavior, and
+ * behavior is not a thing a linter sees. Same lesson as the theme chip whose
  * selected state was invisible and measured clean.
  */
 export function ThemeToggle() {
@@ -195,7 +195,7 @@ export function ThemeToggle() {
               // ground, was built and measured and rejected. The tint reached
               // 1.17:1 against the header and the accent icon landed at
               // 1.17:1 against the unselected icons: same lightness, only the
-              // hue apart. Selection would have rested on colour alone, which
+              // hue apart. Selection would have rested on color alone, which
               // is exactly what WCAG 1.4.1 rules out, and axe passed it
               // clean — a state being invisible is not a thing axe can see.
               active

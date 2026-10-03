@@ -20,15 +20,15 @@ export const metadata: Metadata = {
 const principles = [
   {
     title: "Build it rather than describe it",
-    body: "A static mockup asks engineering to imagine the behaviour. A coded prototype shows them. I replaced our static prototypes with coded ones, built the component workflow and the specification format around them, and set up the team’s first version-controlled workspace. The cost is real: the first pass is slower, and a prototype left to drift out of date is worse than no prototype at all. It buys something worth more, which is that the argument stops being about whether a thing will work.",
+    body: "A static mockup asks engineering to imagine the behavior. A coded prototype shows them. I replaced our static prototypes with coded ones, built the component workflow and the specification format around them, and set up the team’s first version-controlled workspace. The cost is real: the first pass is slower, and a prototype left to drift out of date is worse than no prototype at all. It buys something worth more, which is that the argument stops being about whether a thing will work.",
   },
   {
     title: "Grayscale first",
-    body: "When the self-service portal went in front of four lines of business, the first version had no colour in it anywhere. People argue about what they can see, and colour is the easiest thing to see. Take it away and the conversation moves to structure, which is the part that is expensive to change later. The cost is that some reviewers read grayscale as unfinished, so you have to say out loud why it looks that way, every time, until the habit sets.",
+    body: "When the self-service portal went in front of four lines of business, the first version had no color in it anywhere. People argue about what they can see, and color is the easiest thing to see. Take it away and the conversation moves to structure, which is the part that is expensive to change later. The cost is that some reviewers read grayscale as unfinished, so you have to say out loud why it looks that way, every time, until the habit sets.",
   },
   {
     title: "Measure, then look",
-    body: "Every colour on this site is measured rather than asserted, and the measurements are published on the design system page. It still is not sufficient. Twice the numbers came back clean on type that was clearly too faint, because a contrast ratio models none of stroke weight, letterspacing, or what all-caps does to a line of text. Measurement catches what the eye misses. The eye catches what the standard does not model. Skipping either one ships something broken.",
+    body: "Every color on this site is measured rather than asserted, and the measurements are published on the design system page. It still is not sufficient. Twice the numbers came back clean on type that was clearly too faint, because a contrast ratio models none of stroke weight, letterspacing, or what all-caps does to a line of text. Measurement catches what the eye misses. The eye catches what the standard does not model. Skipping either one ships something broken.",
   },
   {
     title: "Adoption is its own design problem",
@@ -97,36 +97,6 @@ export default function About() {
           </section>
         </Container>
 
-        {/* How I work */}
-        <Container>
-          <section className="pt-28" aria-labelledby="principles-heading">
-            <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="principles-heading">How I work</span>
-              </Label>
-              <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
-                {String(principles.length).padStart(2, "0")}
-              </span>
-            </div>
-
-            {/* One column at the 900px measure, matching the decisions section
-                on /system. Two columns were tried there and read as a comparison
-                between items that are not alternatives to each other. */}
-            <div className="mt-10 flex flex-col gap-10">
-              {principles.map((principle) => (
-                <div key={principle.title}>
-                  <h3 className="max-w-measure font-display text-xl leading-[1.25] tracking-[-0.012em] text-text-primary">
-                    {principle.title}
-                  </h3>
-                  <p className="mt-3 max-w-measure text-base leading-[1.7] text-text-secondary">
-                    {principle.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </Container>
-
         {/* The mark */}
         <Container>
           <section className="pt-28" aria-labelledby="mark-heading">
@@ -136,11 +106,14 @@ export default function About() {
               </Label>
             </div>
 
-            {/* Deliberately NOT inside a raised panel. The ratios quoted below
-                are measured against the page ground, and putting the artwork on
-                a different surface would make a checkable claim quietly wrong.
-                This page is not the place to start asserting numbers. */}
-            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[15rem_1fr] lg:gap-16">
+            {/* The figures in the copy are measured against THIS panel, not
+                against the page. Raised resolves to pure white in light and one
+                step up from the page in dark, which moves both numbers: the deep
+                peak reads 5.00:1 here against 4.62:1 on the page ground, and
+                3.60:1 here against 3.82:1. Re-measured when the panel was added
+                rather than carried over, because a ratio quoted against the
+                wrong surface is just a number somebody made up. */}
+            <div className="mt-10 grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[15rem_1fr] lg:gap-16">
               <div>
                 <Logo
                   title="The Magno Creative mark"
@@ -168,7 +141,7 @@ export default function About() {
                 <p>
                   What makes it worth a section is what happened after it existed. The deep peak is{" "}
                   <code className="font-mono text-sm text-text-primary">#4e729a</code>, and that is
-                  not a colour chosen to sit near the interface. It is{" "}
+                  not a color chosen to sit near the interface. It is{" "}
                   <code className="font-mono text-sm text-text-primary">--interactive-default</code>{" "}
                   itself: the one blue this site runs on, behind every button, every focus ring and
                   every selected state. The dark theme was drawn from the mark rather than inverted
@@ -177,11 +150,11 @@ export default function About() {
                 </p>
                 <p>
                   Both fills are single values rather than a light pair and a dark pair, so the
-                  artwork above is identical in both themes while the ground underneath it changes.
-                  The deep peak measures 4.62:1 against paper and 3.82:1 against slate. Both clear
+                  artwork is identical in both themes while the surface under it changes. Against
+                  this panel the deep peak measures 5.00:1 in light and 3.60:1 in dark. Both clear
                   the 3:1 bar a non-text element is held to, which is the whole reason one value can
-                  serve both themes. Switch your theme and watch the figures move while the hex
-                  column stays still.
+                  serve both themes at all. Switch your theme: everything behind the mark moves and
+                  the hex column does not.
                 </p>
                 <p className="text-text-primary">
                   A mark that only appears in the corner of a page is decoration. This one produced
@@ -193,6 +166,36 @@ export default function About() {
                   </Button>
                 </div>
               </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* How I work */}
+        <Container>
+          <section className="pt-28" aria-labelledby="principles-heading">
+            <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
+              <Label as="h2" className="!text-text-primary">
+                <span id="principles-heading">How I work</span>
+              </Label>
+              <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
+                {String(principles.length).padStart(2, "0")}
+              </span>
+            </div>
+
+            {/* One column at the 900px measure, matching the decisions section
+                on /system. Two columns were tried there and read as a comparison
+                between items that are not alternatives to each other. */}
+            <div className="mt-10 flex flex-col gap-10">
+              {principles.map((principle) => (
+                <div key={principle.title}>
+                  <h3 className="max-w-measure font-display text-xl leading-[1.25] tracking-[-0.012em] text-text-primary">
+                    {principle.title}
+                  </h3>
+                  <p className="mt-3 max-w-measure text-base leading-[1.7] text-text-secondary">
+                    {principle.body}
+                  </p>
+                </div>
+              ))}
             </div>
           </section>
         </Container>

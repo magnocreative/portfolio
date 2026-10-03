@@ -7,7 +7,7 @@
 
   2. A square viewBox. The artboard is 270x203, and dropped into a square
      favicon slot a 4:3 mark renders at 75% of the height available to it. The
-     300x300 box with the mark centred lets it fill the width, which is what
+     300x300 box with the mark centered lets it fill the width, which is what
      makes it survive 16px.
 
   3. It lifts on dark chrome, and ONLY here. The site's mark is one value in

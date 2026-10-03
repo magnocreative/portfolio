@@ -67,7 +67,7 @@ const tiers = [
 const decisions = [
   {
     title: "Two ramps, not one inverted",
-    body: "Light is paper, a near-neutral grey with just enough warmth left in it to not read as grey. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Paper began five times warmer, a proper cream, and it was lovely until a cool blue fill sat on it: warm ground against cool tint is a complementary clash, and a tint that faint loses that argument every time. The lightness of every step is untouched, so no contrast figure on this page moved. Only the amount of hue did.",
+    body: "Light is paper, a near-neutral gray with just enough warmth left in it to not read as gray. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Paper began five times warmer, a proper cream, and it was lovely until a cool blue fill sat on it: warm ground against cool tint is a complementary clash, and a tint that faint loses that argument every time. The lightness of every step is untouched, so no contrast figure on this page moved. Only the amount of hue did.",
   },
   {
     title: "Both themes stated in one declaration",
@@ -129,7 +129,7 @@ export default function SystemPage() {
             <div className="mt-8 max-w-measure">
               <p className="text-base text-text-secondary">
                 The order is the whole point. A component that reaches past the semantic tier into a raw value is a
-                component that will not follow a retheme, and will not be found until someone notices the wrong grey in
+                component that will not follow a retheme, and will not be found until someone notices the wrong gray in
                 a screenshot months later.
               </p>
             </div>

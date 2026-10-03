@@ -12,9 +12,9 @@
 
    The palette starts from the logo, not the other way round. The mark is two
    mountains in #4f729a and #7297b7, and those two values are anchor points in
-   the blue ramp below rather than colours used directly.
+   the blue ramp below rather than colors used directly.
 
-   Light is paper: a near-neutral warm grey, the register of a well-set page.
+   Light is paper: a near-neutral warm gray, the register of a well-set page.
    Dark is
    slate: the mark's own deep blue, so the logo sits natively in it instead of
    being placed on top of something unrelated. Two grounds, one set of roles.
@@ -24,18 +24,18 @@
    1. PRIMITIVES
    OKLCH keeps lightness perceptually uniform across hues, so paper-600 and
    blue-600 carry the same visual weight. That is what makes contrast
-   predictable instead of hand-tuned per colour.
+   predictable instead of hand-tuned per color.
    --------------------------------------------------------------------------- */
 
 :root {
-  /* Paper — near-neutral warm greys for the light theme.
+  /* Paper — near-neutral warm grays for the light theme.
      This ramp started at five times the chroma it carries now, a proper cream
      at #F9F5EF. It read beautifully on its own and fought the moment a blue
      tint sat on it: warm ground against cool fill is a complementary clash,
      and the secondary button's tint is too faint to win that argument. The
      lightness of every step is untouched, so nothing in the contrast model
      moved. Only the amount of hue did, down to a fifth, which is enough to
-     keep the ground from reading as grey without it reading as yellow. */
+     keep the ground from reading as gray without it reading as yellow. */
   --p-paper-0: oklch(100% 0 0);
   /* The value for a card with no border, where the step off the page is the
      only thing saying the card is there: 1.063:1 against 97.2%, where pure
@@ -61,7 +61,7 @@
      Bottoms out at 17% lightness rather than the ~10% a dark theme usually
      reaches for. At 10% sRGB has almost no room for chroma, so a hue
      specified down there renders as black however much saturation it
-     carries. Raising the ground is what makes the colour visible. */
+     carries. Raising the ground is what makes the color visible. */
   --p-slate-100: oklch(94.4% 0.010 250);
   --p-slate-200: oklch(88.8% 0.016 250);
   --p-slate-300: oklch(81.2% 0.024 249);
@@ -78,14 +78,14 @@
      step 400 sits essentially on its light peak (#7297b7).
 
      blue-600 is not an anchor the system works around. It is the interactive
-     colour: every filled control, the focus ring and the mark are blue-600 in
+     color: every filled control, the focus ring and the mark are blue-600 in
      both themes. A fill owes its contrast to its own label, and white on
      blue-600 is 5.00:1 while the fill itself clears 3.60:1 against the darkest
      surface it can land on.
 
      It still cannot be a link, and neither can anything else: accent text owes
      4.5:1 to the page, and the two grounds demand opposite directions. See
-     --text-accent for the arithmetic. A fill can be one colour; text cannot. */
+     --text-accent for the arithmetic. A fill can be one color; text cannot. */
   --p-blue-100: oklch(93.5% 0.022 250);
   --p-blue-200: oklch(87.5% 0.036 250);
   --p-blue-300: oklch(79.5% 0.050 249);
@@ -160,18 +160,18 @@
      deeper role, on the theory that it read washed out because the ratio was
      too low. It was not: it measured 6.86:1, which is AAA. The cause was
      stroke weight, tracking and the flat band all-caps produces, none of which
-     WCAG models. Fixing those made the second colour redundant, and a token
+     WCAG models. Fixing those made the second color redundant, and a token
      that resolves to the same value as another token is noise.
 
      This one stays a light-dark() pair, and it is the only accent role that
      has to. The interactive FILL collapsed to a single blue because its
      contrast obligation is to its own white label. Accent TEXT owes 4.5:1 to
-     the page behind it, and no colour on earth satisfies both directions at
+     the page behind it, and no color on earth satisfies both directions at
      once: against paper-25 that caps relative luminance at 0.183, against
      slate-1000 it demands at least 0.263. There is no overlap. blue-600, which
      serves every filled surface, reaches only 3.82:1 as text on the dark page.
 
-     So the rule the system now states plainly: a fill can be one colour, text
+     So the rule the system now states plainly: a fill can be one color, text
      cannot. Anyone who tries to finish the job by making this constant too
      will find the arithmetic, not an opinion. */
   --text-accent: light-dark(var(--p-blue-700), var(--p-blue-300));
@@ -197,7 +197,7 @@
      sitting on top of it and with the case study titles below.
 
      Deliberately NOT paper-500 in the light theme, which would make this
-     resolve to the same value as border-strong. Two names for one colour is
+     resolve to the same value as border-strong. Two names for one color is
      the bug this system keeps deleting. The dark value is slate-500 rather
      than a matching step down, because slate-600 and below disappear into the
      ground: the dark theme needs more line, not less, to say the same thing.
@@ -225,7 +225,7 @@
 
   /* Interactive. ONE blue, not two. This used to be a light-dark() pair, which
      meant the primary button was a deep slate-blue on the light theme and a
-     pale blue on the dark one: the same control wearing two different colours,
+     pale blue on the dark one: the same control wearing two different colors,
      so the identity flipped with the theme instead of surviving it.
 
      A filled control can hold a single value because its contrast obligation
@@ -283,7 +283,7 @@
 
   /* Focus — one ring, everywhere, never removed without a replacement. Now
      literally one ring: blue-600 clears 3:1 against all four surfaces, so the
-     ring no longer changes colour when the theme does. */
+     ring no longer changes color when the theme does. */
   --focus-ring: var(--p-blue-600);
 
   /* The logo's two peaks, the brand values exactly, in both themes.
@@ -292,7 +292,7 @@
      go soft". Measured rather than assumed, it does not: blue-600 reads 3.60:1
      against the dark raised surface and 3.82:1 against the dark page, both over
      the 3:1 a graphic needs. The lift was taste dressed as a requirement, and
-     it cost the thing that matters more — a mark that is the same colour
+     it cost the thing that matters more — a mark that is the same color
      wherever a reader meets it.
 
      The light peak measures 2.66:1 against white and does not clear 3:1 on the
@@ -384,7 +384,7 @@
      mono read small enough to be a complaint and 12 against 13 is a
      distinction nobody perceives anyway. They stay on the scale so a future
      dense surface has somewhere defined to go instead of inventing a raw
-     value. Same rule as the colour ramps: a scale may carry unused steps, a
+     value. Same rule as the color ramps: a scale may carry unused steps, a
      semantic role may not.
 
      Both carry more tracking than the steps above them. Small type needs the

@@ -18,7 +18,7 @@ import { Logo } from "@/design-system/brand/Logo";
 // accent branch overrode the current branch, leaving the one item whose
 // selected state was weaker than everyone else's.
 //
-// Colour in this nav now means one thing — you are here — and nothing borrows
+// Color in this nav now means one thing — you are here — and nothing borrows
 // it for emphasis. Résumé does not need the help. It is the last item, it is
 // named the thing people are looking for, and this site argues for restraint
 // everywhere else.
@@ -87,13 +87,13 @@ export function SiteHeader() {
                         // else, and neither one is doing the other's job.
                         aria-current={current ? "page" : undefined}
                         // The rule is the same signal Tabs uses for a selected
-                        // tab: a line under the label, never a fill. Colour
+                        // tab: a line under the label, never a fill. Color
                         // alone would not have worked here — hover already
                         // takes a link to text-primary, so a selected item and
                         // a hovered one would have been indistinguishable.
                         //
                         // Every item carries the border at all times and only
-                        // the colour changes, so nothing shifts by two pixels
+                        // the color changes, so nothing shifts by two pixels
                         // when the section changes.
                         className={`border-b-2 pb-1 font-mono text-xs font-medium uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
                           current

@@ -81,7 +81,7 @@ function ColorDocs() {
       <Section
         title="Interactive fills"
         kind="nontext"
-        intro="Judged at the 3:1 non-text bar, not the 4.5:1 text one, because a filled control owes its contrast to its own label rather than to the page behind it. That distinction is the whole reason these can be single values: --interactive-default is blue-600 in both themes, with a white label in both, and white on it measures 5.00:1. Flip the theme and watch the hex column stay put while the ratios move: same colours, different grounds. That is the whole change, visible in one table.\n\nThe ratios here are measured against the page. On the dark theme hover reads 2.56:1 and pressed 1.75:1 — 2.41:1 and 1.65:1 against a raised surface — and the audit marks both DECORATIVE, correctly. They are transient, pointer-anchored states carrying labels at 7.46:1 and 10.90:1, so the control never becomes unfindable; it dims toward the ground while touched. Lightening them instead would cost the white label, which is the one number that cannot move. Shown failing rather than quietly left out of the table."
+        intro="Judged at the 3:1 non-text bar, not the 4.5:1 text one, because a filled control owes its contrast to its own label rather than to the page behind it. That distinction is the whole reason these can be single values: --interactive-default is blue-600 in both themes, with a white label in both, and white on it measures 5.00:1. Flip the theme and watch the hex column stay put while the ratios move: same colors, different grounds. That is the whole change, visible in one table.\n\nThe ratios here are measured against the page. On the dark theme hover reads 2.56:1 and pressed 1.75:1 — 2.41:1 and 1.65:1 against a raised surface — and the audit marks both DECORATIVE, correctly. They are transient, pointer-anchored states carrying labels at 7.46:1 and 10.90:1, so the control never becomes unfindable; it dims toward the ground while touched. Lightening them instead would cost the white label, which is the one number that cannot move. Shown failing rather than quietly left out of the table."
         rows={interactiveRoles}
       />
       <Section
@@ -102,25 +102,25 @@ function ColorDocs() {
         <p className="mt-2 mb-7 max-w-measure text-sm leading-relaxed text-text-secondary">
           The palette starts from the logo. The mark is two mountains in #4f729a and #7297b7: blue-600 IS the deep peak,
           blue-400 sits essentially on the light one. The deep peak is not an anchor the system works around, it is the
-          interactive colour. Every filled control, the focus ring and the mark itself are blue-600 in both themes,
+          interactive color. Every filled control, the focus ring and the mark itself are blue-600 in both themes,
           one value, no light-dark() pair. It holds because a fill owes its contrast to its own label rather than to the
           page: white on it is 5.00:1, and it clears 3.60:1 against the darkest surface it can land on.
         </p>
         <p className="mt-2 mb-7 max-w-measure text-sm leading-relaxed text-text-secondary">
           Accent <em>text</em> is the exception, and it is arithmetic rather than preference. Text owes 4.5:1 to the page
-          behind it. Against paper that caps a colour&rsquo;s relative luminance at 0.183; against slate it demands at
-          least 0.263. No colour satisfies both, so no single blue can be a link on both grounds — blue-600 reaches only
-          3.82:1 as text on the dark page. A fill can be one colour. Text cannot. That is the whole rule, and it is why
+          behind it. Against paper that caps a color&rsquo;s relative luminance at 0.183; against slate it demands at
+          least 0.263. No color satisfies both, so no single blue can be a link on both grounds — blue-600 reaches only
+          3.82:1 as text on the dark page. A fill can be one color. Text cannot. That is the whole rule, and it is why
           exactly one accent role in this system still branches on theme.
         </p>
         <p className="mt-2 mb-7 max-w-measure text-sm leading-relaxed text-text-secondary">
-          Two neutral grounds, not one inverted. Paper is a near-neutral grey carrying a fifth of the warmth it started with; slate is the mark&rsquo;s own blue taken down to
+          Two neutral grounds, not one inverted. Paper is a near-neutral gray carrying a fifth of the warmth it started with; slate is the mark&rsquo;s own blue taken down to
           a ground, so the logo sits natively in dark instead of being placed on top of something unrelated. Slate
           bottoms out at 17% lightness rather than the ~10% a dark theme usually reaches for, because at 10% sRGB has
           almost no room for chroma and a hue specified down there renders as black however much saturation it carries.
           No component references any of these directly. Only the semantic roles above do.
         </p>
-        <Ramp label="Paper — near-neutral warm grey, light theme" prefix="paper" steps={[0, 5, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+        <Ramp label="Paper — near-neutral warm gray, light theme" prefix="paper" steps={[0, 5, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
         <Ramp label="Slate — the mark's blue as a ground, dark theme" prefix="slate" steps={[100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]} />
         <Ramp label="Blue — the brand ramp, anchored on the logo, serves both themes" prefix="blue" steps={[100, 200, 300, 400, 500, 600, 700, 800, 900]} />
       </section>

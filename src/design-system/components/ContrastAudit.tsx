@@ -23,7 +23,7 @@ type Measured = AuditRow & { hex: string; ratio: number; verdict: Level };
  * The chip gets an edge, not a darker fill.
  *
  * A tint on a 97.2% page cannot carry its own shape by luminance alone: even
- * pushing the fill until it starts reading as a grey box only reached 1.15:1,
+ * pushing the fill until it starts reading as a gray box only reached 1.15:1,
  * which is still not a visible boundary. A hairline solves it at a contrast
  * the eye actually registers, and leaves the fill light enough that the text
  * inside it keeps its own ratio.

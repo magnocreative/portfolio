@@ -79,7 +79,7 @@ export const TheIndex: Story = {
     docs: {
       description: {
         story:
-          "All four in the real grid. The grid is the story: `h-full` plus `mt-auto` on the card footer only does its job inside a stretching grid row, so two cards side by side share a height whatever their copy length. Rendered in plain flow — as this story used to be — the cards collapse to their content and the equal-height behaviour the component is built for disappears.",
+          "All four in the real grid. The grid is the story: `h-full` plus `mt-auto` on the card footer only does its job inside a stretching grid row, so two cards side by side share a height whatever their copy length. Rendered in plain flow — as this story used to be — the cards collapse to their content and the equal-height behavior the component is built for disappears.",
       },
     },
   },

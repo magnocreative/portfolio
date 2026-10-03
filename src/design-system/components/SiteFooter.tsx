@@ -30,12 +30,12 @@ export function SiteFooter() {
             </a>
           </div>
 
-          {/* Wrapped in a nav and set at the header's link colour rather than
+          {/* Wrapped in a nav and set at the header's link color rather than
               the tertiary these used to carry. Two reasons, and the second is
               the real one: matching the header is the point, but tertiary is
-              the mono METADATA colour — dates, disciplines, the line about
+              the mono METADATA color — dates, disciplines, the line about
               the location line below. These are links to somewhere else, and a link
-              wearing the metadata colour tells a reader it is a fact rather
+              wearing the metadata color tells a reader it is a fact rather
               than a door.
 
               No `border-b-2` here, which the header links do carry. That

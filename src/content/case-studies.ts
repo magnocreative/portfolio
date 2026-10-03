@@ -32,7 +32,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "self-serve-instead-of-a-request-queue",
     title: "Replacing a request queue with a portal people can use themselves",
     standfirst:
-      "Four lines of business, each asking for platform changes a different way. I built the prototype in grayscale first, so the people reviewing it argued about structure instead of colour.",
+      "Four lines of business, each asking for platform changes a different way. I built the prototype in grayscale first, so the people reviewing it argued about structure instead of color.",
     disciplines: ["Prototyping", "Discovery", "Documentation"],
     employer: "JPMorganChase",
     period: "2025 to now",

@@ -14,7 +14,7 @@ export type Section = { id: string; label: string };
  * choose it: nothing is hidden from Cmd+F, from print, from search, or from a
  * reviewer skimming in forty seconds. Wiring anchors into `role="tablist"`
  * would announce `aria-selected` for something nobody selected and hand a
- * keyboard user arrow-key behaviour no link has ever had.
+ * keyboard user arrow-key behavior no link has ever had.
  *
  * So it is a labelled nav around an ordered list of anchors, and the current
  * section carries `aria-current`. Plain, and correct for what it does.

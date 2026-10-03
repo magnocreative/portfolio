@@ -72,7 +72,7 @@ export const States: Story = {
     tabs: [
       { id: "a", label: "Selected", content: <Panel title="Selected" body="The active tab carries the rule and the full-strength label." /> },
       { id: "b", label: "Rest", content: <Panel title="Rest" body="Inactive tabs sit at the secondary text weight." /> },
-      { id: "c", label: "Hover me", content: <Panel title="Hover" body="Hover lifts the label to full strength and shows a grey rule." /> },
+      { id: "c", label: "Hover me", content: <Panel title="Hover" body="Hover lifts the label to full strength and shows a gray rule." /> },
       { id: "d", label: "Disabled", disabled: true, content: <Panel title="Disabled" body="Never reachable." /> },
     ],
   },
@@ -80,7 +80,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Four states, measured. Selected is 18.28:1 in light with a 4.62:1 rule beneath it — the rule is the interactive blue, which is now a single value in both themes rather than a per-theme pair, so it measures 4.62:1 on the light page and 3.82:1 on the dark one instead of two unrelated numbers. Rest is 8.85:1 and lifts to 18.28:1 on hover, which also brings in a grey rule so the hover previews the shape selection will take. Disabled is 5.87:1, drawn in an explicit colour rather than dimmed with opacity, because an opacity-dimmed label has a ratio that depends on whatever happens to be behind it. Disabled is also skipped by the arrow keys, not merely styled as unavailable, which is the part that separates a real disabled state from a grey one.",
+          "Four states, measured. Selected is 18.28:1 in light with a 4.62:1 rule beneath it — the rule is the interactive blue, which is now a single value in both themes rather than a per-theme pair, so it measures 4.62:1 on the light page and 3.82:1 on the dark one instead of two unrelated numbers. Rest is 8.85:1 and lifts to 18.28:1 on hover, which also brings in a gray rule so the hover previews the shape selection will take. Disabled is 5.87:1, drawn in an explicit color rather than dimmed with opacity, because an opacity-dimmed label has a ratio that depends on whatever happens to be behind it. Disabled is also skipped by the arrow keys, not merely styled as unavailable, which is the part that separates a real disabled state from a gray one.",
       },
     },
   },

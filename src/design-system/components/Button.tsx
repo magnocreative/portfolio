@@ -40,7 +40,7 @@ export type ButtonProps = AsLink | AsButton;
  * distinction is not cosmetic. A link navigates and belongs in the tab order
  * as a link; a button performs an action and responds to Space as well as
  * Enter. Styling one to look like the other is fine. Using the wrong element
- * breaks keyboard behaviour and lies to a screen reader, and it is the single
+ * breaks keyboard behavior and lies to a screen reader, and it is the single
  * most common defect in a hand-rolled button component.
  *
  * The label is Inter at 14px, not the mono uppercase the rest of the interface
@@ -74,7 +74,7 @@ const shapes: Record<ButtonShape, string> = {
  *
  * Only the secondary variant carries a visible edge, and only because a tint
  * that faint cannot hold a shape on its own. Primary does not need one; it is
- * a solid block of colour. Tertiary should not have one; it is text.
+ * a solid block of color. Tertiary should not have one; it is text.
  */
 const variants: Record<ButtonVariant, string> = {
   // Solid. The loudest object available, so it should be rare on a page.
@@ -110,10 +110,10 @@ const selectedStyles: Record<ButtonVariant, string> = {
     "bg-transparent text-text-accent border border-transparent underline underline-offset-[0.3em] decoration-2",
 };
 
-// Explicit colours rather than opacity. An opacity-dimmed button has a
+// Explicit colors rather than opacity. An opacity-dimmed button has a
 // contrast ratio nobody can predict, because it depends on whatever happens to
 // be behind it. These are measurable. It stays a fill, like the other two, so
-// disabled reads as the same object drained of colour rather than a different
+// disabled reads as the same object drained of color rather than a different
 // kind of control.
 const disabledStyles =
   "bg-interactive-disabled text-text-tertiary border border-transparent cursor-not-allowed";

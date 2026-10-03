@@ -126,7 +126,7 @@ export const States: Story = {
         The first item is current and carries the rule at 4.62:1 with a label at 18.28:1. That rule is
         the interactive blue, one value in both themes, so it reads 4.62:1 on the light page and
         3.82:1 on the dark one rather than two unrelated numbers. The rest
-        sit at 8.85:1 and lift to 18.28:1 on hover, bringing in a grey rule so the hover previews the
+        sit at 8.85:1 and lift to 18.28:1 on hover, bringing in a gray rule so the hover previews the
         shape being current will take. Hover the second item to see it. There is no disabled state,
         because a section either exists on the page or it does not.
       </p>
@@ -136,7 +136,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Two states, measured in both themes. Visually this matches Tabs on purpose, since both organise one page, but the markup underneath is a nav and a list of anchors rather than a tablist. Looking alike while behaving differently is the correct outcome here: the reader learns one visual language, and assistive technology gets the truth about which one it is.",
+          "Two states, measured in both themes. Visually this matches Tabs on purpose, since both organize one page, but the markup underneath is a nav and a list of anchors rather than a tablist. Looking alike while behaving differently is the correct outcome here: the reader learns one visual language, and assistive technology gets the truth about which one it is.",
       },
     },
   },

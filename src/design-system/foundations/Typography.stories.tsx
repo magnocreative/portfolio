@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
  * deliberately unused: 12px uppercase mono read small enough to be a
  * complaint, and 12 against 13 is a distinction nobody perceives. They stay on
  * the scale so a future dense surface has somewhere defined to go rather than
- * inventing a raw value, which is the same rule the colour ramps follow.
+ * inventing a raw value, which is the same rule the color ramps follow.
  */
 const steps = [
   { name: "6xl", use: "Reserved. Nothing on the site uses it yet." },

@@ -11,7 +11,7 @@
  *
  * This comment used to say the fills lift one step up the ramp in dark. They
  * did once. They stopped when --mark-deep was collapsed to one value, and the
- * comment outlived the behaviour by a fortnight, which is the argument for
+ * comment outlived the behavior by a fortnight, which is the argument for
  * measuring a token rather than trusting a note written next to it.
  */
 export function Logo({

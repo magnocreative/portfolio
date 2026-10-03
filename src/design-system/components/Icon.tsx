@@ -6,7 +6,7 @@ import type { SVGProps } from "react";
  * All on a 20-unit grid at 1.5 stroke, using currentColor, so an icon picks up
  * whatever the text around it is doing. Sized by the component that holds it,
  * never by the icon itself, which is what keeps a button's icon and its label
- * aligned on the same optical centre.
+ * aligned on the same optical center.
  */
 
 type IconProps = SVGProps<SVGSVGElement>;

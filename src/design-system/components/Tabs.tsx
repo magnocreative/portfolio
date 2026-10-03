@@ -22,7 +22,7 @@ export type Tab = {
  *      keyboard user with nine tabs does not press Tab nine times to get past
  *      them.
  *   2. `aria-selected` and `aria-controls` tell a screen reader which tab is
- *      active and what it governs. Colour alone tells it nothing.
+ *      active and what it governs. Color alone tells it nothing.
  *   3. The panel is focusable, so somebody who arrives by keyboard can scroll
  *      its content. A panel with `tabIndex={-1}` is readable and unscrollable.
  *
@@ -41,7 +41,7 @@ export function Tabs({
   className = "",
 }: {
   tabs: Tab[];
-  /** Names the tablist for assistive tech. Required, and it should say what the set organises. */
+  /** Names the tablist for assistive tech. Required, and it should say what the set organizes. */
   label: string;
   defaultTab?: string;
   className?: string;
@@ -55,7 +55,7 @@ export function Tabs({
 
   function move(to: string) {
     setActive(to);
-    // Focus follows selection, which is the correct behaviour for tabs whose
+    // Focus follows selection, which is the correct behavior for tabs whose
     // panels are already rendered: arrowing through them should reveal each
     // one, not require a second keypress to confirm.
     refs.current[to]?.focus();
@@ -112,7 +112,7 @@ export function Tabs({
                 "-mb-px border-b-2 pb-3 pt-1",
                 "font-mono text-xs font-medium uppercase tracking-[0.11em] whitespace-nowrap",
                 "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
-                // Disabled is an explicit colour, never opacity. An
+                // Disabled is an explicit color, never opacity. An
                 // opacity-dimmed label has a ratio that depends on whatever is
                 // behind it, so nobody can tell you what it measures. This is
                 // 5.87:1 in light and 7.02:1 in dark, and it is skipped by the
