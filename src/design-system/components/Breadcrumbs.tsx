@@ -66,10 +66,24 @@ export function Breadcrumbs({
                 // of the budget is gaps rather than characters. 22ch was
                 // cutting "Self-service portal", which is exactly the length of
                 // label this is asking callers to pass.
+                // Accent blue and semibold, the same treatment the current nav
+                // item carries, so "you are here" looks like one idea across
+                // the site rather than two conventions that happen to coexist.
+                //
+                // Weight as well as color, for the same reason it is there in
+                // the nav: this is the one crumb that is not a link, and if
+                // the only thing separating it from its neighbors were hue,
+                // the trail would rest its state on color. The trail's own
+                // shape helps — the current page is always last and never a
+                // link — but position is a weak cue in a two-item trail, which
+                // is what this site actually ships.
+                //
+                // Monospace, so semibold costs no layout: every character's
+                // advance is fixed and the trail cannot reflow.
                 <span
                   aria-current={isLast ? "page" : undefined}
                   title={item.label}
-                  className="inline-block max-w-[28ch] truncate align-bottom text-text-primary"
+                  className="inline-block max-w-[28ch] truncate align-bottom font-semibold text-text-accent"
                 >
                   {item.label}
                 </span>

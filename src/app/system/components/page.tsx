@@ -244,7 +244,10 @@ export default function ComponentsPage() {
                   slashes conveys none of that, and it is what most hand-built breadcrumbs are. The
                   last crumb is not a link: it is the page you are on, so it carries aria-current and
                   no href, and therefore no hover state. A hover on something you cannot click is a
-                  lie about what happens next."
+                  lie about what happens next. It is also set in the accent blue at semibold, the
+                  same treatment the current item in the main navigation carries, so you-are-here
+                  reads as one idea across the site. Weight as well as color, because position is a
+                  weak cue in a two-item trail, and hue on its own would be the whole state."
                 />
 
                 <Stage>

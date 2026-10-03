@@ -28,14 +28,12 @@
     scroll-behavior: smooth;
   }
 
-  /* 96px: the 48px mark plus 24px each side, the same padding the expanded
-     rail uses. One padding rule now serves both states, which is why nothing
-     in the rail needs a collapsed-specific position. The content box runs from
-     24 to 72 collapsed and 24 to 276 expanded, so the mark, the nav labels and
-     the theme stack all sit on 24 either way. The caret is the one object that
-     changes edge: it hangs off the right of that box expanded, where the rail
-     is a wide column with a far boundary, and off the left collapsed, where
-     the rail is one 48px column and 24 is the only line there is.
+  /* 96px: 24 + a 48px pill + 24, where the pill is 12 + 24 icon + 12. The
+     collapsed rail is sized by the same pill as the expanded one, minus the
+     label, so the icon sits in exactly the place it does expanded.
+     Everything still sits on the same 24px left edge it does expanded, so
+     nothing in the rail moves when this applies — which is the whole reason
+     the identity moved out to the banner.
 
      Overriding the token rather than the rail's class is what lets the content
      column follow for free — `layout.tsx` is inset by this same variable, so

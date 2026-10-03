@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Container } from "@/design-system/primitives/Container";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 import { Logo } from "@/design-system/brand/Logo";
+import { WorkIcon, SystemIcon, AboutIcon, ResumeIcon } from "@/design-system/components/Icon";
 
 // Résumé sits in the same list as the rest rather than being appended by hand.
 // A second copy of the markup meant every change to a nav link had to be made
@@ -18,10 +18,10 @@ import { Logo } from "@/design-system/brand/Logo";
 // moment the nav gained a real selected state: a permanently blue item reads
 // as permanently current, on every page.
 const nav = [
-  { href: "/work", label: "Work" },
-  { href: "/system", label: "Design system" },
-  { href: "/about", label: "About" },
-  { href: "/resume", label: "Résumé" },
+  { href: "/work", label: "Work", Icon: WorkIcon },
+  { href: "/system", label: "Design system", Icon: SystemIcon },
+  { href: "/about", label: "About", Icon: AboutIcon },
+  { href: "/resume", label: "Résumé", Icon: ResumeIcon },
 ];
 
 // startsWith, not equality, so a case study at /work/some-slug still marks Work
@@ -54,78 +54,35 @@ function useCurrentHref() {
  * link.
  */
 function NavList({
-  animated = true,
   rowClassName = "min-h-10",
+  collapsible = false,
 }: {
-  animated?: boolean;
+  /**
+   * Whether this list's labels follow the rail's collapsed state.
+   *
+   * Only the rail's copy does. The `rail-collapsed:` variant keys off
+   * `[data-rail="collapsed"]` on <html>, so it matches EVERY descendant of the
+   * document — including the phone panel, which has nothing to do with the
+   * rail and is not even rendered at the width the rail exists at. Collapsing
+   * the rail on a desktop therefore stored a preference that, on the same
+   * person's phone, silently reduced the menu to four unlabeled icons.
+   *
+   * Nothing caught it: the labels were `sr-only`, so they stayed in the
+   * accessibility tree with their names intact and axe passed every run. It
+   * needed a person to open the menu on a phone after collapsing the rail on a
+   * laptop — two states, two devices, one shared key.
+   */
+  collapsible?: boolean;
   /** Row height. 40px in the rail, where the pointer is precise and nothing is
    *  tapped; 44px in the phone panel, which is the platform figure on both
    *  mobile OSes and is not a style choice. */
   rowClassName?: string;
 }) {
   const currentHref = useCurrentHref();
-  const listRef = useRef<HTMLUListElement>(null);
-  const [marker, setMarker] = useState<{ top: number; height: number } | null>(null);
-
-  useLayoutEffect(() => {
-    const list = listRef.current;
-    if (!list || currentHref == null) {
-      setMarker(null);
-      return;
-    }
-    const el = list.querySelector<HTMLElement>(`[data-href="${currentHref}"]`);
-    if (!el) {
-      setMarker(null);
-      return;
-    }
-    const measure = () => setMarker({ top: el.offsetTop, height: el.offsetHeight });
-    measure();
-
-    // Fonts land after first paint and change the height of a wrapped label,
-    // so the first measurement can be of a box that no longer exists. A
-    // ResizeObserver catches that, and every later reflow with it.
-    const ro = new ResizeObserver(measure);
-    ro.observe(list);
-    return () => ro.disconnect();
-  }, [currentHref]);
-
   return (
     <nav aria-label="Main">
-      {/* Three positions are possible for the marker and only one is free.
-          The labels sit on the mark's 24px edge, so:
-
-          24px, on that same edge, means the labels indent to 44 and no longer
-          line up with the mark. That was the original and it is what made the
-          labels look misaligned rather than indented.
-
-          12px, in the middle of the gutter, keeps the labels on 24 but leaves
-          the marker lined up with nothing — an object floating in a margin,
-          which is the worst of the three because it reads as an accident.
-
-          0, the rail's own left edge, keeps the labels on 24 and gives the
-          marker a real edge to sit on. It is not "near" the edge, it IS the
-          edge, which is a position rather than a near miss. The same reason a
-          tab marker in an IDE sidebar sits flush: at the boundary it reads as
-          deliberate, and three pixels in it reads as sloppy.
-
-          So the marker is full-bleed and the text column stays a text column. */}
-      <ul ref={listRef} className="relative flex flex-col gap-1">
-        {/* Hidden from assistive tech: a second rendering of a state that
-            `aria-current` already announces on the link. Announcing position
-            twice is worse than not announcing it at all. */}
-        {marker && (
-          <span
-            aria-hidden="true"
-            className={`absolute -left-6 w-0.5 rounded-l-none rounded-r-full bg-interactive ${
-              animated
-                ? "transition-all duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none"
-                : ""
-            }`}
-            style={{ transform: `translateY(${marker.top}px)`, height: marker.height }}
-          />
-        )}
-
-        {nav.map((item) => {
+      <ul className="relative flex flex-col gap-1">
+        {nav.map(({ Icon, ...item }) => {
           const current = item.href === currentHref;
           return (
             <li key={item.href}>
@@ -138,13 +95,63 @@ function NavList({
                 // WCAG 2.2 AA minimum of 24px by a wide margin. These were
                 // 23px once — one pixel under that minimum — and the 23 came
                 // from a line height rather than from any decision.
-                className={`group flex items-center ${rowClassName}`}
+                //
+                // A contained pill on the logo's 24px line, rather than a row
+                // bleeding off the screen edge.
+                //
+                // The fills are neutral, not the interactive blue, and they
+                // are deliberately quiet: hover takes `surface-page` and
+                // current takes `surface-sunken`, which against the rail's
+                // raised ground measure 1.08 and 1.14 in light, 1.06 and 1.11
+                // in dark. They sit a step DOWN the surface ramp rather than
+                // up, so the current row reads as recessed — where you already
+                // are — rather than as a control asking to be pressed.
+                //
+                // The blue tint this replaced measured 1.49 and 1.80, which is
+                // a lot of weight for a row you are not being asked to click.
+                //
+                // Current and hover differ by 1.05:1, which is nothing — but
+                // the two never appear on the same row, so the comparison that
+                // matters is each against the rail, not against each other.
+                // The state does not rest on the fill: it rests on the label's
+                // weight, on `aria-current`, and on color, in that order.
+                className={[
+                  "group flex items-center gap-3 rounded-sm px-3 transition-colors duration-[160ms]",
+                  rowClassName,
+                  current ? "bg-surface-sunken" : "hover:bg-surface-page",
+                ].join(" ")}
               >
+                {/* 36px from the rail's edge, which is the pill's 24 plus its
+                    12 of padding. The icons gave up the logo's exact left edge
+                    when the row became a contained pill: a pill with no inner
+                    padding is a box with its contents jammed against the side,
+                    and of the two alignments the pill's edge is the one worth
+                    keeping, because the pill is the larger object and the one
+                    the eye reads as the row. */}
+                <span className="grid h-6 w-6 shrink-0 place-items-center">
+                  <Icon
+                    className={`h-6 w-6 transition-colors duration-[160ms] ${
+                      current
+                        ? "text-text-accent"
+                        : "text-text-tertiary group-hover:text-text-secondary"
+                    }`}
+                  />
+                </span>
                 <span
-                  className={`font-mono text-xs font-medium uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
+                  // Weight, not just color. The vertical marker used to be the
+                  // non-color half of this state; without it the current row
+                  // would be distinguished by accent text and an accent icon
+                  // on a 1.14:1 fill — which is close enough to color alone to
+                  // be the thing that disqualified the tinted theme chip at
+                  // 1.17:1. Semibold costs nothing here because the label is
+                  // monospace: the advance width of every character is fixed,
+                  // so the row cannot reflow when the weight changes.
+                  className={`font-mono text-xs uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
+                    collapsible ? "rail-collapsed:sr-only" : ""
+                  } ${
                     current
-                      ? "text-text-primary"
-                      : "text-text-secondary group-hover:text-text-primary"
+                      ? "font-semibold text-text-accent"
+                      : "font-medium text-text-secondary group-hover:text-text-primary"
                   }`}
                 >
                   {item.label}
@@ -197,10 +204,34 @@ function ChevronIcon() {
   );
 }
 
-/** Two lines, becoming a cross when the panel is open. A control that gives no
- *  sign of its own state is the thing this site criticises everywhere else;
- *  `aria-expanded` says it to a screen reader and this says it to everyone. */
+/**
+ * Two lines that become a cross, and actually travel between the two.
+ *
+ * A control that gives no sign of its own state is the thing this site
+ * criticizes everywhere else; `aria-expanded` says it to a screen reader and
+ * this says it to everyone.
+ *
+ * Both lines are drawn in the same place — centered on the viewBox — and it is
+ * the CLOSED state that displaces them, 3 units up and 3 units down. That is
+ * backwards from how it reads on screen, and it is the whole reason this can
+ * animate: authored as two separate paths, one for the lines and one for the
+ * cross, opening the menu swapped one `d` for another and there was nothing in
+ * between for a transition to interpolate. A path swap cannot be tweened; a
+ * transform can.
+ *
+ * Drawing them centered also puts the rotation origin on the viewBox center,
+ * which is each line's own center, so they pivot in place rather than swinging
+ * around a corner. `transform-box: view-box` is stated rather than assumed —
+ * it is the spec's initial value, and that is exactly the kind of default that
+ * is cheap to declare and expensive to be wrong about.
+ *
+ * 240ms on the site's standard ease, and silent under prefers-reduced-motion.
+ */
 function MenuIcon({ open }: { open: boolean }) {
+  const line = {
+    transformBox: "view-box" as const,
+    transformOrigin: "center" as const,
+  };
   return (
     <svg
       viewBox="0 0 20 20"
@@ -210,37 +241,61 @@ function MenuIcon({ open }: { open: boolean }) {
       strokeLinecap="round"
       aria-hidden="true"
       focusable="false"
-      className="h-6 w-6"
+      className="h-6 w-6 [&>path]:transition-transform [&>path]:duration-[240ms] [&>path]:ease-[var(--ease-out-quart)] motion-reduce:[&>path]:transition-none"
     >
-      {open ? <path d="M5 5l10 10M15 5L5 15" /> : <path d="M3 7h14M3 13h14" />}
+      <path
+        d="M3 10h14"
+        style={{ ...line, transform: open ? "rotate(45deg)" : "translateY(-3px)" }}
+      />
+      <path
+        d="M3 10h14"
+        style={{ ...line, transform: open ? "rotate(-45deg)" : "translateY(3px)" }}
+      />
     </svg>
   );
 }
 
 /**
- * The bar, below 1280px: identity on the left, one disclosure flush right.
+ * The banner. Every width, full bleed, and the only identity on the page.
  *
- * This replaced four links laid out in the bar itself. At 320 and 360 they
- * needed two rows, which with 44px targets made the header 157px — a quarter
- * of a phone viewport, permanently, before any content. Behind a disclosure
- * the header is one row at every width.
+ * This used to be two components: a Bar below 1280 carrying the mark, the name
+ * and a theme control, and a Rail above it carrying its own copy of all three.
+ * Two of everything, never visible at once. The identity now lives here alone
+ * and the rail below is navigation and nothing else.
  *
- * It is worth naming what this gives up. This site argues against hiding
- * content behind a click, and that is why Tabs are off the case studies and
- * why the component gallery is in page flow. Navigation chrome is the one
- * place the argument does not hold: a nav is not the argument, it is the way
- * to the argument, and a reader who wants it knows to look for it. The rail
- * above 1280 hides nothing at all.
+ * That split is what made the rail 300px wide — it was sized by the 188px name
+ * rather than by anything navigational. Nav-only, the widest unbreakable thing
+ * is the 120px "Design system" label, which is why the rail is now 216 and why
+ * prose sets at the full documented 900px measure at 1280 rather than 852.
+ *
+ * It costs the thing the rail was originally built to buy: content no longer
+ * begins at the top of the viewport. 72px off every page, permanently. Taken
+ * knowingly, because an identity that moves and resizes when a navigation
+ * preference changes was the worse problem.
+ *
+ * Fixed height from a token rather than from whatever the contents add up to.
+ * The rail is positioned from the same token, so the two cannot drift; a
+ * height that is a consequence of padding is a number nothing can safely be
+ * measured against.
  */
-function Bar() {
+function Banner() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Close on navigation, or the panel sits open over the page it just left.
-  useEffect(() => {
+  //
+  // Adjusted during render rather than in an effect. This was
+  // `useEffect(() => setOpen(false), [pathname])`, which React's own lint rule
+  // flags: it renders the panel open on the new route, then immediately
+  // renders it closed. The documented pattern for "reset state when a prop
+  // changes" is to compare and set during render, which React re-runs before
+  // committing anything to the DOM, so the open panel is never painted.
+  const [openedAt, setOpenedAt] = useState(pathname);
+  if (openedAt !== pathname) {
+    setOpenedAt(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   // Escape closes and puts focus back on the control that opened it. Without
   // the second half, a keyboard user who dismisses the panel is left with
@@ -258,20 +313,30 @@ function Bar() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border-subtle bg-surface-raised min-[1280px]:hidden">
-      <Container>
-        <div className="flex items-center justify-between gap-4 py-3">
-          {/* overflow-hidden is a guard, not styling. The rail is 300px and the
-          identity needs 296, so Inter clears the padding by 4px — and the
-          fallback that paints before Inter is about 7px wider than Inter, so
-          for one frame on a cold load the name would otherwise print across
-          the border. Clipped, that frame costs a hair off the last letter.
-          An outline is not clipped by overflow, so focus is unaffected. */}
-      <Link
-        href="/"
-        className="flex items-center gap-3 overflow-hidden text-sm font-medium text-text-primary"
-      >
-            <Logo className="h-8 w-[43px]" />
+    // The hairline is a shadow, not a border, for the same reason the rail's
+    // is: a border lives inside the border box and would eat a pixel of the
+    // declared height, making the token a near-miss rather than the number.
+    <header className="sticky top-0 z-50 bg-surface-raised shadow-[0_1px_0_var(--border-subtle)]">
+      {/* Full bleed, with a flat 24px inset — not the Container.
+       
+          The Container caps at 84rem and spends up to 64px on gutters, which
+          at 1440 put the mark 112px in from the left while the nav icons sat
+          at 24. Two left edges that disagree by 88px, one directly above the
+          other. A banner is chrome: it belongs to the window, not to the text
+          column, so it takes the window's edges.
+       
+          24 is the rail's own left edge, so the mark and the icons beneath it
+          now share one line down the whole page. The right side is the mirror
+          of it. */}
+      {/* 36, not 24. Twelve more on each side by request, and it lands
+          somewhere useful: the rail's nav icons sit at 36 too — the rail's own
+          24 of padding plus the selected pill's 12 — so the mark in the banner
+          and the icons beneath it share a left edge again, which they lost when
+          the row became a contained pill. */}
+      <div className="px-9">
+        <div className="flex h-[var(--banner-height)] items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-3 text-sm font-medium text-text-primary">
+            <Logo className="h-9 w-12 shrink-0" />
             {/* Hidden below 390px, where the name plus the mark plus the
                 disclosure do not fit one row. The mark is the identity at that
                 size; the name is in the footer of every page. */}
@@ -280,96 +345,108 @@ function Bar() {
             </span>
           </Link>
 
-          <button
-            ref={buttonRef}
-            type="button"
-            aria-expanded={open}
-            aria-controls="site-menu"
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((v) => !v)}
-            // The same construction as the theme chips beside it in the panel:
-            // a 32px chip you can see, inside a 44px target you hit. Matching
-            // them on the visible box is the point — the disclosure used to be
-            // a bare 44px button, so its glyph read as a different size class
-            // from every other icon in the header.
-            //
-            // -mr-1.5 for the chip's own right edge. The 32 sits 6px inside the
-            // 44, so without it the chip stops 30px from the viewport while the
-            // mark starts at 24, and the two ends of the bar disagree.
-            className="group -mr-1.5 grid h-11 w-11 place-items-center"
-          >
-            <span className="grid h-8 w-8 place-items-center rounded-sm text-text-secondary transition-colors duration-[160ms] group-hover:bg-interactive-subtle group-hover:text-text-primary">
-              <MenuIcon open={open} />
-            </span>
-          </button>
+          <div className="flex items-center gap-2">
+            {/* In the banner from 640 up, where it fits beside the name, and in
+                the disclosure panel below that. At 390 the name, the mark, the
+                three chips and the hamburger come to 419px against 342px of
+                room, and the thing that would have to give is the name. */}
+            {/* -mr-1.5 is the same optical correction the disclosure carries:
+                the 32px chip sits 6px inside its 44px target, so the box has
+                to overhang by exactly that for the chip's edge to land on the
+                24px line the mark starts from. The hit area overhangs into the
+                gutter, invisibly, which is what hit areas are for. */}
+            <div className="-mr-1.5 hidden sm:block">
+              <ThemeToggle />
+            </div>
+
+            <button
+              ref={buttonRef}
+              type="button"
+              aria-expanded={open}
+              aria-controls="site-menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((v) => !v)}
+              // The same construction as the theme chips beside it: a 32px chip
+              // you can see inside a 44px target you hit. -mr-1.5 puts the
+              // chip's own right edge on the container's inner edge, mirroring
+              // the mark's 24px inset at the other end.
+              // The ground goes on the 32px chip, not the 44px target, so the
+              // hover is the same size as every other chip state in the
+              // header. The 44 is the hit area and stays invisible.
+              className="group -mr-1.5 grid h-11 w-11 place-items-center min-[1280px]:hidden"
+            >
+              <span className="grid h-8 w-8 place-items-center rounded-sm text-text-secondary transition-colors duration-[160ms] group-hover:bg-surface-sunken group-hover:text-text-primary">
+                <MenuIcon open={open} />
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Always rendered, toggled with `hidden`, because `aria-controls` has
             to point at an element that exists. The attribute also takes it out
-            of the accessibility tree and out of the tab order when closed,
-            which conditional rendering would do too but at the cost of a
-            dangling reference. */}
-        <div id="site-menu" hidden={!open} className="border-t border-border-subtle py-4">
+            of the accessibility tree and out of the tab order when closed. */}
+        <div
+          id="site-menu"
+          hidden={!open}
+          className="border-t border-border-subtle py-4 min-[1280px]:hidden"
+        >
           {/* No sliding indicator in here. The panel is built and destroyed on
               every open, so there is nothing for a mark to travel from. */}
-          <NavList animated={false} rowClassName="min-h-11" />
-          {/* -ml-1.5 for the same optical reason as the rail: at touch
-              density the 32px chip sits 6px inside its 44px button, so the box
-              has to start 6px left of the text edge for the chip to land on
-              it. This was pl-5, matching the old nav indent that no longer
-              exists. */}
-          <div className="mt-4 -ml-1.5">
+          <NavList rowClassName="min-h-11" />
+          <div className="mt-4 -ml-1.5 sm:hidden">
             <ThemeToggle />
           </div>
         </div>
-      </Container>
+      </div>
     </header>
   );
 }
 
 /**
- * The rail, 1280px and up.
+ * The rail, 1280px and up. Navigation, and nothing else.
  *
- * 1280 is arithmetic rather than taste. The measure this site sets
- * single-column text to is 900px, the container spends 128px on its own
- * gutters, so the content column needs 1028px. Add the 300px rail and the
- * first viewport that clears it is 1328, which makes the measure 852px at
- * exactly 1280 and the full 900 from 1328 up, or at any width collapsed.
+ * 216px, and the number is measured rather than chosen: 24 of padding, a 24px
+ * icon, a 12px gap, the 120px "Design system" label, 24 of padding, and 12 of
+ * slack for the fallback mono that paints before JetBrains loads. At 1280 that
+ * leaves a 1064px column, 936px of it inside the container's gutters, so prose
+ * sets at the full 900px measure. The 300px version left 852.
  *
- * The breakpoint stayed at 1280 rather than moving up to 1328 with the rail.
- * 1280 is a real population — it is the default scaled width of a 13" laptop —
- * and trading the rail away on those screens to recover 48px of measure is the
- * worse half of that bargain. Collapsing the rail recovers the full 900 at any
- * width, which is most of why the collapse exists.
+ * Everything sits on 24, in both states, and nothing moves when the rail
+ * collapses. That is possible only because the rail now holds one kind of
+ * object. While the mark and the theme chips lived here too, the rail held
+ * four different widths on one left edge and had to choose between a ragged
+ * right edge and an alignment switch that slid every object sideways.
  *
- * 1100 was tried first and measured: it left 732px of text, which is the whole
- * /system decisions argument squeezed under its own documented measure by a
- * nav meant to be an improvement.
- *
- * A <header>, not a <div>. As a div its logo link and theme control sat
- * outside every landmark, which axe reports as `region` on every page. Two
- * <header> elements exist in this file but never at once: each is display:none
- * at the other's width.
+ * Collapsed is 80px: 24 + 32 + 24, sized by the collapse control rather than
+ * by the 24px icons, because the control is the widest thing left.
  *
  * Fixed rather than sticky. A sticky rail is only pinned while its parent is
- * in view, which on a long page means it leaves at the footer.
+ * in view, which on a long page means it leaves at the footer. It starts below
+ * the banner, from the banner's own token.
  */
 function Rail() {
-  // State exists for exactly one thing: `aria-expanded`, which has to be a
-  // real attribute and cannot be expressed in CSS. Everything visible is
-  // driven by [data-rail] on <html> through the `rail-collapsed:` variant, so
-  // there is no second copy of the truth to fall out of step, and the stored
-  // state is already applied by the time React hydrates.
-  const [collapsed, setCollapsed] = useState(false);
-
-  useLayoutEffect(() => {
-    setCollapsed(document.documentElement.getAttribute("data-rail") === "collapsed");
-  }, []);
+  // The attribute on <html> is the single source of truth — the inline script
+  // sets it before first paint and the `rail-collapsed:` variant reads it — so
+  // this subscribes to it rather than keeping a second copy in React state.
+  //
+  // It was `useState` plus a `useLayoutEffect` that copied the attribute in.
+  // That is two values for one fact, and it made the server and the first
+  // client render disagree about `aria-label`, which needed suppressing.
+  // useSyncExternalStore has a server snapshot, so hydration matches and the
+  // real value arrives on the next render with nothing suppressed.
+  const collapsed = useSyncExternalStore(
+    (onChange) => {
+      const mo = new MutationObserver(onChange);
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-rail"] });
+      return () => mo.disconnect();
+    },
+    () => document.documentElement.getAttribute("data-rail") === "collapsed",
+    () => false,
+  );
 
   function toggle() {
-    const next = !collapsed;
-    setCollapsed(next);
     const root = document.documentElement;
+    const next = root.getAttribute("data-rail") !== "collapsed";
     if (next) root.setAttribute("data-rail", "collapsed");
     else root.removeAttribute("data-rail");
     try {
@@ -381,116 +458,63 @@ function Rail() {
   }
 
   return (
-    <header
+    <div
       className={[
-        "fixed inset-y-0 left-0 z-50 hidden w-[var(--rail-width)] flex-col",
-        // The hairline is a shadow, not a border, and that is arithmetic
-        // rather than preference. A 1px right border is inside the border box,
-        // so it eats a pixel of the right padding: at 96px the mark got 24
-        // left and 23 right, and the same pixel was missing from the expanded
-        // rail's right edge. A shadow is drawn outside the box, so 96 is
-        // exactly 24 + 48 + 24 and both edges are the number they claim.
-        "shadow-[1px_0_0_var(--border-subtle)] bg-surface-raised py-10 min-[1280px]:flex",
-        // One padding, both states. The collapsed width is sized from this
-        // rather than the other way round: 48px mark plus 24 each side is 96,
-        // so nothing inside needs a collapsed-specific position and the whole
-        // rail keeps a single 24px content edge.
-        "px-6",
-        // The one transition here. Collapsing is a 232px change to the whole
-        // page, and instant is not restraint at that size, it is a jump cut.
+        "fixed bottom-0 left-0 z-40 hidden w-[var(--rail-width)] flex-col",
+        // 24 on top, matching the horizontal inset, so the first nav row sits the
+        // same distance from the banner above it as it does from the rail's own
+        // left edge. 40 at the bottom, which is the caret's air rather than the
+        // nav's: it is the only thing down there and it reads as cramped on the
+        // rail's own edge.
+        "top-[var(--banner-height)] px-6 pt-6 pb-10 min-[1280px]:flex",
+        "bg-surface-raised shadow-[1px_0_0_var(--border-subtle)]",
+        // The one transition. Collapsing is a 136px change to the whole page,
+        // and instant is not restraint at that size, it is a jump cut.
         "transition-[width] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none",
       ].join(" ")}
     >
-      {/* overflow-hidden is a guard, not styling. The rail is 300px and the
-          identity needs 296, so Inter clears the padding by 4px — and the
-          fallback that paints before Inter is about 7px wider than Inter, so
-          for one frame on a cold load the name would otherwise print across
-          the border. Clipped, that frame costs a hair off the last letter.
-          An outline is not clipped by overflow, so focus is unaffected. */}
-      <Link
-        href="/"
-        className="flex items-center gap-3 overflow-hidden text-sm font-medium text-text-primary"
-      >
-        {/* An explicit width, not `w-auto`. An SVG with no intrinsic width
-            takes its box from the column, so this was 207px wide with a 53px
-            mark floating in the middle of it, which is why the mark read as
-            adrift rather than placed. `aspect-[]` does not fix it either: the
-            ratio is satisfied by the height and the width still resolves to
-            auto.
-
-            36 tall is 48 wide at this mark's 270.68:203.36 ratio. It is not
-            square, and forcing it to 36x36 would squash it. */}
-        <Logo className="h-9 w-12 shrink-0" />
-        {/* sr-only when collapsed, not hidden. `hidden` would take the name out
-            of the accessibility tree and leave this link named "Magno
-            Creative" by the mark's own label alone — a different link, to a
-            screen reader, depending on a visual preference. sr-only is also
-            out of flow, so it contributes nothing to the flex gap. */}
-        <span className="whitespace-nowrap rail-collapsed:sr-only">
-          Alejandro Magno Fernandini
-        </span>
-      </Link>
-
-      {/* Close under the identity rather than floating at the optical middle.
-          Centered, the four links read as a separate object that happens to
-          share a column with the name; tucked under it they read as one block,
-          which is what they are. */}
-      <div id="rail-nav" className="mt-10 rail-collapsed:hidden">
-        <NavList />
+      {/* A <div>, not a <header>, and not a second <nav> landmark either. The
+          NavList inside already carries nav[aria-label="Main"]; wrapping it in
+          a banner landmark as well would announce the same four links as two
+          nested regions. It was a <header> only because it used to hold a logo
+          and a theme control that would otherwise have sat outside every
+          landmark, which axe reported as `region` on every page. Those are in
+          the banner now, so the reason is gone. */}
+      <div id="rail-nav">
+        <NavList collapsible />
       </div>
 
-      {/* mt-auto, so the control sits on the bottom edge however short the nav
-          is, without the nav itself being stretched to reach it. */}
-      <div className="mt-auto">
-        <ThemeToggle orientation="vertical" density="pointer" />
-      </div>
-
-      {/* On the right edge, vertically centered: a handle on the boundary it
-          moves, rather than a button in a list of buttons. It is absolute
-          rather than in the flex column because it belongs to the rail's edge
-          and not to the rail's contents — in the column it would have had to
-          sit above or below the theme stack, which made it read as a third
-          preference rather than as the thing that moves the wall.
-
-          Which edge it hangs from depends on what the rail is at that width.
-
-          Expanded, the rail is a 252px column with a far right boundary, and
-          the caret is the handle on that boundary, so it hangs off the right
-          at the rail's own 24px padding.
-
-          Collapsed, the rail is a single 48px column and every object in it —
-          the mark, the three theme chips — starts at 24. A caret inset from
-          the right lands at 40 instead, which is the only thing in the rail
-          not on that line, and that is exactly what it looked like: an object
-          that missed the column. So it switches to the left edge and joins
-          them. Same 24px either way; the edge it is measured from changes
-          because the thing it is aligning to changes.
-
-          suppressHydrationWarning is load-bearing and narrow: the server
-          cannot know the stored state, so this one attribute legitimately
-          differs between the server HTML and the first client render. The
-          alternative — not rendering the control until mounted — would mean a
-          keyboard user tabbing into a control that appears late. */}
+      {/* Bottom left, on the same 24px edge as the icons, in both states — so
+          nothing in this rail moves when it collapses. It sat on the right
+          edge while the rail had an identity to stay clear of; a right-anchored
+          control has to move when the right edge moves, which is exactly the
+          drift that made the old version feel unsettled. */}
       <button
         type="button"
         onClick={toggle}
-        aria-expanded={collapsed ? false : true}
+        // No `aria-expanded`. The same four links are in the accessibility
+        // tree at both widths with the same names, so nothing is disclosed.
+        // A disclosure that discloses nothing is a promise to a screen reader
+        // that the interaction does not keep.
         aria-controls="rail-nav"
         aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
         title={collapsed ? "Expand navigation" : "Collapse navigation"}
-        suppressHydrationWarning
-        className="absolute top-1/2 right-6 grid h-8 w-8 -translate-y-1/2 rail-collapsed:right-auto rail-collapsed:left-6 place-items-center rounded-sm text-text-tertiary transition-colors duration-[160ms] hover:bg-interactive-subtle hover:text-text-primary"
+        // The same hover as a nav row: `surface-page` for the ground and
+        // `text-secondary` for the glyph. It used `interactive-subtle`, the
+        // blue tint, which made the one control in this rail that is not
+        // navigation respond more loudly than the four that are.
+        className="mt-auto ml-2 grid h-8 w-8 place-items-center rounded-sm text-text-tertiary transition-colors duration-[160ms] hover:bg-surface-page hover:text-text-secondary"
       >
         <ChevronIcon />
       </button>
-    </header>
+    </div>
   );
 }
 
 export function SiteHeader() {
   return (
     <>
-      <Bar />
+      <Banner />
       <Rail />
     </>
   );

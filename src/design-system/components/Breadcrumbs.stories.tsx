@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Where you are, and the way back out. Set in the same mono uppercase as the main navigation, because both are wayfinding: they name places rather than ask you to do something, which is the line that decides type on this site. Two things make it correct rather than decorative, and neither is visible. It is an ordered list inside a labelled nav, so the order is the hierarchy and a screen reader announces position within it. And the last crumb is not a link, because it is the page you are already on.",
+          "Where you are, and the way back out. Set in the same mono uppercase as the main navigation, because both are wayfinding: they name places rather than ask you to do something, which is the line that decides type on this site. Two things make it correct rather than decorative, and neither is visible. It is an ordered list inside a labelled nav, so the order is the hierarchy and a screen reader announces position within it. And the last crumb is not a link, because it is the page you are already on.\n\nThat crumb is set in the accent blue at semibold — the same treatment the current item in the main navigation carries, so *you are here* reads as one idea wherever it appears. Weight as well as color, because position is a weak cue in a two-item trail and hue alone would be the entire state. Measured on both grounds it lands on: 6.89:1 light and 10.06:1 dark on the page, 7.46:1 and 9.49:1 on a raised panel. Monospace, so the weight costs no layout.",
       },
     },
   },
