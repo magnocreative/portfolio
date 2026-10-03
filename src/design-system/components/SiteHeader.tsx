@@ -49,7 +49,17 @@ export function SiteHeader() {
     // this site is set in a documentation register, and a frosted bar with
     // type sliding under it reads as an app chrome that belongs to a different
     // design. The border is the whole separation it needs.
-    <header className="sticky top-0 z-50 border-b border-border-subtle bg-surface-raised">
+    // Sticky from 390px, static below it. Measured rather than guessed: with
+    // 44px targets this header is 157px at 320 and 360 because the nav needs
+    // two rows there, and 157px of a ~650px viewport is a quarter of the
+    // screen permanently gone. From 390 the nav fits one row and the header is
+    // 113 to 122px, which is about 14% of a phone viewport and a fair price
+    // for navigation that stays put. 390 is also where the wordmark comes
+    // back, so one number governs both.
+    //
+    // Below 390 the header still sits at the top of the document. It is one
+    // scroll away, not hidden.
+    <header className="z-50 border-b border-border-subtle bg-surface-raised min-[390px]:sticky min-[390px]:top-0">
       <Container>
         {/* Below 820px this becomes two rows: identity and theme control on
             one, navigation on the next. Five items plus a control will not fit
@@ -58,14 +68,18 @@ export function SiteHeader() {
             longer label than "System" was: at 768 the nav still fit the row
             but wrapped internally, orphaning Résumé on a line of its own
             beside a half-empty header. Stacking is the honest layout there. */}
-        <div className="flex flex-col gap-4 py-4 min-[820px]:flex-row min-[820px]:items-center min-[820px]:justify-between min-[820px]:py-5">
+        <div className="flex flex-col gap-2 py-3 min-[820px]:flex-row min-[820px]:items-center min-[820px]:justify-between min-[820px]:gap-4 min-[820px]:py-4">
           <div className="flex items-center justify-between gap-4">
             <Link
               href="/"
               className="flex items-center gap-3 text-sm font-medium text-text-primary"
             >
               <Logo className="h-[26px] w-auto" />
-              <span>Alejandro Magno Fernandini</span>
+              {/* Hidden below 390px. At 320 and 360 the name wrapped to two
+                  lines, costing a whole row of a header already too tall. The
+                  mark is the identity at that size; the name is in the footer
+                  of every page and is the h1 of /resume. */}
+              <span className="hidden min-[390px]:inline">Alejandro Magno Fernandini</span>
             </Link>
             <div className="min-[820px]:hidden">
               <ThemeToggle />
@@ -74,7 +88,12 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-7">
             <nav aria-label="Main">
-              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 min-[820px]:gap-7">
+              {/* A 2x2 grid below 390px. Flex-wrap put Work, Design system and About on
+                one row and orphaned Résumé on the next, which is the exact
+                failure the 820px breakpoint was introduced to fix at 768: it
+                moved rather than went away. Two balanced columns are the same
+                four links with nothing hidden. */}
+              <ul className="grid grid-cols-2 gap-x-6 min-[390px]:flex min-[390px]:flex-wrap min-[390px]:items-center min-[820px]:gap-7">
                 {nav.map((item) => {
                   const current = isCurrent(item.href);
 
@@ -82,6 +101,15 @@ export function SiteHeader() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
+                        // The link is the TARGET: 44px tall, the platform
+                        // minimum on both mobile OSes and the WCAG 2.2 AAA
+                        // figure. It used to be 23px, one pixel under the AA
+                        // minimum of 24 and passing only on the spacing
+                        // exception, and that 23 came from a line height plus
+                        // `pb-1` rather than from any decision. The rule still
+                        // hugs the label because the border moved to the span
+                        // inside while the link became the box.
+                        className="group flex min-h-11 items-center"
                         // aria-current is the actual answer for a screen
                         // reader. The rule below it is the answer for everyone
                         // else, and neither one is doing the other's job.
@@ -95,13 +123,16 @@ export function SiteHeader() {
                         // Every item carries the border at all times and only
                         // the color changes, so nothing shifts by two pixels
                         // when the section changes.
-                        className={`border-b-2 pb-1 font-mono text-xs font-medium uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
-                          current
-                            ? "border-interactive text-text-primary"
-                            : "border-transparent text-text-secondary hover:text-text-primary"
-                        }`}
                       >
-                        {item.label}
+                        <span
+                          className={`border-b-2 pb-1 font-mono text-xs font-medium uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
+                            current
+                              ? "border-interactive text-text-primary"
+                              : "border-transparent text-text-secondary group-hover:text-text-primary"
+                          }`}
+                        >
+                          {item.label}
+                        </span>
                       </Link>
                     </li>
                   );

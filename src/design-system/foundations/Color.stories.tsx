@@ -49,7 +49,7 @@ function Section({
     <section className="mb-14">
       <h2 className="font-display text-2xl tracking-[-0.015em] text-text-primary">{title}</h2>
       <p className="mt-2 mb-7 max-w-measure text-sm leading-relaxed text-text-secondary">{intro}</p>
-      <ContrastAudit rows={rows} kind={kind} />
+      <ContrastAudit rows={rows} kind={kind} label={title} />
     </section>
   );
 }

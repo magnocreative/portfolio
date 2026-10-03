@@ -182,7 +182,13 @@ export function ThemeToggle() {
             tabIndex={tabbable ? 0 : -1}
             onClick={() => select(option.value)}
             className={[
-              "grid h-7 w-7 place-items-center rounded-sm transition-colors duration-[160ms]",
+              // 36px target around a 28px chip: the chip is what you see, the
+              // button is what you hit. 28 cleared the 24px AA minimum but sat
+              // well under the 44 both mobile platforms ask for. 44 was tried
+              // and rejected here, because it leaves 16px of dead space
+              // between chips and proximity is the only thing grouping these
+              // three now the frame is gone. 36 is AA plus half again.
+              "group grid h-9 w-9 place-items-center transition-colors duration-[160ms]",
               // The selected fill is the interactive blue, not the inverse
               // surface. Inside a frame the inverse fill read as a segmented
               // control; standing on its own it became the darkest object in
@@ -198,12 +204,18 @@ export function ThemeToggle() {
               // hue apart. Selection would have rested on color alone, which
               // is exactly what WCAG 1.4.1 rules out, and axe passed it
               // clean — a state being invisible is not a thing axe can see.
-              active
-                ? "bg-interactive text-interactive-on"
-                : "text-text-tertiary hover:bg-interactive-subtle hover:text-text-secondary",
             ].join(" ")}
           >
-            <span className="h-4 w-4">{option.icon}</span>
+            <span
+              className={[
+                "grid h-7 w-7 place-items-center rounded-sm transition-colors duration-[160ms]",
+                active
+                  ? "bg-interactive text-interactive-on"
+                  : "text-text-tertiary group-hover:bg-interactive-subtle group-hover:text-text-secondary",
+              ].join(" ")}
+            >
+              <span className="h-4 w-4">{option.icon}</span>
+            </span>
           </button>
         );
       })}

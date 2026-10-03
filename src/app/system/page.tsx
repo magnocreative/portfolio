@@ -164,7 +164,7 @@ export default function SystemPage() {
               WCAG 2.2 threshold for the size it is actually used at. Small mono metadata is held to 4.5:1, not the 3:1
               large-text allowance, because it is small.
             </p>
-            <ContrastAudit rows={textRoles} />
+            <ContrastAudit rows={textRoles} label="Text roles, measured" />
 
             <h3 className="mt-14 font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
               Interactive fills, at the non-text bar
@@ -178,7 +178,7 @@ export default function SystemPage() {
               transient states carrying labels at 7.46:1 and 10.90:1, shown failing rather than left
               out of the table.
             </p>
-            <ContrastAudit rows={interactiveRoles} kind="nontext" />
+            <ContrastAudit rows={interactiveRoles} kind="nontext" label="Interactive fills, measured" />
             </section>
 
               {/* Decisions */}

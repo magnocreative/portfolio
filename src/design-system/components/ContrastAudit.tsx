@@ -53,7 +53,20 @@ const verdictClass: Record<Level, string> = {
  * light theme, under the 4.5:1 its small mono metadata requires. It looked
  * completely fine on screen.
  */
-export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?: TokenKind }) {
+export function ContrastAudit({
+  rows,
+  kind = "text",
+  label,
+}: {
+  rows: AuditRow[];
+  kind?: TokenKind;
+  /**
+   * Names the scrollable region. Required rather than optional, because two
+   * regions sharing a name are two landmarks with the same sign, which is the
+   * same rule Breadcrumbs carries a `label` for.
+   */
+  label: string;
+}) {
   const [measured, setMeasured] = useState<Measured[] | null>(null);
 
   useEffect(() => {
@@ -84,7 +97,15 @@ export function ContrastAudit({ rows, kind = "text" }: { rows: AuditRow[]; kind?
   }, [rows, kind]);
 
   return (
-    <div className="overflow-x-auto">
+    // The table is wider than a phone, so this scrolls sideways. A div that
+    // scrolls and holds nothing focusable is unreachable by keyboard: there is
+    // no way into it and no way to arrow across. tabIndex makes it a stop, and
+    // a stop in the tab order has to say what it is, hence role and label.
+    //
+    // Found by auditing at 390px. Five clean audits had run before this, all
+    // at 1440, where the table fits and never scrolls. The bug was not hiding;
+    // nobody had looked at the width where it exists.
+    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={label}>
       <table className="w-full min-w-[36rem] border-collapse text-left">
         <thead>
           <tr className="border-b border-border-default">
