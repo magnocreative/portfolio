@@ -91,13 +91,24 @@ function NavList({
 
   return (
     <nav aria-label="Main">
-      {/* The labels sit on the same left edge as the mark and the name, and the
-          indicator lives in the rail's 24px gutter rather than pushing the
-          text off that edge. It was the other way round — `pl-5` on every link
-          to clear a `left-0` indicator — which put the labels 20px right of
-          the logo: close enough to look like alignment that failed rather than
-          an indent that was chosen. A marker in the margin is the older and
-          better pattern anyway; the text column stays a text column. */}
+      {/* Three positions are possible for the marker and only one is free.
+          The labels sit on the mark's 24px edge, so:
+
+          24px, on that same edge, means the labels indent to 44 and no longer
+          line up with the mark. That was the original and it is what made the
+          labels look misaligned rather than indented.
+
+          12px, in the middle of the gutter, keeps the labels on 24 but leaves
+          the marker lined up with nothing — an object floating in a margin,
+          which is the worst of the three because it reads as an accident.
+
+          0, the rail's own left edge, keeps the labels on 24 and gives the
+          marker a real edge to sit on. It is not "near" the edge, it IS the
+          edge, which is a position rather than a near miss. The same reason a
+          tab marker in an IDE sidebar sits flush: at the boundary it reads as
+          deliberate, and three pixels in it reads as sloppy.
+
+          So the marker is full-bleed and the text column stays a text column. */}
       <ul ref={listRef} className="relative flex flex-col gap-1">
         {/* Hidden from assistive tech: a second rendering of a state that
             `aria-current` already announces on the link. Announcing position
@@ -105,7 +116,7 @@ function NavList({
         {marker && (
           <span
             aria-hidden="true"
-            className={`absolute -left-3 w-0.5 rounded-full bg-interactive ${
+            className={`absolute -left-6 w-0.5 rounded-l-none rounded-r-full bg-interactive ${
               animated
                 ? "transition-all duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none"
                 : ""
@@ -176,7 +187,12 @@ function ChevronIcon() {
       focusable="false"
       className="h-6 w-6 transition-transform duration-[240ms] ease-[var(--ease-out-quart)] rail-collapsed:rotate-180 motion-reduce:transition-none"
     >
-      <path d="M12 5l-5 5 5 5" />
+      {/* Spans 13 of the 20-unit viewBox vertically, where it used to span 10.
+          The box was always 24px in a 32px chip, same as every other icon, but
+          a chevron fills a narrow slice of its own box while the sun and the
+          monitor fill most of theirs — so at identical box sizes this one read
+          as the smaller icon. The fix is the path, not the box. */}
+      <path d="M13 3.5L6.5 10l6.5 6.5" />
     </svg>
   );
 }
@@ -194,7 +210,7 @@ function MenuIcon({ open }: { open: boolean }) {
       strokeLinecap="round"
       aria-hidden="true"
       focusable="false"
-      className="h-5 w-5"
+      className="h-6 w-6"
     >
       {open ? <path d="M5 5l10 10M15 5L5 15" /> : <path d="M3 7h14M3 13h14" />}
     </svg>
@@ -271,9 +287,20 @@ function Bar() {
             aria-controls="site-menu"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
-            className="grid h-11 w-11 place-items-center rounded-sm text-text-secondary transition-colors duration-[160ms] hover:bg-interactive-subtle hover:text-text-primary"
+            // The same construction as the theme chips beside it in the panel:
+            // a 32px chip you can see, inside a 44px target you hit. Matching
+            // them on the visible box is the point — the disclosure used to be
+            // a bare 44px button, so its glyph read as a different size class
+            // from every other icon in the header.
+            //
+            // -mr-1.5 for the chip's own right edge. The 32 sits 6px inside the
+            // 44, so without it the chip stops 30px from the viewport while the
+            // mark starts at 24, and the two ends of the bar disagree.
+            className="group -mr-1.5 grid h-11 w-11 place-items-center"
           >
-            <MenuIcon open={open} />
+            <span className="grid h-8 w-8 place-items-center rounded-sm text-text-secondary transition-colors duration-[160ms] group-hover:bg-interactive-subtle group-hover:text-text-primary">
+              <MenuIcon open={open} />
+            </span>
           </button>
         </div>
 
@@ -307,7 +334,7 @@ function Bar() {
  * single-column text to is 900px, the container spends 128px on its own
  * gutters, so the content column needs 1028px. Add the 300px rail and the
  * first viewport that clears it is 1328, which makes the measure 852px at
- * exactly 1280 and the full 900 from 1328 up.
+ * exactly 1280 and the full 900 from 1328 up, or at any width collapsed.
  *
  * The breakpoint stayed at 1280 rather than moving up to 1328 with the rail.
  * 1280 is a real population — it is the default scaled width of a 13" laptop —
@@ -357,11 +384,18 @@ function Rail() {
     <header
       className={[
         "fixed inset-y-0 left-0 z-50 hidden w-[var(--rail-width)] flex-col",
-        "border-r border-border-subtle bg-surface-raised py-10 min-[1280px]:flex",
-        // 24px of padding expanded, 12px collapsed. The collapsed figure is
-        // what centers a 48px mark in a 72px rail; at 24 the mark would not
-        // fit at all.
-        "px-6 rail-collapsed:items-center rail-collapsed:px-3",
+        // The hairline is a shadow, not a border, and that is arithmetic
+        // rather than preference. A 1px right border is inside the border box,
+        // so it eats a pixel of the right padding: at 96px the mark got 24
+        // left and 23 right, and the same pixel was missing from the expanded
+        // rail's right edge. A shadow is drawn outside the box, so 96 is
+        // exactly 24 + 48 + 24 and both edges are the number they claim.
+        "shadow-[1px_0_0_var(--border-subtle)] bg-surface-raised py-10 min-[1280px]:flex",
+        // One padding, both states. The collapsed width is sized from this
+        // rather than the other way round: 48px mark plus 24 each side is 96,
+        // so nothing inside needs a collapsed-specific position and the whole
+        // rail keeps a single 24px content edge.
+        "px-6",
         // The one transition here. Collapsing is a 232px change to the whole
         // page, and instant is not restraint at that size, it is a jump cut.
         "transition-[width] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none",
@@ -405,35 +439,50 @@ function Rail() {
         <NavList />
       </div>
 
-      {/* mt-auto, so the controls sit on the bottom edge however short the nav
+      {/* mt-auto, so the control sits on the bottom edge however short the nav
           is, without the nav itself being stretched to reach it. */}
-      <div className="mt-auto flex flex-col gap-2 rail-collapsed:items-center">
+      <div className="mt-auto">
         <ThemeToggle orientation="vertical" density="pointer" />
-
-        {/* The collapse control sits under the theme stack rather than at the
-            top of the rail, because the top of the rail is the identity and
-            putting a chrome control beside a name makes the name look like
-            part of the chrome. Both bottom controls are 32px boxes on the
-            same left edge.
-
-            suppressHydrationWarning is load-bearing and narrow: the server
-            cannot know the stored state, so this one attribute legitimately
-            differs between the server HTML and the first client render. The
-            alternative — not rendering the control until mounted — would mean
-            a keyboard user tabbing into a control that appears late. */}
-        <button
-          type="button"
-          onClick={toggle}
-          aria-expanded={collapsed ? false : true}
-          aria-controls="rail-nav"
-          aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
-          title={collapsed ? "Expand navigation" : "Collapse navigation"}
-          suppressHydrationWarning
-          className="grid h-8 w-8 place-items-center rounded-sm text-text-tertiary transition-colors duration-[160ms] hover:bg-interactive-subtle hover:text-text-primary"
-        >
-          <ChevronIcon />
-        </button>
       </div>
+
+      {/* On the right edge, vertically centered: a handle on the boundary it
+          moves, rather than a button in a list of buttons. It is absolute
+          rather than in the flex column because it belongs to the rail's edge
+          and not to the rail's contents — in the column it would have had to
+          sit above or below the theme stack, which made it read as a third
+          preference rather than as the thing that moves the wall.
+
+          Which edge it hangs from depends on what the rail is at that width.
+
+          Expanded, the rail is a 252px column with a far right boundary, and
+          the caret is the handle on that boundary, so it hangs off the right
+          at the rail's own 24px padding.
+
+          Collapsed, the rail is a single 48px column and every object in it —
+          the mark, the three theme chips — starts at 24. A caret inset from
+          the right lands at 40 instead, which is the only thing in the rail
+          not on that line, and that is exactly what it looked like: an object
+          that missed the column. So it switches to the left edge and joins
+          them. Same 24px either way; the edge it is measured from changes
+          because the thing it is aligning to changes.
+
+          suppressHydrationWarning is load-bearing and narrow: the server
+          cannot know the stored state, so this one attribute legitimately
+          differs between the server HTML and the first client render. The
+          alternative — not rendering the control until mounted — would mean a
+          keyboard user tabbing into a control that appears late. */}
+      <button
+        type="button"
+        onClick={toggle}
+        aria-expanded={collapsed ? false : true}
+        aria-controls="rail-nav"
+        aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
+        title={collapsed ? "Expand navigation" : "Collapse navigation"}
+        suppressHydrationWarning
+        className="absolute top-1/2 right-6 grid h-8 w-8 -translate-y-1/2 rail-collapsed:right-auto rail-collapsed:left-6 place-items-center rounded-sm text-text-tertiary transition-colors duration-[160ms] hover:bg-interactive-subtle hover:text-text-primary"
+      >
+        <ChevronIcon />
+      </button>
     </header>
   );
 }

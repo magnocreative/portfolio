@@ -28,16 +28,21 @@
     scroll-behavior: smooth;
   }
 
-  /* 72px, and the number comes from the mark: at 36px tall it is 48px wide,
-     plus 12px of padding each side. The collapsed rail is as narrow as its
-     widest unshrinkable object and no narrower.
+  /* 96px: the 48px mark plus 24px each side, the same padding the expanded
+     rail uses. One padding rule now serves both states, which is why nothing
+     in the rail needs a collapsed-specific position. The content box runs from
+     24 to 72 collapsed and 24 to 276 expanded, so the mark, the nav labels and
+     the theme stack all sit on 24 either way. The caret is the one object that
+     changes edge: it hangs off the right of that box expanded, where the rail
+     is a wide column with a far boundary, and off the left collapsed, where
+     the rail is one 48px column and 24 is the only line there is.
 
      Overriding the token rather than the rail's class is what lets the content
      column follow for free — `layout.tsx` is inset by this same variable, so
      there is exactly one number and the two cannot drift. Specificity does the
      work: `@theme` emits to `:root`, and `:root[data-rail=…]` outranks it. */
   :root[data-rail="collapsed"] {
-    --rail-width: 4.5rem;
+    --rail-width: 6rem;
   }
 
   /* The header is sticky, so anything jumped to by an in-page link would land
