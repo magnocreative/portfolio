@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Label } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
-import { SiteHeader } from "@/design-system/components/SiteHeader";
-import { SiteFooter } from "@/design-system/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -140,7 +138,6 @@ function SectionHead({ id, children }: { id: string; children: React.ReactNode }
 export default function Resume() {
   return (
     <>
-      <SiteHeader />
 
       <main>
         <Container>
@@ -295,8 +292,6 @@ export default function Resume() {
           </section>
         </Container>
       </main>
-
-      <SiteFooter />
     </>
   );
 }

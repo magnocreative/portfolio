@@ -87,7 +87,36 @@ const options: { value: ThemeChoice; label: string; icon: React.ReactNode }[] = 
  * behavior is not a thing a linter sees. Same lesson as the theme chip whose
  * selected state was invisible and measured clean.
  */
-export function ThemeToggle() {
+export function ThemeToggle({
+  orientation = "horizontal",
+  density = "touch",
+}: {
+  /** The rail stacks these; the phone panel keeps them in a row. The keyboard
+   *  behavior is identical either way — see `onKeyDown`, which has always
+   *  accepted both axes — so this changes the layout and what the group tells
+   *  a screen reader, and nothing else. */
+  orientation?: "horizontal" | "vertical";
+  /**
+   * How big the hit area is, which is a different question from how big the
+   * control looks.
+   *
+   * `touch` is a 32px chip centered in a 44px button, 1px apart. The 44 is not
+   * decoration and not a container you can see: it is the hit area, and 44 is
+   * the platform figure on both iOS and Android and the WCAG 2.2 AAA target.
+   * The chip is what the eye reads; the button is what a thumb lands on, and
+   * the thumb is less accurate than the eye. This is the phone panel.
+   *
+   * `pointer` collapses the two: a 32px button that is also the 32px chip,
+   * 8px apart. A cursor is accurate to the pixel, so the padded hit area buys
+   * nothing on a desktop rail, and the honest version is a control whose box
+   * is the thing you can see. 32px still clears WCAG 2.2 AA, which asks for
+   * 24, and sits under AAA, which asks for 44 — a trade that is defensible for
+   * a pointer and would not be for a thumb.
+   */
+  density?: "touch" | "pointer";
+} = {}) {
+  const vertical = orientation === "vertical";
+  const touch = density === "touch";
   const [choice, setChoice] = useState<ThemeChoice>("system");
   const [mounted, setMounted] = useState(false);
   const refs = useRef<Partial<Record<ThemeChoice, HTMLButtonElement | null>>>({});
@@ -129,8 +158,11 @@ export function ThemeToggle() {
     if (i === -1) return;
     const last = options.length - 1;
 
-    // Both axes, because the group is horizontal in the header and there is no
-    // reliable way for a keyboard user to know that before they try.
+    // Both axes, in both orientations. `aria-orientation` names the axis for a
+    // screen reader, but a sighted keyboard user reaching this control has no
+    // way to know which arrows it wants before trying one, and the group now
+    // renders horizontally in the phone panel and vertically in the rail. A
+    // control that answers only one axis is a dead key half the time.
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
       e.preventDefault();
       move(options[(i + 1) % options.length].value);
@@ -157,8 +189,17 @@ export function ThemeToggle() {
       // anything else in the header, which is all a group of three needs.
       // The selected option still carries a filled ground, so the state does
       // not depend on the frame that is gone.
+      // Declared, not assumed. A radiogroup is horizontal by default in ARIA,
+      // so a stacked group that says nothing is announced as the wrong shape.
+      aria-orientation={vertical ? "vertical" : "horizontal"}
       onKeyDown={onKeyDown}
-      className="inline-flex items-center gap-px"
+      // The 12px that separate the chips do the grouping either way: stacked,
+      // the 44px targets leave the same 12px between 32px chips vertically as
+      // they did horizontally, so the proximity argument above carries over
+      // unchanged rather than needing a new number.
+      className={`inline-flex ${touch ? "gap-px" : "gap-2"} ${
+        vertical ? "flex-col items-start" : "items-center"
+      }`}
     >
       {options.map((option) => {
         const active = mounted && choice === option.value;
@@ -182,13 +223,11 @@ export function ThemeToggle() {
             tabIndex={tabbable ? 0 : -1}
             onClick={() => select(option.value)}
             className={[
-              // 36px target around a 28px chip: the chip is what you see, the
-              // button is what you hit. 28 cleared the 24px AA minimum but sat
-              // well under the 44 both mobile platforms ask for. 44 was tried
-              // and rejected here, because it leaves 16px of dead space
-              // between chips and proximity is the only thing grouping these
-              // three now the frame is gone. 36 is AA plus half again.
-              "group grid h-9 w-9 place-items-center transition-colors duration-[160ms]",
+              // See `density` above for why there are two sizes. The chip
+              // inside is 32px either way, so the thing you look at does not
+              // change between surfaces — only the margin of error around it.
+              "group grid place-items-center transition-colors duration-[160ms]",
+              touch ? "h-11 w-11" : "h-8 w-8",
               // The selected fill is the interactive blue, not the inverse
               // surface. Inside a frame the inverse fill read as a segmented
               // control; standing on its own it became the darkest object in
@@ -208,13 +247,16 @@ export function ThemeToggle() {
           >
             <span
               className={[
-                "grid h-7 w-7 place-items-center rounded-sm transition-colors duration-[160ms]",
+                "grid h-8 w-8 place-items-center rounded-sm transition-colors duration-[160ms]",
                 active
                   ? "bg-interactive text-interactive-on"
                   : "text-text-tertiary group-hover:bg-interactive-subtle group-hover:text-text-secondary",
               ].join(" ")}
             >
-              <span className="h-4 w-4">{option.icon}</span>
+              {/* 24px in a 32px chip, so 4px of breathing room each side.
+                  These were 20px, which at a 32px chip read as a small glyph
+                  floating in a box rather than an icon with a ground. */}
+              <span className="h-6 w-6">{option.icon}</span>
             </span>
           </button>
         );

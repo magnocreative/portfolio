@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Container, Label } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
-import { SiteHeader } from "@/design-system/components/SiteHeader";
-import { SiteFooter } from "@/design-system/components/SiteFooter";
 import { Logo } from "@/design-system/brand/Logo";
 
 export const metadata: Metadata = {
@@ -39,7 +37,6 @@ const principles = [
 export default function About() {
   return (
     <>
-      <SiteHeader />
 
       <main>
         <Container>
@@ -232,8 +229,6 @@ export default function About() {
           </section>
         </Container>
       </main>
-
-      <SiteFooter />
     </>
   );
 }

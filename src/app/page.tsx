@@ -1,8 +1,6 @@
 import { Container, Label } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
-import { SiteHeader } from "@/design-system/components/SiteHeader";
-import { SiteFooter } from "@/design-system/components/SiteFooter";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
 
@@ -16,7 +14,6 @@ const systemFacts = [
 export default function Home() {
   return (
     <>
-      <SiteHeader />
 
       <main>
         {/* Hero. The measure is deliberately short — a claim you can read in
@@ -129,8 +126,6 @@ export default function Home() {
           </section>
         </Container>
       </main>
-
-      <SiteFooter />
     </>
   );
 }

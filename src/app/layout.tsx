@@ -7,6 +7,8 @@ import "@fontsource-variable/newsreader";
 import "@fontsource-variable/jetbrains-mono";
 import "./globals.css";
 import { themeInitScript } from "@/design-system/components/ThemeToggle";
+import { SiteHeader, railInitScript } from "@/design-system/components/SiteHeader";
+import { SiteFooter } from "@/design-system/components/SiteFooter";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://magnocreative.com"),
@@ -34,8 +36,27 @@ export default function RootLayout({
             renders at the system theme for one frame — the flash that makes
             an otherwise careful dark mode feel cheap. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Same reason, for the rail's collapsed state. This one is the more
+            visible of the two if it is missed: the theme getting it wrong is a
+            flash of the wrong color, the rail getting it wrong is the entire
+            page sliding 232px sideways after it has already been read. */}
+        <script dangerouslySetInnerHTML={{ __html: railInitScript }} />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {/* The shell lives here rather than in each page. Five pages each
+            rendering their own header and footer was five places to forget,
+            and a fixed rail has to sit outside the page content rather than
+            inside each copy of it. */}
+        <SiteHeader />
+
+        {/* The content column, inset by exactly the rail's width from 1280px,
+            from the same token the rail is sized by, so the two cannot drift.
+            Below 1280 there is no rail and no inset. */}
+        <div className="transition-[padding] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none min-[1280px]:pl-[var(--rail-width)]">
+          {children}
+          <SiteFooter />
+        </div>
+      </body>
     </html>
   );
 }

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Container, Label } from "@/design-system/primitives/Container";
-import { SiteHeader } from "@/design-system/components/SiteHeader";
-import { SiteFooter } from "@/design-system/components/SiteFooter";
 import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
@@ -98,7 +96,6 @@ const decisions = [
 export default function SystemPage() {
   return (
     <>
-      <SiteHeader />
 
       <main>
         <Container>
@@ -290,8 +287,6 @@ export default function SystemPage() {
           </div>
         </Container>
       </main>
-
-      <SiteFooter />
     </>
   );
 }

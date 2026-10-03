@@ -5,6 +5,17 @@
    Declared here so `dark:` utilities follow the same rule as the tokens. */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/* The rail's collapsed state, driven by [data-rail] on <html> for the same
+   reason the theme is: an inline script sets it before first paint, so a
+   visitor who collapsed the rail last visit never sees it expand and snap
+   shut. Driving it from React state instead would put the stored width on
+   <html> and the stored layout one frame behind it.
+
+   This is why the collapse is a CSS variant rather than a conditional render.
+   Every piece of the rail that changes says so on itself, and the component
+   holds no second copy of the truth. */
+@custom-variant rail-collapsed (&:where([data-rail="collapsed"] *));
+
 @layer base {
   *,
   *::before,
@@ -15,6 +26,18 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+  }
+
+  /* 72px, and the number comes from the mark: at 36px tall it is 48px wide,
+     plus 12px of padding each side. The collapsed rail is as narrow as its
+     widest unshrinkable object and no narrower.
+
+     Overriding the token rather than the rail's class is what lets the content
+     column follow for free — `layout.tsx` is inset by this same variable, so
+     there is exactly one number and the two cannot drift. Specificity does the
+     work: `@theme` emits to `:root`, and `:root[data-rail=…]` outranks it. */
+  :root[data-rail="collapsed"] {
+    --rail-width: 4.5rem;
   }
 
   /* The header is sticky, so anything jumped to by an in-page link would land

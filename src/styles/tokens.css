@@ -484,6 +484,35 @@
      `text` is the narrow variant for a page that is nothing but prose. Nothing
      uses it yet; unlike the other two it has an obvious job waiting, which is
      the case study template. */
+  /* The desktop rail, 300px by instruction. The contents need 296: the 48px
+     mark, a 12px gap, "Alejandro Magno Fernandini" at 188px on one line at
+     14px, and 24px of padding each side. Measured in the browser at the real
+     font rather than estimated, because the name is the one string here that
+     cannot break.
+
+     300 leaves 4px of slack, which is enough for Inter and not enough for the
+     font that paints before it. Inter is self-hosted and lands after first
+     paint, so the name is briefly set in the fallback — SF Pro on macOS, which
+     is wider: the same string measures about 195px in a UI font against
+     Inter's 188. The identity row therefore clips rather than overflows (see
+     SiteHeader), so the worst case in that window is a hair off the final
+     letter for one frame instead of the owner's surname printed across the
+     border. 304 would have avoided it arithmetically; 300 was asked for, and
+     clipping makes the 4px difference cosmetic rather than structural.
+
+     This is the expensive token on the page and the cost is in the text
+     measure, not the rail. At exactly 1280 the content column is 980px, the
+     container spends 128px on gutters, and prose sets at 852px against a
+     documented measure of 900. It reaches the full 900 from 1328 up — or
+     immediately, at any width, by collapsing the rail.
+
+     Taken knowingly. The alternative was to shrink the name or break it over
+     two lines, and a rail that makes the owner's name smaller in order to fit
+     is a rail sized by the wrong constraint. 852px is still inside the 45-75
+     character band at this body size; it is under the number this site wrote
+     down, which is worth recording rather than quietly rounding. */
+  --rail-width: 18.75rem;
+
   --container-measure: 900px;
   --container-text: 44rem;
   --container-wide: 84rem;
