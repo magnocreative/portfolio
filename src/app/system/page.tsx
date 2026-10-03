@@ -4,6 +4,8 @@ import { SiteHeader } from "@/design-system/components/SiteHeader";
 import { SiteFooter } from "@/design-system/components/SiteFooter";
 import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
 import { SectionNav } from "@/design-system/components/SectionNav";
+import { Button } from "@/design-system/components/Button";
+import { ArrowRight } from "@/design-system/components/Icon";
 
 export const metadata: Metadata = {
   title: "The design system",
@@ -37,6 +39,7 @@ const contents = [
   { id: "tiers", label: "Three tiers" },
   { id: "contrast", label: "Contrast, measured" },
   { id: "decisions", label: "Decisions" },
+  { id: "components", label: "Components" },
   { id: "source", label: "Read the source" },
 ];
 
@@ -208,6 +211,31 @@ export default function SystemPage() {
                   <p className="mt-3 max-w-measure text-base text-text-secondary">{d.body}</p>
                 </div>
               ))}
+            </div>
+            </section>
+
+              {/* Components */}
+            <section id="components" className="scroll-mt-28 mt-24" aria-labelledby="components-heading">
+            <div className="border-b border-border-rule pb-4">
+              <Label as="h2" className="!text-text-primary">
+                <span id="components-heading">Components</span>
+              </Label>
+            </div>
+
+            {/* A link rather than the gallery itself. This page is the
+                argument; the gallery is the evidence, and the evidence needs
+                full width and room to grow as the system does. Keeping them
+                apart means neither gets longer at the other's expense. */}
+            <p className="mt-8 max-w-measure text-base text-text-secondary">
+              Everything above is reasoning. The components themselves are on their own page, rendered
+              live rather than screenshotted, each one next to the decision it embodies and what that
+              decision cost. Nothing there is behind a tab, including the Tabs component.
+            </p>
+
+            <div className="mt-8">
+              <Button href="/system/components" variant="primary" iconAfter={<ArrowRight />}>
+                See the components running
+              </Button>
             </div>
             </section>
 
