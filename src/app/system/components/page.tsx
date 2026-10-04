@@ -109,7 +109,7 @@ export default function ComponentsPage() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-              <section className="pt-24 pb-4 md:pt-36">
+              <section className="pt-24 pb-4 md:pt-32">
                 {/* The one page on this site deep enough to need a trail. The
                     top-level pages deliberately do not carry one: a breadcrumb
                     reading "Home / About" states what the nav already shows
@@ -479,11 +479,11 @@ export default function ComponentsPage() {
                 `hidden`, not a second layout. The horizontal variant still
                 exists in the component and in Storybook — it is simply not
                 what these pages want. */}
-            {/* The same 36 the page header carries as `md:pt-36`, so the nav's
+            {/* The same 32 the page header carries as `md:pt-32`, so the nav's
                 first label starts on the page eyebrow's line rather than a
                 third of a row below it. The component pulls back by its own
                 row padding; see the note on the sticky offset there. */}
-            <div className="hidden lg:block lg:mt-36">
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

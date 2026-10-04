@@ -19,7 +19,7 @@ export default function Home() {
         {/* Hero. The measure is deliberately short — a claim you can read in
             one breath beats a paragraph that hedges it. */}
         <Container>
-          <section className="pt-24 pb-4 md:pt-36">
+          <section className="pt-24 pb-4 md:pt-32">
             {/* The title of record, not the functional one. It reads Senior
                 everywhere a person describes this work, and it will read
                 Senior here the day the promotion lands — but a public page

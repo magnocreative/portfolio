@@ -281,8 +281,33 @@ function NavList({
                   // 1.17:1. Semibold costs nothing here because the label is
                   // monospace: the advance width of every character is fixed,
                   // so the row cannot reflow when the weight changes.
+                  // `whitespace-nowrap` and `shrink-0` exist for the 240ms
+                  // nobody screenshots.
+                  //
+                  // `data-rail` flips in one frame, so the label stops being
+                  // `sr-only` immediately — but the rail WIDTH is animated, so
+                  // for the first half of an expand the label is laying out
+                  // inside a container still only ~17px wide. "Design system"
+                  // wrapped to two lines and snapped back to one partway
+                  // through: measured at 39px tall for the first 135ms of a
+                  // 240ms transition, then 19.5px. Every static check passes
+                  // and it is plainly wrong in motion.
+                  //
+                  // Holding the label on one line at its full width turns that
+                  // into what a drawer should do: the text is revealed from
+                  // the left as the rail opens, clipped by the rail's own
+                  // `overflow-hidden`, instead of reflowing inside it.
+                  //
+                  // Behind `collapsible`, so it reaches the rail and not the
+                  // phone grid, which shares this span. The grid WANTS to wrap:
+                  // its tiles are 112px at a 280px viewport and the widest
+                  // label is 120, so an unwrappable label overflows its own
+                  // tile there. Nothing animates in the grid, so nothing in it
+                  // needs this.
                   className={`font-mono text-xs uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
-                    collapsible ? "rail-collapsed:sr-only" : ""
+                    collapsible
+                      ? "rail-collapsed:sr-only whitespace-nowrap shrink-0"
+                      : ""
                   } ${
                     current
                       ? "font-semibold text-text-accent"
@@ -818,7 +843,12 @@ function Rail() {
         // nav's: it is the only thing down there and it reads as cramped on the
         // rail's own edge.
         "top-[var(--banner-height)] px-6 pt-6 pb-10 min-[1280px]:flex",
-        "bg-surface-raised shadow-[1px_0_0_var(--border-subtle)]",
+        // Clips the labels while the rail is mid-animation. Without it the
+        // nowrap label runs 120px wide out of an 89px rail and across the
+        // page content for a fifth of a second. Safe for focus rings: a row's
+        // outline sits at x 20 to 66 inside a rail that starts at 0 and is
+        // never narrower than 88.8.
+        "overflow-hidden bg-surface-raised shadow-[1px_0_0_var(--border-subtle)]",
         // The one transition. Collapsing is a 136px change to the whole page,
         // and instant is not restraint at that size, it is a jump cut.
         "transition-[width] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none",

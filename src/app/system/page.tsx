@@ -109,7 +109,7 @@ export default function SystemPage() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-              <section className="pt-24 pb-4 md:pt-36">
+              <section className="pt-24 pb-4 md:pt-32">
             <Label>The design system</Label>
             <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[24ch] lg:text-5xl">
               A system you can read, not a claim you have to take on trust.
@@ -304,11 +304,11 @@ export default function SystemPage() {
                 `hidden`, not a second layout. The horizontal variant still
                 exists in the component and in Storybook — it is simply not
                 what these pages want. */}
-            {/* The same 36 the page header carries as `md:pt-36`, so the nav's
+            {/* The same 32 the page header carries as `md:pt-32`, so the nav's
                 first label starts on the page eyebrow's line rather than a
                 third of a row below it. The component pulls back by its own
                 row padding; see the note on the sticky offset there. */}
-            <div className="hidden lg:block lg:mt-36">
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Container, Label } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
+// Imported rather than referenced from /public, so Next reads the real
+// dimensions at build time and reserves the box before the bytes arrive. That
+// is the difference between a figure that appears and one that shoves three
+// paragraphs down the page when it loads.
+import portrait from "@/assets/alejandro-fernandini.jpg";
 
 export const metadata: Metadata = {
   title: "About",
@@ -76,7 +82,7 @@ export default function About() {
               arrives. 24ch holds two lines in Newsreader and in ui-serif,
               Georgia and the generic serif, at 870px against the 900px
               measure. 26ch would clear the measure. */}
-          <section className="pt-24 pb-4 md:pt-36">
+          <section className="pt-24 pb-4 md:pt-32">
             <Label>About</Label>
 
             <h1 className="text-optical mt-10 max-w-[24ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance lg:text-5xl">
@@ -101,13 +107,45 @@ export default function About() {
               </Label>
             </div>
 
-            <div className="mt-10 flex max-w-measure flex-col gap-6 text-base leading-[1.7] text-text-secondary">
+            <div className="mt-10 max-w-measure text-base leading-[1.7] text-text-secondary">
+              {/* Floated rather than placed in its own column, because the
+                  content column is 640px at 1280 and a 208px figure beside it
+                  would leave about 50 characters a line — a rag bad enough to
+                  notice. Floating lets the first two paragraphs sit beside the
+                  photo and the third clear it, so the measure recovers instead
+                  of being permanently narrow.
+
+                  Not floated on a phone. At 390 the column is 342, and a float
+                  there leaves roughly 28 characters, which is a column of
+                  confetti. Below `sm` it is a block above the prose at a size
+                  that does not take over the screen.
+
+                  208px is `--rail-width`'s contents column, 13rem, the same
+                  number the section nav uses. Reusing it rather than picking a
+                  fourth width keeps the page on the measurements it already
+                  has. */}
+              <figure className="mb-7 w-40 sm:float-left sm:mr-7 sm:mb-3 sm:w-44 lg:w-52">
+                <Image
+                  src={portrait}
+                  alt="Alejandro Magno Fernandini"
+                  // Tells the browser the DISPLAY size at each breakpoint so it
+                  // fetches a 208px-wide image rather than the 880px source.
+                  // Without it Next assumes full viewport width and ships about
+                  // ten times the bytes needed.
+                  sizes="(min-width: 1024px) 208px, (min-width: 640px) 176px, 160px"
+                  // Generated from the import at build time, so the space is
+                  // filled with the photo's own colours while it loads instead
+                  // of a hole in the paragraph.
+                  placeholder="blur"
+                  className="h-auto w-full rounded-sm"
+                />
+              </figure>
               <p>
                 Ten years in design. I started as a graphic designer and technical illustrator,
                 moved into visual design on a bank&rsquo;s public site, and then into product design
                 on the internal platforms nobody outside the company ever sees.
               </p>
-              <p>
+              <p className="mt-6">
                 In the middle of that I spent a year and a half as a software engineer, maintaining
                 the SQL jobs behind a bank&rsquo;s submission for the Federal Reserve&rsquo;s annual
                 capital stress test. Automating parts of the pipeline had made it faster and more
@@ -116,7 +154,7 @@ export default function About() {
                 instead of describing it, and why I know what a handoff actually costs the person
                 on the receiving end of it.
               </p>
-              <p>
+              <p className="mt-6">
                 Today I&rsquo;m an experience designer at JPMorganChase in Plano, working across CRM
                 platforms used throughout the firm, and I own the design system those teams build
                 from. Before that, six years at USAA across governance, risk and compliance, audit,
@@ -274,11 +312,11 @@ export default function About() {
                 `hidden`, not a second layout. The horizontal variant still
                 exists in the component and in Storybook — it is simply not
                 what these pages want. */}
-            {/* The same 36 the page header carries as `md:pt-36`, so the nav's
+            {/* The same 32 the page header carries as `md:pt-32`, so the nav's
                 first label starts on the page eyebrow's line rather than a
                 third of a row below it. The component pulls back by its own
                 row padding; see the note on the sticky offset there. */}
-            <div className="hidden lg:block lg:mt-36">
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

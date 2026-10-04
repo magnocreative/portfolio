@@ -173,7 +173,7 @@ export default function Resume() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-          <section className="pt-24 pb-4 md:pt-36">
+          <section className="pt-24 pb-4 md:pt-32">
             <Label>Résumé</Label>
 
             {/* The name is the h1 here and nowhere else on the site. This page
@@ -335,11 +335,11 @@ export default function Resume() {
                 `hidden`, not a second layout. The horizontal variant still
                 exists in the component and in Storybook — it is simply not
                 what these pages want. */}
-            {/* The same 36 the page header carries as `md:pt-36`, so the nav's
+            {/* The same 32 the page header carries as `md:pt-32`, so the nav's
                 first label starts on the page eyebrow's line rather than a
                 third of a row below it. The component pulls back by its own
                 row padding; see the note on the sticky offset there. */}
-            <div className="hidden lg:block lg:mt-36">
+            <div className="hidden lg:block lg:mt-32">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>
