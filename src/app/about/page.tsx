@@ -94,7 +94,7 @@ export default function About() {
           </section>
 
         {/* The path here */}
-          <section id="short-version" className="scroll-mt-28 mt-32" aria-labelledby="path-heading">
+          <section id="short-version" className="mt-32" aria-labelledby="path-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="path-heading">The short version</span>
@@ -128,7 +128,7 @@ export default function About() {
           </section>
 
         {/* The mark */}
-          <section id="mark" className="scroll-mt-28 mt-28" aria-labelledby="mark-heading">
+          <section id="mark" className="mt-28" aria-labelledby="mark-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="mark-heading">The mark</span>
@@ -199,7 +199,7 @@ export default function About() {
           </section>
 
         {/* How I work */}
-          <section id="how-i-work" className="scroll-mt-28 mt-28" aria-labelledby="principles-heading">
+          <section id="how-i-work" className="mt-28" aria-labelledby="principles-heading">
             <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="principles-heading">How I work</span>
@@ -227,7 +227,7 @@ export default function About() {
           </section>
 
         {/* What I'm after */}
-          <section id="interests" className="scroll-mt-28 mt-28" aria-labelledby="interest-heading">
+          <section id="interests" className="mt-28" aria-labelledby="interest-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="interest-heading">What interests me</span>

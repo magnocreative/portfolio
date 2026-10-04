@@ -227,12 +227,12 @@ export default function Resume() {
           </section>
 
         {/* Experience */}
-          <section id="experience" className="scroll-mt-28 mt-28" aria-labelledby="experience-heading">
+          <section id="experience" className="mt-28" aria-labelledby="experience-heading">
             <SectionHead id="experience-heading">Experience</SectionHead>
 
             <div className="mt-10 flex flex-col gap-16">
               {experience.map((org) => (
-                <article key={org.employer} id={org.id} className="scroll-mt-28">
+                <article key={org.employer} id={org.id}>
                   <div className="flex max-w-measure flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                     <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                       {org.employer}
@@ -276,7 +276,7 @@ export default function Resume() {
           </section>
 
         {/* Skills */}
-          <section id="skills" className="scroll-mt-28 mt-28" aria-labelledby="skills-heading">
+          <section id="skills" className="mt-28" aria-labelledby="skills-heading">
             <SectionHead id="skills-heading">Skills</SectionHead>
 
             <dl className="mt-10 flex flex-col gap-8">
@@ -294,7 +294,7 @@ export default function Resume() {
           </section>
 
         {/* Education */}
-          <section id="education" className="scroll-mt-28 mt-28" aria-labelledby="education-heading">
+          <section id="education" className="mt-28" aria-labelledby="education-heading">
             <SectionHead id="education-heading">Education &amp; certification</SectionHead>
 
             <div className="mt-10 flex flex-col gap-8">

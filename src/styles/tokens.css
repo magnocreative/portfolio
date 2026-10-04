@@ -489,7 +489,7 @@
      height that is a consequence of padding plus a logo plus a border is a
      number nothing else can safely be measured against — and this one is
      measured against twice. */
-  --banner-height: 4.5rem;
+  --banner-height: 4rem;
 
   /* The desktop rail, navigation only.
    

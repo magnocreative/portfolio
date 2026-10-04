@@ -124,7 +124,7 @@ export default function SystemPage() {
             </div>
               </section>
               {/* Three tiers */}
-            <section id="tiers" className="scroll-mt-28 mt-24" aria-labelledby="tiers-heading">
+            <section id="tiers" className="mt-24" aria-labelledby="tiers-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="tiers-heading">Three tiers, in dependency order</span>
@@ -158,7 +158,7 @@ export default function SystemPage() {
             </section>
 
               {/* Live audit */}
-            <section id="contrast" className="scroll-mt-28 mt-24" aria-labelledby="contrast-heading">
+            <section id="contrast" className="mt-24" aria-labelledby="contrast-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="contrast-heading">Text roles, measured live</span>
@@ -187,7 +187,7 @@ export default function SystemPage() {
             </section>
 
               {/* Decisions */}
-            <section id="decisions" className="scroll-mt-28 mt-24" aria-labelledby="decisions-heading">
+            <section id="decisions" className="mt-24" aria-labelledby="decisions-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="decisions-heading">Decisions, and what each one cost</span>
@@ -220,7 +220,7 @@ export default function SystemPage() {
             </section>
 
               {/* Components */}
-            <section id="components" className="scroll-mt-28 mt-24" aria-labelledby="components-heading">
+            <section id="components" className="mt-24" aria-labelledby="components-heading">
             <div className="border-b border-border-rule pb-4">
               <Label as="h2" className="!text-text-primary">
                 <span id="components-heading">Components</span>
@@ -245,7 +245,7 @@ export default function SystemPage() {
             </section>
 
               {/* Where to read it */}
-            <section id="source" className="scroll-mt-28 mt-24">
+            <section id="source" className="mt-24">
             <div className="grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_22rem] lg:items-center lg:gap-20">
               <div>
                 <Label className="!text-text-accent">Read the source</Label>

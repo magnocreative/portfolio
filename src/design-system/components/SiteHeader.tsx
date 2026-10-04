@@ -56,7 +56,39 @@ function useCurrentHref() {
 function NavList({
   rowClassName = "min-h-10 px-3",
   collapsible = false,
+  variant = "rows",
 }: {
+  /**
+   * How the four items are arranged, and it is ONE prop rather than two on
+   * purpose.
+   *
+   * "grid" means a 2x2 of containers: each item becomes a tile with its icon
+   * above its label and a drawn edge around it. The containers are not a
+   * separate option you can ask for on a row, because that combination was
+   * built, measured and rejected, and leaving it reachable would invite
+   * someone to rebuild it.
+   *
+   * Why it fails on rows. A full-bleed row is 366 x 44, an 8:1 rectangle. Its
+   * two long edges dominate and its two short edges sit 12px from the screen
+   * edge with no ground beside them to read against, so the outline never
+   * closes and four containers read as eight horizontal rules. Worse, measured
+   * against the panel the edge is LOUDER than the state it is supposed to
+   * frame:
+   *
+   *                                      light    dark
+   *   container edge (border-subtle)     1.22:1   1.13:1
+   *   selected fill  (surface-sunken)    1.14:1   1.11:1
+   *
+   * Four containers each outshouting the one selected item is backwards, and
+   * it made the current page harder to find rather than easier. Giving the
+   * current row an accent edge instead was tried and did not fix it, because
+   * the shape is the problem and the color is not.
+   *
+   * The same 1px edge, the same token, the same 1.13:1, works in the grid,
+   * because a tile is 167 x 94 and an outline at 1.8:1 closes. Containers need
+   * area, which is the whole reason the two things are one prop.
+   */
+  variant?: "rows" | "grid";
   /**
    * Whether this list's labels follow the rail's collapsed state.
    *
@@ -74,32 +106,61 @@ function NavList({
    */
   collapsible?: boolean;
   /**
-   * The row's height and horizontal padding, because the two surfaces this
-   * list renders on want different answers to both.
+   * The row's height and horizontal padding. Row variant only; the grid sizes
+   * its tiles from their own content.
    *
-   * Height: 40px in the rail, where the pointer is precise and nothing is
-   * tapped; 44px in the phone panel, which is the platform figure on both
-   * mobile OSes and is not a style choice.
+   * 40px in the rail, where the pointer is precise and nothing is tapped. The
+   * 44px figure that belongs to touch now lives in the grid's tiles, which are
+   * 167 x 94 and clear it twice over.
    *
-   * Padding: 12px in both, but the phone panel also bleeds the row outward by
-   * the same 12 (`-mx-3 px-3`). Those two cancel for the CONTENT and not for
-   * the FILL, which is the whole trick — the icon keeps the mark's 24px line
-   * and the pill still has something to hold it in.
+   * There used to be a second note here about the panel bleeding its rows
+   * outward by 12 (`-mx-3 px-3`), so the icon could keep the mark's 24px line
+   * while the fill still had padding to hold it in. That trick is gone with
+   * the rows it served, and it is worth recording why rather than just
+   * deleting it.
    *
-   * Plain `px-3` was tried in the panel and put the icons at 48 while the mark
-   * and the theme chips sat at 36. Removing it fixed that and broke the other
-   * end: the pill then started at exactly the icon's ink, 0.01px away, with
-   * the icon's own box hanging 3.59px outside the fill. A selected row whose
-   * icon rests on its border is not a selected row, it is a clipping bug that
-   * happens to be symmetrical. Bleeding the fill is the version where both
-   * edges are right.
+   * Three things were wanted and only two were ever available at once: the
+   * icon ink on 24 to match the mark, inner padding so the fill was not
+   * jammed against its own icon, and the fill's edge on 24 with everything
+   * else in the panel. The bleed bought the first two by spending the third,
+   * which was invisible until the theme chips moved to the right and put a
+   * chip edge on 366 directly under a fill edge on 378.
+   *
+   * The grid does not resolve that conflict, it dissolves it. Centred content
+   * in a tile has no left edge to argue about, so all three constraints stop
+   * competing at once.
    */
   rowClassName?: string;
 }) {
   const currentHref = useCurrentHref();
+  const grid = variant === "grid";
   return (
     <nav aria-label="Main">
-      <ul className="relative flex flex-col gap-1">
+      {/* `gap-2` in the grid rather than `gap-1`: a drawn edge needs air around
+          it, and at 4px the four tiles read as one block subdivided rather
+          than as four objects.
+
+          Two columns on a phone, four from 640 up, and the reflow is the same
+          rule that rejected containers on rows in the first place: a tile only
+          reads as a tile while its proportions stay near square. Held at two
+          columns, a tile is 167 x 94 at 390 and a perfectly good object, but
+          530 x 94 at 1100 — a 5.6:1 bar with its icon and label marooned in
+          the middle, which is exactly the shape that failed as a row.
+
+          Four columns puts it back: 174 wide at 768, 301 at 1279. The widest
+          label, "DESIGN SYSTEM" at 120px, has 22px of slack in the narrowest
+          four-column cell, at 640.
+
+          640 is also where the theme controls leave the panel for the banner,
+          so one breakpoint changes the panel from a phone sheet into a single
+          row of four, rather than two rules firing at different widths. */}
+      <ul
+        className={
+          grid
+            ? "grid grid-cols-2 gap-2 sm:grid-cols-4"
+            : "relative flex flex-col gap-1"
+        }
+      >
         {nav.map(({ Icon, ...item }) => {
           const current = item.href === currentHref;
           return (
@@ -134,8 +195,23 @@ function NavList({
                 // The state does not rest on the fill: it rests on the label's
                 // weight, on `aria-current`, and on color, in that order.
                 className={[
-                  "group flex items-center gap-3 rounded-sm transition-colors duration-[160ms]",
-                  rowClassName,
+                  "group rounded-sm transition-colors duration-[160ms]",
+                  grid
+                    ? // The edge is an inset box-shadow, not a border, and that
+                      // is arithmetic rather than taste: `box-sizing:
+                      // border-box` would make a 1px border eat 1px of the
+                      // tile's own padding and shift everything inside it. A
+                      // shadow is painted, not laid out.
+                      //
+                      // Every tile carries the same edge, including the current
+                      // one. The edge is the container; the fill, the weight
+                      // and the accent are the state. An edge that appeared
+                      // only on the current tile would be a fourth signal
+                      // saying what three already say, and would leave the
+                      // other three looking like they had lost something.
+                      "flex flex-col items-center justify-center gap-2.5 py-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"
+                    : "flex items-center gap-3",
+                  grid ? "" : rowClassName,
                   current ? "bg-surface-sunken" : "hover:bg-surface-page",
                 ].join(" ")}
               >
@@ -152,11 +228,39 @@ function NavList({
                     inside its own box. Aligning the boxes therefore left the
                     icons 3.6px right of the logo, whose ink fills its viewBox
                     edge to edge. The eye aligns ink, not boxes.
-                    
+
                     This is why the icons were normalized to one ink box first:
                     with four different insets there is no single offset, only
-                    four magic numbers. */}
-                <span className="-ml-[3.6px] grid h-6 w-6 shrink-0 place-items-center">
+                    four magic numbers.
+
+                    And it is given back when the rail collapses, because the
+                    offset buys an alignment that only exists while the rail is
+                    a column of labeled rows. Expanded, the icons form a line
+                    down the left of the page with the mark in the banner, and
+                    3.6px of ink is the difference between a line and nearly a
+                    line. Collapsed, the rail is a 96px strip containing
+                    nothing but these four shapes, and the eye stops reading it
+                    as a left edge and starts reading it as a centered column —
+                    at which point the same 3.6px is no longer an alignment, it
+                    is 36.01px of air on the left against 43.19px on the right.
+                    Measured, not estimated; that 7.2px gap is what a person
+                    spots in a screenshot.
+
+                    So the offset is scoped to the state that wants it. The
+                    pill was always symmetric at 24/24; this makes the ink
+                    inside it symmetric too, and the icon box then sits exactly
+                    in the 12px the pill's own padding promises on both sides.
+
+                    Guarded by `collapsible` for the same reason the label is:
+                    `rail-collapsed:` matches every descendant of <html>, so
+                    unguarded it would also pull the icons 3.6px right in the
+                    phone panel, which has no collapsed state and whose icons
+                    are aligned to the mark above them. */}
+                <span
+                  className={`grid h-6 w-6 shrink-0 place-items-center ${
+                    grid ? "" : "-ml-[3.6px]"
+                  } ${collapsible ? "rail-collapsed:ml-0" : ""}`}
+                >
                   <Icon
                     className={`h-6 w-6 transition-colors duration-[160ms] ${
                       current
@@ -199,7 +303,7 @@ export const RAIL_STORAGE_KEY = "mc-rail";
  * Runs before first paint, injected into <head>, same job as the theme's.
  *
  * Without it a visitor who collapsed the rail last time gets the expanded
- * 304px rail for one frame and then watches the whole page jump 232px left.
+ * 240px rail for one frame and then watches the whole page jump 144px left.
  * That is a worse first impression than either state, and it is the exact
  * failure the theme script exists to prevent — a stored preference arriving
  * after the paint it was meant to govern.
@@ -293,13 +397,17 @@ function MenuIcon({ open }: { open: boolean }) {
  *
  * That split is what made the rail 300px wide — it was sized by the 188px name
  * rather than by anything navigational. Nav-only, the widest unbreakable thing
- * is the 120px "Design system" label, which is why the rail is now 216 and why
+ * is the 120px "Design system" label, which is why the rail is now 240 and why
  * prose sets at the full documented 900px measure at 1280 rather than 852.
  *
  * It costs the thing the rail was originally built to buy: content no longer
- * begins at the top of the viewport. 72px off every page, permanently. Taken
+ * begins at the top of the viewport. 64px off every page, permanently. Taken
  * knowingly, because an identity that moves and resizes when a navigation
  * preference changes was the worse problem.
+ *
+ * The 64 is a token, and `scroll-margin-top` in globals.css is derived from it
+ * rather than stated beside it, so the one number governs both the bar and
+ * everything that has to clear the bar.
  *
  * Fixed height from a token rather than from whatever the contents add up to.
  * The rail is positioned from the same token, so the two cannot drift; a
@@ -338,6 +446,133 @@ function Banner() {
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  /**
+   * Swipe up to dismiss.
+   *
+   * Attached by hand rather than through React's `onTouchMove`, because this
+   * listener has to call `preventDefault` and a passive listener cannot. React
+   * makes no promise about which of its touch handlers are passive, and on iOS
+   * a passive touchmove means the page scrolls underneath the gesture: the
+   * menu closes AND the article behind it jumps, out of one movement the
+   * person meant as one thing.
+   *
+   * Only touches that START on the panel are affected. Everywhere else on the
+   * page scrolls exactly as it did.
+   *
+   * Three things it deliberately declines to act on:
+   *
+   * - A panel tall enough to need its own scroll. Checked per gesture rather
+   *   than assumed from the current design, because four short labels fit any
+   *   phone and a translated label at large text on a small viewport may not,
+   *   and silently eating that scroll would be a worse bug than having no
+   *   gesture at all.
+   * - A horizontal drag. Both mobile platforms use edge-swipe for back, and a
+   *   dismiss gesture must not sit on top of system navigation.
+   * - A downward drag. The panel is anchored to the top of the screen; there
+   *   is nothing below it to pull down.
+   *
+   * The panel tracks the finger rather than waiting for release, which is what
+   * separates a gesture that works from one that feels real: the person sees
+   * the thing move while they are still deciding, and a release short of the
+   * threshold springs back instead of leaving them guessing whether they did
+   * anything. The travel is damped (an exponent, not a cap) so the panel never
+   * outruns the finger or leaves the top of the screen.
+   */
+  const panelRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef(0);
+  const [drag, setDrag] = useState(0);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el || !open) return;
+
+    let startY = 0;
+    let startX = 0;
+    let travel = 0; // how far the FINGER went, which is not how far the panel went
+    let lastY = 0;
+    let lastT = 0;
+    let velocity = 0; // px per ms, positive upward
+    let live = false;
+
+    const set = (v: number) => {
+      dragRef.current = v;
+      setDrag(v);
+    };
+
+    const onStart = (e: TouchEvent) => {
+      const t = e.touches[0];
+      startY = lastY = t.clientY;
+      startX = t.clientX;
+      lastT = e.timeStamp;
+      travel = 0;
+      velocity = 0;
+      live = el.scrollHeight <= el.clientHeight + 1;
+      set(0);
+    };
+
+    const onMove = (e: TouchEvent) => {
+      if (!live) return;
+      const t = e.touches[0];
+      const dy = t.clientY - startY;
+      const dx = t.clientX - startX;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        live = false;
+        set(0);
+        return;
+      }
+      if (dy >= 0) {
+        travel = 0;
+        set(0);
+        return;
+      }
+      if (e.cancelable) e.preventDefault();
+      const dt = e.timeStamp - lastT;
+      if (dt > 0) velocity = (lastY - t.clientY) / dt;
+      lastY = t.clientY;
+      lastT = e.timeStamp;
+      travel = -dy;
+      set(-Math.pow(travel, 0.82));
+    };
+
+    const onEnd = () => {
+      // Measured on the FINGER, not on the panel's damped travel, and the
+      // difference is not academic: the damping exponent means 48px of panel
+      // movement is 112px of actual thumb, which on a 390px screen is most of
+      // a reachable stroke. Testing the damped number was a real bug — the
+      // gesture worked and simply felt dead, because the distance the person
+      // had to produce was more than twice the one documented beside it.
+      //
+      // 48px of finger on a 281px panel is about a sixth of its height, which
+      // is the proportion both mobile platforms settle around for a dismiss.
+      // No tap travels that far.
+      //
+      // Velocity is the second way in, because a flick is a dismissal that
+      // never covers much ground: 0.5px/ms is a deliberate stroke and well
+      // clear of the drift at the end of a slow drag. Distance OR speed, so
+      // the careful dragger and the quick flicker both get the same result.
+      if (live && (travel >= 48 || (travel >= 20 && velocity > 0.5))) {
+        setOpen(false);
+        // Not `focus()`. Escape returns focus because a keyboard user has
+        // nowhere else to be; a thumb does not want the disclosure outlined
+        // after a swipe it made with its eyes on the page.
+        buttonRef.current?.blur();
+      }
+      set(0);
+      live = false;
+    };
+
+    el.addEventListener("touchstart", onStart, { passive: true });
+    el.addEventListener("touchmove", onMove, { passive: false });
+    el.addEventListener("touchend", onEnd, { passive: true });
+    el.addEventListener("touchcancel", onEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchmove", onMove);
+      el.removeEventListener("touchend", onEnd);
+      el.removeEventListener("touchcancel", onEnd);
+    };
   }, [open]);
 
   return (
@@ -386,7 +621,12 @@ function Banner() {
       <div className="px-6 min-[1280px]:px-9">
         <div className="flex h-[var(--banner-height)] items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3 text-sm font-medium text-text-primary">
-            <Logo className="h-9 w-12 shrink-0" />
+            {/* 40 x 30. The mark's natural aspect is 4:3 and its ink fills the
+                box edge to edge, so the width is the dimension that reads as
+                "the logo size" and the height follows from it. Was 48 x 36 in
+                a 72px bar; this keeps roughly the same air above and below it
+                (17px against 18px) in a bar that is 8px shorter. */}
+            <Logo className="h-[30px] w-10 shrink-0" />
             {/* Hidden below 390px, where the name plus the mark plus the
                 disclosure do not fit one row. The mark is the identity at that
                 size; the name is in the footer of every page. */}
@@ -432,23 +672,73 @@ function Banner() {
           </div>
         </div>
 
-        {/* Always rendered, toggled with `hidden`, because `aria-controls` has
-            to point at an element that exists. The attribute also takes it out
-            of the accessibility tree and out of the tab order when closed. */}
+        {/* Always rendered, because `aria-controls` has to point at an element
+            that exists.
+
+            It used to be toggled with the `hidden` attribute, which sets
+            `display: none` — correct for the accessibility tree and fatal to
+            any transition, because there is no height for the panel to animate
+            from. `inert` does the same two jobs `hidden` was there for, taking
+            the panel out of the tab order and out of the accessibility tree,
+            while leaving it laid out and therefore animatable.
+
+            The motion is a grid row from 0fr to 1fr rather than a height from
+            0 to auto, because `auto` is not a value a transition can
+            interpolate toward. The row is the thing that animates; the child
+            clips. `overflow-hidden` on that child is not decoration either —
+            it is what sets the grid item's automatic minimum size to zero, and
+            without it the row refuses to collapse at all.
+
+            So the panel rolls down out of the bar and rolls back up into it,
+            which is also the direction the two lines of the disclosure travel
+            as they cross. */}
         <div
           id="site-menu"
-          hidden={!open}
-          className="border-t border-border-subtle py-4 min-[1280px]:hidden"
+          ref={panelRef}
+          inert={!open}
+          className={[
+            "grid min-[1280px]:hidden",
+            "transition-[grid-template-rows] duration-[240ms] ease-[var(--ease-out-quart)]",
+            "motion-reduce:transition-none",
+            open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          ].join(" ")}
         >
-          {/* No sliding indicator in here. The panel is built and destroyed on
-              every open, so there is nothing for a mark to travel from. */}
-          <NavList rowClassName="min-h-11 -mx-3 px-3" />
-          {/* -13.6px: 6 for the chip sitting inside its 44px target, 4 for
-              the 24px glyph centered in the 32px chip, and 3.6 for the glyph's
-              own ink inset. Three nested boxes between the element you can
-              position and the shape you can see. */}
-          <div className="mt-4 -ml-[13.6px] sm:hidden">
-            <ThemeToggle />
+          <div className="overflow-hidden">
+            <div
+              // No rule between the bar and the panel. It was there to separate
+              // the identity from the navigation, and the tiles below do that
+              // on their own now — four drawn edges are more than enough
+              // structure for one small sheet, and a rule on top of them was
+              // simply a ninth horizontal line. The header's own bottom
+              // hairline still separates the whole panel from the page, which
+              // is the boundary that actually needs stating.
+              className="pb-4 pt-1 transition-transform duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none"
+              // Zero duration while the finger is down, so the panel tracks it
+              // one to one; the class's 240ms comes back the moment the drag
+              // resets, which is what animates the spring back. Driving this
+              // from the inline duration rather than by swapping the class
+              // keeps the transition property on the element the whole time,
+              // so there is no frame where the browser has a new transform and
+              // no rule telling it to animate.
+              style={{
+                transform: drag ? `translateY(${drag}px)` : undefined,
+                transitionDuration: drag ? "0s" : undefined,
+              }}
+            >
+              {/* No sliding indicator in here. The panel is built and destroyed
+                  on every open, so there is nothing for a mark to travel from. */}
+              <NavList variant="grid" />
+              {/* Bottom right, mirroring the disclosure directly above it
+                  rather than the nav icons to its left. -mr-1.5 is the same 6px
+                  the hamburger carries: it puts the 32px chip's own right edge
+                  on the container's inner edge, so chip and hamburger share a
+                  right line the way the nav icons and the mark share a left
+                  one. The 44px targets overhang into the gutter, invisibly,
+                  which is what hit areas are for. */}
+              <div className="mt-4 -mr-1.5 flex justify-end sm:hidden">
+                <ThemeToggle />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -459,11 +749,12 @@ function Banner() {
 /**
  * The rail, 1280px and up. Navigation, and nothing else.
  *
- * 216px, and the number is measured rather than chosen: 24 of padding, a 24px
- * icon, a 12px gap, the 120px "Design system" label, 24 of padding, and 12 of
- * slack for the fallback mono that paints before JetBrains loads. At 1280 that
- * leaves a 1064px column, 936px of it inside the container's gutters, so prose
- * sets at the full 900px measure. The 300px version left 852.
+ * 240px, and the number is measured rather than chosen: 24 of padding, a 24px
+ * icon, a 12px gap, the 120px "Design system" label and 24 of padding come to
+ * 204, and the remaining 36 is slack for the fallback mono that paints before
+ * JetBrains loads. At 1280 that leaves a 1040px column, 912px of it inside the
+ * container's gutters, so prose still sets at the full 900px measure. The
+ * 300px version left 852.
  *
  * Everything sits on 24, in both states, and nothing moves when the rail
  * collapses. That is possible only because the rail now holds one kind of
@@ -471,8 +762,13 @@ function Banner() {
  * four different widths on one left edge and had to choose between a ragged
  * right edge and an alignment switch that slid every object sideways.
  *
- * Collapsed is 80px: 24 + 32 + 24, sized by the collapse control rather than
- * by the 24px icons, because the control is the widest thing left.
+ * Collapsed is 96px: 24 of padding, the 48px nav pill, 24 of padding. Sized by
+ * the pill rather than by the 24px icon inside it, because the pill is the
+ * object the eye reads as the row.
+ *
+ * In that state the strip is read as a centered column rather than as a left
+ * edge, which is why the icons give back their 3.6px optical offset when it
+ * applies. See the note on the icon wrapper in NavList.
  *
  * Fixed rather than sticky. A sticky rail is only pinned while its parent is
  * in view, which on a long page means it leaves at the footer. It starts below

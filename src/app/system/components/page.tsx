@@ -141,7 +141,7 @@ export default function ComponentsPage() {
               </section>
 
               {/* Button */}
-              <section id="button" className="scroll-mt-28 mt-24" aria-labelledby="button-heading">
+              <section id="button" className="mt-24" aria-labelledby="button-heading">
                 <Head
                   id="button"
                   title="Button"
@@ -202,7 +202,7 @@ export default function ComponentsPage() {
               </section>
 
               {/* Theme toggle */}
-              <section id="theme" className="scroll-mt-28 mt-24" aria-labelledby="theme-heading">
+              <section id="theme" className="mt-24" aria-labelledby="theme-heading">
                 <Head
                   id="theme"
                   title="Theme toggle"
@@ -241,7 +241,7 @@ export default function ComponentsPage() {
               {/* Breadcrumbs */}
               <section
                 id="breadcrumbs"
-                className="scroll-mt-28 mt-24"
+                className="mt-24"
                 aria-labelledby="breadcrumbs-heading"
               >
                 <Head
@@ -296,7 +296,7 @@ export default function ComponentsPage() {
               </section>
 
               {/* Tabs */}
-              <section id="tabs" className="scroll-mt-28 mt-24" aria-labelledby="tabs-heading">
+              <section id="tabs" className="mt-24" aria-labelledby="tabs-heading">
                 <Head
                   id="tabs"
                   title="Tabs"
@@ -354,7 +354,7 @@ export default function ComponentsPage() {
               </section>
 
               {/* Section nav */}
-              <section id="rail" className="scroll-mt-28 mt-24" aria-labelledby="rail-heading">
+              <section id="rail" className="mt-24" aria-labelledby="rail-heading">
                 <Head
                   id="rail"
                   title="Section nav"
@@ -397,7 +397,7 @@ export default function ComponentsPage() {
               {/* Work entry */}
               <section
                 id="work-entry"
-                className="scroll-mt-28 mt-24"
+                className="mt-24"
                 aria-labelledby="work-entry-heading"
               >
                 <Head
@@ -427,7 +427,7 @@ export default function ComponentsPage() {
               {/* Foundations */}
               <section
                 id="foundations"
-                className="scroll-mt-28 mt-24"
+                className="mt-24"
                 aria-labelledby="foundations-heading"
               >
                 <Head
