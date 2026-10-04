@@ -100,7 +100,15 @@ export default function ComponentsPage() {
       <main>
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
-            <div>
+            {/* min-w-0 is a guard, not a fix for anything currently broken. A
+                grid item defaults to `min-width: auto` and will not shrink
+                below its content's intrinsic width, so a child declaring a
+                minimum — the contrast tables are min-w-[36rem] — would push
+                this column past the viewport. Today it cannot: those tables
+                sit in their own `overflow-x-auto` wrapper, measured at 342px
+                on a 390px screen and clipping correctly. This keeps the next
+                wide child from depending on remembering that. */}
+            <div className="min-w-0">
               <section className="pt-24 pb-4 md:pt-36">
                 {/* The one page on this site deep enough to need a trail. The
                     top-level pages deliberately do not carry one: a breadcrumb
@@ -116,7 +124,7 @@ export default function ComponentsPage() {
 
                 <Label className="mt-10">Components</Label>
 
-                <h1 className="text-optical mt-10 max-w-[15ch] font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance md:text-4xl xl:max-w-[24ch] lg:text-5xl">
+                <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[24ch] lg:text-5xl">
                   Not screenshots of a system. The system, running.
                 </h1>
 

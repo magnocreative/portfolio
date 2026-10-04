@@ -164,13 +164,21 @@ export default function Resume() {
               gives it nothing to travel down and it scrolls away after the
               first screen. Same sticky trap the /system page documents. */}
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
-            <div>
+            {/* min-w-0 is a guard, not a fix for anything currently broken. A
+                grid item defaults to `min-width: auto` and will not shrink
+                below its content's intrinsic width, so a child declaring a
+                minimum — the contrast tables are min-w-[36rem] — would push
+                this column past the viewport. Today it cannot: those tables
+                sit in their own `overflow-x-auto` wrapper, measured at 342px
+                on a 390px screen and clipping correctly. This keeps the next
+                wide child from depending on remembering that. */}
+            <div className="min-w-0">
           <section className="pt-24 pb-4 md:pt-36">
             <Label>Résumé</Label>
 
             {/* The name is the h1 here and nowhere else on the site. This page
                 is the document, so the document gets its title. */}
-            <h1 className="text-optical mt-10 font-display text-3xl leading-[1.06] tracking-[-0.025em] text-text-primary md:text-4xl lg:text-5xl">
+            <h1 className="text-optical mt-10 font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary lg:text-5xl">
               Alejandro Magno Fernandini
             </h1>
 

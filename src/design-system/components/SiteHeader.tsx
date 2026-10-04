@@ -54,7 +54,7 @@ function useCurrentHref() {
  * link.
  */
 function NavList({
-  rowClassName = "min-h-10",
+  rowClassName = "min-h-10 px-3",
   collapsible = false,
 }: {
   /**
@@ -73,9 +73,27 @@ function NavList({
    * laptop — two states, two devices, one shared key.
    */
   collapsible?: boolean;
-  /** Row height. 40px in the rail, where the pointer is precise and nothing is
-   *  tapped; 44px in the phone panel, which is the platform figure on both
-   *  mobile OSes and is not a style choice. */
+  /**
+   * The row's height and horizontal padding, because the two surfaces this
+   * list renders on want different answers to both.
+   *
+   * Height: 40px in the rail, where the pointer is precise and nothing is
+   * tapped; 44px in the phone panel, which is the platform figure on both
+   * mobile OSes and is not a style choice.
+   *
+   * Padding: 12px in both, but the phone panel also bleeds the row outward by
+   * the same 12 (`-mx-3 px-3`). Those two cancel for the CONTENT and not for
+   * the FILL, which is the whole trick — the icon keeps the mark's 24px line
+   * and the pill still has something to hold it in.
+   *
+   * Plain `px-3` was tried in the panel and put the icons at 48 while the mark
+   * and the theme chips sat at 36. Removing it fixed that and broke the other
+   * end: the pill then started at exactly the icon's ink, 0.01px away, with
+   * the icon's own box hanging 3.59px outside the fill. A selected row whose
+   * icon rests on its border is not a selected row, it is a clipping bug that
+   * happens to be symmetrical. Bleeding the fill is the version where both
+   * edges are right.
+   */
   rowClassName?: string;
 }) {
   const currentHref = useCurrentHref();
@@ -116,7 +134,7 @@ function NavList({
                 // The state does not rest on the fill: it rests on the label's
                 // weight, on `aria-current`, and on color, in that order.
                 className={[
-                  "group flex items-center gap-3 rounded-sm px-3 transition-colors duration-[160ms]",
+                  "group flex items-center gap-3 rounded-sm transition-colors duration-[160ms]",
                   rowClassName,
                   current ? "bg-surface-sunken" : "hover:bg-surface-page",
                 ].join(" ")}
@@ -128,7 +146,17 @@ function NavList({
                     and of the two alignments the pill's edge is the one worth
                     keeping, because the pill is the larger object and the one
                     the eye reads as the row. */}
-                <span className="grid h-6 w-6 shrink-0 place-items-center">
+                {/* -3.6px, and it is arithmetic rather than a nudge. Every
+                    icon here is drawn with its ink spanning x 3 to 17 of a
+                    20-unit viewBox, so at 24px rendered the shape starts 3.6px
+                    inside its own box. Aligning the boxes therefore left the
+                    icons 3.6px right of the logo, whose ink fills its viewBox
+                    edge to edge. The eye aligns ink, not boxes.
+                    
+                    This is why the icons were normalized to one ink box first:
+                    with four different insets there is no single offset, only
+                    four magic numbers. */}
+                <span className="-ml-[3.6px] grid h-6 w-6 shrink-0 place-items-center">
                   <Icon
                     className={`h-6 w-6 transition-colors duration-[160ms] ${
                       current
@@ -316,7 +344,27 @@ function Banner() {
     // The hairline is a shadow, not a border, for the same reason the rail's
     // is: a border lives inside the border box and would eat a pixel of the
     // declared height, making the token a near-miss rather than the number.
-    <header className="sticky top-0 z-50 bg-surface-raised shadow-[0_1px_0_var(--border-subtle)]">
+    // The bottom corners round only while the panel is open. Closed this is a
+    // bar, and a bar has square corners; open it is a sheet that has come down
+    // over the page, and the curve is what says so.
+    <header
+      className={[
+        "sticky top-0 z-50 bg-surface-raised shadow-[0_1px_0_var(--border-subtle)]",
+        "transition-[border-radius] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none",
+        // The breakpoint half is not belt-and-braces. `open` is panel state and
+        // the panel only exists below 1280, but the state survives a resize:
+        // open the menu on a phone, rotate or widen past the breakpoint, and
+        // the panel hides while `open` stays true — leaving a rounded-bottom
+        // bar above a rail, with nothing hanging off it for the curve to
+        // belong to. Measured at 1440 after opening at 390: radius 16px, panel
+        // gone, rail up.
+        //
+        // Scoping the class to the widths the panel exists at is the fix that
+        // cannot drift, because it is the same condition that governs the
+        // panel itself rather than a second copy of it in JavaScript.
+        open ? "rounded-b-[16px] min-[1280px]:rounded-b-none" : "",
+      ].join(" ")}
+    >
       {/* Full bleed, with a flat 24px inset — not the Container.
        
           The Container caps at 84rem and spends up to 64px on gutters, which
@@ -328,12 +376,14 @@ function Banner() {
           24 is the rail's own left edge, so the mark and the icons beneath it
           now share one line down the whole page. The right side is the mirror
           of it. */}
-      {/* 36, not 24. Twelve more on each side by request, and it lands
-          somewhere useful: the rail's nav icons sit at 36 too — the rail's own
-          24 of padding plus the selected pill's 12 — so the mark in the banner
-          and the icons beneath it share a left edge again, which they lost when
-          the row became a contained pill. */}
-      <div className="px-9">
+      {/* 24 below 1280, 36 from there up, and the breakpoint is the reason the
+          36 exists at all: the rail's nav icons sit at 36 — its own 24 of
+          padding plus the selected pill's 12 — so at those widths the mark in
+          the banner and the icons beneath it share a left edge. Below 1280
+          there is no rail, so the extra 12 aligns with nothing and costs a
+          phone 24px of its 390. The inset follows the thing it was measured
+          against rather than being a constant that happens to be right once. */}
+      <div className="px-6 min-[1280px]:px-9">
         <div className="flex h-[var(--banner-height)] items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3 text-sm font-medium text-text-primary">
             <Logo className="h-9 w-12 shrink-0" />
@@ -392,8 +442,12 @@ function Banner() {
         >
           {/* No sliding indicator in here. The panel is built and destroyed on
               every open, so there is nothing for a mark to travel from. */}
-          <NavList rowClassName="min-h-11" />
-          <div className="mt-4 -ml-1.5 sm:hidden">
+          <NavList rowClassName="min-h-11 -mx-3 px-3" />
+          {/* -13.6px: 6 for the chip sitting inside its 44px target, 4 for
+              the 24px glyph centered in the 32px chip, and 3.6 for the glyph's
+              own ink inset. Three nested boxes between the element you can
+              position and the shape you can see. */}
+          <div className="mt-4 -ml-[13.6px] sm:hidden">
             <ThemeToggle />
           </div>
         </div>

@@ -24,11 +24,16 @@ function applyTheme(choice: ThemeChoice) {
   }
 }
 
+/* All three normalized to the same ink box, x 3 to 17, so they share a left
+   edge with the nav icons and with each other. They were drawn to 2.4, 2.6 and
+   2.5, which is invisible in isolation and reads as a ragged column the moment
+   they sit under a logo whose own ink starts flush. A shared viewBox is not a
+   shared ink box. */
 const SunIcon = (
   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-    <circle cx="10" cy="10" r="3.4" />
+    <circle cx="10" cy="10" r="3.2" />
     <path
-      d="M10 2.4v1.8M10 15.8v1.8M17.6 10h-1.8M4.2 10H2.4M15.37 4.63l-1.27 1.27M5.9 14.1l-1.27 1.27M15.37 15.37l-1.27-1.27M5.9 5.9L4.63 4.63"
+      d="M10 3v1.7M10 15.3v1.7M17 10h-1.7M4.7 10H3M14.95 5.05l-1.2 1.2M6.25 13.75l-1.2 1.2M14.95 14.95l-1.2-1.2M6.25 6.25L5.05 5.05"
       strokeLinecap="round"
     />
   </svg>
@@ -36,14 +41,14 @@ const SunIcon = (
 
 const MoonIcon = (
   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-    <path d="M16.3 11.6A6.9 6.9 0 018.4 3.7a6.9 6.9 0 107.9 7.9z" strokeLinejoin="round" />
+    <path d="M17 12.1A7.1 7.1 0 018.1 3.2a7.1 7.1 0 108.9 8.9z" strokeLinejoin="round" />
   </svg>
 );
 
 const SystemIcon = (
   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-    <rect x="2.5" y="3.5" width="15" height="10" rx="1.5" />
-    <path d="M7 16.5h6" strokeLinecap="round" />
+    <rect x="3" y="3.5" width="14" height="10" rx="1.5" />
+    <path d="M7 17h6" strokeLinecap="round" />
   </svg>
 );
 

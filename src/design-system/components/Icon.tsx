@@ -129,12 +129,20 @@ export function AboutIcon(props: IconProps) {
   );
 }
 
-/** Résumé: a page with lines on it. The case is Work. */
+/**
+ * Résumé: a page with lines on it. The case is Work.
+ *
+ * Widened to the same ink box as the other three — x 3 to 17, not 5 to 15.
+ * It was drawn narrower because a document IS narrower than a grid, which is
+ * true and was the wrong thing to optimize: in a left-aligned icon column the
+ * eye reads the left ink edges, and this one sat 2.4px right of its neighbors.
+ * A shared ink box is what makes a column of different shapes look aligned.
+ */
 export function ResumeIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
-      <path d="M6 3h5l4 4v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
-      <path d="M11 3v4h4M7.5 11.5h5M7.5 14.5h3" />
+      <path d="M4 3h7l6 6v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <path d="M11 3v6h6M6 12h8M6 15h5" />
     </svg>
   );
 }
