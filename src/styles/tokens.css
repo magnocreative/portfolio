@@ -509,6 +509,18 @@
      measure demands it. */
   --rail-width: 15rem;
 
+  /* One rail cell: the pill a nav row collapses to, and the width of the
+     collapse control. 12 of padding, the icon's 16.8px of ink, 12 back out.
+
+     The 16.8 is 14 of the icon's 20 viewBox units rendered at 24px, so this
+     is measured off the artwork rather than chosen. Sized by the INK and not
+     by the 24px box, because the icons carry a -3.6px optical offset to put
+     their ink on the mark's line; a cell sized by the box puts the ink 3.6
+     off centre inside it.
+
+     The collapsed rail is this plus its own padding, so the two cannot drift. */
+  --rail-cell: calc(2 * 12px + 16.8px); /* 40.8 */
+
   --container-measure: 900px;
   --container-text: 44rem;
   --container-wide: 84rem;

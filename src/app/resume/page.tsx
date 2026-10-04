@@ -335,7 +335,11 @@ export default function Resume() {
                 `hidden`, not a second layout. The horizontal variant still
                 exists in the component and in Storybook — it is simply not
                 what these pages want. */}
-            <div className="hidden lg:block lg:mt-32">
+            {/* The same 36 the page header carries as `md:pt-36`, so the nav's
+                first label starts on the page eyebrow's line rather than a
+                third of a row below it. The component pulls back by its own
+                row padding; see the note on the sticky offset there. */}
+            <div className="hidden lg:block lg:mt-36">
               <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
             </div>
           </div>

@@ -28,9 +28,16 @@
     scroll-behavior: smooth;
   }
 
-  /* 96px: 24 + a 48px pill + 24, where the pill is 12 + 24 icon + 12. The
-     collapsed rail is sized by the same pill as the expanded one, minus the
-     label, so the icon sits in exactly the place it does expanded.
+  /* 88.8px, written as its own derivation: 24 of rail padding, 12 of pill
+     padding, the icon's 16.8px of ink, then the 12 and 24 back out. The 16.8
+     is 14 of the icon's 20 viewBox units rendered at 24px, so this number
+     comes from the artwork rather than from a designer's preference, and
+     rounding it to 88 or 96 is what reintroduces the asymmetry.
+
+     Sized by the ink and not by the 24px box around it, because the icons
+     carry a -3.6px optical offset to put their ink on the mark's line. A rail
+     sized by the box forces a choice between a centred strip and icons that
+     jump 3.6px on every toggle; sized by the ink there is no choice to make.
      Everything still sits on the same 24px left edge it does expanded, so
      nothing in the rail moves when this applies — which is the whole reason
      the identity moved out to the banner.
@@ -40,7 +47,7 @@
      there is exactly one number and the two cannot drift. Specificity does the
      work: `@theme` emits to `:root`, and `:root[data-rail=…]` outranks it. */
   :root[data-rail="collapsed"] {
-    --rail-width: 6rem;
+    --rail-width: calc(2 * 24px + var(--rail-cell)); /* 88.8 */
   }
 
   /* The header is sticky, so anything jumped to by an in-page link would land

@@ -121,12 +121,51 @@ export function SectionNav({
   return (
     <nav
       aria-label={label}
-      className={[vertical && sticky ? "sticky top-32" : "", className].join(" ")}
+      className={[
+        // Two offsets, and both align the first LABEL rather than the first
+        // BOX. A row carries `py-2.5`, so aligning the boxes leaves the text
+        // 10px low — which is most of the gap that made the rail look like it
+        // was sagging next to the content it indexes.
+        //
+        // `-mt-2.5` cancels that padding at the top of the list, so the page
+        // can position this column with the same round number its header uses
+        // (`mt-36` against the header's `pt-36`) and have the two lines agree.
+        //
+        // The stuck offset is derived from the same expression as the
+        // sections' own `scroll-margin-top` in globals.css, minus the same
+        // 10px. Jump to a section and its heading lands at `banner + 40`; this
+        // puts the nav's first label on exactly that line instead of 34px
+        // below it. Writing it as the same calc rather than as a number is
+        // what keeps the two from drifting the next time the banner changes
+        // height — which has already happened once this file was alive.
+        vertical && sticky
+          ? "sticky top-[calc(var(--banner-height)+2.5rem-0.625rem)]"
+          : "",
+        vertical ? "-mt-2.5" : "",
+        className,
+      ].join(" ")}
     >
+      {/* The vertical rail has NO rule of its own, and that is the whole
+          mechanism behind the break beside a nested list.
+
+          It used to carry `border-l`, which drew one unbroken spine down the
+          entire list — including the stretch beside the subsections, so a
+          nested group sat between two parallel lines 16px apart. A rule that
+          belongs to the list cannot stop for part of the list.
+
+          So the rule became a property of each top-level ROW instead (see the
+          anchor below), and the nested list keeps its own. The spine now runs
+          beside Experience, stops while its children are indexed by their own
+          rule, and resumes at the next top-level item.
+
+          `gap-y-1` went with it. A per-row rule plus a 4px gap is a dashed
+          line, and the dashes only appear between two childless items, which
+          is exactly the pair nobody checks. The 4px is given back as padding
+          on the row, so the spacing between items is unchanged at 20px. */}
       <ol
         className={
           vertical
-            ? "flex flex-col gap-y-1 border-l border-border-subtle"
+            ? "flex flex-col"
             : "flex flex-wrap items-end gap-x-7 gap-y-2 border-b border-border-subtle"
         }
       >
@@ -142,7 +181,7 @@ export function SectionNav({
           // actually at.
           const containing = activeChild && !on;
           return (
-            <li key={i.id} className={vertical ? "-ml-px" : "-mb-px"}>
+            <li key={i.id} className={vertical ? "" : "-mb-px"}>
               <a
                 href={`#${i.id}`}
                 // Only the deepest current item carries it. A parent and a
@@ -152,7 +191,21 @@ export function SectionNav({
                 className={[
                   "block font-mono text-xs uppercase tracking-[0.11em]",
                   "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
-                  vertical ? "border-l-2 py-2 pl-4" : "whitespace-nowrap border-b-2 pb-3 pt-1",
+                  // The 1px track is a background gradient, not a border,
+                  // because `border-left` is already spoken for by the 2px
+                  // marker and an element has only one of those. It works
+                  // because `background-clip` defaults to `border-box`: the
+                  // background paints UNDER the border, so a 1px stripe at the
+                  // left edge shows through while the marker is transparent,
+                  // and is covered the moment the marker takes a colour. One
+                  // element, two concentric rules, no extra DOM.
+                  //
+                  // `py-2.5` rather than `py-2` absorbs the `gap-y-1` the list
+                  // gave up: 10 + 10 is the same 20px of air that 8 + 4 + 8
+                  // was, so this is the same rhythm drawn a different way.
+                  vertical
+                    ? "border-l-2 bg-[linear-gradient(to_right,var(--border-subtle)_1px,transparent_1px)] py-2.5 pl-4"
+                    : "whitespace-nowrap border-b-2 pb-3 pt-1",
                   // Accent blue for the current section, matching the main nav
                   // and the current breadcrumb, so "you are here" is one
                   // treatment wherever it appears rather than three. The rule
@@ -179,13 +232,32 @@ export function SectionNav({
                   with nothing to say which is which, and the horizontal
                   variant is the narrow-screen form, where the space is not
                   there either. The sections are all still reachable; the bar
-                  indexes them one level up. */}
+                  indexes them one level up.
+
+                  The nested list carries its OWN rule, indented by 16 to sit
+                  under the parent's text rather than under the parent's rule.
+                  Before this the children were indented by padding alone, so
+                  three employers hung off the same spine as the three
+                  top-level sections and the hierarchy was carried entirely by
+                  how far the words started. The rule is the thing the eye
+                  follows down a contents list; if it does not step in, nothing
+                  structural does.
+
+                  The 16 and the children's `pl-4` add up to exactly the `pl-8`
+                  they replaced, so no label moves. This adds a line; it does
+                  not re-space the list.
+
+                  The outer rule deliberately continues past them. A reader
+                  inside USAA is also inside Experience, and the two marks at
+                  two depths are what say so — which is the same reason the
+                  parent keeps its `containing` state while a child is
+                  current. */}
               {vertical && kids.length > 0 && (
-                <ol className="flex flex-col">
+                <ol className="ml-4 flex flex-col border-l border-border-subtle">
                   {kids.map((c) => {
                     const childOn = c.id === active;
                     return (
-                      <li key={c.id}>
+                      <li key={c.id} className="-ml-px">
                         <a
                           href={`#${c.id}`}
                           aria-current={childOn ? "true" : undefined}
@@ -194,7 +266,7 @@ export function SectionNav({
                             // is 13 and the 12 and 10 steps are deliberately
                             // unused, so depth is carried by the indent and the
                             // weight rather than by shrinking below the floor.
-                            "block border-l-2 py-1.5 pl-8 font-mono text-xs uppercase tracking-[0.11em]",
+                            "block border-l-2 py-1.5 pl-4 font-mono text-xs uppercase tracking-[0.11em]",
                             "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
                             childOn
                               ? "border-text-accent font-semibold text-text-accent"

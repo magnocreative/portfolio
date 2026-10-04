@@ -233,33 +233,36 @@ function NavList({
                     with four different insets there is no single offset, only
                     four magic numbers.
 
-                    And it is given back when the rail collapses, because the
-                    offset buys an alignment that only exists while the rail is
-                    a column of labeled rows. Expanded, the icons form a line
-                    down the left of the page with the mark in the banner, and
-                    3.6px of ink is the difference between a line and nearly a
-                    line. Collapsed, the rail is a 96px strip containing
-                    nothing but these four shapes, and the eye stops reading it
-                    as a left edge and starts reading it as a centered column —
-                    at which point the same 3.6px is no longer an alignment, it
-                    is 36.01px of air on the left against 43.19px on the right.
-                    Measured, not estimated; that 7.2px gap is what a person
-                    spots in a screenshot.
+                    It applies in BOTH rail states, and the fact that it does
+                    is the whole reason the collapsed rail is 88.8px wide
+                    rather than a round number.
 
-                    So the offset is scoped to the state that wants it. The
-                    pill was always symmetric at 24/24; this makes the ink
-                    inside it symmetric too, and the icon box then sits exactly
-                    in the 12px the pill's own padding promises on both sides.
+                    There was a version that handed the 3.6 back on collapse,
+                    on the reasoning that a narrow strip is read as a centred
+                    column rather than as a left edge. It did centre the icons,
+                    and it also moved every one of them 3.6px sideways on each
+                    toggle — the labels slid in and the icons slid under them,
+                    which is visible and which someone reported within the day.
 
-                    Guarded by `collapsible` for the same reason the label is:
-                    `rail-collapsed:` matches every descendant of <html>, so
-                    unguarded it would also pull the icons 3.6px right in the
-                    phone panel, which has no collapsed state and whose icons
-                    are aligned to the mark above them. */}
+                    Both were treated as a choice between centring and
+                    alignment. They are not. Spending the offset buys centring
+                    at the cost of a 3.6px jump; keeping it buys alignment at
+                    the cost of 36.01px of air on the left against 43.19 on the
+                    right. The third option is to stop adjusting the icon and
+                    size the container to it: hold the ink at 36 and make the
+                    rail 2*(24+12) + 16.8 = 88.8, and the air comes out 36.01
+                    and 35.99. Nothing moves, the strip is symmetric, and the
+                    icons keep the mark's line in both states, which the
+                    give-back version had quietly given up.
+
+                    The 16.8 is the ink's own width, 14 of the 20 viewBox units
+                    at 24px. That is why the number is not round: it is derived
+                    from the artwork rather than chosen, and rounding it to 88
+                    or 96 reintroduces the asymmetry it exists to remove. */}
                 <span
                   className={`grid h-6 w-6 shrink-0 place-items-center ${
                     grid ? "" : "-ml-[3.6px]"
-                  } ${collapsible ? "rail-collapsed:ml-0" : ""}`}
+                  }`}
                 >
                   <Icon
                     className={`h-6 w-6 transition-colors duration-[160ms] ${
@@ -331,7 +334,7 @@ function ChevronIcon() {
           a chevron fills a narrow slice of its own box while the sun and the
           monitor fill most of theirs — so at identical box sizes this one read
           as the smaller icon. The fix is the path, not the box. */}
-      <path d="M13 3.5L6.5 10l6.5 6.5" />
+      <path d="M13.25 3.5L6.75 10l6.5 6.5" />
     </svg>
   );
 }
@@ -762,13 +765,11 @@ function Banner() {
  * four different widths on one left edge and had to choose between a ragged
  * right edge and an alignment switch that slid every object sideways.
  *
- * Collapsed is 96px: 24 of padding, the 48px nav pill, 24 of padding. Sized by
- * the pill rather than by the 24px icon inside it, because the pill is the
- * object the eye reads as the row.
- *
- * In that state the strip is read as a centered column rather than as a left
- * edge, which is why the icons give back their 3.6px optical offset when it
- * applies. See the note on the icon wrapper in NavList.
+ * Collapsed is 88.8px: 24 of padding, 12 of pill padding, the icon's 16.8px
+ * of ink, and the same 12 and 24 back out again. Sized by the INK rather than
+ * by the 24px box around it, which is what lets the icons hold one position
+ * in both states instead of sliding 3.6px on every toggle. See the note on
+ * the icon wrapper in NavList for why that is the number.
  *
  * Fixed rather than sticky. A sticky rail is only pinned while its parent is
  * in view, which on a long page means it leaves at the footer. It starts below
@@ -849,13 +850,55 @@ function Rail() {
         aria-controls="rail-nav"
         aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
         title={collapsed ? "Expand navigation" : "Collapse navigation"}
-        // The same hover as a nav row: `surface-page` for the ground and
-        // `text-secondary` for the glyph. It used `interactive-subtle`, the
-        // blue tint, which made the one control in this rail that is not
-        // navigation respond more loudly than the four that are.
-        className="mt-auto ml-2 grid h-8 w-8 place-items-center rounded-sm text-text-tertiary transition-colors duration-[160ms] hover:bg-surface-page hover:text-text-secondary"
+        // Built to the nav row's spec, not to its own. It was a 32x32 chip at
+        // `ml-2` sitting under four 48x40 rows at `px-3`, which is four
+        // differences at once: a different height, a different width, a
+        // different left edge and a different sized hover ground. Collapsed,
+        // where the rail is nothing but a column of five icons, that reads
+        // immediately — the one at the bottom is visibly a smaller object.
+        //
+        // Now it is the same cell: `min-h-10` for the 40px height, `px-3` for
+        // the 12px padding, the same `rounded-sm`, and the same icon span with
+        // the same optical offset. Collapsed it comes out 40.8x40, identical
+        // to a nav row, and its hover ground is the same object in the same
+        // place.
+        //
+        // `self-start` rather than stretching to the rail's width. A nav row
+        // is full width because it carries a label; this one does not, and a
+        // 192px hover ground for a 24px glyph is a target out of all
+        // proportion to the control. Every property a row and this share is
+        // shared; the one they do not is the one with a reason.
+        //
+        // The glyphs align on their CENTRES rather than their left edges, and
+        // that is correct rather than a compromise. The four nav icons are all
+        // drawn to ink x3-17; a chevron drawn that wide would be a squat arrow
+        // rather than a chevron, so it keeps its narrower 6.5-13. Both sit
+        // centred in the same 24px box, so the centres land within 0.3px of
+        // each other, which is what the eye reads down a column of mixed glyph
+        // widths.
+        // `w-[var(--rail-cell)]` — one fixed width, the same 40.8 a nav row
+        // collapses to, and emphatically NOT `self-stretch`.
+        //
+        // Stretch was the obvious way to make the collapsed button match a
+        // collapsed row, and it was wrong in a way that only shows in motion.
+        // `data-rail` flips in a single frame but the rail WIDTH is animated
+        // over 240ms, so a stretched child adopts the rail's width instantly
+        // and then rides it down: measured, the button jumped from 44.4 to 192
+        // in one frame and shrank from there. A 4.3x flash on every collapse,
+        // invisible in any static screenshot and obvious the moment anyone
+        // clicks it.
+        //
+        // A fixed width settles that and the expanded asymmetry together.
+        // Content-sized, the button was 44.4 because the icon's -3.6px optical
+        // offset comes out of the layout as well as the paint, leaving the
+        // glyph 8.41 from the left edge and 12 from the right. At a stated
+        // 40.8 the ground is symmetric about the ink in both states, and
+        // nothing about it depends on the rail, so nothing can animate.
+        className="group mt-auto flex min-h-10 w-[var(--rail-cell)] self-start items-center rounded-sm px-3 text-text-tertiary transition-colors duration-[160ms] hover:bg-surface-page hover:text-text-secondary"
       >
-        <ChevronIcon />
+        <span className="-ml-[3.6px] grid h-6 w-6 shrink-0 place-items-center">
+          <ChevronIcon />
+        </span>
       </button>
     </div>
   );
