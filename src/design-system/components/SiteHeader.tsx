@@ -511,6 +511,19 @@ function Banner() {
   const panelRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef(0);
   const [drag, setDrag] = useState(0);
+  // The sheet's own height during a drag. Translating the content without this
+  // is what made the panel "lag": the content slid up inside a container that
+  // kept its full height, so the sheet only closed on release, 240ms after the
+  // finger had already said so. A sheet hinged at the top and pushed upward is
+  // a rigid thing — its contents and its bottom edge rise together — which is
+  // two numbers moving in step, not one.
+  const [sheetH, setSheetH] = useState<number | null>(null);
+  // True only while the release is animating to its destination. During the
+  // drag both transitions are off so the sheet tracks the finger exactly;
+  // during the snap they come back on so it travels rather than teleports.
+  const [snapping, setSnapping] = useState(false);
+  const naturalH = useRef(0);
+  const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const el = panelRef.current;
@@ -529,6 +542,10 @@ function Banner() {
       setDrag(v);
     };
 
+    // The element whose height the grid row is animating: the clipped child's
+    // child, which is the thing that actually has the content's height.
+    const content = el.firstElementChild?.firstElementChild as HTMLElement | null;
+
     const onStart = (e: TouchEvent) => {
       const t = e.touches[0];
       startY = lastY = t.clientY;
@@ -537,7 +554,16 @@ function Banner() {
       travel = 0;
       velocity = 0;
       live = el.scrollHeight <= el.clientHeight + 1;
+      // Interrupting a snap mid-flight: take the sheet back under finger
+      // control rather than letting the old animation finish underneath.
+      if (snapTimer.current) {
+        clearTimeout(snapTimer.current);
+        snapTimer.current = null;
+      }
+      setSnapping(false);
+      naturalH.current = content ? content.offsetHeight : 0;
       set(0);
+      setSheetH(null);
     };
 
     const onMove = (e: TouchEvent) => {
@@ -561,7 +587,11 @@ function Banner() {
       lastY = t.clientY;
       lastT = e.timeStamp;
       travel = -dy;
-      set(-Math.pow(travel, 0.82));
+      const d = -Math.pow(travel, 0.82);
+      set(d);
+      // Height and translate by the same damped number, so the sheet's bottom
+      // edge and its contents rise together and its top stays hinged.
+      setSheetH(Math.max(0, naturalH.current + d));
     };
 
     const onEnd = () => {
@@ -580,14 +610,43 @@ function Banner() {
       // never covers much ground: 0.5px/ms is a deliberate stroke and well
       // clear of the drift at the end of a slow drag. Distance OR speed, so
       // the careful dragger and the quick flicker both get the same result.
-      if (live && (travel >= 48 || (travel >= 20 && velocity > 0.5))) {
-        setOpen(false);
-        // Not `focus()`. Escape returns focus because a keyboard user has
-        // nowhere else to be; a thumb does not want the disclosure outlined
-        // after a swipe it made with its eyes on the page.
-        buttonRef.current?.blur();
+      const dismiss = live && (travel >= 48 || (travel >= 20 && velocity > 0.5));
+
+      const finish = () => {
+        if (dismiss) {
+          setOpen(false);
+          // Not `focus()`. Escape returns focus because a keyboard user has
+          // nowhere else to be; a thumb does not want the disclosure outlined
+          // after a swipe it made with its eyes on the page.
+          buttonRef.current?.blur();
+        }
+        set(0);
+        setSheetH(null);
+        setSnapping(false);
+        snapTimer.current = null;
+      };
+
+      if (live && dragRef.current !== 0) {
+        // Finish the journey the finger started, rather than cutting from a
+        // half-dragged sheet to a closed one. Dismissing drives it the rest of
+        // the way up; a short drag drives it back down. Only once it has
+        // arrived does `open` change, so the class-driven height it lands on is
+        // the one it is already at and there is nothing left to jump.
+        const reduced =
+          typeof window !== "undefined" &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        setSnapping(true);
+        if (dismiss) {
+          set(-naturalH.current);
+          setSheetH(0);
+        } else {
+          set(0);
+          setSheetH(naturalH.current);
+        }
+        snapTimer.current = setTimeout(finish, reduced ? 0 : 260);
+      } else {
+        finish();
       }
-      set(0);
       live = false;
     };
 
@@ -600,6 +659,10 @@ function Banner() {
       el.removeEventListener("touchmove", onMove);
       el.removeEventListener("touchend", onEnd);
       el.removeEventListener("touchcancel", onEnd);
+      if (snapTimer.current) {
+        clearTimeout(snapTimer.current);
+        snapTimer.current = null;
+      }
     };
   }, [open]);
 
@@ -730,6 +793,15 @@ function Banner() {
             "motion-reduce:transition-none",
             open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
           ].join(" ")}
+          // While a finger is on it the sheet is driven in pixels, not by the
+          // 1fr/0fr classes, because a drag is a position rather than a state.
+          // The classes take back over the moment it is let go and has
+          // arrived, and because it arrives at the height they specify, the
+          // handover is invisible.
+          style={{
+            gridTemplateRows: sheetH != null ? `${sheetH}px` : undefined,
+            transitionDuration: sheetH != null && !snapping ? "0s" : undefined,
+          }}
         >
           <div className="overflow-hidden">
             <div
@@ -750,7 +822,7 @@ function Banner() {
               // no rule telling it to animate.
               style={{
                 transform: drag ? `translateY(${drag}px)` : undefined,
-                transitionDuration: drag ? "0s" : undefined,
+                transitionDuration: drag && !snapping ? "0s" : undefined,
               }}
             >
               {/* No sliding indicator in here. The panel is built and destroyed
@@ -839,10 +911,21 @@ function Rail() {
         "fixed bottom-0 left-0 z-40 hidden w-[var(--rail-width)] flex-col",
         // 24 on top, matching the horizontal inset, so the first nav row sits the
         // same distance from the banner above it as it does from the rail's own
-        // left edge. 40 at the bottom, which is the caret's air rather than the
-        // nav's: it is the only thing down there and it reads as cramped on the
-        // rail's own edge.
-        "top-[var(--banner-height)] px-6 pt-6 pb-10 min-[1280px]:flex",
+        // left edge.
+        //
+        // 14 at the bottom, and it is the one number in this file taken from
+        // something outside it. The rail is fixed, so the caret sits a constant
+        // distance above the window; the footer scrolls, so the two meet at
+        // exactly one scroll position — the end of the page, which is also the
+        // only place the caret has anything to line up with. At 40 the caret
+        // landed 26px above the footer's last row, floating between that row
+        // and the rule above it, anchored to neither. At 14 its glyph centre
+        // sits on that row's centre, measured at 866.0 against 866.1.
+        //
+        // Independent of window height, because what it is measured against is
+        // the footer's own distance from the bottom of the page, not the
+        // viewport: checked at 900 and 700, same 0.1px.
+        "top-[var(--banner-height)] px-6 pt-6 pb-[14px] min-[1280px]:flex",
         // Clips the labels while the rail is mid-animation. Without it the
         // nowrap label runs 120px wide out of an 89px rail and across the
         // page content for a fifth of a second. Safe for focus rings: a row's
