@@ -19,8 +19,14 @@ export type CaseStudy = {
   disciplines: string[];
   employer: string;
   period: string;
-  /** Draft entries render dimmed and unlinked until the writing is done. */
+  /** Draft entries render marked and unlinked until the writing is done. */
   status: "published" | "draft";
+  /**
+   * The image beside the entry in the index: a visual from the case study,
+   * made for this site. Never a screenshot or anything exported from an
+   * employer's tools. Until one exists the index draws a placeholder.
+   */
+  cover?: { src: string; alt: string };
 };
 
 export const caseStudies: CaseStudy[] = [

@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One card in the work index. This was a full-width four-column row — number, argument, disciplines, date — and it held up at three entries and broke at four: the metadata columns sat about 350px to the right of where the summary stopped, so every row carried a hole down its middle and the index grew by a screen for every two case studies added. Two columns of cards is 25% shorter at four entries. What survived the change is the thing that mattered: the standfirst is present in full rather than truncated to fit, because the standfirst is the argument. A card here is a record with a sentence in it, not a thumbnail.",
+          "One row of the work index: an image at 40% and the record at 60%, stacking below md. The record reads in scan order: number and period, the title (the decision), the standfirst (the argument, never truncated), then employer and discipline. Until a study has its visual, the image slot holds its place at 4:3. Each image will be a visual from its case study, made for this site, never a screen.",
       },
     },
   },
@@ -32,7 +32,7 @@ export const Published: Story = {
     docs: {
       description: {
         story:
-          "A finished case study. The whole card is a link. On hover the border takes the interactive blue and the title takes the accent; the ground does not change, because a card that wells on hover reads as a button and this is a document.",
+          "A finished case study. The whole row is a link. On hover the title takes the accent and nothing else moves; the ground does not change, because a row that wells on hover reads as a button and this is a document.",
       },
     },
   },
@@ -66,7 +66,7 @@ export const LongTitle: Story = {
     docs: {
       description: {
         story:
-          "Titles are sentences, so they will sometimes be long ones. The measure is capped at 28ch. It was 22ch, which rendered at 349px inside a 538px card: every title stopped short of its own right edge and the longer ones broke to three lines against empty space. 28ch is 444px. Not wider — at 30ch the shortest title on the site collapses to one line, and a one-line title beside a two-line one unbalances the row. Double-digit numbering also stops the padding at two.",
+          "Titles are sentences, so they will sometimes be long ones. The measure is capped at 28ch and balanced, so a long title breaks into even lines instead of a full line and a stray word. Double-digit numbering also stops the padding at two.",
       },
     },
   },
@@ -79,7 +79,7 @@ export const TheIndex: Story = {
     docs: {
       description: {
         story:
-          "All four in the real grid. The grid is the story: `h-full` plus `mt-auto` on the card footer only does its job inside a stretching grid row, so two cards side by side share a height whatever their copy length. Rendered in plain flow — as this story used to be — the cards collapse to their content and the equal-height behavior the component is built for disappears.",
+          "All four as the index renders them, one row each under the section rule. Each row closes with its own hairline, so the list ends on a rule rather than on loose space.",
       },
     },
   },
@@ -93,7 +93,7 @@ export const TheIndex: Story = {
           {String(caseStudies.length).padStart(2, "0")}
         </span>
       </div>
-      <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div>
         {caseStudies.map((study, i) => (
           <WorkEntry key={study.slug} study={study} index={i} />
         ))}

@@ -23,7 +23,7 @@ const steps = [
   { name: "5xl", use: "Hero headline, large viewports" },
   { name: "4xl", use: "Hero headline, mid viewports" },
   { name: "3xl", use: "Panel headings" },
-  { name: "2xl", use: "Work index card titles" },
+  { name: "2xl", use: "Work index titles" },
   { name: "xl", use: "Footer prompt, callouts" },
   { name: "lg", use: "Hero standfirst" },
   { name: "base", use: "Body copy" },

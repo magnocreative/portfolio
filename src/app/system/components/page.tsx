@@ -407,24 +407,24 @@ export default function ComponentsPage() {
                 <Head
                   id="work-entry"
                   title="Work entry"
-                  decision="The card the work index is built from. Its title is capped at 28ch and
-                  its standfirst is never truncated, because the standfirst is the argument. Cards in
-                  a row share a height through an auto margin on the footer rather than a fixed one,
-                  so a longer summary lengthens the row instead of being cut to fit it."
+                  decision="One row of the work index: an image at 40% and the record at 60%. The
+                  title is capped at 28ch and balanced, and the standfirst is never truncated, because
+                  the standfirst is the argument. Until a study has its visual, the image slot holds
+                  its place at 4:3, so the index already reads at the shape it will have."
                 />
 
                 <Stage>
-                  <div className="max-w-[34rem]">
-                    <WorkEntry study={caseStudies[1]} index={1} />
-                  </div>
+                  <WorkEntry study={caseStudies[1]} index={1} />
                 </Stage>
 
                 <Absent>
-                  This replaced a full-width row that held up at three entries and broke at four: the
-                  metadata columns sat about 350px right of where the summary stopped, so every row
-                  carried a hole down its middle. The titles were capped at 22ch at the time, which
-                  rendered at 349px inside a 538px card, so every title also stopped short of its own
-                  right edge. Both were invisible until there were four of them on a page at once.
+                  This is the third shape the index has had. A four-column text row came first and
+                  left the metadata floating about 350px right of each summary. A two-column card grid
+                  replaced it and was shorter, but gave each study half the page and no room for an
+                  image. The row came back with an image slot, so each study gets the full width and
+                  something to look at besides text. Each image will be a visual from its case
+                  study, made for this site, never a screen: the screens belong to the companies that
+                  paid for them.
                 </Absent>
               </section>
 

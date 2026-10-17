@@ -12,13 +12,13 @@ export const metadata: Metadata = {
 };
 
 /* The index and the homepage list the same four studies, so the two pages have
-   to earn their difference somewhere other than the cards. The homepage shows
+   to earn their difference somewhere other than the entries. The homepage shows
    the work as evidence for a claim about the person. This page is where a
    reader who already decided to look at the work arrives, so it says how the
    studies are written and why there are no screens in them, before the reader
    goes looking for screens and wonders where they are.
 
-   The cards are the same component in the same grid. A second card design for
+   The entries are the same component in the same list. A second design for
    the same data would be two answers to one question. */
 export default function Work() {
   const published = caseStudies.filter((s) => s.status === "published").length;
@@ -56,9 +56,9 @@ export default function Work() {
             </span>
           </div>
 
-          {/* Said once, here, rather than left for the dimmed cards to imply.
-              A reader who meets four unlinked cards with no explanation reads
-              a broken page; the same four cards under one honest sentence read
+          {/* Said once, here, rather than left for the draft tags to imply.
+              A reader who meets four unlinked entries with no explanation reads
+              a broken page; the same four entries under one honest sentence read
               as a schedule. The sentence disappears on its own when the last
               study is published. */}
           {published < caseStudies.length && (
@@ -69,7 +69,7 @@ export default function Work() {
             </p>
           )}
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div>
             {caseStudies.map((study, i) => (
               <WorkEntry key={study.slug} study={study} index={i} />
             ))}
