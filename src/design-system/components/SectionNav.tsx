@@ -188,8 +188,9 @@ export function SectionNav({
                 // child both announcing `aria-current` tells a screen reader
                 // there are two current locations.
                 aria-current={on ? "true" : undefined}
+                data-label={i.label}
                 className={[
-                  "block font-mono text-xs uppercase tracking-[0.11em]",
+                  "block font-label text-xs uppercase tracking-[0.11em]",
                   "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
                   // The 1px track is a background gradient, not a border,
                   // because `border-left` is already spoken for by the 2px
@@ -205,7 +206,12 @@ export function SectionNav({
                   // was, so this is the same rhythm drawn a different way.
                   vertical
                     ? "border-l-2 bg-[linear-gradient(to_right,var(--border-subtle)_1px,transparent_1px)] py-2.5 pl-4"
-                    : "whitespace-nowrap border-b-2 pb-3 pt-1",
+                    : // The strip is a row, so a label that gets wider the
+                      // moment it turns current pushes every item after it
+                      // sideways while the reader scrolls. An invisible
+                      // SemiBold copy of the label, zero height, holds each
+                      // item at its current-state width from the start.
+                      "whitespace-nowrap border-b-2 pb-3 pt-1 after:block after:h-0 after:overflow-hidden after:invisible after:font-semibold after:content-[attr(data-label)]",
                   // Accent blue for the current section, matching the main nav
                   // and the current breadcrumb, so "you are here" is one
                   // treatment wherever it appears rather than three. The rule
@@ -215,8 +221,9 @@ export function SectionNav({
                   //
                   // Semibold as well, for the same reason it is on the other
                   // two: the rule already carries a non-color cue here, so
-                  // this is consistency rather than necessity, and monospace
-                  // means it costs no layout.
+                  // this is consistency rather than necessity. In the rail the
+                  // items are full-width blocks, so the wider weight costs no
+                  // layout; the strip reserves it, above.
                   on
                     ? "border-text-accent font-semibold text-text-accent"
                     : containing
@@ -266,7 +273,7 @@ export function SectionNav({
                             // is 13 and the 12 and 10 steps are deliberately
                             // unused, so depth is carried by the indent and the
                             // weight rather than by shrinking below the floor.
-                            "block border-l-2 py-1.5 pl-4 font-mono text-xs uppercase tracking-[0.11em]",
+                            "block border-l-2 py-1.5 pl-4 font-label text-xs uppercase tracking-[0.11em]",
                             "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
                             childOn
                               ? "border-text-accent font-semibold text-text-accent"

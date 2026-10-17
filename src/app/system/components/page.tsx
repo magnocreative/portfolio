@@ -56,12 +56,12 @@ function Stage({ children, className = "" }: { children: React.ReactNode; classN
 }
 
 /** A labelled cell inside a stage. The caption is the state's real name, in
- *  the same mono the rest of the site uses for metadata, so a reader can match
+ *  the same label face the rest of the site uses for metadata, so a reader can match
  *  what they are looking at to the prop that produces it. */
 function Cell({ caption, children }: { caption: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-3">
-      <span className="font-mono text-xs uppercase tracking-[0.11em] text-text-tertiary">
+      <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
         {caption}
       </span>
       <div className="flex items-center">{children}</div>
@@ -114,7 +114,9 @@ export default function ComponentsPage() {
                     top-level pages deliberately do not carry one: a breadcrumb
                     reading "Home / About" states what the nav already shows
                     with a selected state, and if every page has a trail then
-                    having one stops meaning you are a level down. */}
+                    having one stops meaning you are a level down. The trail's
+                    last item is also this page's label, so there is no eyebrow
+                    under it repeating "Components". */}
                 <Breadcrumbs
                   items={[
                     { label: "Design system", href: "/system" },
@@ -122,10 +124,12 @@ export default function ComponentsPage() {
                   ]}
                 />
 
-                <Label className="mt-10">Components</Label>
-
+                {/* One short claim, set to balance. It breaks into two even
+                    lines at 1440 and three below that. The two-sentence title it
+                    replaced ("Not screenshots of a system. The system, running.")
+                    left "Not" alone on the first line on a phone. */}
                 <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[24ch] lg:text-5xl">
-                  Not screenshots of a system. The system, running.
+                  The real components, running live.
                 </h1>
 
                 <div className="mt-10 flex max-w-[46rem] gap-6">
@@ -283,9 +287,9 @@ export default function ComponentsPage() {
                 </Stage>
 
                 <Absent>
-                  Not used on the homepage, <code className="font-mono text-sm">/about</code>,{" "}
-                  <code className="font-mono text-sm">/resume</code> or{" "}
-                  <code className="font-mono text-sm">/system</code>. Those are top level, so a trail
+                  Not used on the homepage, <code className="font-medium">/about</code>,{" "}
+                  <code className="font-medium">/resume</code> or{" "}
+                  <code className="font-medium">/system</code>. Those are top level, so a trail
                   there would read &ldquo;Home / About&rdquo; and state what the global nav already
                   shows with a selected state. It would also cost this page the one thing a
                   breadcrumb is for: if every page carries a trail, carrying one stops meaning you
@@ -376,20 +380,20 @@ export default function ComponentsPage() {
                   <p className="mt-8 max-w-measure text-base leading-[1.7] text-text-secondary">
                     This one is live and tracking the real sections of this page, so scrolling moves
                     the current item in both it and the rail on the right. Two instances, two
-                    different <code className="font-mono text-sm">label</code> values, which is what
+                    different <code className="font-medium">label</code> values, which is what
                     that prop is for: two nav landmarks sharing a name are two doors with the same
                     sign.
                   </p>
                 </Stage>
 
                 <Absent>
-                  The vertical rail has no <code className="font-mono text-sm">self-start</code> on
+                  The vertical rail has no <code className="font-medium">self-start</code> on
                   its grid cell, and that omission is load bearing. Letting the cell stretch gives
                   the sticky element inside it a tall block to travel down; hugging the content
                   collapses that block to the rail&rsquo;s own height and the rail scrolls away after
                   one screen. The same trap in reverse to the one that put section spacing in margin
                   rather than padding, so{" "}
-                  <code className="font-mono text-sm">scroll-margin-top</code> lands an anchor on the
+                  <code className="font-medium">scroll-margin-top</code> lands an anchor on the
                   right line.
                 </Absent>
               </section>
@@ -454,7 +458,7 @@ export default function ComponentsPage() {
                 <p className="mt-10 max-w-measure text-base leading-[1.7] text-text-secondary">
                   Every state of every component, including the ones that are wrong on purpose, lives
                   in Storybook alongside the source. It runs with{" "}
-                  <code className="font-mono text-sm">npm run storybook</code> from the repository.
+                  <code className="font-medium">npm run storybook</code> from the repository.
                   It is not published at a URL yet; when it is, each specimen above will link to its
                   own story rather than this paragraph doing the work.
                 </p>

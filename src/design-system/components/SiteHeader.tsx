@@ -278,9 +278,10 @@ function NavList({
                   // would be distinguished by accent text and an accent icon
                   // on a 1.14:1 fill — which is close enough to color alone to
                   // be the thing that disqualified the tinted theme chip at
-                  // 1.17:1. Semibold costs nothing here because the label is
-                  // monospace: the advance width of every character is fixed,
-                  // so the row cannot reflow when the weight changes.
+                  // 1.17:1. Semibold costs no layout here: the label is
+                  // nowrap and left-aligned in a row of fixed width, and the
+                  // current item only changes on navigation, so nothing beside
+                  // it can be pushed while you watch.
                   // `whitespace-nowrap` and `shrink-0` exist for the 240ms
                   // nobody screenshots.
                   //
@@ -304,7 +305,7 @@ function NavList({
                   // label is 120, so an unwrappable label overflows its own
                   // tile there. Nothing animates in the grid, so nothing in it
                   // needs this.
-                  className={`font-mono text-xs uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
+                  className={`font-label text-xs uppercase tracking-[0.11em] transition-colors duration-[160ms] ${
                     collapsible
                       ? "rail-collapsed:sr-only whitespace-nowrap shrink-0"
                       : ""
@@ -851,8 +852,9 @@ function Banner() {
  *
  * 240px, and the number is measured rather than chosen: 24 of padding, a 24px
  * icon, a 12px gap, the 120px "Design system" label and 24 of padding come to
- * 204, and the remaining 36 is slack for the fallback mono that paints before
- * JetBrains loads. At 1280 that leaves a 1040px column, 912px of it inside the
+ * 204, and the remaining 36 is slack for the fallback face that paints before
+ * the web font loads. (The 120 was measured in the old mono face; in Poppins Medium the
+ * same label measures 119.2, so the arithmetic still holds.) At 1280 that leaves a 1040px column, 912px of it inside the
  * container's gutters, so prose still sets at the full 900px measure. The
  * 300px version left 852.
  *

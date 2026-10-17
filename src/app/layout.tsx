@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-// Self-hosted variable fonts. No request to a third-party font CDN, which means
-// no render-blocking round trip, no external dependency at runtime, and nothing
-// leaking a visitor's IP to Google. Two axes ship in one file each.
-import "@fontsource-variable/inter";
-import "@fontsource-variable/newsreader";
-import "@fontsource-variable/jetbrains-mono";
+// Self-hosted fonts. No request to a third-party font CDN, which means no
+// render-blocking round trip, no external dependency at runtime, and nothing
+// leaking a visitor's IP to Google. Poppins has no variable cut, so it ships as
+// the three static weights the site actually uses: 400 to read, 500 for labels
+// and controls, 600 for page titles and the current item. Each file carries a
+// unicode-range, so a visitor downloads only the Latin subset.
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
 import "./globals.css";
 import { themeInitScript } from "@/design-system/components/ThemeToggle";
 import { SiteHeader, railInitScript } from "@/design-system/components/SiteHeader";

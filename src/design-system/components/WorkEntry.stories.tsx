@@ -89,7 +89,7 @@ export const TheIndex: Story = {
         <Label as="h2" className="!text-text-primary">
           Case studies
         </Label>
-        <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
+        <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
           {String(caseStudies.length).padStart(2, "0")}
         </span>
       </div>

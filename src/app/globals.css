@@ -95,6 +95,17 @@
     scroll-margin-top: calc(var(--banner-height) + 2.5rem);
   }
 
+  /* The browser and Tailwind's reset both give code, kbd, samp and pre a
+     monospace stack. The site has one face, so they inherit it; inline code is
+     marked by weight where it is used instead. */
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
   body {
     background-color: var(--surface-page);
     color: var(--text-primary);
@@ -134,8 +145,16 @@
 
 @layer utilities {
   /* Optical alignment for large display type, which always sits too far right
-     when its left sidebearing is respected literally. */
+     when its left sidebearing is respected literally.
+
+     Measured, not eyeballed: Poppins SemiBold's straight-stemmed capitals (I,
+     M, E, N, every current page title's first letter but one) carry a left
+     sidebearing of 0.060em at 84px and 0.063em at 64 and 48. Pulling back
+     0.06em puts the stem on the column edge the label above it already sits
+     on. A diagonal capital like A carries only 0.02em and lands slightly
+     outside, which is the overhang round and pointed letters are meant to
+     have. */
   .text-optical {
-    margin-left: -0.055em;
+    margin-left: -0.06em;
   }
 }

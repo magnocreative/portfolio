@@ -28,7 +28,19 @@ export default function Home() {
                 seniority is argued by the work below it instead. */}
             <Label>Experience Designer · design systems &amp; operational tools</Label>
 
-            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-5xl leading-[1.04] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[21ch] lg:text-6xl">
+            {/* 48 on a phone, 64 from sm, 84 from lg. Poppins SemiBold sets
+                about a quarter wider than the serif it replaced, and at 64 in a
+                342px column the hero broke into seven lines with "the" alone
+                on one of them. At 48 it reads as four.
+
+                From lg the line is capped at 12em and wraps plainly instead of
+                balancing, which holds it at three lines on every desktop width.
+                Where the column is 1008px or wider (1440 and up) the breaks are
+                "I design the systems / behind the tools people / use all day.",
+                matching the Figma hero; balance would have evened the
+                lines out and moved "people" down. In em rather than px so the
+                cap scales with the type. */}
+            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl sm:text-5xl leading-[1.04] tracking-[-0.025em] text-text-primary text-balance lg:max-w-[12em] lg:text-wrap lg:text-6xl">
               I design the systems behind the tools people use all day.
             </h1>
 
@@ -50,7 +62,7 @@ export default function Home() {
               <Label as="h2" className="!text-text-primary">
                 <span id="work-heading">Case studies</span>
               </Label>
-              <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
+              <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
                 {String(caseStudies.length).padStart(2, "0")}
               </span>
             </div>
@@ -109,7 +121,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <dl className="font-mono text-xs">
+              <dl className="font-label text-xs">
                 {systemFacts.map((fact, i) => (
                   <div
                     key={fact.key}

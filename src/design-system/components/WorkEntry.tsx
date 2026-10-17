@@ -3,7 +3,7 @@ import type { CaseStudy } from "@/content/case-studies";
 
 function DraftTag() {
   return (
-    <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary">
+    <span className="inline-flex items-center gap-2 font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary">
       <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border-strong" />
       In writing
     </span>
@@ -39,10 +39,10 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   const body = (
     <>
       <div className="flex items-baseline justify-between">
-        <span className="font-mono text-xs text-text-tertiary">
+        <span className="font-label text-xs text-text-tertiary">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="font-mono text-xs text-text-tertiary">{study.period}</span>
+        <span className="font-label text-xs text-text-tertiary">{study.period}</span>
       </div>
 
       {/* 28ch, not the 22ch this started at. The card's inner width is 538px
@@ -63,7 +63,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
           copy length, and without this the footers would float at different
           heights and the row would read as broken rather than varied. */}
       <div className="mt-auto pt-6">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-text-tertiary">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-label text-xs text-text-tertiary">
           <span>{study.employer}</span>
           <span aria-hidden="true">·</span>
           <span>{study.disciplines[0]}</span>

@@ -151,12 +151,12 @@
      long reading lengths. */
   --text-primary: light-dark(var(--p-paper-950), var(--p-slate-100));
   --text-secondary: light-dark(var(--p-paper-700), var(--p-slate-300));
-  /* paper-600, not paper-500. Tertiary carries the mono metadata, which is
+  /* paper-600, not paper-500. Tertiary carries the small metadata, which is
      small text and therefore needs the full 4.5:1, not the 3:1 large-text
      allowance. */
   --text-tertiary: light-dark(var(--p-paper-600), var(--p-slate-400));
   --text-inverse: light-dark(var(--p-paper-25), var(--p-slate-950));
-  /* One accent value for every size. Small uppercase mono used to get its own
+  /* One accent value for every size. Small uppercase labels used to get their own
      deeper role, on the theory that it read washed out because the ratio was
      too low. It was not: it measured 6.86:1, which is AAA. The cause was
      stroke weight, tracking and the flat band all-caps produces, none of which
@@ -370,9 +370,25 @@
    --------------------------------------------------------------------------- */
 
 @theme {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Newsreader Variable", Georgia, "Times New Roman", serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+  /* One family carries the whole site, code and figures included. Poppins is
+     geometric, so a heading and the line under it read as one voice; the
+     hierarchy comes from weight and size instead of from a change of face.
+     Every step from 28px up is SemiBold (set on the scale below), everything
+     else keeps the weight it had: Regular for reading, Medium for labels,
+     controls and inline code.
+
+     Three roles, one face. They stay separate tokens because they are separate
+     decisions: changing the display face, or giving labels a face of their
+     own again, is one line here instead of a hunt through every component.
+
+     There is no mono role any more. Code, file paths, token names, hex values
+     and contrast ratios used to be JetBrains Mono; they are Poppins now, with
+     inline code marked by Medium weight rather than by a second face. Poppins
+     has no tabular figures, so the ratio column lines up on its right edge and
+     decimal point position varies by a pixel or two between rows. */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-label: "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* Type scale — a 1.25 major third, tuned by hand at the display end where a
      pure ratio goes limp. Every step is a whole pixel. Line heights are
@@ -381,7 +397,7 @@
 
      Nothing on the site uses them, and that is deliberate rather than an
      oversight: 13px is the smallest size in use, because at 12px the uppercase
-     mono read small enough to be a complaint and 12 against 13 is a
+     labels read small enough to be a complaint and 12 against 13 is a
      distinction nobody perceives anyway. They stay on the scale so a future
      dense surface has somewhere defined to go instead of inventing a raw
      value. Same rule as the color ramps: a scale may carry unused steps, a
@@ -398,7 +414,7 @@
   --text-2xs--letter-spacing: 0.04em;
 
   /* The working floor, and where all the small type actually lives: uppercase
-     mono labels, mono metadata, and the short sans notes in the contrast
+     labels, metadata, token values, and the short notes in the contrast
      table. Nothing rendered on the site is smaller than this. */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.5;
@@ -417,25 +433,35 @@
   --text-xl--line-height: 1.45;
   --text-xl--letter-spacing: -0.005em;
 
+  /* Weight is part of the step from here up. Every size of 28px and above is
+     SemiBold, so a heading cannot be set at display size and regular weight by
+     forgetting a class, and the rule lives in one place. An explicit weight
+     utility on an element still wins over it. Below 28 the steps carry no
+     weight and inherit Regular. */
   --text-2xl: 1.75rem;
   --text-2xl--line-height: 1.3;
   --text-2xl--letter-spacing: -0.012em;
+  --text-2xl--font-weight: 600;
 
   --text-3xl: 2.25rem;
   --text-3xl--line-height: 1.2;
   --text-3xl--letter-spacing: -0.018em;
+  --text-3xl--font-weight: 600;
 
   --text-4xl: 3rem;
   --text-4xl--line-height: 1.1;
   --text-4xl--letter-spacing: -0.024em;
+  --text-4xl--font-weight: 600;
 
   --text-5xl: 4rem;
   --text-5xl--line-height: 1.04;
   --text-5xl--letter-spacing: -0.03em;
+  --text-5xl--font-weight: 600;
 
   --text-6xl: 5.25rem;
   --text-6xl--line-height: 0.98;
   --text-6xl--letter-spacing: -0.034em;
+  --text-6xl--font-weight: 600;
 
   /* Radius. Nothing on this site is square-cornered and nothing sits at a
      hairline either: 2px reads as a rendering artefact rather than a decision,
@@ -496,8 +522,9 @@
      240 = 24 padding + a 180px pill + 24 padding + 12 slack, where the pill is
      12 of its own padding + 24 icon + 12 gap + 120 label + 12 padding.
      The 120 is "Design system" measured in the browser at the real font, the
-     widest unbreakable string left in the rail; the 12 of slack is for the
-     fallback mono that paints before JetBrains loads, the same lesson the
+     widest unbreakable string left in the rail (119.2 in Poppins Medium); the
+     12 of slack is for the fallback face that paints before the web font
+     loads, the same lesson the
      identity row taught when it cleared its padding by 0.08px.
    
      It was 300, and it was 300 because the 188px name lived here. Moving the

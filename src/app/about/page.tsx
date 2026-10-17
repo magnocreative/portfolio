@@ -72,21 +72,17 @@ export default function About() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-          {/* The hero cap is 24ch, and 20ch is the trap. `text-balance` picks
-              the same break for 20, 22 and 24 — identical ink, 700px and 461px
-              — so by the loaded font they are indistinguishable and 20 looks
-              like the tidier number. Measured in the fallback it is not:
-              Newsreader is self-hosted and lands after first paint, and every
-              fallback serif sets this line wider, so at 20ch the hero renders
-              three lines on a cold load and snaps to two when the font
-              arrives. 24ch holds two lines in Newsreader and in ui-serif,
-              Georgia and the generic serif, at 870px against the 900px
-              measure. 26ch would clear the measure. */}
+          {/* The hero cap is 24ch. In Poppins SemiBold the title sets two
+              lines once the column is about 800px wide (1440 and up), balanced
+              as "Most of what I designed, / you will never see.", and three
+              lines below that. The column width decides the break, not the
+              cap; the cap is kept so a shorter title does not run the full
+              width of the column. */}
           <section className="pt-24 pb-4 md:pt-32">
             <Label>About</Label>
 
             <h1 className="text-optical mt-10 max-w-[24ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance lg:text-5xl">
-              Most of what I&rsquo;ve designed, you will never see.
+              Most of what I designed, you will never see.
             </h1>
 
             <div className="mt-14 flex max-w-[46rem] gap-6">
@@ -186,7 +182,7 @@ export default function About() {
                   title="The Magno Creative mark"
                   className="w-[180px] md:w-[220px] lg:w-full h-auto"
                 />
-                <dl className="mt-6 font-mono text-xs">
+                <dl className="mt-6 font-label text-xs">
                   {[
                     ["--mark-deep", "#4e729a"],
                     ["--mark-light", "#80a2c4"],
@@ -207,9 +203,9 @@ export default function About() {
                 </p>
                 <p>
                   What makes it worth a section is what happened after it existed. The deep peak is{" "}
-                  <code className="font-mono text-sm text-text-primary">#4e729a</code>, and that is
+                  <code className="font-medium text-text-primary">#4e729a</code>, and that is
                   not a color chosen to sit near the interface. It is{" "}
-                  <code className="font-mono text-sm text-text-primary">--interactive-default</code>{" "}
+                  <code className="font-medium text-text-primary">--interactive-default</code>{" "}
                   itself: the one blue this site runs on, behind every button, every focus ring and
                   every selected state. The dark theme was drawn from the mark rather than inverted
                   from the light one, which is why the logo sits in it natively instead of being
@@ -242,7 +238,7 @@ export default function About() {
               <Label as="h2" className="!text-text-primary">
                 <span id="principles-heading">How I work</span>
               </Label>
-              <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
+              <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
                 {String(principles.length).padStart(2, "0")}
               </span>
             </div>

@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Three levels of emphasis, one size, two shapes. The variant is a statement about how much attention the action deserves, not a decoration: primary is the loudest object on a page and so should appear once on it, secondary carries the ordinary forward action, and tertiary is a link that has been given a hit area. All three are fills rather than two fills and an outline, which is what keeps them legible as one family at three volumes. The label is Inter at 14px rather than the mono uppercase the rest of the interface furniture uses, because mono uppercase names a thing and a button asks you to do one. Given an `href` the component renders an anchor; otherwise a real button, which is a keyboard and screen-reader distinction rather than a styling one.",
+          "Three levels of emphasis, one size, two shapes. The variant is a statement about how much attention the action deserves, not a decoration: primary is the loudest object on a page and so should appear once on it, secondary carries the ordinary forward action, and tertiary is a link that has been given a hit area. All three are fills rather than two fills and an outline, which is what keeps them legible as one family at three volumes. The label is sentence case at 14px rather than the tracked uppercase the rest of the interface furniture uses, because uppercase names a thing and a button asks you to do one. Given an `href` the component renders an anchor; otherwise a real button, which is a keyboard and screen-reader distinction rather than a styling one.",
       },
     },
   },
@@ -283,7 +283,7 @@ export const InContext: Story = {
   render: () => (
     <div className="mx-auto max-w-[72rem]">
       <div className="border-b border-border-rule pb-4">
-        <div className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-text-primary">
+        <div className="font-label text-xs font-medium uppercase tracking-[0.14em] text-text-primary">
           Design system
         </div>
       </div>
@@ -302,7 +302,7 @@ export const InContext: Story = {
             </Button>
           </div>
         </div>
-        <dl className="font-mono text-xs">
+        <dl className="font-label text-xs">
           {[
             ["tokens", "three tiers"],
             ["color", "OKLCH ramps"],

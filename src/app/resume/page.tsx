@@ -189,7 +189,7 @@ export default function Resume() {
             {/* No phone number on a public page. It goes on the copy that gets
                 sent to a person, where it reaches one reader rather than every
                 scraper. */}
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.11em] text-text-tertiary">
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
               <span>Dallas&ndash;Fort Worth, Texas</span>
               <span>Open to relocation</span>
               <a
@@ -237,7 +237,7 @@ export default function Resume() {
                     <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                       {org.employer}
                     </h3>
-                    <span className="font-mono text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                    <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
                       {org.location}
                     </span>
                   </div>
@@ -248,7 +248,7 @@ export default function Resume() {
                         <h4 className="font-display text-lg leading-[1.3] text-text-primary">
                           {role.title}
                         </h4>
-                        <span className="font-mono text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                        <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
                           {role.period}
                         </span>
                       </div>
@@ -264,7 +264,7 @@ export default function Resume() {
               ))}
 
               <div className="max-w-measure">
-                <span className="font-mono text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
                   Earlier
                 </span>
                 <p className="mt-3 text-base leading-[1.65] text-text-secondary">
@@ -309,7 +309,7 @@ export default function Resume() {
                     </div>
                     <div className="mt-1 text-base text-text-secondary">{item.detail}</div>
                   </div>
-                  <span className="font-mono text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                  <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
                     {item.period}
                   </span>
                 </div>

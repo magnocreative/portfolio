@@ -5,7 +5,7 @@ import type { TokenKind } from "@/design-system/utils/contrast";
 const textRoles: AuditRow[] = [
   { token: "--text-primary", note: "Body and headings" },
   { token: "--text-secondary", note: "Standfirsts, supporting copy" },
-  { token: "--text-tertiary", note: "Mono metadata — dates, disciplines, labels" },
+  { token: "--text-tertiary", note: "Metadata: dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
 ];
 
@@ -57,12 +57,12 @@ function Section({
 function Ramp({ prefix, steps, label }: { prefix: string; steps: (number | string)[]; label: string }) {
   return (
     <div className="mb-8">
-      <div className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-text-tertiary">{label}</div>
+      <div className="mb-3 font-label text-xs uppercase tracking-[0.14em] text-text-tertiary">{label}</div>
       <div className="flex gap-0.5">
         {steps.map((s) => (
           <div key={s} className="flex-1">
             <div className="h-14 rounded-sm border border-border-subtle" style={{ background: `var(--p-${prefix}-${s})` }} />
-            <div className="mt-1 text-center font-mono text-xs text-text-tertiary">{s}</div>
+            <div className="mt-1 text-center font-label text-xs text-text-tertiary">{s}</div>
           </div>
         ))}
       </div>

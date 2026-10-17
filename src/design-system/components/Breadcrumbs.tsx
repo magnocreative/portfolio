@@ -44,7 +44,7 @@ export function Breadcrumbs({
 }) {
   return (
     <nav aria-label={label} className={className}>
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs font-medium uppercase tracking-[0.11em]">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-label text-xs font-medium uppercase tracking-[0.11em]">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
           return (
@@ -57,7 +57,7 @@ export function Breadcrumbs({
 
               {isLast || !item.href ? (
                 // The current page. Truncated rather than allowed to wrap,
-                // because a case study title set in uppercase mono will run
+                // because a case study title set in uppercase will run
                 // past any sensible trail length. Pass a short label here; the
                 // full one is already the <h1> six pixels below.
                 //
@@ -78,8 +78,9 @@ export function Breadcrumbs({
                 // link — but position is a weak cue in a two-item trail, which
                 // is what this site actually ships.
                 //
-                // Monospace, so semibold costs no layout: every character's
-                // advance is fixed and the trail cannot reflow.
+                // Semibold widens the label slightly, which costs no layout
+                // here: it is always the last item in the trail and never
+                // changes state while the page is open.
                 <span
                   aria-current={isLast ? "page" : undefined}
                   title={item.label}

@@ -43,10 +43,10 @@ export type ButtonProps = AsLink | AsButton;
  * breaks keyboard behavior and lies to a screen reader, and it is the single
  * most common defect in a hand-rolled button component.
  *
- * The label is Inter at 14px, not the mono uppercase the rest of the interface
- * furniture uses. Mono uppercase is a labelling voice: it names a thing. A
- * button asks you to do a thing, and asking reads better in the same face and
- * the same case as the sentence that just made the argument. It is also the
+ * The label is sentence case at 14px, not the tracked uppercase the rest of the
+ * interface furniture uses. Uppercase is a labelling voice: it names a thing. A
+ * button asks you to do a thing, and asking reads better in the same case as the
+ * sentence that just made the argument. It is also the
  * one size on this site that has to survive being read at a glance by someone
  * who has already decided to click.
  */

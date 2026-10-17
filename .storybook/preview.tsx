@@ -4,9 +4,9 @@ import React from "react";
 // The real stylesheet and the real fonts. A design system documented against
 // an approximation of itself is worse than no documentation — it teaches
 // people values that aren't true.
-import "@fontsource-variable/inter";
-import "@fontsource-variable/newsreader";
-import "@fontsource-variable/jetbrains-mono";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
 import "../src/app/globals.css";
 
 /**

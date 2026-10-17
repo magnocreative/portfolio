@@ -33,7 +33,7 @@ export function SiteFooter() {
           {/* Wrapped in a nav and set at the header's link color rather than
               the tertiary these used to carry. Two reasons, and the second is
               the real one: matching the header is the point, but tertiary is
-              the mono METADATA color — dates, disciplines, the line about
+              the METADATA color — dates, disciplines, the line about
               the location line below. These are links to somewhere else, and a link
               wearing the metadata color tells a reader it is a fact rather
               than a door.
@@ -49,7 +49,7 @@ export function SiteFooter() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="font-mono text-xs font-medium uppercase tracking-[0.11em] text-text-secondary transition-colors duration-[160ms] hover:text-text-primary"
+                    className="font-label text-xs font-medium uppercase tracking-[0.11em] text-text-secondary transition-colors duration-[160ms] hover:text-text-primary"
                   >
                     {item.label}
                   </Link>
@@ -59,7 +59,7 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="flex flex-col gap-2 border-t border-border-subtle py-6 font-mono text-xs text-text-tertiary sm:flex-row sm:justify-between">
+        <div className="flex flex-col gap-2 border-t border-border-subtle py-6 font-label text-xs text-text-tertiary sm:flex-row sm:justify-between">
           <div>Dallas–Fort Worth, Texas</div>
           <div>Built from scratch. The design system is open, and you can read it on GitHub.</div>
         </div>

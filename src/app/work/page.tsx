@@ -51,7 +51,7 @@ export default function Work() {
             <Label as="h2" className="!text-text-primary">
               <span id="studies-heading">Case studies</span>
             </Label>
-            <span className="font-mono text-xs tracking-[0.14em] text-text-tertiary">
+            <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
               {String(caseStudies.length).padStart(2, "0")}
             </span>
           </div>

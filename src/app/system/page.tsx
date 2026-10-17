@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const textRoles: AuditRow[] = [
   { token: "--text-primary", note: "Body and headings" },
   { token: "--text-secondary", note: "Standfirsts, supporting copy" },
-  { token: "--text-tertiary", note: "Mono metadata: dates, disciplines, labels" },
+  { token: "--text-tertiary", note: "Metadata: dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
 ];
 
@@ -81,7 +81,7 @@ const decisions = [
   },
   {
     title: "Contrast is measured, not asserted",
-    body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small mono metadata requires, and it looked completely fine to me on screen.",
+    body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small metadata requires, and it looked completely fine to me on screen.",
   },
   {
     title: "Two hairlines, both below the bar, for different reasons",
@@ -145,10 +145,10 @@ export default function SystemPage() {
                   key={t.n}
                   className="grid grid-cols-1 gap-x-6 gap-y-2 border-b border-border-subtle py-6 lg:grid-cols-[3rem_10rem_1fr_16rem]"
                 >
-                  <div className="font-mono text-xs text-text-tertiary">{t.n}</div>
+                  <div className="font-label text-xs text-text-tertiary">{t.n}</div>
                   <div className="font-display text-xl text-text-primary">{t.name}</div>
                   <div className="text-base text-text-secondary">{t.holds}</div>
-                  <div className="font-mono text-xs text-text-tertiary lg:text-right">
+                  <div className="font-label text-xs text-text-tertiary lg:text-right">
                     <span className="lg:hidden">Referenced by: </span>
                     {t.who}
                   </div>
@@ -166,7 +166,7 @@ export default function SystemPage() {
             </div>
             <p className="mt-8 mb-10 max-w-measure text-base text-text-secondary">
               Each token below is painted to a canvas and the resulting pixel read back, then checked against the
-              WCAG 2.2 threshold for the size it is actually used at. Small mono metadata is held to 4.5:1, not the 3:1
+              WCAG 2.2 threshold for the size it is actually used at. Small metadata is held to 4.5:1, not the 3:1
               large-text allowance, because it is small.
             </p>
             <ContrastAudit rows={textRoles} label="Text roles, measured" />
@@ -258,7 +258,7 @@ export default function SystemPage() {
                 </p>
               </div>
 
-              <dl className="font-mono text-xs">
+              <dl className="font-label text-xs">
                 {[
                   ["tokens", "src/styles/tokens.css"],
                   ["components", "src/design-system/"],
