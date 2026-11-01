@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { WorkEntry } from "./WorkEntry";
-import { Label } from "@/design-system/primitives/Container";
+import { SectionHead } from "./SectionHead";
 import { caseStudies } from "@/content/case-studies";
 
 const meta = {
@@ -85,14 +85,7 @@ export const TheIndex: Story = {
   },
   render: () => (
     <div style={{ padding: "2rem", maxWidth: "84rem", margin: "0 auto" }}>
-      <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
-        <Label as="h2" className="!text-text-primary">
-          Case studies
-        </Label>
-        <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
-          {String(caseStudies.length).padStart(2, "0")}
-        </span>
-      </div>
+      <SectionHead count={caseStudies.length}>Case studies</SectionHead>
       <div>
         {caseStudies.map((study, i) => (
           <WorkEntry key={study.slug} study={study} index={i} />

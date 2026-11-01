@@ -4,6 +4,7 @@ import { ContrastAudit, type AuditRow } from "@/design-system/components/Contras
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
+import { SectionHead } from "@/design-system/components/SectionHead";
 
 export const metadata: Metadata = {
   title: "The design system",
@@ -114,22 +115,15 @@ export default function SystemPage() {
             <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[24ch] lg:text-5xl">
               A system you can read, not a claim you have to take on trust.
             </h1>
-            <div className="mt-10 flex max-w-[46rem] gap-6">
-              <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
-              <p className="text-lg leading-[1.65] text-text-secondary">
-                This site runs on the system documented below. Everything here is live. The swatches are the real
-                tokens, and the contrast figures are measured in your browser as you read them. Switch your device to
-                dark mode and every number here changes with it.
-              </p>
-            </div>
+            <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
+              This site runs on the system documented below. Everything here is live. The swatches are the real
+              tokens, and the contrast figures are measured in your browser as you read them. Switch your device to
+              dark mode and every number here changes with it.
+            </p>
               </section>
               {/* Three tiers */}
             <section id="tiers" className="mt-24" aria-labelledby="tiers-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="tiers-heading">Three tiers, in dependency order</span>
-              </Label>
-            </div>
+            <SectionHead id="tiers-heading">Three tiers, in dependency order</SectionHead>
 
             <div className="mt-8 max-w-measure">
               <p className="text-base text-text-secondary">
@@ -159,11 +153,7 @@ export default function SystemPage() {
 
               {/* Live audit */}
             <section id="contrast" className="mt-24" aria-labelledby="contrast-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="contrast-heading">Text roles, measured live</span>
-              </Label>
-            </div>
+            <SectionHead id="contrast-heading">Text roles, measured live</SectionHead>
             <p className="mt-8 mb-10 max-w-measure text-base text-text-secondary">
               Each token below is painted to a canvas and the resulting pixel read back, then checked against the
               WCAG 2.2 threshold for the size it is actually used at. Small metadata is held to 4.5:1, not the 3:1
@@ -188,11 +178,7 @@ export default function SystemPage() {
 
               {/* Decisions */}
             <section id="decisions" className="mt-24" aria-labelledby="decisions-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="decisions-heading">Decisions, and what each one cost</span>
-              </Label>
-            </div>
+            <SectionHead id="decisions-heading">Decisions, and what each one cost</SectionHead>
 
             {/* One column. These were two, and two columns is the wrong shape
                 for this content: each entry is a paragraph of argument, not a
@@ -221,11 +207,7 @@ export default function SystemPage() {
 
               {/* Components */}
             <section id="components" className="mt-24" aria-labelledby="components-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="components-heading">Components</span>
-              </Label>
-            </div>
+            <SectionHead id="components-heading">Components</SectionHead>
 
             {/* A link rather than the gallery itself. This page is the
                 argument; the gallery is the evidence, and the evidence needs

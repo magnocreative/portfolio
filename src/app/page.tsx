@@ -3,6 +3,7 @@ import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
+import { SectionHead } from "@/design-system/components/SectionHead";
 
 const systemFacts = [
   { key: "tokens", value: "three tiers" },
@@ -26,7 +27,7 @@ export default function Home() {
                 carrying a title that employment verification would not return
                 is a discrepancy waiting to be found at the worst moment. The
                 seniority is argued by the work below it instead. */}
-            <Label>Experience Designer · design systems &amp; operational tools</Label>
+            <Label>Experience Designer · Design Systems</Label>
 
             {/* 48 on a phone, 64 from sm, 84 from lg. Poppins SemiBold sets
                 about a quarter wider than the serif it replaced, and at 64 in a
@@ -44,28 +45,18 @@ export default function Home() {
               I design the systems behind the tools people use all day.
             </h1>
 
-            <div className="mt-14 flex max-w-[46rem] gap-6">
-              <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
-              <p className="text-lg leading-[1.65] text-text-secondary">
-                Ten years on internal software: compliance platforms, audit tooling, and the CRM
-                systems bankers and advisors work in every day. I own the design system, and I build
-                the prototypes that prove a design works before engineering commits to it.
-              </p>
-            </div>
+            <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
+              Ten years on internal software: compliance platforms, audit tooling, and the CRM
+              systems bankers and advisors work in every day. I own the design system, and I build
+              the prototypes that prove a design works before engineering commits to it.
+            </p>
           </section>
         </Container>
 
         {/* Work index */}
         <Container>
           <section className="pt-32" aria-labelledby="work-heading">
-            <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="work-heading">Case studies</span>
-              </Label>
-              <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
-                {String(caseStudies.length).padStart(2, "0")}
-              </span>
-            </div>
+            <SectionHead id="work-heading" count={caseStudies.length}>Case studies</SectionHead>
 
             <div>
               {caseStudies.map((study, i) => (
@@ -87,11 +78,7 @@ export default function Home() {
                 quantity. The layout takes a missing second child without
                 complaint, which is the point of building the head as a flex
                 row rather than a grid with fixed columns. */}
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="system-heading">Design system</span>
-              </Label>
-            </div>
+            <SectionHead id="system-heading">Design system</SectionHead>
 
             <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
               <div>

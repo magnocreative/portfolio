@@ -10,6 +10,7 @@ import { Logo } from "@/design-system/brand/Logo";
 // is the difference between a figure that appears and one that shoves three
 // paragraphs down the page when it loads.
 import portrait from "@/assets/alejandro-fernandini.jpg";
+import { SectionHead } from "@/design-system/components/SectionHead";
 
 export const metadata: Metadata = {
   title: "About",
@@ -85,50 +86,44 @@ export default function About() {
               Most of what I designed, you will never see.
             </h1>
 
-            <div className="mt-14 flex max-w-[46rem] gap-6">
-              <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
-              <p className="text-lg leading-[1.65] text-text-secondary">
-                Compliance platforms, audit tooling, and the CRM systems bankers and advisors work
-                in every day. Internal software, used by people who cannot go and pick something
-                else instead. That constraint is not a footnote to the work. It is the work.
-              </p>
-            </div>
+            <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
+              Compliance platforms, audit tooling, and the CRM systems bankers and advisors work
+              in every day. Internal software, used by people who cannot go and pick something
+              else instead. That constraint is not a footnote to the work. It is the work.
+            </p>
           </section>
 
         {/* The path here */}
           <section id="short-version" className="mt-32" aria-labelledby="path-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="path-heading">The short version</span>
-              </Label>
-            </div>
+            <SectionHead id="path-heading">The short version</SectionHead>
 
-            <div className="mt-10 max-w-measure text-base leading-[1.7] text-text-secondary">
-              {/* Floated rather than placed in its own column, because the
-                  content column is 640px at 1280 and a 208px figure beside it
-                  would leave about 50 characters a line — a rag bad enough to
-                  notice. Floating lets the first two paragraphs sit beside the
-                  photo and the third clear it, so the measure recovers instead
-                  of being permanently narrow.
+            {/* Three layouts, one per width, because the photo has a different
+                job at each.
 
-                  Not floated on a phone. At 390 the column is 342, and a float
-                  there leaves roughly 28 characters, which is a column of
-                  confetti. Below `sm` it is a block above the prose at a size
-                  that does not take over the screen.
+                Phone, below 640: full width above the prose. Alejandro's call:
+                on a phone the portrait should fill the screen, not sit as a
+                thumbnail beside a column too narrow to share.
 
-                  208px is `--rail-width`'s contents column, 13rem, the same
-                  number the section nav uses. Reusing it rather than picking a
-                  fourth width keeps the page on the measurements it already
-                  has. */}
-              <figure className="mb-7 w-40 sm:float-left sm:mr-7 sm:mb-3 sm:w-44 lg:w-52">
+                640 to 1359: floated, so the first paragraphs sit beside it and
+                the third clears it and recovers the full measure. Side by side
+                in its own column here would leave the text 270 to 370px wide,
+                about 35 to 45 characters a line.
+
+                1360 and up: its own column, sized so the text starts exactly
+                where the text of the mark panel below starts. That edge is the
+                panel's 1px border, its 3rem padding, its 15rem logo column and
+                its 4rem gap, less this row's 1.75rem gap: 20.25rem plus 1px.
+                The two sections then read as one grid instead of two layouts
+                stacked. At 1440 the text column is 447px. */}
+            <div className="mt-10 text-base leading-[1.7] text-text-secondary min-[1360px]:grid min-[1360px]:grid-cols-[calc(20.25rem+1px)_1fr] min-[1360px]:items-start min-[1360px]:gap-7">
+              <figure className="mb-7 w-full sm:max-[1359px]:float-left sm:max-[1359px]:mr-7 sm:max-[1359px]:mb-3 sm:max-[1359px]:w-44 lg:max-[1359px]:w-52 min-[1360px]:mb-0">
                 <Image
                   src={portrait}
                   alt="Alejandro Magno Fernandini"
-                  // Tells the browser the DISPLAY size at each breakpoint so it
-                  // fetches a 208px-wide image rather than the 880px source.
-                  // Without it Next assumes full viewport width and ships about
-                  // ten times the bytes needed.
-                  sizes="(min-width: 1024px) 208px, (min-width: 640px) 176px, 160px"
+                  // The DISPLAY size at each width, so the browser fetches an
+                  // image close to what it paints rather than the 880px source
+                  // everywhere.
+                  sizes="(min-width: 1360px) 325px, (min-width: 1024px) 208px, (min-width: 640px) 176px, 100vw"
                   // Generated from the import at build time, so the space is
                   // filled with the photo's own colours while it loads instead
                   // of a hole in the paragraph.
@@ -136,38 +131,36 @@ export default function About() {
                   className="h-auto w-full rounded-sm"
                 />
               </figure>
-              <p>
-                Ten years in design. I started as a graphic designer and technical illustrator,
-                moved into visual design on a bank&rsquo;s public site, and then into product design
-                on the internal platforms nobody outside the company ever sees.
-              </p>
-              <p className="mt-6">
-                In the middle of that I spent a year and a half as a software engineer, maintaining
-                the SQL jobs behind a bank&rsquo;s submission for the Federal Reserve&rsquo;s annual
-                capital stress test. Automating parts of the pipeline had made it faster and more
-                fragile, and the job was to make it stop breaking ahead of a delivery date that did
-                not move. That was not a detour from design. It is why I can build the prototype
-                instead of describing it, and why I know what a handoff actually costs the person
-                on the receiving end of it.
-              </p>
-              <p className="mt-6">
-                Today I&rsquo;m an experience designer at JPMorganChase in Plano, working across CRM
-                platforms used throughout the firm, and I own the design system those teams build
-                from. Before that, six years at USAA across governance, risk and compliance, audit,
-                and enterprise reporting: specialist users, high stakes, and interfaces where the
-                cost of a bad decision shows up as rework and missed controls rather than a bounce
-                rate.
-              </p>
+              <div className="max-w-measure">
+                <p>
+                  Ten years in design. I started as a graphic designer and technical illustrator,
+                  moved into visual design on a bank&rsquo;s public site, and then into product design
+                  on the internal platforms nobody outside the company ever sees.
+                </p>
+                <p className="mt-6">
+                  In the middle of that I spent a year and a half as a software engineer, maintaining
+                  the SQL jobs behind a bank&rsquo;s submission for the Federal Reserve&rsquo;s annual
+                  capital stress test. Automating parts of the pipeline had made it faster and more
+                  fragile, and the job was to make it stop breaking ahead of a delivery date that did
+                  not move. That was not a detour from design. It is why I can build the prototype
+                  instead of describing it, and why I know what a handoff actually costs the person
+                  on the receiving end of it.
+                </p>
+                <p className="mt-6">
+                  Today I&rsquo;m an experience designer at JPMorganChase in Plano, working across CRM
+                  platforms used throughout the firm, and I own the design system those teams build
+                  from. Before that, six years at USAA across governance, risk and compliance, audit,
+                  and enterprise reporting: specialist users, high stakes, and interfaces where the
+                  cost of a bad decision shows up as rework and missed controls rather than a bounce
+                  rate.
+                </p>
+              </div>
             </div>
           </section>
 
         {/* The mark */}
           <section id="mark" className="mt-28" aria-labelledby="mark-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="mark-heading">The mark</span>
-              </Label>
-            </div>
+            <SectionHead id="mark-heading">The mark</SectionHead>
 
             {/* The figures in the copy are measured against THIS panel, not
                 against the page. Raised resolves to pure white in light and one
@@ -234,14 +227,7 @@ export default function About() {
 
         {/* How I work */}
           <section id="how-i-work" className="mt-28" aria-labelledby="principles-heading">
-            <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="principles-heading">How I work</span>
-              </Label>
-              <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
-                {String(principles.length).padStart(2, "0")}
-              </span>
-            </div>
+            <SectionHead id="principles-heading" count={principles.length}>How I work</SectionHead>
 
             {/* One column at the 900px measure, matching the decisions section
                 on /system. Two columns were tried there and read as a comparison
@@ -262,11 +248,7 @@ export default function About() {
 
         {/* What I'm after */}
           <section id="interests" className="mt-28" aria-labelledby="interest-heading">
-            <div className="border-b border-border-rule pb-4">
-              <Label as="h2" className="!text-text-primary">
-                <span id="interest-heading">What interests me</span>
-              </Label>
-            </div>
+            <SectionHead id="interest-heading">What interests me</SectionHead>
 
             <div className="mt-10 flex max-w-measure flex-col gap-6 text-base leading-[1.7] text-text-secondary">
               <p>

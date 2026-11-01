@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container, Label } from "@/design-system/primitives/Container";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
+import { SectionHead } from "@/design-system/components/SectionHead";
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -129,16 +130,6 @@ function Bullet({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SectionHead({ id, children }: { id: string; children: React.ReactNode }) {
-  return (
-    <div className="border-b border-border-rule pb-4">
-      <Label as="h2" className="!text-text-primary">
-        <span id={id}>{children}</span>
-      </Label>
-    </div>
-  );
-}
-
 // Built from `experience` rather than typed out beside it. A hand-kept copy
 // of this list is a second place to remember when an employer is added, and
 // the one that gets forgotten is always the nav.
@@ -206,15 +197,12 @@ export default function Resume() {
               </a>
             </div>
 
-            <div className="mt-12 flex max-w-[46rem] gap-6">
-              <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
-              <p className="text-lg leading-[1.65] text-text-secondary">
-                Experience designer with ten years in design and a working engineering background,
-                focused on the internal systems people use all day to do difficult work. I own
-                design systems, and I build the prototypes that prove a design works before
-                engineering commits to it.
-              </p>
-            </div>
+            <p className="mt-12 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
+              Experience designer with ten years in design and a working engineering background,
+              focused on the internal systems people use all day to do difficult work. I own
+              design systems, and I build the prototypes that prove a design works before
+              engineering commits to it.
+            </p>
 
             <div className="mt-8">
               <Button

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Button } from "./Button";
 import { ArrowRight, ArrowUpRight, ArrowLeft, Download, Mail } from "./Icon";
+import { SectionHead } from "./SectionHead";
 
 const meta = {
   title: "Components/Button",
@@ -282,11 +283,7 @@ export const InContext: Story = {
   args: { children: "Read the system" },
   render: () => (
     <div className="mx-auto max-w-[72rem]">
-      <div className="border-b border-border-rule pb-4">
-        <div className="font-label text-xs font-medium uppercase tracking-[0.14em] text-text-primary">
-          Design system
-        </div>
-      </div>
+      <SectionHead>Design system</SectionHead>
       <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
         <div>
           <h3 className="max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">

@@ -4,6 +4,7 @@ import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
+import { SectionHead } from "@/design-system/components/SectionHead";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -33,28 +34,18 @@ export default function Work() {
             Each of these is a decision, not a project.
           </h1>
 
-          <div className="mt-14 flex max-w-[46rem] gap-6">
-            <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
-            <p className="text-lg leading-[1.65] text-text-secondary">
-              Internal software rarely leaves a screen worth showing, and the screens it does leave
-              belong to the companies that paid for them. What I can show is the call that was
-              made, what it cost, and what happened after. The products stay unnamed. The
-              employers and the outcomes do not.
-            </p>
-          </div>
+          <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
+            Internal software rarely leaves a screen worth showing, and the screens it does leave
+            belong to the companies that paid for them. What I can show is the call that was
+            made, what it cost, and what happened after. The products stay unnamed. The
+            employers and the outcomes do not.
+          </p>
         </section>
       </Container>
 
       <Container>
         <section className="pt-32" aria-labelledby="studies-heading">
-          <div className="flex items-baseline justify-between border-b border-border-rule pb-4">
-            <Label as="h2" className="!text-text-primary">
-              <span id="studies-heading">Case studies</span>
-            </Label>
-            <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
-              {String(caseStudies.length).padStart(2, "0")}
-            </span>
-          </div>
+          <SectionHead id="studies-heading" count={caseStudies.length}>Case studies</SectionHead>
 
           {/* Said once, here, rather than left for the draft tags to imply.
               A reader who meets four unlinked entries with no explanation reads
@@ -83,11 +74,7 @@ export default function Work() {
           main ask. */}
       <Container>
         <section className="pt-28" aria-labelledby="inspect-heading">
-          <div className="border-b border-border-rule pb-4">
-            <Label as="h2" className="!text-text-primary">
-              <span id="inspect-heading">Open to inspection</span>
-            </Label>
-          </div>
+          <SectionHead id="inspect-heading">Open to inspection</SectionHead>
 
           <div className="mt-10 max-w-measure">
             <p className="text-base text-text-secondary">

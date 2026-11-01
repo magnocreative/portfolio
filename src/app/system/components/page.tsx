@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, Label } from "@/design-system/primitives/Container";
+import { Container } from "@/design-system/primitives/Container";
 import { Breadcrumbs } from "@/design-system/components/Breadcrumbs";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
@@ -7,6 +7,7 @@ import { Tabs } from "@/design-system/components/Tabs";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { ArrowRight, ArrowLeft, Download } from "@/design-system/components/Icon";
 import { caseStudies } from "@/content/case-studies";
+import { SectionHead } from "@/design-system/components/SectionHead";
 
 export const metadata: Metadata = {
   title: "Components",
@@ -72,11 +73,7 @@ function Cell({ caption, children }: { caption: string; children: React.ReactNod
 function Head({ id, title, decision }: { id: string; title: string; decision: string }) {
   return (
     <>
-      <div className="border-b border-border-rule pb-4">
-        <Label as="h2" className="!text-text-primary">
-          <span id={`${id}-heading`}>{title}</span>
-        </Label>
-      </div>
+      <SectionHead id={`${id}-heading`}>{title}</SectionHead>
       <p className="mt-8 max-w-measure text-base leading-[1.7] text-text-secondary">{decision}</p>
     </>
   );
@@ -132,16 +129,13 @@ export default function ComponentsPage() {
                   The real components, running live.
                 </h1>
 
-                <div className="mt-10 flex max-w-[46rem] gap-6">
-                  <div aria-hidden="true" className="w-px shrink-0 bg-interactive" />
-                  <p className="text-lg leading-[1.65] text-text-secondary">
-                    Every component below is the real one, rendered by this page, reading the same
-                    tokens as everything else on the site. Change your theme and they all change with
-                    it. Each sits next to the decision it embodies and what that decision cost,
-                    because a component library that only shows the happy state is a catalog, not
-                    a system.
-                  </p>
-                </div>
+                <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
+                  Every component below is the real one, rendered by this page, reading the same
+                  tokens as everything else on the site. Change your theme and they all change with
+                  it. Each sits next to the decision it embodies and what that decision cost,
+                  because a component library that only shows the happy state is a catalog, not
+                  a system.
+                </p>
               </section>
 
               {/* Button */}
