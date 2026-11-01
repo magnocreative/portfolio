@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Container, Label } from "@/design-system/primitives/Container";
+import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { TextBlock } from "@/design-system/components/TextBlock";
+import { PageHeader } from "@/design-system/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -27,20 +29,12 @@ export default function Work() {
   return (
     <main>
       <Container>
-        <section className="pt-24 pb-4 md:pt-32">
-          <Label>Work</Label>
-
-          <h1 className="text-optical mt-10 max-w-[24ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance lg:text-5xl">
-            Each of these is a decision, not a project.
-          </h1>
-
-          <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
-            Internal software rarely leaves a screen worth showing, and the screens it does leave
-            belong to the companies that paid for them. What I can show is the call that was
-            made, what it cost, and what happened after. The products stay unnamed. The
-            employers and the outcomes do not.
-          </p>
-        </section>
+        <PageHeader
+          type="subhero"
+          eyebrow="Work"
+          title="Each of these is a decision, not a project."
+          lede="Internal software rarely leaves a screen worth showing, and the screens it does leave belong to the companies that paid for them. What I can show is the call that was made, what it cost, and what happened after. The products stay unnamed. The employers and the outcomes do not."
+        />
       </Container>
 
       <Container>
@@ -53,11 +47,11 @@ export default function Work() {
               as a schedule. The sentence disappears on its own when the last
               study is published. */}
           {published < caseStudies.length && (
-            <p className="mt-6 max-w-measure text-base text-text-secondary">
+            <TextBlock className="mt-6">
               {published === 0
                 ? "All four are being written now. Each one opens here as it is finished."
                 : `${caseStudies.length - published} of these are still being written. Each one opens here as it is finished.`}
-            </p>
+            </TextBlock>
           )}
 
           <div>
@@ -76,18 +70,18 @@ export default function Work() {
         <section className="pt-28" aria-labelledby="inspect-heading">
           <SectionHead id="inspect-heading">Open to inspection</SectionHead>
 
-          <div className="mt-10 max-w-measure">
-            <p className="text-base text-text-secondary">
-              The design system this site runs on is live and published in full: the tokens, the
-              components, the contrast measurements and the reasoning behind each decision. It is
-              the one project here you can check rather than take on trust.
-            </p>
-            <div className="mt-7">
+          <TextBlock
+            className="mt-10"
+            action={
               <Button href="/system" variant="secondary" iconAfter={<ArrowRight />}>
                 Read the system
               </Button>
-            </div>
-          </div>
+            }
+          >
+            The design system this site runs on is live and published in full: the tokens, the
+            components, the contrast measurements and the reasoning behind each decision. It is
+            the one project here you can check rather than take on trust.
+          </TextBlock>
         </section>
       </Container>
     </main>

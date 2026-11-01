@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { SectionNav } from "./SectionNav";
+import { TextBlock } from "./TextBlock";
 
 const beats = [
   { id: "stakes", label: "Stakes" },
@@ -16,15 +17,17 @@ function Section({ id, title }: { id: string; title: string }) {
       <h2 className="font-display text-2xl leading-[1.2] tracking-[-0.018em] text-text-primary">
         {title}
       </h2>
-      <p className="mt-4 max-w-[46rem] text-base text-text-secondary">
-        Placeholder body so the page is long enough to scroll and the current section actually
-        changes. Scroll the story and watch the rule move.
-      </p>
-      <p className="mt-4 max-w-[46rem] text-base text-text-secondary">
-        Every section carries `mt-16 scroll-mt-32`, not `py-16`. Spacing above a section has to be
-        margin: padding sits inside the border box, so the anchor lands 96px above the heading and
-        leaves a strip of the previous section showing, which reads as a scroll that stopped short.
-      </p>
+      <TextBlock className="mt-4">
+        <p>
+          Placeholder body so the page is long enough to scroll and the current section actually
+          changes. Scroll the story and watch the rule move.
+        </p>
+        <p>
+          Every section carries `mt-16 scroll-mt-32`, not `py-16`. Spacing above a section has to be
+          margin: padding sits inside the border box, so the anchor lands 96px above the heading and
+          leaves a strip of the previous section showing, which reads as a scroll that stopped short.
+        </p>
+      </TextBlock>
     </section>
   );
 }
@@ -122,14 +125,14 @@ export const States: Story = {
   render: (args) => (
     <div className="pb-24">
       <SectionNav {...args} />
-      <p className="mt-8 max-w-[46rem] text-base text-text-secondary">
+      <TextBlock className="mt-8">
         The first item is current and carries the rule at 4.62:1 with a label at 18.28:1. That rule is
         the interactive blue, one value in both themes, so it reads 4.62:1 on the light page and
         3.82:1 on the dark one rather than two unrelated numbers. The rest
         sit at 8.85:1 and lift to 18.28:1 on hover, bringing in a gray rule so the hover previews the
         shape being current will take. Hover the second item to see it. There is no disabled state,
         because a section either exists on the page or it does not.
-      </p>
+      </TextBlock>
     </div>
   ),
   parameters: {

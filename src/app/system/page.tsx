@@ -5,6 +5,8 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { TextBlock } from "@/design-system/components/TextBlock";
+import { PageHeader } from "@/design-system/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "The design system",
@@ -110,28 +112,21 @@ export default function SystemPage() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-              <section className="pt-24 pb-4 md:pt-32">
-            <Label>The design system</Label>
-            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[24ch] lg:text-5xl">
-              A system you can read, not a claim you have to take on trust.
-            </h1>
-            <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
-              This site runs on the system documented below. Everything here is live. The swatches are the real
-              tokens, and the contrast figures are measured in your browser as you read them. Switch your device to
-              dark mode and every number here changes with it.
-            </p>
-              </section>
+              <PageHeader
+                type="withSectionNav"
+                eyebrow="The design system"
+                title="A system you can read, not a claim you have to take on trust."
+                lede="This site runs on the system documented below. Everything here is live. The swatches are the real tokens, and the contrast figures are measured in your browser as you read them. Switch your device to dark mode and every number here changes with it."
+              />
               {/* Three tiers */}
             <section id="tiers" className="mt-24" aria-labelledby="tiers-heading">
             <SectionHead id="tiers-heading">Three tiers, in dependency order</SectionHead>
 
-            <div className="mt-8 max-w-measure">
-              <p className="text-base text-text-secondary">
-                The order is the whole point. A component that reaches past the semantic tier into a raw value is a
-                component that will not follow a retheme, and will not be found until someone notices the wrong gray in
-                a screenshot months later.
-              </p>
-            </div>
+            <TextBlock className="mt-8">
+              The order is the whole point. A component that reaches past the semantic tier into a raw value is a
+              component that will not follow a retheme, and will not be found until someone notices the wrong gray in
+              a screenshot months later.
+            </TextBlock>
 
             <div className="mt-10">
               {tiers.map((t) => (
@@ -154,17 +149,14 @@ export default function SystemPage() {
               {/* Live audit */}
             <section id="contrast" className="mt-24" aria-labelledby="contrast-heading">
             <SectionHead id="contrast-heading">Text roles, measured live</SectionHead>
-            <p className="mt-8 mb-10 max-w-measure text-base text-text-secondary">
+            <TextBlock className="mt-8 mb-10">
               Each token below is painted to a canvas and the resulting pixel read back, then checked against the
               WCAG 2.2 threshold for the size it is actually used at. Small metadata is held to 4.5:1, not the 3:1
               large-text allowance, because it is small.
-            </p>
+            </TextBlock>
             <ContrastAudit rows={textRoles} label="Text roles, measured" />
 
-            <h3 className="mt-14 font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
-              Interactive fills, at the non-text bar
-            </h3>
-            <p className="mt-3 mb-8 max-w-measure text-base text-text-secondary">
+            <TextBlock className="mt-14 mb-8" heading="Interactive fills, at the non-text bar">
               Judged at 3:1 rather than 4.5:1, because a filled control owes its contrast to its own
               label and not to the page behind it. That distinction is why these can be single values:
               the fill is blue-600 in both themes, with a white label in both, and white on it measures
@@ -172,7 +164,7 @@ export default function SystemPage() {
               Hover and pressed drop below the bar on the dark ground and are marked accordingly —
               transient states carrying labels at 7.46:1 and 10.90:1, shown failing rather than left
               out of the table.
-            </p>
+            </TextBlock>
             <ContrastAudit rows={interactiveRoles} kind="nontext" label="Interactive fills, measured" />
             </section>
 
@@ -192,15 +184,9 @@ export default function SystemPage() {
                 a better column; it is one nobody finishes. */}
             <div className="mt-10 flex flex-col gap-10">
               {decisions.map((d) => (
-                <div key={d.title}>
-                  <h3 className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
-                    {d.title}
-                  </h3>
-                  {/* `measure`, the shared single-column body width, not a
-                      raw 900px repeated here and in two other sections. The
-                      reasoning and the cost live on the token. */}
-                  <p className="mt-3 max-w-measure text-base text-text-secondary">{d.body}</p>
-                </div>
+                <TextBlock key={d.title} heading={d.title}>
+                  {d.body}
+                </TextBlock>
               ))}
             </div>
             </section>
@@ -213,17 +199,18 @@ export default function SystemPage() {
                 argument; the gallery is the evidence, and the evidence needs
                 full width and room to grow as the system does. Keeping them
                 apart means neither gets longer at the other's expense. */}
-            <p className="mt-8 max-w-measure text-base text-text-secondary">
+            <TextBlock
+              className="mt-8"
+              action={
+                <Button href="/system/components" variant="primary" iconAfter={<ArrowRight />}>
+                  See the components running
+                </Button>
+              }
+            >
               Everything above is reasoning. The components themselves are on their own page, rendered
               live rather than screenshotted, each one next to the decision it embodies and what that
               decision cost. Nothing there is behind a tab, including the Tabs component.
-            </p>
-
-            <div className="mt-8">
-              <Button href="/system/components" variant="primary" iconAfter={<ArrowRight />}>
-                See the components running
-              </Button>
-            </div>
+            </TextBlock>
             </section>
 
               {/* Where to read it */}

@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Container, Label } from "@/design-system/primitives/Container";
+import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
+import { TextBlock } from "@/design-system/components/TextBlock";
 // Imported rather than referenced from /public, so Next reads the real
 // dimensions at build time and reserves the box before the bytes arrive. That
 // is the difference between a figure that appears and one that shoves three
 // paragraphs down the page when it loads.
 import portrait from "@/assets/alejandro-fernandini.jpg";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { PageHeader } from "@/design-system/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "About",
@@ -73,25 +75,12 @@ export default function About() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-          {/* The hero cap is 24ch. In Poppins SemiBold the title sets two
-              lines once the column is about 800px wide (1440 and up), balanced
-              as "Most of what I designed, / you will never see.", and three
-              lines below that. The column width decides the break, not the
-              cap; the cap is kept so a shorter title does not run the full
-              width of the column. */}
-          <section className="pt-24 pb-4 md:pt-32">
-            <Label>About</Label>
-
-            <h1 className="text-optical mt-10 max-w-[24ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance lg:text-5xl">
-              Most of what I designed, you will never see.
-            </h1>
-
-            <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
-              Compliance platforms, audit tooling, and the CRM systems bankers and advisors work
-              in every day. Internal software, used by people who cannot go and pick something
-              else instead. That constraint is not a footnote to the work. It is the work.
-            </p>
-          </section>
+          <PageHeader
+            type="withSectionNav"
+            eyebrow="About"
+            title="Most of what I designed, you will never see."
+            lede="Compliance platforms, audit tooling, and the CRM systems bankers and advisors work in every day. Internal software, used by people who cannot go and pick something else instead. That constraint is not a footnote to the work. It is the work."
+          />
 
         {/* The path here */}
           <section id="short-version" className="mt-32" aria-labelledby="path-heading">
@@ -173,7 +162,7 @@ export default function About() {
               <div>
                 <Logo
                   title="The Magno Creative mark"
-                  className="w-[180px] md:w-[220px] lg:w-full h-auto"
+                  className="w-full sm:w-[180px] md:w-[220px] lg:w-full h-auto"
                 />
                 <dl className="mt-6 font-label text-xs">
                   {[
@@ -234,14 +223,9 @@ export default function About() {
                 between items that are not alternatives to each other. */}
             <div className="mt-10 flex flex-col gap-10">
               {principles.map((principle) => (
-                <div key={principle.title}>
-                  <h3 className="max-w-measure font-display text-xl leading-[1.25] tracking-[-0.012em] text-text-primary">
-                    {principle.title}
-                  </h3>
-                  <p className="mt-3 max-w-measure text-base leading-[1.7] text-text-secondary">
-                    {principle.body}
-                  </p>
-                </div>
+                <TextBlock key={principle.title} heading={principle.title}>
+                  {principle.body}
+                </TextBlock>
               ))}
             </div>
           </section>
@@ -250,7 +234,14 @@ export default function About() {
           <section id="interests" className="mt-28" aria-labelledby="interest-heading">
             <SectionHead id="interest-heading">What interests me</SectionHead>
 
-            <div className="mt-10 flex max-w-measure flex-col gap-6 text-base leading-[1.7] text-text-secondary">
+            <TextBlock
+              className="mt-10"
+              action={
+                <Button href="/system" variant="primary" iconAfter={<ArrowRight />}>
+                  Read the design system
+                </Button>
+              }
+            >
               <p>
                 Design systems and internal tools, in that order. The work I want is the work where
                 the system is the product: where somebody has to own the tokens, the components,
@@ -263,13 +254,7 @@ export default function About() {
                 good in a deck. The oldest project on this site is four years old and still running.
                 That fact is worth more to me than any screenshot of it.
               </p>
-            </div>
-
-            <div className="mt-8">
-              <Button href="/system" variant="primary" iconAfter={<ArrowRight />}>
-                Read the design system
-              </Button>
-            </div>
+            </TextBlock>
           </section>
             </div>
 

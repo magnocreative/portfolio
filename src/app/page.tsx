@@ -1,9 +1,10 @@
-import { Container, Label } from "@/design-system/primitives/Container";
+import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { PageHeader } from "@/design-system/components/PageHeader";
 
 const systemFacts = [
   { key: "tokens", value: "three tiers" },
@@ -20,37 +21,18 @@ export default function Home() {
         {/* Hero. The measure is deliberately short — a claim you can read in
             one breath beats a paragraph that hedges it. */}
         <Container>
-          <section className="pt-24 pb-4 md:pt-32">
-            {/* The title of record, not the functional one. It reads Senior
-                everywhere a person describes this work, and it will read
-                Senior here the day the promotion lands — but a public page
-                carrying a title that employment verification would not return
-                is a discrepancy waiting to be found at the worst moment. The
-                seniority is argued by the work below it instead. */}
-            <Label>Experience Designer · Design Systems</Label>
-
-            {/* 48 on a phone, 64 from sm, 84 from lg. Poppins SemiBold sets
-                about a quarter wider than the serif it replaced, and at 64 in a
-                342px column the hero broke into seven lines with "the" alone
-                on one of them. At 48 it reads as four.
-
-                From lg the line is capped at 12em and wraps plainly instead of
-                balancing, which holds it at three lines on every desktop width.
-                Where the column is 1008px or wider (1440 and up) the breaks are
-                "I design the systems / behind the tools people / use all day.",
-                matching the Figma hero; balance would have evened the
-                lines out and moved "people" down. In em rather than px so the
-                cap scales with the type. */}
-            <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl sm:text-5xl leading-[1.04] tracking-[-0.025em] text-text-primary text-balance lg:max-w-[12em] lg:text-wrap lg:text-6xl">
-              I design the systems behind the tools people use all day.
-            </h1>
-
-            <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
-              Ten years on internal software: compliance platforms, audit tooling, and the CRM
-              systems bankers and advisors work in every day. I own the design system, and I build
-              the prototypes that prove a design works before engineering commits to it.
-            </p>
-          </section>
+          {/* The eyebrow is the title of record, not the functional one. It
+              reads Senior everywhere a person describes this work, and it
+              will read Senior here the day the promotion lands, but a public
+              page carrying a title that employment verification would not
+              return is a discrepancy waiting to be found at the worst moment.
+              The seniority is argued by the work below it instead. */}
+          <PageHeader
+            type="hero"
+            eyebrow="Experience Designer · Design Systems"
+            title="I design the systems behind the tools people use all day."
+            lede="Ten years on internal software: compliance platforms, audit tooling, and the CRM systems bankers and advisors work in every day. I own the design system, and I build the prototypes that prove a design works before engineering commits to it."
+          />
         </Container>
 
         {/* Work index */}

@@ -1,15 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Tabs } from "./Tabs";
+import { TextBlock } from "./TextBlock";
 
+/** Panel content is a TextBlock, the same component the site's tab panels use. */
 function Panel({ title, body }: { title: string; body: string }) {
-  return (
-    <div className="max-w-[46rem]">
-      <h3 className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-text-primary">
-        {title}
-      </h3>
-      <p className="mt-3 text-base text-text-secondary">{body}</p>
-    </div>
-  );
+  return <TextBlock heading={title}>{body}</TextBlock>;
 }
 
 const meta = {

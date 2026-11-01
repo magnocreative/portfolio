@@ -8,6 +8,8 @@ import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { ArrowRight, ArrowLeft, Download } from "@/design-system/components/Icon";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { PageHeader } from "@/design-system/components/PageHeader";
+import { TextBlock } from "@/design-system/components/TextBlock";
 
 export const metadata: Metadata = {
   title: "Components",
@@ -74,7 +76,7 @@ function Head({ id, title, decision }: { id: string; title: string; decision: st
   return (
     <>
       <SectionHead id={`${id}-heading`}>{title}</SectionHead>
-      <p className="mt-8 max-w-measure text-base leading-[1.7] text-text-secondary">{decision}</p>
+      <TextBlock className="mt-8">{decision}</TextBlock>
     </>
   );
 }
@@ -106,37 +108,22 @@ export default function ComponentsPage() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-              <section className="pt-24 pb-4 md:pt-32">
-                {/* The one page on this site deep enough to need a trail. The
-                    top-level pages deliberately do not carry one: a breadcrumb
-                    reading "Home / About" states what the nav already shows
-                    with a selected state, and if every page has a trail then
-                    having one stops meaning you are a level down. The trail's
-                    last item is also this page's label, so there is no eyebrow
-                    under it repeating "Components". */}
-                <Breadcrumbs
-                  items={[
-                    { label: "Design system", href: "/system" },
-                    { label: "Components" },
-                  ]}
-                />
+              {/* The one page on this site deep enough to need a trail. The
+                  top-level pages deliberately do not carry one: a breadcrumb
+                  reading "Home / About" states what the nav already shows with
+                  a selected state, and if every page has a trail then having
+                  one stops meaning you are a level down.
 
-                {/* One short claim, set to balance. It breaks into two even
-                    lines at 1440 and three below that. The two-sentence title it
-                    replaced ("Not screenshots of a system. The system, running.")
-                    left "Not" alone on the first line on a phone. */}
-                <h1 className="text-optical mt-10 max-w-[15ch] font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary text-balance xl:max-w-[24ch] lg:text-5xl">
-                  The real components, running live.
-                </h1>
-
-                <p className="mt-14 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
-                  Every component below is the real one, rendered by this page, reading the same
-                  tokens as everything else on the site. Change your theme and they all change with
-                  it. Each sits next to the decision it embodies and what that decision cost,
-                  because a component library that only shows the happy state is a catalog, not
-                  a system.
-                </p>
-              </section>
+                  The headline is one short claim, set to balance: two even
+                  lines at 1440, three below. The two-sentence title it replaced
+                  ("Not screenshots of a system. The system, running.") left
+                  "Not" alone on the first line on a phone. */}
+              <PageHeader
+                type="withSectionNav"
+                breadcrumb={[{ label: "Design system", href: "/system" }, { label: "Components" }]}
+                title="The real components, running live."
+                lede="Every component below is the real one, rendered by this page, reading the same tokens as everything else on the site. Change your theme and they all change with it. Each sits next to the decision it embodies and what that decision cost, because a component library that only shows the happy state is a catalog, not a system."
+              />
 
               {/* Button */}
               <section id="button" className="mt-24" aria-labelledby="button-heading">
@@ -212,18 +199,20 @@ export default function ComponentsPage() {
                   do not."
                 />
 
-                <p className="mt-6 max-w-measure text-base leading-[1.7] text-text-secondary">
-                  The specimen for this one is in the header, top right of this page, and it is
-                  deliberately not duplicated down here. The reason is worth more than the demo would
-                  have been: the component holds its own state, so a second instance on the same page
-                  would show a different selection from the header the moment either one was used.
-                  That is a real constraint, it is named here rather than hidden, and it is on the
-                  list to fix.
-                </p>
-                <p className="mt-5 max-w-measure text-base leading-[1.7] text-text-secondary">
-                  Try it with the keyboard instead. Tab to it once, then arrow through. One stop,
-                  three options, and the whole page changes under you as you move.
-                </p>
+                <TextBlock className="mt-6">
+                  <p>
+                    The specimen for this one is in the header, top right of this page, and it is
+                    deliberately not duplicated down here. The reason is worth more than the demo would
+                    have been: the component holds its own state, so a second instance on the same page
+                    would show a different selection from the header the moment either one was used.
+                    That is a real constraint, it is named here rather than hidden, and it is on the
+                    list to fix.
+                  </p>
+                  <p>
+                    Try it with the keyboard instead. Tab to it once, then arrow through. One stop,
+                    three options, and the whole page changes under you as you move.
+                  </p>
+                </TextBlock>
 
                 <Absent>
                   The selected option takes the solid interactive fill rather than a tint. A tinted
@@ -314,22 +303,22 @@ export default function ComponentsPage() {
                         id: "activation",
                         label: "Activation",
                         content: (
-                          <p className="max-w-measure py-6 text-base leading-[1.7] text-text-secondary">
+                          <TextBlock className="py-6">
                             Arrow to another tab and the panel does not change until you press Enter
                             or Space. That is manual activation, and it is the right default when a
                             panel holds more than a line of content.
-                          </p>
+                          </TextBlock>
                         ),
                       },
                       {
                         id: "indicator",
                         label: "Indicator",
                         content: (
-                          <p className="max-w-measure py-6 text-base leading-[1.7] text-text-secondary">
+                          <TextBlock className="py-6">
                             An underline rather than a fill. A filled tab is one pill away from
                             looking like a button, and this site already spends three variants
                             teaching a reader what a filled blue rectangle means.
-                          </p>
+                          </TextBlock>
                         ),
                       },
                       {
@@ -371,13 +360,13 @@ export default function ComponentsPage() {
                       label="Section nav specimen"
                     />
                   </Cell>
-                  <p className="mt-8 max-w-measure text-base leading-[1.7] text-text-secondary">
+                  <TextBlock className="mt-8">
                     This one is live and tracking the real sections of this page, so scrolling moves
                     the current item in both it and the rail on the right. Two instances, two
                     different <code className="font-medium">label</code> values, which is what
                     that prop is for: two nav landmarks sharing a name are two doors with the same
                     sign.
-                  </p>
+                  </TextBlock>
                 </Stage>
 
                 <Absent>
@@ -449,13 +438,13 @@ export default function ComponentsPage() {
                   </Button>
                 </div>
 
-                <p className="mt-10 max-w-measure text-base leading-[1.7] text-text-secondary">
+                <TextBlock className="mt-10">
                   Every state of every component, including the ones that are wrong on purpose, lives
                   in Storybook alongside the source. It runs with{" "}
                   <code className="font-medium">npm run storybook</code> from the repository.
                   It is not published at a URL yet; when it is, each specimen above will link to its
                   own story rather than this paragraph doing the work.
-                </p>
+                </TextBlock>
               </section>
             </div>
 

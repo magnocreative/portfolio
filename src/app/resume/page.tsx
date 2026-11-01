@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Container, Label } from "@/design-system/primitives/Container";
+import { Container } from "@/design-system/primitives/Container";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { PageHeader } from "@/design-system/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -164,55 +165,42 @@ export default function Resume() {
                 on a 390px screen and clipping correctly. This keeps the next
                 wide child from depending on remembering that. */}
             <div className="min-w-0">
-          <section className="pt-24 pb-4 md:pt-32">
-            <Label>Résumé</Label>
-
-            {/* The name is the h1 here and nowhere else on the site. This page
-                is the document, so the document gets its title. */}
-            <h1 className="text-optical mt-10 font-display text-4xl leading-[1.06] tracking-[-0.025em] text-text-primary lg:text-5xl">
-              Alejandro Magno Fernandini
-            </h1>
-
-            <p className="mt-5 max-w-measure text-lg leading-[1.55] text-text-secondary">
-              Experience Designer. Design systems and complex operational tools.
-            </p>
-
-            {/* No phone number on a public page. It goes on the copy that gets
-                sent to a person, where it reaches one reader rather than every
-                scraper. */}
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-              <span>Dallas&ndash;Fort Worth, Texas</span>
-              <span>Open to relocation</span>
-              <a
-                href="mailto:alejandini@gmail.com"
-                className="text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
-              >
-                alejandini@gmail.com
-              </a>
-              <a
-                href="https://www.linkedin.com/in/alejandro-m-fernandini"
-                className="text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
-              >
-                LinkedIn
-              </a>
-            </div>
-
-            <p className="mt-12 max-w-[46rem] text-lg leading-[1.65] text-text-secondary">
-              Experience designer with ten years in design and a working engineering background,
-              focused on the internal systems people use all day to do difficult work. I own
-              design systems, and I build the prototypes that prove a design works before
-              engineering commits to it.
-            </p>
-
-            <div className="mt-8">
+          {/* No phone number on a public page. It goes on the copy that gets
+              sent to a person, where it reaches one reader rather than every
+              scraper. */}
+          <PageHeader
+            type="resume"
+            eyebrow="Résumé"
+            title="Alejandro Magno Fernandini"
+            subtitle="Experience Designer. Design systems and complex operational tools."
+            meta={
+              <>
+                <span>Dallas&ndash;Fort Worth, Texas</span>
+                <span>Open to relocation</span>
+                <a
+                  href="mailto:alejandini@gmail.com"
+                  className="text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
+                >
+                  alejandini@gmail.com
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/alejandro-m-fernandini"
+                  className="text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
+                >
+                  LinkedIn
+                </a>
+              </>
+            }
+            lede="Experience designer with ten years in design and a working engineering background, focused on the internal systems people use all day to do difficult work. I own design systems, and I build the prototypes that prove a design works before engineering commits to it."
+            actions={
               <Button
                 href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
                 variant="secondary"
               >
                 Request a PDF
               </Button>
-            </div>
-          </section>
+            }
+          />
 
         {/* Experience */}
           <section id="experience" className="mt-28" aria-labelledby="experience-heading">
