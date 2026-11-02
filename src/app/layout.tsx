@@ -33,7 +33,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    // data-scroll-behavior tells Next to switch off the smooth scrolling in
+    // globals.css for the length of a route change, and only then. Without it,
+    // following a link from partway down a page landed 64px short of the top:
+    // Next sets the scroll to 0, which `scroll-behavior: smooth` turns into an
+    // animation that has not moved yet when Next checks, a moment later,
+    // whether the new page's top is on screen. It is not, so Next scrolls the
+    // page's first element into view instead, and that element starts 64px
+    // down, under the sticky banner. With the override, the new page simply
+    // opens at the top. In-page anchors (the section nav) still glide.
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Applies the stored theme before first paint. Without it the page
             renders at the system theme for one frame — the flash that makes
