@@ -478,93 +478,178 @@ function Banner() {
   }, [open]);
 
   /**
+   * The panel is a sheet laid OVER the page, not a block that pushes it down.
+   *
+   * It used to grow the sticky header itself, animating a grid row from 0fr to
+   * 1fr. That made every frame of every open, close and drag a layout of the
+   * whole document, because a sticky header is in flow and everything under it
+   * moved with it: on the design system page that is 7,800px of text reflowed
+   * sixty times a second, under a thumb. That was the jerk. It also made
+   * closing on scroll impossible to do well, since collapsing an in-flow panel
+   * mid-scroll yanks the page up by its height.
+   *
+   * Now the panel hangs from the bottom of the bar, absolutely positioned, and
+   * every movement is a transform. A transform does not touch layout; the
+   * browser hands it to the compositor and it moves at the display's own rate
+   * whatever the page underneath is doing. The wrapper clips at the bar's
+   * bottom edge, so the sheet still rolls down out of the bar and back up into
+   * it, which is the direction the two lines of the disclosure travel as they
+   * cross.
+   */
+  const headerRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  // Cleared only when the snap it belongs to has landed. Deliberately not
+  // cleared when `open` changes: a dismissal flips `open` mid-flight, and
+  // cancelling the timer there would leave the inline transform behind and
+  // the panel stuck above the bar on the next open.
+  const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Closing for any reason other than the disclosure or Escape. If focus was
+  // inside the panel it goes back to the control that opened it, because
+  // `inert` is about to take the focused element away and leave focus on
+  // nothing. A thumb that never focused anything in there is left alone.
+  const dismiss = () => {
+    const panel = panelRef.current;
+    if (panel && panel.contains(document.activeElement)) {
+      buttonRef.current?.focus({ preventScroll: true });
+    } else {
+      buttonRef.current?.blur();
+    }
+    setOpen(false);
+  };
+  const dismissRef = useRef(dismiss);
+  useEffect(() => {
+    dismissRef.current = dismiss;
+  });
+
+  /**
+   * Scrolling the page closes the panel, and so does a tap outside it.
+   *
+   * Scrolling is the person telling you their attention has gone back to the
+   * page. A menu that stays down over the content they are now reading is in
+   * the way, and on a phone it covers most of the screen. 24px of travel, so
+   * the jitter of a thumb resting on the glass does not count and a real
+   * scroll closes it within the first few frames.
+   *
+   * A tap outside closes it and does nothing else. It is caught in the capture
+   * phase and stopped, so a tap meant to dismiss the menu cannot also follow
+   * whatever link happened to be under the thumb. Scrolling is unaffected,
+   * because a scroll never produces a click.
+   *
+   * Both only below 1280, where the panel exists. `open` survives a resize
+   * past the breakpoint, and a capturing click handler left running on a
+   * desktop layout would swallow the first click anywhere on the page.
+   */
+  useEffect(() => {
+    if (!open) return;
+    const wide = window.matchMedia("(min-width: 1280px)");
+    const startY = window.scrollY;
+
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - startY) > 24) dismissRef.current();
+    };
+    const onClick = (e: MouseEvent) => {
+      if (wide.matches) {
+        setOpen(false);
+        return;
+      }
+      if (headerRef.current?.contains(e.target as Node)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      dismissRef.current();
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("click", onClick, true);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("click", onClick, true);
+    };
+  }, [open]);
+
+  /**
    * Swipe up to dismiss.
    *
    * Attached by hand rather than through React's `onTouchMove`, because this
-   * listener has to call `preventDefault` and a passive listener cannot. React
-   * makes no promise about which of its touch handlers are passive, and on iOS
-   * a passive touchmove means the page scrolls underneath the gesture: the
-   * menu closes AND the article behind it jumps, out of one movement the
-   * person meant as one thing.
+   * listener has to call `preventDefault` and a passive listener cannot. On
+   * iOS a passive touchmove means the page scrolls underneath the gesture, and
+   * now that scrolling closes the panel, that would also close it out from
+   * under the finger.
    *
-   * Only touches that START on the panel are affected. Everywhere else on the
-   * page scrolls exactly as it did.
+   * The drag never goes through React. The old version set state on every
+   * touchmove, which re-rendered the whole banner at the rate the finger moved
+   * and then reflowed the page; this one writes one transform per animation
+   * frame straight to the element. React hears about it once, at the end, when
+   * `open` changes.
    *
-   * Three things it deliberately declines to act on:
+   * The sheet tracks the finger one to one on the way up. It used to be damped
+   * (travel to the power 0.82), which meant that 80px of thumb moved the
+   * panel 36: the sheet visibly lagged behind the finger, which reads as
+   * stiffness, not as polish. Pulling it the wrong way, down, it gives a
+   * little and resists, so the gesture still feels like a physical thing with
+   * an end stop.
    *
-   * - A panel tall enough to need its own scroll. Checked per gesture rather
-   *   than assumed from the current design, because four short labels fit any
-   *   phone and a translated label at large text on a small viewport may not,
-   *   and silently eating that scroll would be a worse bug than having no
-   *   gesture at all.
-   * - A horizontal drag. Both mobile platforms use edge-swipe for back, and a
-   *   dismiss gesture must not sit on top of system navigation.
-   * - A downward drag. The panel is anchored to the top of the screen; there
-   *   is nothing below it to pull down.
-   *
-   * The panel tracks the finger rather than waiting for release, which is what
-   * separates a gesture that works from one that feels real: the person sees
-   * the thing move while they are still deciding, and a release short of the
-   * threshold springs back instead of leaving them guessing whether they did
-   * anything. The travel is damped (an exponent, not a cap) so the panel never
-   * outruns the finger or leaves the top of the screen.
+   * Only touches that start on the panel are affected, and three are left
+   * alone: a panel tall enough to scroll on its own (checked per gesture, since
+   * large text on a small phone can make it so), a horizontal drag (both
+   * platforms use edge-swipe for back), and anything that has not yet moved
+   * 4px, so a tap on a link stays a tap.
    */
-  const panelRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef(0);
-  const [drag, setDrag] = useState(0);
-  // The sheet's own height during a drag. Translating the content without this
-  // is what made the panel "lag": the content slid up inside a container that
-  // kept its full height, so the sheet only closed on release, 240ms after the
-  // finger had already said so. A sheet hinged at the top and pushed upward is
-  // a rigid thing — its contents and its bottom edge rise together — which is
-  // two numbers moving in step, not one.
-  const [sheetH, setSheetH] = useState<number | null>(null);
-  // True only while the release is animating to its destination. During the
-  // drag both transitions are off so the sheet tracks the finger exactly;
-  // during the snap they come back on so it travels rather than teleports.
-  const [snapping, setSnapping] = useState(false);
-  const naturalH = useRef(0);
-  const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   useEffect(() => {
     const el = panelRef.current;
     if (!el || !open) return;
 
+    // A dismissal from the previous opening that has not landed yet: let the
+    // classes take over again so this opening animates from where it is.
+    if (!settleTimer.current) {
+      el.style.transform = "";
+      el.style.transition = "";
+    }
+
     let startY = 0;
     let startX = 0;
-    let travel = 0; // how far the FINGER went, which is not how far the panel went
     let lastY = 0;
     let lastT = 0;
-    let velocity = 0; // px per ms, positive upward
+    let velocity = 0; // px per ms, positive upward, lightly smoothed
+    let travel = 0; // how far the finger went up
+    let offset = 0; // where the sheet is, in px from open
+    let height = 0;
     let live = false;
+    let decided = false;
+    let frame = 0;
 
-    const set = (v: number) => {
-      dragRef.current = v;
-      setDrag(v);
+    const paint = () => {
+      frame = 0;
+      el.style.transform = `translateY(${offset}px)`;
     };
 
-    // The element whose height the grid row is animating: the clipped child's
-    // child, which is the thing that actually has the content's height.
-    const content = el.firstElementChild?.firstElementChild as HTMLElement | null;
+    const settle = (to: "open" | "closed", duration: number) => {
+      // The class's motion-reduce rule cannot reach an inline transition, so
+      // the preference is honored here as well: it lands, it does not travel.
+      const ms = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : duration;
+      el.style.transition = `transform ${ms}ms var(--ease-out-quart), visibility ${ms}ms`;
+      el.style.transform = to === "open" ? "translateY(0px)" : "translateY(-100%)";
+      if (settleTimer.current) clearTimeout(settleTimer.current);
+      settleTimer.current = setTimeout(() => {
+        // Lands where the classes already say it should be, so handing back
+        // to them is invisible.
+        el.style.transform = "";
+        el.style.transition = "";
+        settleTimer.current = null;
+      }, ms + 40);
+    };
 
     const onStart = (e: TouchEvent) => {
       const t = e.touches[0];
       startY = lastY = t.clientY;
       startX = t.clientX;
       lastT = e.timeStamp;
-      travel = 0;
       velocity = 0;
+      travel = 0;
+      offset = 0;
+      decided = false;
       live = el.scrollHeight <= el.clientHeight + 1;
-      // Interrupting a snap mid-flight: take the sheet back under finger
-      // control rather than letting the old animation finish underneath.
-      if (snapTimer.current) {
-        clearTimeout(snapTimer.current);
-        snapTimer.current = null;
-      }
-      setSnapping(false);
-      naturalH.current = content ? content.offsetHeight : 0;
-      set(0);
-      setSheetH(null);
+      height = el.offsetHeight;
     };
 
     const onMove = (e: TouchEvent) => {
@@ -572,83 +657,64 @@ function Banner() {
       const t = e.touches[0];
       const dy = t.clientY - startY;
       const dx = t.clientX - startX;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        live = false;
-        set(0);
-        return;
-      }
-      if (dy >= 0) {
-        travel = 0;
-        set(0);
-        return;
+      if (!decided) {
+        if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+        decided = true;
+        if (Math.abs(dx) > Math.abs(dy)) {
+          live = false;
+          return;
+        }
+        // Taking over from wherever a previous snap had got to.
+        if (settleTimer.current) {
+          clearTimeout(settleTimer.current);
+          settleTimer.current = null;
+        }
+        el.style.transition = "none";
       }
       if (e.cancelable) e.preventDefault();
+
       const dt = e.timeStamp - lastT;
-      if (dt > 0) velocity = (lastY - t.clientY) / dt;
+      if (dt > 0) velocity = 0.8 * ((lastY - t.clientY) / dt) + 0.2 * velocity;
       lastY = t.clientY;
       lastT = e.timeStamp;
-      travel = -dy;
-      const d = -Math.pow(travel, 0.82);
-      set(d);
-      // Height and translate by the same damped number, so the sheet's bottom
-      // edge and its contents rise together and its top stays hinged.
-      setSheetH(Math.max(0, naturalH.current + d));
+
+      travel = Math.max(0, -dy);
+      offset = dy < 0 ? Math.max(dy, -height) : Math.sqrt(dy) * 2;
+      if (!frame) frame = requestAnimationFrame(paint);
     };
 
-    const onEnd = () => {
-      // Measured on the FINGER, not on the panel's damped travel, and the
-      // difference is not academic: the damping exponent means 48px of panel
-      // movement is 112px of actual thumb, which on a 390px screen is most of
-      // a reachable stroke. Testing the damped number was a real bug — the
-      // gesture worked and simply felt dead, because the distance the person
-      // had to produce was more than twice the one documented beside it.
-      //
-      // 48px of finger on a 281px panel is about a sixth of its height, which
-      // is the proportion both mobile platforms settle around for a dismiss.
-      // No tap travels that far.
-      //
-      // Velocity is the second way in, because a flick is a dismissal that
-      // never covers much ground: 0.5px/ms is a deliberate stroke and well
-      // clear of the drift at the end of a slow drag. Distance OR speed, so
-      // the careful dragger and the quick flicker both get the same result.
-      const dismiss = live && (travel >= 48 || (travel >= 20 && velocity > 0.5));
-
-      const finish = () => {
-        if (dismiss) {
-          setOpen(false);
-          // Not `focus()`. Escape returns focus because a keyboard user has
-          // nowhere else to be; a thumb does not want the disclosure outlined
-          // after a swipe it made with its eyes on the page.
-          buttonRef.current?.blur();
-        }
-        set(0);
-        setSheetH(null);
-        setSnapping(false);
-        snapTimer.current = null;
-      };
-
-      if (live && dragRef.current !== 0) {
-        // Finish the journey the finger started, rather than cutting from a
-        // half-dragged sheet to a closed one. Dismissing drives it the rest of
-        // the way up; a short drag drives it back down. Only once it has
-        // arrived does `open` change, so the class-driven height it lands on is
-        // the one it is already at and there is nothing left to jump.
-        const reduced =
-          typeof window !== "undefined" &&
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        setSnapping(true);
-        if (dismiss) {
-          set(-naturalH.current);
-          setSheetH(0);
-        } else {
-          set(0);
-          setSheetH(naturalH.current);
-        }
-        snapTimer.current = setTimeout(finish, reduced ? 0 : 260);
-      } else {
-        finish();
+    const onEnd = (e: TouchEvent) => {
+      if (!live || !decided) {
+        live = false;
+        return;
       }
       live = false;
+      if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+      // A finger that stopped before it lifted has no speed left, however fast
+      // it was going earlier in the stroke.
+      if (e.timeStamp - lastT > 80) velocity = 0;
+
+      // Measured on the finger. 48px of a ~280px panel is about a sixth of its
+      // height, the proportion both mobile platforms settle around for a
+      // dismiss, and no tap travels that far. A flick is the second way in:
+      // 0.5px/ms is a deliberate stroke and well clear of the drift at the end
+      // of a slow drag.
+      const close = travel >= 48 || (travel >= 20 && velocity > 0.5);
+
+      if (close) {
+        // The rest of the way at the speed the finger was already going, so
+        // the sheet does not brake on release: a quick flick finishes quickly,
+        // a slow drag eases off. Never slower than the class's own 240ms.
+        const remaining = height + offset;
+        const ms = Math.round(Math.min(240, Math.max(120, remaining / Math.max(velocity, 1.2))));
+        settle("closed", ms);
+        dismissRef.current();
+      } else {
+        settle("open", 240);
+      }
     };
 
     el.addEventListener("touchstart", onStart, { passive: true });
@@ -660,10 +726,7 @@ function Banner() {
       el.removeEventListener("touchmove", onMove);
       el.removeEventListener("touchend", onEnd);
       el.removeEventListener("touchcancel", onEnd);
-      if (snapTimer.current) {
-        clearTimeout(snapTimer.current);
-        snapTimer.current = null;
-      }
+      if (frame) cancelAnimationFrame(frame);
     };
   }, [open]);
 
@@ -671,25 +734,16 @@ function Banner() {
     // The hairline is a shadow, not a border, for the same reason the rail's
     // is: a border lives inside the border box and would eat a pixel of the
     // declared height, making the token a near-miss rather than the number.
-    // The bottom corners round only while the panel is open. Closed this is a
-    // bar, and a bar has square corners; open it is a sheet that has come down
-    // over the page, and the curve is what says so.
+    // While the panel is down the bar loses it, because the bar and the sheet
+    // are one surface and the sheet carries the edge.
     <header
+      ref={headerRef}
       className={[
         "sticky top-0 z-50 bg-surface-raised shadow-[0_1px_0_var(--border-subtle)]",
-        "transition-[border-radius] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none",
-        // The breakpoint half is not belt-and-braces. `open` is panel state and
-        // the panel only exists below 1280, but the state survives a resize:
-        // open the menu on a phone, rotate or widen past the breakpoint, and
-        // the panel hides while `open` stays true — leaving a rounded-bottom
-        // bar above a rail, with nothing hanging off it for the curve to
-        // belong to. Measured at 1440 after opening at 390: radius 16px, panel
-        // gone, rail up.
-        //
-        // Scoping the class to the widths the panel exists at is the fix that
-        // cannot drift, because it is the same condition that governs the
-        // panel itself rather than a second copy of it in JavaScript.
-        open ? "rounded-b-[16px] min-[1280px]:rounded-b-none" : "",
+        // Scoped to the widths the panel exists at. `open` is panel state and
+        // survives a resize past the breakpoint, and the bar must not lose its
+        // edge above a rail just because a phone-sized window was widened.
+        open ? "max-[1279px]:shadow-none" : "",
       ].join(" ")}
     >
       {/* Full bleed, with a flat 24px inset — not the Container.
@@ -764,82 +818,51 @@ function Banner() {
           </div>
         </div>
 
-        {/* Always rendered, because `aria-controls` has to point at an element
-            that exists.
+      </div>
 
-            It used to be toggled with the `hidden` attribute, which sets
-            `display: none` — correct for the accessibility tree and fatal to
-            any transition, because there is no height for the panel to animate
-            from. `inert` does the same two jobs `hidden` was there for, taking
-            the panel out of the tab order and out of the accessibility tree,
-            while leaving it laid out and therefore animatable.
+      {/* Always rendered, because `aria-controls` has to point at an element
+          that exists. `inert` takes it out of the tab order and the
+          accessibility tree while closed and leaves it laid out, which is what
+          lets it animate; `hidden` would be display: none, with nothing to
+          animate from.
 
-            The motion is a grid row from 0fr to 1fr rather than a height from
-            0 to auto, because `auto` is not a value a transition can
-            interpolate toward. The row is the thing that animates; the child
-            clips. `overflow-hidden` on that child is not decoration either —
-            it is what sets the grid item's automatic minimum size to zero, and
-            without it the row refuses to collapse at all.
+          The wrapper hangs from the bottom of the bar and clips, so the sheet
+          slides out from under the bar's edge rather than appearing over it.
+          It ignores the pointer so the clipped, empty area never eats a tap;
+          the sheet takes the pointer back for itself.
 
-            So the panel rolls down out of the bar and rolls back up into it,
-            which is also the direction the two lines of the disclosure travel
-            as they cross. */}
+          The transforms are written as arbitrary properties rather than
+          Tailwind's translate utilities on purpose. Those set the separate
+          `translate` property, which would ADD to the inline transform the
+          drag writes, and which the transition below does not cover.
+
+          Capped at the screen below the bar and scrollable past that, because a
+          sheet taller than the screen with its overflow clipped would put the
+          last links somewhere no thumb can reach. */}
+      <div className="pointer-events-none absolute inset-x-0 top-full overflow-hidden min-[1280px]:hidden">
         <div
           id="site-menu"
           ref={panelRef}
           inert={!open}
           className={[
-            "grid min-[1280px]:hidden",
-            "transition-[grid-template-rows] duration-[240ms] ease-[var(--ease-out-quart)]",
-            "motion-reduce:transition-none",
-            open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+            "pointer-events-auto max-h-[calc(100dvh-var(--banner-height))] overflow-y-auto overscroll-contain",
+            "rounded-b-[16px] border-b border-border-subtle bg-surface-raised px-6 pb-4 pt-1",
+            "transition-[transform,visibility] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none",
+            open ? "[transform:translateY(0px)]" : "invisible [transform:translateY(-100%)]",
           ].join(" ")}
-          // While a finger is on it the sheet is driven in pixels, not by the
-          // 1fr/0fr classes, because a drag is a position rather than a state.
-          // The classes take back over the moment it is let go and has
-          // arrived, and because it arrives at the height they specify, the
-          // handover is invisible.
-          style={{
-            gridTemplateRows: sheetH != null ? `${sheetH}px` : undefined,
-            transitionDuration: sheetH != null && !snapping ? "0s" : undefined,
-          }}
         >
-          <div className="overflow-hidden">
-            <div
-              // No rule between the bar and the panel. It was there to separate
-              // the identity from the navigation, and the tiles below do that
-              // on their own now — four drawn edges are more than enough
-              // structure for one small sheet, and a rule on top of them was
-              // simply a ninth horizontal line. The header's own bottom
-              // hairline still separates the whole panel from the page, which
-              // is the boundary that actually needs stating.
-              className="pb-4 pt-1 transition-transform duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none"
-              // Zero duration while the finger is down, so the panel tracks it
-              // one to one; the class's 240ms comes back the moment the drag
-              // resets, which is what animates the spring back. Driving this
-              // from the inline duration rather than by swapping the class
-              // keeps the transition property on the element the whole time,
-              // so there is no frame where the browser has a new transform and
-              // no rule telling it to animate.
-              style={{
-                transform: drag ? `translateY(${drag}px)` : undefined,
-                transitionDuration: drag && !snapping ? "0s" : undefined,
-              }}
-            >
-              {/* No sliding indicator in here. The panel is built and destroyed
-                  on every open, so there is nothing for a mark to travel from. */}
-              <NavList variant="grid" />
-              {/* Bottom right, mirroring the disclosure directly above it
-                  rather than the nav icons to its left. -mr-1.5 is the same 6px
-                  the hamburger carries: it puts the 32px chip's own right edge
-                  on the container's inner edge, so chip and hamburger share a
-                  right line the way the nav icons and the mark share a left
-                  one. The 44px targets overhang into the gutter, invisibly,
-                  which is what hit areas are for. */}
-              <div className="mt-4 -mr-1.5 flex justify-end sm:hidden">
-                <ThemeToggle />
-              </div>
-            </div>
+          {/* No sliding indicator in here. The panel is built and destroyed
+              on every open, so there is nothing for a mark to travel from. */}
+          <NavList variant="grid" />
+          {/* Bottom right, mirroring the disclosure directly above it
+              rather than the nav icons to its left. -mr-1.5 is the same 6px
+              the hamburger carries: it puts the 32px chip's own right edge
+              on the container's inner edge, so chip and hamburger share a
+              right line the way the nav icons and the mark share a left
+              one. The 44px targets overhang into the gutter, invisibly,
+              which is what hit areas are for. */}
+          <div className="mt-4 -mr-1.5 flex justify-end sm:hidden">
+            <ThemeToggle />
           </div>
         </div>
       </div>
