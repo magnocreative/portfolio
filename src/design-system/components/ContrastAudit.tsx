@@ -105,7 +105,14 @@ export function ContrastAudit({
     // Found by auditing at 390px. Five clean audits had run before this, all
     // at 1440, where the table fits and never scrolls. The bug was not hiding;
     // nobody had looked at the width where it exists.
-    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={label}>
+    //
+    // `relative` is load-bearing. The Result header is `sr-only`, which is
+    // position: absolute, and an absolute box is clipped by a scroller only
+    // when the scroller is its containing block. Without it the hidden label
+    // escaped this div at x 600 and widened the whole document, so phones
+    // laid the page out at 600px and zoomed it out to fit: the page sat in
+    // the left two thirds of the screen with an empty strip beside it.
+    <div className="relative overflow-x-auto" tabIndex={0} role="region" aria-label={label}>
       <table className="w-full min-w-[36rem] border-collapse text-left">
         <thead>
           <tr className="border-b border-border-default">
