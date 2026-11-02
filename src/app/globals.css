@@ -27,28 +27,33 @@
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
 
-    /* Stops the macOS rubber-band at the top of the page, and with it the one
-       thing that can detach the banner from the top of the window.
+    /* The elastic bounce stays on below 1280, where the site is a phone or
+       tablet layout and the bounce is how every native scroll view says "this
+       is the end". Pulling down past the top stretches the whole page,
+       banner included, and it springs back.
 
        The banner is `position: sticky`, which only pins once the scroll
-       position is past its threshold. During an overscroll the scroll position
-       goes NEGATIVE, nothing is past anything, and the banner travels down the
-       screen with the document — leaving a strip of page background above it
-       that looks like the bar has come unstuck. Scrolling up hard on a
-       trackpad is the easiest way to see it, and it is not reproducible by
-       setting scrollTop, because the bounce is a compositor effect that never
-       appears in `window.scrollY`.
+       position is past its threshold. During an overscroll the position goes
+       negative, nothing is past anything, and the banner travels down with
+       the document. What shows above it is not the page: it is the canvas,
+       which takes its color from this element. So the canvas is painted the
+       banner's own color, and the strip that opens above the bar reads as the
+       bar stretching rather than coming unstuck. The footer is the same
+       surface, so a bounce off the bottom matches too. The body carries the
+       page color, so nothing else changes. */
+    background-color: var(--surface-raised);
 
-       `overscroll-behavior-y: none` removes the bounce rather than trying to
-       cover it. The alternative, making the banner `fixed`, takes it out of
-       flow and means every page needs top padding to replace it, and it is not
-       even a reliable fix — some engines translate fixed layers during the
-       bounce as well.
+    /* From 1280 the rail is there, and the rail is `position: fixed`. A
+       bounce would carry the banner down over a rail that stays put, so on
+       wide screens the bounce stays off, which is also where it was first
+       turned off: hard scrolling up on a Mac trackpad.
 
-       It also disables pull-to-refresh on Android, which on a portfolio is a
-       fair trade: nobody needs to refresh this, and an accidental one mid-read
-       is worse than the gesture is useful. */
-    overscroll-behavior-y: none;
+       Below 1280 the bounce is back, and with it pull-to-refresh on Android.
+       That was the cost the old blanket rule avoided; the bounce is worth
+       more to a phone than the protection from an accidental refresh. */
+    @media (min-width: 1280px) {
+      overscroll-behavior-y: none;
+    }
   }
 
   /* 88.8px, written as its own derivation: 24 of rail padding, 12 of pill
