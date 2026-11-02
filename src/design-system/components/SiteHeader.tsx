@@ -543,10 +543,14 @@ function Banner() {
   useEffect(() => {
     if (!open) return;
     const wide = window.matchMedia("(min-width: 1280px)");
-    const startY = window.scrollY;
+    // Clamped at 0 because Safari reports the elastic bounce at the top of
+    // the page as a NEGATIVE scroll position. A pull-down at the top is a
+    // bounce, not a scroll, and should not close the menu.
+    const y = () => Math.max(0, window.scrollY);
+    const startY = y();
 
     const onScroll = () => {
-      if (Math.abs(window.scrollY - startY) > 24) dismissRef.current();
+      if (Math.abs(y() - startY) > 24) dismissRef.current();
     };
     const onClick = (e: MouseEvent) => {
       if (wide.matches) {
@@ -585,15 +589,23 @@ function Banner() {
    * The sheet tracks the finger one to one on the way up. It used to be damped
    * (travel to the power 0.82), which meant that 80px of thumb moved the
    * panel 36: the sheet visibly lagged behind the finger, which reads as
-   * stiffness, not as polish. Pulling it the wrong way, down, it gives a
-   * little and resists, so the gesture still feels like a physical thing with
-   * an end stop.
+   * stiffness, not as polish.
    *
-   * Only touches that start on the panel are affected, and three are left
+   * A drag that STARTS downward is not this gesture's business and is handed
+   * straight back to the browser. It used to be caught and the sheet nudged
+   * down with resistance, but the sheet lives in a wrapper that clips at the
+   * bar's edge, so nudging it down opened a strip of page between the bar and
+   * the sheet and cut the theme chips off at the bottom: the menu looked torn
+   * in two. Left to the browser, a pull-down at the top of the page is the
+   * elastic bounce, which carries the bar and the sheet down together in the
+   * banner's color; anywhere lower it scrolls the page, which closes the menu.
+   * Both are what a pull-down means everywhere else on the site.
+   *
+   * Only touches that start on the panel are affected, and four are left
    * alone: a panel tall enough to scroll on its own (checked per gesture, since
    * large text on a small phone can make it so), a horizontal drag (both
-   * platforms use edge-swipe for back), and anything that has not yet moved
-   * 4px, so a tap on a link stays a tap.
+   * platforms use edge-swipe for back), a drag that starts downward, and
+   * anything that has not yet moved 4px, so a tap on a link stays a tap.
    */
   useEffect(() => {
     const el = panelRef.current;
@@ -660,7 +672,7 @@ function Banner() {
       if (!decided) {
         if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
         decided = true;
-        if (Math.abs(dx) > Math.abs(dy)) {
+        if (Math.abs(dx) > Math.abs(dy) || dy > 0) {
           live = false;
           return;
         }
@@ -679,7 +691,9 @@ function Banner() {
       lastT = e.timeStamp;
 
       travel = Math.max(0, -dy);
-      offset = dy < 0 ? Math.max(dy, -height) : Math.sqrt(dy) * 2;
+      // A gesture that began upward and comes back past where it started
+      // stops at open. It cannot be handed to the browser halfway through.
+      offset = Math.min(0, Math.max(dy, -height));
       if (!frame) frame = requestAnimationFrame(paint);
     };
 
