@@ -256,7 +256,7 @@ export default function Resume() {
 
               <div className="max-w-measure">
                 <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                  Earlier
+                  Career prior to 2017
                 </span>
                 <p className="mt-3 text-base leading-[1.65] text-text-secondary">
                   Graphic designer and technical illustrator roles at SWBC and Elbit Systems of
