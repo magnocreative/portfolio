@@ -199,7 +199,7 @@ export default function Resume() {
             actions={
               <Button
                 href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
-                variant="secondary"
+                variant="primary"
               >
                 Request a PDF
               </Button>
