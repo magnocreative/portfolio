@@ -137,15 +137,12 @@ function Bullet({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Built from `experience` rather than typed out beside it. A hand-kept copy
-// of this list is a second place to remember when an employer is added, and
-// the one that gets forgotten is always the nav.
+// Three sections, no employer links under Experience. The logos already make
+// each employer easy to find while scrolling, so nested links repeated the
+// page. What the nav is for here is the jump past a long Experience block to
+// Skills or Education.
 const contents = [
-  {
-    id: "experience",
-    label: "Experience",
-    children: experience.map((org) => ({ id: org.id, label: org.employer })),
-  },
+  { id: "experience", label: "Experience" },
   { id: "skills", label: "Skills" },
   { id: "education", label: "Education" },
 ];

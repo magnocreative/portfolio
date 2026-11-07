@@ -113,7 +113,23 @@ export function SectionNav({
     );
 
     els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
+
+    // A short last section can never climb into that band: the page runs out
+    // of scroll first. On the résumé, Education stopped 320px down at the very
+    // bottom and the mark stayed on Skills, even right after a click on
+    // Education. So once the page is scrolled to its end, the last section is
+    // the current one, whatever the band says.
+    const atEnd = () => {
+      const end = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (end) setActive(els[els.length - 1].id);
+    };
+    window.addEventListener("scroll", atEnd, { passive: true });
+    atEnd();
+
+    return () => {
+      obs.disconnect();
+      window.removeEventListener("scroll", atEnd);
+    };
   }, [items]);
 
   const vertical = orientation === "vertical";
