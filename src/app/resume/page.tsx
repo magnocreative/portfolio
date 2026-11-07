@@ -4,7 +4,7 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { JpmcLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
+import { HclLogo, JpmcLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -67,6 +67,7 @@ const experience = [
   {
     employer: "HCL Technologies",
     id: "hcl",
+    Logo: HclLogo,
     location: "On-site at USAA, San Antonio, Texas",
     roles: [
       {
@@ -212,23 +213,22 @@ export default function Resume() {
             <div className="mt-10 flex flex-col gap-16">
               {experience.map((org) => (
                 <article key={org.employer} id={org.id}>
-                  {/* Centered, not baseline aligned. The mark has no baseline
-                      of its own, so a baseline row took it from the bottom of
-                      the 40px tile and pushed the location 12px below the
-                      name it belongs to. */}
-                  <div className="flex max-w-measure flex-wrap items-center justify-between gap-x-6 gap-y-1">
-                    {/* The mark sits beside the name, 12px off, centered on it.
-                        HCL has none, and its name starts at the column edge
-                        rather than holding an empty square. */}
-                    <div className="flex items-center gap-3">
-                      {"Logo" in org && org.Logo && <org.Logo className="h-10 w-10 shrink-0" />}
+                  {/* The mark, then the name and location as one block beside
+                      it. The block wraps on its own, so on a phone the
+                      location drops under the name and starts where the name
+                      starts, not back under the mark. The mark is centered on
+                      the whole block: one line on a wide screen, two on a
+                      phone. Inside the block the two stay baseline aligned. */}
+                  <div className="flex max-w-measure items-center gap-3">
+                    <org.Logo className="h-10 w-10 shrink-0" />
+                    <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                       <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                         {org.employer}
                       </h3>
+                      <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                        {org.location}
+                      </span>
                     </div>
-                    <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                      {org.location}
-                    </span>
                   </div>
 
                   {org.roles.map((role) => (
