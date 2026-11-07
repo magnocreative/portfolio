@@ -4,6 +4,7 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
+import { JpmcLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -22,6 +23,7 @@ const experience = [
   {
     employer: "JPMorganChase",
     id: "jpmorganchase",
+    Logo: JpmcLogo,
     location: "Plano, Texas",
     roles: [
       {
@@ -47,6 +49,7 @@ const experience = [
   {
     employer: "USAA",
     id: "usaa",
+    Logo: UsaaLogo,
     location: "San Antonio and Plano, Texas",
     roles: [
       {
@@ -209,10 +212,20 @@ export default function Resume() {
             <div className="mt-10 flex flex-col gap-16">
               {experience.map((org) => (
                 <article key={org.employer} id={org.id}>
-                  <div className="flex max-w-measure flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                    <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
-                      {org.employer}
-                    </h3>
+                  {/* Centered, not baseline aligned. The mark has no baseline
+                      of its own, so a baseline row took it from the bottom of
+                      the 40px tile and pushed the location 12px below the
+                      name it belongs to. */}
+                  <div className="flex max-w-measure flex-wrap items-center justify-between gap-x-6 gap-y-1">
+                    {/* The mark sits beside the name, 12px off, centered on it.
+                        HCL has none, and its name starts at the column edge
+                        rather than holding an empty square. */}
+                    <div className="flex items-center gap-3">
+                      {"Logo" in org && org.Logo && <org.Logo className="h-10 w-10 shrink-0" />}
+                      <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
+                        {org.employer}
+                      </h3>
+                    </div>
                     <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
                       {org.location}
                     </span>
