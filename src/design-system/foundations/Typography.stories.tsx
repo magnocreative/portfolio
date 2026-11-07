@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 /**
  * The scale is READ from the tokens, never restated here.
@@ -35,32 +35,35 @@ const steps = [
 
 type Measured = { name: string; use: string; rem: string; px: string; weight: string };
 
+function measure(): Measured[] {
+  const cs = getComputedStyle(document.documentElement);
+  const probe = document.createElement("span");
+  probe.style.cssText = "position:absolute;visibility:hidden";
+  document.body.appendChild(probe);
+
+  const scale = steps.map((s) => {
+    const rem = cs.getPropertyValue(`--text-${s.name}`).trim();
+    // rem strings do not tell you the rendered size: the root font size
+    // could be anything, and a visitor may have changed it. Resolve it.
+    probe.style.fontSize = rem;
+    const px = getComputedStyle(probe).fontSize;
+    // Weight belongs to the step from 2xl up. Read it like the size, so the
+    // specimen shows the rule the stylesheet actually enforces.
+    const weight = cs.getPropertyValue(`--text-${s.name}--font-weight`).trim() || "400";
+    return { ...s, rem, px, weight };
+  });
+
+  probe.remove();
+  return scale;
+}
+
+// Measured once, when the story first renders. This was an effect that set
+// state, which renders the table empty and then again full; React's lint rule
+// flags that pattern for exactly that reason. Storybook only ever renders this
+// in a browser with the stylesheet loaded, so the lazy initializer can read it
+// straight away.
 function useScale(): Measured[] {
-  const [scale, setScale] = useState<Measured[]>([]);
-
-  useEffect(() => {
-    const cs = getComputedStyle(document.documentElement);
-    const probe = document.createElement("span");
-    probe.style.cssText = "position:absolute;visibility:hidden";
-    document.body.appendChild(probe);
-
-    setScale(
-      steps.map((s) => {
-        const rem = cs.getPropertyValue(`--text-${s.name}`).trim();
-        // rem strings do not tell you the rendered size — the root font size
-        // could be anything, and a visitor may have changed it. Resolve it.
-        probe.style.fontSize = rem;
-        const px = getComputedStyle(probe).fontSize;
-        // Weight belongs to the step from 2xl up. Read it like the size, so the
-        // specimen shows the rule the stylesheet actually enforces.
-        const weight = cs.getPropertyValue(`--text-${s.name}--font-weight`).trim() || "400";
-        return { ...s, rem, px, weight };
-      }),
-    );
-
-    probe.remove();
-  }, []);
-
+  const [scale] = useState<Measured[]>(() => (typeof document === "undefined" ? [] : measure()));
   return scale;
 }
 

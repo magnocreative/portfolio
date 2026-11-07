@@ -7,6 +7,7 @@ import { ArrowRight } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { PageHeader } from "@/design-system/components/PageHeader";
+import { KeyValueList } from "@/design-system/components/KeyValueList";
 
 export const metadata: Metadata = {
   title: "The design system",
@@ -227,24 +228,14 @@ export default function SystemPage() {
                 </p>
               </div>
 
-              <dl className="font-label text-xs">
-                {[
-                  ["tokens", "src/styles/tokens.css"],
-                  ["components", "src/design-system/"],
-                  ["stories", "npm run storybook"],
-                  ["source", "github.com/magnocreative/portfolio"],
-                ].map(([k, v], i, arr) => (
-                  <div
-                    key={k}
-                    className={`flex flex-wrap justify-between gap-x-4 gap-y-1 py-3 ${
-                      i < arr.length - 1 ? "border-b border-border-subtle" : ""
-                    }`}
-                  >
-                    <dt className="text-text-tertiary">{k}</dt>
-                    <dd className="text-text-primary">{v}</dd>
-                  </div>
-                ))}
-              </dl>
+              <KeyValueList
+                items={[
+                  { key: "tokens", value: "src/styles/tokens.css" },
+                  { key: "components", value: "src/design-system/" },
+                  { key: "stories", value: "npm run storybook" },
+                  { key: "source", value: "github.com/magnocreative/portfolio" },
+                ]}
+              />
             </div>
             </section>
             </div>

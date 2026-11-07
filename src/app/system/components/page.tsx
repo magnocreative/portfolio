@@ -11,6 +11,7 @@ import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { Note } from "@/design-system/components/Note";
+import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Components",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
  * grounds that hiding an argument behind a tab means a reviewer can leave
  * having read a third of it. A component gallery behind tabs is that same
  * failure with better lighting: somebody lands on the first panel, looks at a
- * button, and never learns the theme control is a real radiogroup.
+ * button, and never learns the theme toggle keeps "match system" alive.
  *
  * So: nothing is hidden here. Every component is rendered in page flow, in
  * sequence, and the only navigation is a rail that moves you faster through
@@ -181,37 +182,33 @@ export default function ComponentsPage() {
                 <Head
                   id="theme"
                   title="Theme toggle"
-                  decision="Three states, not two. A plain switch silently discards 'follow my
-                  system', which is the setting most people actually want and the one they never get
-                  back once a binary toggle has been touched. It is built to the ARIA radiogroup
-                  pattern rather than merely labelled as one: a single tab stop, arrow keys in both
-                  axes, Home and End, and selection following focus the way radios do and listboxes
-                  do not."
+                  decision="Two controls, not three. Light and dark are two values of one choice, so
+                  they share a single switch, and the switch shows the theme it will give you rather
+                  than the one you are in, with a name that says the action: Switch to dark theme.
+                  Following the system is a different kind of choice, about who decides rather than
+                  which theme, so it gets a button of its own. A switch on its own would throw that
+                  setting away the first time anyone touched it, and it is the one most people want."
                 />
 
+                <Stage>
+                  <Cell caption="live, in step with the header">
+                    <ThemeToggle />
+                  </Cell>
+                </Stage>
+
                 <TextBlock className="mt-6">
-                  <p>
-                    The specimen for this one is in the header, top right of this page, and it is
-                    deliberately not duplicated down here. The reason is worth more than the demo would
-                    have been: the component holds its own state, so a second instance on the same page
-                    would show a different selection from the header the moment either one was used.
-                    That is a real constraint, it is named here rather than hidden, and it is on the
-                    list to fix.
-                  </p>
-                  <p>
-                    Try it with the keyboard instead. Tab to it once, then arrow through. One stop,
-                    three options, and the whole page changes under you as you move.
-                  </p>
+                  Neither toggle keeps the theme to itself. Both read it from the page, so this one and
+                  the one in the header cannot disagree: change either and the other follows. That
+                  used to be untrue, and this section described the toggle instead of showing it.
                 </TextBlock>
 
                 <Note className="mt-6">
-                  The selected option takes the solid interactive fill rather than a tint. A tinted
+                  The selected state takes the solid interactive fill rather than a tint. A tinted
                   version measured 1.17:1 against the header and 1.17:1 between the selected and
-                  unselected icons, which would have rested the entire selected state on hue. axe
-                  passed it. For a while this also carried the radiogroup roles while behaving as
-                  three separate tab stops with inert arrow keys, which announces &ldquo;one of
-                  three&rdquo; and interacts as three of three. A static scan cannot see either of
-                  those, because both are behavior.
+                  unselected icons, which would have rested the whole state on hue. axe passed it.
+                  An earlier version was a three-option radiogroup that announced &ldquo;one of
+                  three&rdquo; while behaving as three separate tab stops. A static scan cannot see
+                  either of those, because both are behavior.
                 </Note>
               </section>
 
@@ -280,9 +277,8 @@ export default function ComponentsPage() {
                   decision="The full ARIA pattern: roving tabindex so the set is one tab stop, arrow
                   keys to move between tabs, Home and End, and a focusable panel so a keyboard user
                   can reach the content they just revealed. Manual activation, not selection
-                  following focus, which is the opposite of the theme toggle on purpose. Arrowing
-                  through tabs should let you read the labels without swapping the panel underneath
-                  you; arrowing through themes should show you each theme."
+                  following focus: arrowing through tabs should let you read the labels without
+                  swapping the panel underneath you."
                 />
 
                 <Stage>

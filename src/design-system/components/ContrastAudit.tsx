@@ -9,6 +9,7 @@ import {
   type Level,
   type TokenKind,
 } from "@/design-system/utils/contrast";
+import { Tag, type TagTone } from "@/design-system/components/Tag";
 
 export type AuditRow = {
   token: string;
@@ -20,26 +21,18 @@ export type AuditRow = {
 type Measured = AuditRow & { hex: string; ratio: number; verdict: Level };
 
 /**
- * The chip gets an edge, not a darker fill.
- *
- * A tint on a 97.2% page cannot carry its own shape by luminance alone: even
- * pushing the fill until it starts reading as a gray box only reached 1.15:1,
- * which is still not a visible boundary. A hairline solves it at a contrast
- * the eye actually registers, and leaves the fill light enough that the text
- * inside it keeps its own ratio.
+ * Which tone each verdict takes. Only a pass is drawn as a chip; see Tag for
+ * why the chip has an edge rather than a darker fill.
  */
-const chip =
-  "border border-[color-mix(in_oklab,var(--text-accent)_35%,transparent)] bg-interactive-subtle text-text-accent";
-
-const verdictClass: Record<Level, string> = {
-  AAA: chip,
-  AA: chip,
-  "AA Large": "text-text-tertiary",
-  Fail: "text-status-danger",
-  "Non-text AA": chip,
+const verdictTone: Record<Level, TagTone> = {
+  AAA: "pass",
+  AA: "pass",
+  "AA Large": "neutral",
+  Fail: "danger",
+  "Non-text AA": "pass",
   // Not a failure and not styled like one. A divider under 3:1 is a decision.
-  Decorative: "text-text-tertiary",
-  Reference: "text-text-tertiary",
+  Decorative: "neutral",
+  Reference: "neutral",
 };
 
 /**
@@ -160,11 +153,14 @@ export function ContrastAudit({
               </td>
               <td className="py-3.5 text-right">
                 {measured && (
-                  <span
-                    className={`inline-block rounded-[var(--radius-pill)] px-2.5 py-0.5 font-label text-xs uppercase tracking-[0.08em] ${verdictClass[m.verdict]}`}
+                  // The unboxed tones carry the chip's own padding, so every
+                  // verdict's text ends on the same right edge down the column.
+                  <Tag
+                    tone={verdictTone[m.verdict]}
+                    className={verdictTone[m.verdict] === "pass" ? "" : "px-2.5 py-0.5"}
                   >
                     {m.verdict}
-                  </span>
+                  </Tag>
                 )}
               </td>
             </tr>

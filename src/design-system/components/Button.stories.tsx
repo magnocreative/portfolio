@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Button } from "./Button";
+import { KeyValueList } from "./KeyValueList";
 import { ArrowRight, ArrowUpRight, ArrowLeft, Download, Mail } from "./Icon";
 import { SectionHead } from "./SectionHead";
 
@@ -299,22 +300,14 @@ export const InContext: Story = {
             </Button>
           </div>
         </div>
-        <dl className="font-label text-xs">
-          {[
-            ["tokens", "three tiers"],
-            ["color", "OKLCH ramps"],
-            ["themes", "paper / slate"],
-            ["contrast", "WCAG AA"],
-          ].map(([k, v], i) => (
-            <div
-              key={k}
-              className={`flex justify-between py-3 ${i < 3 ? "border-b border-border-subtle" : ""}`}
-            >
-              <dt className="text-text-tertiary">{k}</dt>
-              <dd className="text-text-primary">{v}</dd>
-            </div>
-          ))}
-        </dl>
+        <KeyValueList
+          items={[
+            { key: "tokens", value: "three tiers" },
+            { key: "color", value: "OKLCH ramps" },
+            { key: "themes", value: "paper / slate" },
+            { key: "contrast", value: "WCAG AA" },
+          ]}
+        />
       </div>
     </div>
   ),

@@ -5,6 +5,7 @@ import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
+import { KeyValueList } from "@/design-system/components/KeyValueList";
 
 const systemFacts = [
   { key: "tokens", value: "three tiers" },
@@ -88,19 +89,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <dl className="font-label text-xs">
-                {systemFacts.map((fact, i) => (
-                  <div
-                    key={fact.key}
-                    className={`flex justify-between py-3 ${
-                      i < systemFacts.length - 1 ? "border-b border-border-subtle" : ""
-                    }`}
-                  >
-                    <dt className="text-text-tertiary">{fact.key}</dt>
-                    <dd className="text-text-primary">{fact.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              <KeyValueList items={systemFacts} />
             </div>
           </section>
         </Container>

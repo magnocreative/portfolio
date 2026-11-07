@@ -17,6 +17,11 @@ import { NextResponse, type NextRequest } from "next/server";
  * The password itself never appears in this repository. It lives in Vercel
  * project settings, which is also why local development is never gated: the
  * variable is simply absent there.
+ *
+ * `proxy.ts`, not `middleware.ts`: Next 16 renamed the convention, and the old
+ * name was printing a deprecation warning on every dev server start. The code
+ * did not change. The one real difference is the runtime, which is Node rather
+ * than the edge, and nothing here needs the edge.
  */
 
 export const config = {
@@ -35,7 +40,7 @@ function matches(given: string, expected: string): boolean {
   return diff === 0;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const expected = process.env.SITE_PASSWORD;
   if (!expected) return NextResponse.next();
 

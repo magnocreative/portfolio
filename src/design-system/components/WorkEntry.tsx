@@ -1,15 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CaseStudy } from "@/content/case-studies";
+import { Tag } from "@/design-system/components/Tag";
 
-function DraftTag() {
-  return (
-    <span className="inline-flex items-center gap-2 font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary">
-      <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border-strong" />
-      In writing
-    </span>
-  );
-}
 
 /**
  * The image slot, for a visual from the case study. Until a study has one,
@@ -81,7 +74,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
 
         {isDraft && (
           <div className="mt-3">
-            <DraftTag />
+            <Tag dot>In writing</Tag>
           </div>
         )}
       </div>

@@ -13,6 +13,7 @@ import { TextBlock } from "@/design-system/components/TextBlock";
 import portrait from "@/assets/alejandro-fernandini.jpg";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
+import { KeyValueList } from "@/design-system/components/KeyValueList";
 
 export const metadata: Metadata = {
   title: "About",
@@ -164,17 +165,13 @@ export default function About() {
                   title="The Magno Creative mark"
                   className="w-full sm:w-[180px] md:w-[220px] lg:w-full h-auto"
                 />
-                <dl className="mt-6 font-label text-xs">
-                  {[
-                    ["--mark-deep", "#4e729a"],
-                    ["--mark-light", "#80a2c4"],
-                  ].map(([k, v]) => (
-                    <div key={k} className="flex justify-between gap-4 border-b border-border-subtle py-2">
-                      <dt className="text-text-tertiary">{k}</dt>
-                      <dd className="text-text-primary">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
+                <KeyValueList
+                  className="mt-6"
+                  items={[
+                    { key: "--mark-deep", value: "#4e729a" },
+                    { key: "--mark-light", value: "#80a2c4" },
+                  ]}
+                />
               </div>
 
               <div className="flex max-w-measure flex-col gap-6 text-base leading-[1.7] text-text-secondary">
