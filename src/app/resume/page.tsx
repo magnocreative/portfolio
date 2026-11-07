@@ -218,9 +218,11 @@ export default function Resume() {
                       location drops under the name and starts where the name
                       starts, not back under the mark. The mark is centered on
                       the whole block: one line on a wide screen, two on a
-                      phone. Inside the block the two stay baseline aligned. */}
+                      phone. Inside the block the two stay baseline aligned.
+                      The mark is 48 on a phone, where it stands beside two
+                      lines, and 40 from 640 up, where it stands beside one. */}
                   <div className="flex max-w-measure items-center gap-3">
-                    <org.Logo className="h-10 w-10 shrink-0" />
+                    <org.Logo className="h-12 w-12 shrink-0 sm:h-10 sm:w-10" />
                     <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                       <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                         {org.employer}
