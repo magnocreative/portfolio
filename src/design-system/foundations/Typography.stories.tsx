@@ -112,12 +112,12 @@ function TypeDocs() {
 
       <h2 className="font-display text-2xl tracking-[-0.015em] text-text-primary">The scale</h2>
       <p className="mt-2 mb-8 max-w-measure text-sm leading-relaxed text-text-secondary">
-        Every step is a whole pixel. Half-pixel steps are not steps — they are rounding errors that leave two sizes
+        Every step is a whole pixel. Half-pixel steps are not steps; they are rounding errors that leave two sizes
         nobody can tell apart and nobody knows which to reach for. Line heights are ratios rather than fixed values, and
         tracking tightens as size increases, because large type set at body tracking always reads loose.
       </p>
       <p className="mb-8 max-w-measure text-sm leading-relaxed text-text-secondary">
-        The rem and px columns below are read from the stylesheet as this page renders — not typed in. Change a token
+        The rem and px columns below are read from the stylesheet as this page renders, not typed in. Change a token
         and this table changes with it.
       </p>
 

@@ -10,6 +10,7 @@ import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { TextBlock } from "@/design-system/components/TextBlock";
+import { Note } from "@/design-system/components/Note";
 
 export const metadata: Metadata = {
   title: "Components",
@@ -78,17 +79,6 @@ function Head({ id, title, decision }: { id: string; title: string; decision: st
       <SectionHead id={`${id}-heading`}>{title}</SectionHead>
       <TextBlock className="mt-8">{decision}</TextBlock>
     </>
-  );
-}
-
-/** The note under a specimen. Where a component is deliberately NOT used is
- *  as much a part of a system as where it is, and it is the half nobody
- *  documents. */
-function Absent({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mt-6 max-w-measure border-l border-border-rule pl-5 text-base leading-[1.7] text-text-secondary">
-      {children}
-    </p>
   );
 }
 
@@ -176,14 +166,14 @@ export default function ComponentsPage() {
                   </div>
                 </Stage>
 
-                <Absent>
+                <Note className="mt-6">
                   Disabled is an explicit fill rather than an opacity. A button dimmed with opacity
                   has a contrast ratio nobody can predict, because it depends on whatever happens to
                   be behind it. An earlier version borrowed the sunken surface for that fill and
                   measured 1.00:1 against a sunken well. Not faint. Gone. It only showed up when the
                   same component was placed on the page, a panel and a well side by side, which is
                   the argument for a gallery like this one.
-                </Absent>
+                </Note>
               </section>
 
               {/* Theme toggle */}
@@ -214,7 +204,7 @@ export default function ComponentsPage() {
                   </p>
                 </TextBlock>
 
-                <Absent>
+                <Note className="mt-6">
                   The selected option takes the solid interactive fill rather than a tint. A tinted
                   version measured 1.17:1 against the header and 1.17:1 between the selected and
                   unselected icons, which would have rested the entire selected state on hue. axe
@@ -222,7 +212,7 @@ export default function ComponentsPage() {
                   three separate tab stops with inert arrow keys, which announces &ldquo;one of
                   three&rdquo; and interacts as three of three. A static scan cannot see either of
                   those, because both are behavior.
-                </Absent>
+                </Note>
               </section>
 
               {/* Breadcrumbs */}
@@ -269,7 +259,7 @@ export default function ComponentsPage() {
                   </div>
                 </Stage>
 
-                <Absent>
+                <Note className="mt-6">
                   Not used on the homepage, <code className="font-medium">/about</code>,{" "}
                   <code className="font-medium">/resume</code> or{" "}
                   <code className="font-medium">/system</code>. Those are top level, so a trail
@@ -279,7 +269,7 @@ export default function ComponentsPage() {
                   are a level down. The second example above also shows why the current crumb
                   truncates at 28ch rather than 22ch. The unit measures the zero glyph and ignores
                   letterspacing, so at this tracking about a fifth of the budget is gaps.
-                </Absent>
+                </Note>
               </section>
 
               {/* Tabs */}
@@ -331,13 +321,13 @@ export default function ComponentsPage() {
                   />
                 </Stage>
 
-                <Absent>
+                <Note className="mt-6">
                   Deliberately absent from the homepage, the case studies and this page. Tabs hide
                   content behind a click, so a reviewer can leave having read a third of an argument
                   and believing they read all of it. That is an acceptable cost for a settings panel
                   and an unacceptable one for the case this site is making, which is why the
                   components below are in page flow rather than in the component directly above.
-                </Absent>
+                </Note>
               </section>
 
               {/* Section nav */}
@@ -369,7 +359,7 @@ export default function ComponentsPage() {
                   </TextBlock>
                 </Stage>
 
-                <Absent>
+                <Note className="mt-6">
                   The vertical rail has no <code className="font-medium">self-start</code> on
                   its grid cell, and that omission is load bearing. Letting the cell stretch gives
                   the sticky element inside it a tall block to travel down; hugging the content
@@ -378,7 +368,7 @@ export default function ComponentsPage() {
                   rather than padding, so{" "}
                   <code className="font-medium">scroll-margin-top</code> lands an anchor on the
                   right line.
-                </Absent>
+                </Note>
               </section>
 
               {/* Work entry */}
@@ -400,7 +390,7 @@ export default function ComponentsPage() {
                   <WorkEntry study={caseStudies[1]} index={1} />
                 </Stage>
 
-                <Absent>
+                <Note className="mt-6">
                   This is the third shape the index has had. A four-column text row came first and
                   left the metadata floating about 350px right of each summary. A two-column card grid
                   replaced it and was shorter, but gave each study half the page and no room for an
@@ -408,7 +398,7 @@ export default function ComponentsPage() {
                   something to look at besides text. Each image will be a visual from its case
                   study, made for this site, never a screen: the screens belong to the companies that
                   paid for them.
-                </Absent>
+                </Note>
               </section>
 
               {/* Foundations */}

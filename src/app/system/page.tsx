@@ -31,7 +31,7 @@ const textRoles: AuditRow[] = [
    it. That is the whole reason these three can be single values. Audited here
    at the 3:1 non-text bar, which is the one that actually governs them. */
 const interactiveRoles: AuditRow[] = [
-  { token: "--interactive-default", note: "Filled controls, the focus ring, the mark — one value, both themes" },
+  { token: "--interactive-default", note: "Filled controls, the focus ring, the mark. One value, both themes" },
   { token: "--interactive-hover", note: "Hover on a filled control" },
   { token: "--interactive-selected", note: "Pressed and selected" },
 ];
@@ -161,7 +161,7 @@ export default function SystemPage() {
               label and not to the page behind it. That distinction is why these can be single values:
               the fill is blue-600 in both themes, with a white label in both, and white on it measures
               5.00:1. Watch the hex column stay still while the ratios move when you change the theme.
-              Hover and pressed drop below the bar on the dark ground and are marked accordingly —
+              Hover and pressed drop below the bar on the dark ground and are marked accordingly:
               transient states carrying labels at 7.46:1 and 10.90:1, shown failing rather than left
               out of the table.
             </TextBlock>

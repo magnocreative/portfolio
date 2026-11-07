@@ -47,7 +47,7 @@ export const Draft: Story = {
     docs: {
       description: {
         story:
-          "A case study still being written. Marked, never dimmed. The first version faded drafts to 55% opacity, which made the most important content on the page the least legible thing on it — exactly backwards. A draft renders as a div rather than a link, so nobody clicks into an empty page, and `group` lives on the link branch alone: without that, hovering a draft turned its title accent blue and promised a page that was not there.",
+          "A case study still being written. Marked, never dimmed. The first version faded drafts to 55% opacity, which made the most important content on the page the least legible thing on it, which is exactly backwards. A draft renders as a div rather than a link, so nobody clicks into an empty page, and `group` lives on the link branch alone: without that, hovering a draft turned its title accent blue and promised a page that was not there.",
       },
     },
   },
