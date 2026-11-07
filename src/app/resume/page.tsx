@@ -207,7 +207,7 @@ export default function Resume() {
 
         {/* Experience */}
           <section id="experience" className="mt-28" aria-labelledby="experience-heading">
-            <SectionHead id="experience-heading">Experience</SectionHead>
+            <SectionHead id="experience-heading" className="max-w-measure">Experience</SectionHead>
 
             <div className="mt-10 flex flex-col gap-16">
               {experience.map((org) => (
@@ -267,7 +267,7 @@ export default function Resume() {
 
         {/* Skills */}
           <section id="skills" className="mt-28" aria-labelledby="skills-heading">
-            <SectionHead id="skills-heading">Skills</SectionHead>
+            <SectionHead id="skills-heading" className="max-w-measure">Skills</SectionHead>
 
             <dl className="mt-10 flex flex-col gap-8">
               {skills.map((skill) => (
@@ -285,7 +285,7 @@ export default function Resume() {
 
         {/* Education */}
           <section id="education" className="mt-28" aria-labelledby="education-heading">
-            <SectionHead id="education-heading">Education &amp; certification</SectionHead>
+            <SectionHead id="education-heading" className="max-w-measure">Education &amp; certification</SectionHead>
 
             <div className="mt-10 flex flex-col gap-8">
               {education.map((item) => (

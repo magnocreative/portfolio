@@ -20,9 +20,15 @@ import { Label } from "@/design-system/primitives/Container";
 export function SectionHead({
   id,
   count,
+  className = "",
   children,
 }: {
   id?: string;
+  /**
+   * For a width cap. The résumé passes `max-w-measure` so the rule stops where
+   * every row under it stops, instead of running 44px past them.
+   */
+  className?: string;
   /** Shown at the far right, padded to two digits. Leave out for no count. */
   count?: number;
   children: ReactNode;
@@ -33,7 +39,7 @@ export function SectionHead({
     <div
       className={`border-b border-border-rule pb-4 ${
         hasCount ? "flex items-baseline justify-between" : ""
-      }`}
+      } ${className}`}
     >
       <Label as="h2" className="!text-text-primary">
         <span id={id}>{children}</span>
