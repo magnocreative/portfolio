@@ -124,12 +124,14 @@ const education = [
    because alignment is not an accessibility failure. It read as two columns
    that had come apart.
 
-   A hairline rather than a bullet glyph. The site has no dots in it anywhere
-   else, and a list marker is a piece of type nobody chose. */
+   The marker is a drawn dot rather than the bullet character, so its size,
+   color and height are chosen instead of inherited from the font. 6px in
+   border-strong, quiet beside the text, centered on the first line's
+   lowercase letters. */
 function Bullet({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex gap-4">
-      <span aria-hidden="true" className="mt-[0.72em] h-px w-3 shrink-0 bg-border-strong" />
+      <span aria-hidden="true" className="mt-[0.66em] h-1.5 w-1.5 shrink-0 rounded-full bg-border-strong" />
       <span className="text-base leading-[1.65] text-text-secondary">{children}</span>
     </li>
   );
