@@ -21,6 +21,15 @@ type Common = {
    * 100ms and this lasts until something else is chosen.
    */
   selected?: boolean;
+  /**
+   * Whether the button spans its column on a phone. On by default: below
+   * 640px every action fills the width it sits in and goes back to hugging its
+   * label from there up. A phone column is narrow enough that a 180px button
+   * floating at the left edge reads as unfinished, and a full-width one is the
+   * easiest target on the screen. Turn it off only for a button that shares a
+   * row with something else.
+   */
+  fillOnPhone?: boolean;
   className?: string;
 };
 
@@ -140,11 +149,13 @@ export function Button({
   iconAfter,
   disabled = false,
   selected = false,
+  fillOnPhone = true,
   className = "",
   ...rest
 }: ButtonProps) {
   const classes = [
     "inline-flex items-center justify-center gap-2",
+    fillOnPhone ? "w-full sm:w-auto" : "",
     "px-5 py-2.5 min-h-[2.5rem]",
     "font-sans text-sm font-medium leading-[1.2] whitespace-nowrap",
     "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
