@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A note set off by a 1px rule down its left edge, 20px from the text. Same type as the body, so it reads as an aside to the prose rather than a louder or quieter version of it. Mirrors the Note component in Figma.",
+          "A note set off by a 1px rule down its left edge, 20px from the text. Same type as the body, so it reads as an aside to the prose rather than a louder or quieter version of it. On a phone, below 640px, the rule and the inset go and it reads as plain prose: a narrow column cannot spare the indent. Mirrors the Note component in Figma, which has the same two versions.",
       },
     },
   },

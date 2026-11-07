@@ -90,7 +90,11 @@ export function Tabs({
         role="tablist"
         aria-label={label}
         onKeyDown={onKeyDown}
-        className="flex flex-wrap items-end gap-x-7 gap-y-2 border-b border-border-subtle"
+        // 16px between labels on a phone, 28 from 640 up. At 28 the three
+        // specimen tabs needed 300px and the phone column has 292, so the
+        // third label dropped to a line of its own under the indicator, which
+        // reads as a second, unrelated row of tabs.
+        className="flex flex-wrap items-end gap-x-4 gap-y-2 border-b border-border-subtle sm:gap-x-7"
       >
         {tabs.map((t) => {
           const selected = t.id === active;

@@ -14,13 +14,18 @@ import type { ReactNode } from "react";
  * lives in the system now because it is a pattern, and a pattern that only
  * exists inside one page is one nobody else can reach for.
  *
+ * On a phone it drops the rule and the inset and reads as plain prose. A
+ * 342px column cannot spare 20px to an indent, and a rule down the edge of a
+ * column that narrow reads as a margin mistake rather than an aside. The
+ * Figma component has the same two versions, Device=Desktop and Mobile.
+ *
  * Spacing above it belongs to the page, through `className`, as with
  * TextBlock.
  */
 export function Note({ className = "", children }: { className?: string; children: ReactNode }) {
   return (
     <p
-      className={`max-w-measure border-l border-border-rule pl-5 text-base leading-[1.7] text-text-secondary ${className}`}
+      className={`max-w-measure border-border-rule text-base leading-[1.7] text-text-secondary sm:border-l sm:pl-5 ${className}`}
     >
       {children}
     </p>

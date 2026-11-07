@@ -15,7 +15,11 @@ export function SiteFooter() {
     // footer sat on the page ground and simply trailed off, which made the end
     // of the site feel like a page that had run out rather than one that had
     // finished.
-    <footer className="mt-32 border-t border-border-subtle bg-surface-raised">
+    // 32px above it on a phone and 128 from 640 up. On a phone the page has
+    // already been one long column for several screens; another 128px of empty
+    // ground before the footer read as the page having stopped early rather
+    // than finished.
+    <footer className="mt-8 border-t border-border-subtle bg-surface-raised sm:mt-32">
       <Container>
         <div className="flex flex-col gap-8 py-12 sm:flex-row sm:items-end sm:justify-between">
           <div>

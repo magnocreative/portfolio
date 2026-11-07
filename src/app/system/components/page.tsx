@@ -64,8 +64,11 @@ function Stage({ children, className = "" }: { children: React.ReactNode; classN
  *  the same label face the rest of the site uses for metadata, so a reader can match
  *  what they are looking at to the prop that produces it. */
 function Cell({ caption, children }: { caption: string; children: React.ReactNode }) {
+  // Full width on a phone, so the specimen behaves the way the component does
+  // in a page: a button there fills its column, and showing it at label width
+  // here would document a phone layout the site never uses.
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex w-full flex-col gap-3 sm:w-auto">
       <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
         {caption}
       </span>

@@ -28,6 +28,10 @@ type Common = {
    * floating at the left edge reads as unfinished, and a full-width one is the
    * easiest target on the screen. Turn it off only for a button that shares a
    * row with something else.
+   *
+   * Pills are the exception and default to off. A pill is a compact object by
+   * definition; stretched across a phone it stops being a pill and becomes a
+   * bar with round ends.
    */
   fillOnPhone?: boolean;
   className?: string;
@@ -149,13 +153,13 @@ export function Button({
   iconAfter,
   disabled = false,
   selected = false,
-  fillOnPhone = true,
+  fillOnPhone,
   className = "",
   ...rest
 }: ButtonProps) {
   const classes = [
     "inline-flex items-center justify-center gap-2",
-    fillOnPhone ? "w-full sm:w-auto" : "",
+    (fillOnPhone ?? shape !== "pill") ? "w-full sm:w-auto" : "",
     "px-5 py-2.5 min-h-[2.5rem]",
     "font-sans text-sm font-medium leading-[1.2] whitespace-nowrap",
     "transition-colors duration-[160ms] ease-[var(--ease-out-quart)]",
