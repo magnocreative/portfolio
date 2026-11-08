@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { isHiddenDraft } from "@/content/case-studies";
 import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
@@ -40,6 +42,9 @@ const contents = [
 ];
 
 export default function SystemCaseStudy() {
+  // A draft is readable on localhost and answers not found once deployed.
+  if (isHiddenDraft("a-system-you-can-inspect")) notFound();
+
   return (
     <main>
       <Container>

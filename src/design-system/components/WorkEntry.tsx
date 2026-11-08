@@ -103,7 +103,12 @@ export function WorkEntry({
   // click into a page that has not been written. `group` lives on the link
   // alone: when the draft branch carried it too, hovering a draft turned its
   // title accent blue and promised a page that was not there.
-  if (isDraft) {
+  //
+  // The one exception is local development: there a draft links through, so a
+  // study can be read in place while it is written. `npm run build` and every
+  // deployment are production, where the draft stays unlinked and its page
+  // answers not found (see isHiddenDraft in content/case-studies).
+  if (isDraft && process.env.NODE_ENV !== "development") {
     return <div className={divider ? "border-b border-border-subtle" : ""}>{body}</div>;
   }
 

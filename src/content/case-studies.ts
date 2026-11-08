@@ -29,6 +29,17 @@ export type CaseStudy = {
   cover?: { src: string; alt: string };
 };
 
+/**
+ * True when a study's page should not be served: it is a draft and this is a
+ * production build. Drafts are readable on localhost while they are written
+ * and answer not found everywhere else, so placeholder text in an unfinished
+ * study can't be reached by guessing its address.
+ */
+export function isHiddenDraft(slug: string) {
+  const study = caseStudies.find((s) => s.slug === slug);
+  return !!study && study.status === "draft" && process.env.NODE_ENV !== "development";
+}
+
 export const caseStudies: CaseStudy[] = [
   // First, because it is the one study a reader can check in full: the system
   // it describes is the site they are on. Draft until the self-service portal
