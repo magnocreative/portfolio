@@ -57,7 +57,8 @@ export default function Work() {
             </TextBlock>
           )}
 
-          <div>
+          {/* Cards 16px apart, as on the résumé: the border separates them. */}
+          <div className="mt-10 flex flex-col gap-4">
             {caseStudies.map((study, i) => (
               <WorkEntry key={study.slug} study={study} index={i} />
             ))}

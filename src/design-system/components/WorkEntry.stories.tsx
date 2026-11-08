@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One row of the work index: an image at 40% and the record at 60%, stacking below md. The record reads in scan order: number and period, the title (the decision), the standfirst (the argument, never truncated), then employer and discipline. Until a study has its visual, the image slot holds its place at 4:3. Each image will be a visual from its case study, made for this site, never a screen.",
+          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%, stacking when the card is under 64rem wide. The record reads in scan order: number, the title (the decision), the standfirst (the argument, never truncated), then a footer bar with the facts on the left and the status on the right. Below 640 the card runs to the screen's edges like the résumé cards. Each image will be a visual from its case study, made for this site, never a screen.",
       },
     },
   },
@@ -32,7 +32,7 @@ export const Published: Story = {
     docs: {
       description: {
         story:
-          "A finished case study. The whole row is a link. On hover the title takes the accent and nothing else moves; the ground does not change, because a row that wells on hover reads as a button and this is a document.",
+          "A finished case study. The whole card is a link and the footer says so: Read the case study, in the accent. On hover the title takes the accent, the arrow nudges 2px and the edge firms from border/subtle to border/default; the ground does not change, because a card that wells on hover reads as a button and this is a document.",
       },
     },
   },
@@ -79,14 +79,14 @@ export const TheIndex: Story = {
     docs: {
       description: {
         story:
-          "All four as the index renders them, one row each under the section rule. Each row closes with its own hairline, so the list ends on a rule rather than on loose space.",
+          "Every study as the index renders them: one card each, 16px apart, 40px under the section head.",
       },
     },
   },
   render: () => (
     <div style={{ padding: "2rem", maxWidth: "84rem", margin: "0 auto" }}>
       <SectionHead count={caseStudies.length}>Case studies</SectionHead>
-      <div>
+      <div style={{ marginTop: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
         {caseStudies.map((study, i) => (
           <WorkEntry key={study.slug} study={study} index={i} />
         ))}

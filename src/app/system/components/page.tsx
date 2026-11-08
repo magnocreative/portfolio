@@ -379,22 +379,24 @@ export default function ComponentsPage() {
                 <Head
                   id="work-entry"
                   title="Work entry"
-                  decision="One row of the work index: an image at 40% and the record at 60%. The
-                  title is capped at 28ch and balanced, and the standfirst is never truncated, because
-                  the standfirst is the argument. Until a study has its visual, the image slot holds
-                  its place at 4:3, so the index already reads at the shape it will have."
+                  decision="One row of the work index: a raised card with the image at 40%, held 16px
+                  from the card's top, bottom and left edge, and the record at 60%. The record closes
+                  on a footer bar, facts on the left and the status on the right, so the row says
+                  whether it can be opened before anyone tries. On a phone the card runs to the
+                  screen's edges, like the résumé cards."
                 />
 
                 <Stage>
-                  <WorkEntry study={caseStudies[1]} index={1} divider={false} />
+                  <WorkEntry study={caseStudies[1]} index={1} />
                 </Stage>
 
                 <Note className="mt-6">
-                  This is the third shape the index has had. A four-column text row came first and
+                  This is the fourth shape the index has had. A four-column text row came first and
                   left the metadata floating about 350px right of each summary. A two-column card grid
                   replaced it and was shorter, but gave each study half the page and no room for an
                   image. The row came back with an image slot, so each study gets the full width and
-                  something to look at besides text. Each image will be a visual from its case
+                  something to look at besides text. Then the rows became cards, in the snug inset
+                  the home page's panel already used, so the list and the panel read as one family. Each image will be a visual from its case
                   study, made for this site, never a screen: the screens belong to the companies that
                   paid for them.
                 </Note>

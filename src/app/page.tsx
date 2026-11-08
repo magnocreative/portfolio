@@ -83,7 +83,7 @@ export default function Home() {
           <section className="pt-32" aria-labelledby="work-heading">
             <SectionHead id="work-heading" count={caseStudies.length}>Case studies</SectionHead>
 
-            <div>
+            <div className="mt-10 flex flex-col gap-4">
               {caseStudies.map((study, i) => (
                 <WorkEntry key={study.slug} study={study} index={i} />
               ))}
