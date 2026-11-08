@@ -3,6 +3,7 @@ import { Container } from "@/design-system/primitives/Container";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
+import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { HclLogo, JpmcLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
 
@@ -216,9 +217,12 @@ export default function Resume() {
           <section id="experience" className="mt-28" aria-labelledby="experience-heading">
             <SectionHead id="experience-heading" className="max-w-measure">Experience</SectionHead>
 
-            <div className="mt-10 flex flex-col gap-16">
+            {/* One card per employer, 24px apart. The cards carry the
+                separation the space used to: 64px of air between employers
+                read as quiet, and lines read as busy. */}
+            <div className="mt-10 flex flex-col gap-6">
               {experience.map((org) => (
-                <article key={org.employer} id={org.id}>
+                <Card as="article" bleed key={org.employer} id={org.id} className="max-w-measure">
                   {/* The mark, then the name with the location under it. The
                       location describes the employer, so it sits with the
                       name rather than out at the right edge, where it stacked
@@ -256,10 +260,14 @@ export default function Resume() {
                       </ul>
                     </div>
                   ))}
-                </article>
+                </Card>
               ))}
 
-              <div className="max-w-measure">
+              {/* Not a card: earlier roles are one line, not a section, and
+                  a card around one sentence is all frame. 40px more than the
+                  gap between cards, so it reads as a coda rather than a
+                  fourth employer. */}
+              <div className="mt-10 max-w-measure">
                 <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
                   Career prior to 2017
                 </span>
