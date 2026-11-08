@@ -180,31 +180,35 @@ export default function Resume() {
               <>
                 <span>Dallas&ndash;Fort Worth, Texas</span>
                 <span>Open to relocation</span>
-                <a
-                  href="mailto:alejandini@gmail.com"
-                  className="text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
-                >
-                  alejandini@gmail.com
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/alejandro-m-fernandini"
-                  className="text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
-                >
-                  LinkedIn
-                </a>
               </>
             }
             lede={[
               "Ten years in design and a working engineering background, focused on the internal systems people use all day to do difficult work. I own design systems, and I build prototypes that prove a design works before engineering commits to it.",
-              "I believe in the double diamond process, where we can learn about a problem and then find a solution for it. We need to ensure our proper discoveries are not neglected, only because we can now deliver faster results with agentic technology, providing a high value, efficient delivery while preserving the quality which impacts the delivery’s long term life.",
+              "I work in the double diamond: understand the problem, then design the solution. Agentic tools have made delivery faster, and with that comes the temptation to skip discovery. I don’t, because fast work only pays off if it still holds up long after it ships.",
             ]}
             actions={
-              <Button
-                href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
-                variant="primary"
-              >
-                Request a PDF
-              </Button>
+              // Where to reach me sits with what to do, not in the facts line
+              // above. The facts line says where I am; this row is every way
+              // to act on it. Four spaced-capital items, two of them underlined
+              // links, made the line above the busiest thing in the header.
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-3">
+                <Button
+                  href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
+                  variant="primary"
+                >
+                  Request a PDF
+                </Button>
+                <Button href="mailto:alejandini@gmail.com" variant="tertiary" fillOnPhone={false}>
+                  Email
+                </Button>
+                <Button
+                  href="https://www.linkedin.com/in/alejandro-m-fernandini"
+                  variant="tertiary"
+                  fillOnPhone={false}
+                >
+                  LinkedIn
+                </Button>
+              </div>
             }
           />
 
