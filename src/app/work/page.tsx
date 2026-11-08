@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "Case studies from ten years of internal software, written as decisions: the call that was made, what it cost, and what happened after.",
 };
 
-/* The index and the homepage list the same four studies, so the two pages have
+/* The index and the homepage list the same studies, so the two pages have
    to earn their difference somewhere other than the entries. The homepage shows
    the work as evidence for a claim about the person. This page is where a
    reader who already decided to look at the work arrives, so it says how the
@@ -23,6 +23,9 @@ export const metadata: Metadata = {
 
    The entries are the same component in the same list. A second design for
    the same data would be two answers to one question. */
+// Small counts read as words in a sentence ("All five"), as house style does.
+const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+
 export default function Work() {
   const published = caseStudies.filter((s) => s.status === "published").length;
 
@@ -49,7 +52,7 @@ export default function Work() {
           {published < caseStudies.length && (
             <TextBlock className="mt-6">
               {published === 0
-                ? "All four are being written now. Each one opens here as it is finished."
+                ? `All ${WORDS[caseStudies.length] ?? caseStudies.length} are being written now. Each one opens here as it is finished.`
                 : `${caseStudies.length - published} of these are still being written. Each one opens here as it is finished.`}
             </TextBlock>
           )}

@@ -30,6 +30,20 @@ export type CaseStudy = {
 };
 
 export const caseStudies: CaseStudy[] = [
+  // First, because it is the one study a reader can check in full: the system
+  // it describes is the site they are on. Draft until the self-service portal
+  // outcome is written in and the four evidence images are exported from the
+  // Figma library; the page itself already builds at /work/a-system-you-can-inspect.
+  {
+    slug: "a-system-you-can-inspect",
+    title: "A system you can inspect, because the ones at work can’t be shown",
+    standfirst:
+      "Every design system I’ve owned lives behind an employer’s login. So I built one in the open, in code and in Figma, from what those systems taught me, and wrote down what every decision cost.",
+    disciplines: ["Design systems", "Front-end engineering", "Documentation"],
+    employer: "MagnoCreative",
+    period: "2026",
+    status: "draft",
+  },
   // PLACEHOLDER. The title, standfirst and period below are written to the
   // right shape, not from the real account — replace all three once the draft
   // is voice-checked. Everything here stays on the safe side of the rule
