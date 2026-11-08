@@ -5,14 +5,53 @@ import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { KeyValueList } from "@/design-system/components/KeyValueList";
+import { Tag } from "@/design-system/components/Tag";
+import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 
-const systemFacts = [
-  { key: "tokens", value: "three tiers" },
-  { key: "color", value: "OKLCH ramps" },
-  { key: "themes", value: "paper / slate" },
-  { key: "contrast", value: "WCAG AA" },
-];
+/**
+ * A few of the system's own components, live, where a list of facts about the
+ * system used to be. The copy beside it says the strongest thing a systems
+ * designer can show is not a screenshot, so this is not one: the buttons
+ * respond to the pointer, and the theme control repaints the whole page,
+ * which is the token architecture demonstrating itself.
+ *
+ * The buttons do nothing when pressed. They are specimens, the same ones the
+ * components page shows, and they say so in the caption.
+ */
+function SystemSpecimen() {
+  const row = "flex flex-col gap-3";
+  const caption = "font-label text-xs uppercase tracking-[0.11em] text-text-tertiary";
+  return (
+    <figure className="flex flex-col gap-7 rounded-sm border border-border-subtle bg-surface-page p-6 sm:p-8">
+      <div className={row}>
+        <span className={caption}>Button</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="primary" fillOnPhone={false}>Primary</Button>
+          <Button variant="secondary" fillOnPhone={false}>Secondary</Button>
+          <Button variant="tertiary" fillOnPhone={false}>Tertiary</Button>
+        </div>
+      </div>
+      <div className={row}>
+        <span className={caption}>Tag</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <Tag tone="pass">AA</Tag>
+          <Tag tone="neutral">AA Large</Tag>
+          <Tag tone="danger">Fail</Tag>
+          <Tag dot>In writing</Tag>
+        </div>
+      </div>
+      <div className={row}>
+        <span className={caption}>Theme, try it</span>
+        <div className="-ml-1.5">
+          <ThemeToggle />
+        </div>
+      </div>
+      <figcaption className="font-label text-xs leading-[1.5] text-text-tertiary">
+        Live components from the system, not pictures of them.
+      </figcaption>
+    </figure>
+  );
+}
 
 export default function Home() {
   return (
@@ -63,7 +102,7 @@ export default function Home() {
                 row rather than a grid with fixed columns. */}
             <SectionHead id="system-heading">Design system</SectionHead>
 
-            <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_20rem] lg:items-center lg:gap-20">
+            <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_26rem] lg:items-center lg:gap-16">
               <div>
                 {/* The "Live artifact" eyebrow that used to sit here is gone.
                     With the section head above, it was the second of three
@@ -89,7 +128,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <KeyValueList items={systemFacts} />
+              <SystemSpecimen />
             </div>
           </section>
         </Container>
