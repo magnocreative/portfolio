@@ -23,7 +23,9 @@ function SystemSpecimen() {
   const row = "flex flex-col gap-3";
   const caption = "font-label text-xs uppercase tracking-[0.11em] text-text-tertiary";
   return (
-    <figure className="flex flex-col gap-7 rounded-sm border border-border-subtle bg-surface-page p-6 sm:p-8">
+    // Fills the height of its column, so in the snug panel its top and bottom
+    // edges sit 16px from the panel's, and its contents center in it.
+    <figure className="flex h-full flex-col justify-center gap-7 rounded-sm border border-border-subtle bg-surface-page p-6 sm:p-8">
       <div className={row}>
         <span className={caption}>Button</span>
         <div className="flex flex-wrap items-center gap-2">
@@ -108,7 +110,7 @@ export default function Home() {
               headingAs="h3"
               heading="This site runs on a design system you can read."
               asideWidth="wide"
-              inset="tight"
+              asideInset="snug"
               aside={<SystemSpecimen />}
               action={
                 // Primary, and the only one on the page. The panel is the

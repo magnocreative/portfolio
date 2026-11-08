@@ -54,7 +54,7 @@ export function FeaturePanel({
   asideWidth = "medium",
   asideSide = "end",
   align = "center",
-  inset = "default",
+  asideInset = "standard",
   className = "",
   children,
 }: {
@@ -72,14 +72,15 @@ export function FeaturePanel({
   asideSide?: "start" | "end";
   align?: "center" | "start";
   /**
-   * "tight" takes the padding to 24px where the columns sit side by side,
-   * for an aside that is itself a bordered box. At 48px the two borders, the
-   * panel's and the box's, stood far enough apart to read as a heavy double
-   * frame; at 24 the box sits close to the panel's edge and the pair reads as
-   * one object (Alejandro, on the home page's specimen). Stacked, below
-   * 1280, the usual padding applies.
+   * "snug" holds the aside 16px from the panel's edges (top, bottom and its
+   * own side when the columns sit together; bottom and both sides when they
+   * stack) while the main column keeps the full 48px. For an aside that is
+   * itself a bordered box, like the home page's component specimen. At the
+   * standard 48px the two frames stood far enough apart to read as a heavy
+   * double border; at 24 all round the text lost its margin; snug keeps the
+   * text's 48 and tucks the box close to the edge (Alejandro, November 2026).
    */
-  inset?: "default" | "tight";
+  asideInset?: "standard" | "snug";
   className?: string;
   children?: ReactNode;
 }) {
@@ -103,11 +104,42 @@ export function FeaturePanel({
     </div>
   );
 
+  if (asideInset === "snug") {
+    // The padding moves from the panel onto its two columns: 48 (32 on a
+    // phone) around the main column, 16 around the aside on every side but
+    // the one it shares with the text. The aside stretches to the panel's
+    // height beside the text, so its box can fill it.
+    const snugMain = (
+      <div className={`p-8 md:p-12 ${align === "center" ? "xl:self-center" : ""}`}>{main}</div>
+    );
+    const snugAside = <div className="px-4 pb-4 xl:py-4 xl:pl-0">{aside}</div>;
+    return (
+      <div
+        className={[
+          "grid grid-cols-1 rounded-sm border border-border-subtle bg-surface-raised",
+          cols,
+          className,
+        ].join(" ")}
+      >
+        {asideSide === "start" ? (
+          <>
+            {snugAside}
+            {snugMain}
+          </>
+        ) : (
+          <>
+            {snugMain}
+            {snugAside}
+          </>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       className={[
         "grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 xl:gap-16",
-        inset === "tight" ? "xl:p-6" : "",
         cols,
         align === "center" ? "xl:items-center" : "",
         className,
