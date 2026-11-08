@@ -65,6 +65,11 @@ function Cover({ study }: { study: CaseStudy }) {
  */
 export function WorkEntry({ study, index }: { study: CaseStudy; index: number }) {
   const isDraft = study.status === "draft";
+  // A draft is not a link in production: nobody should click into a page that
+  // has not been written. Locally it links through, so a study can be read in
+  // place while it is written (its page answers not found once deployed; see
+  // isHiddenDraft in content/case-studies).
+  const linked = !isDraft || process.env.NODE_ENV === "development";
 
   const body = (
     <div className="grid grid-cols-1 @5xl:grid-cols-[2fr_3fr] @5xl:items-center">
@@ -77,8 +82,22 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
           {String(index + 1).padStart(2, "0")}
         </span>
 
+        {/* The title is the link, and its ::after stretches over the whole
+            card, so anywhere on the card opens the study while a screen reader
+            hears one link named by the title, not the whole card read aloud.
+            The ring is drawn on the card (has-focus-visible below), not around
+            the title's text. */}
         <h3 className="mt-4 max-w-[28ch] font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
-          {study.title}
+          {linked ? (
+            <Link
+              href={`/work/${study.slug}`}
+              className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
+            >
+              {study.title}
+            </Link>
+          ) : (
+            study.title
+          )}
         </h3>
 
         {/* Capped at 40rem, about 75 characters a line. Without the rail the
@@ -109,27 +128,23 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
     </div>
   );
 
-  // A draft is not a link, so it gets no hover and no pointer. Nobody should
-  // click into a page that has not been written. `group` lives on the link
-  // alone: when the draft branch carried it too, hovering a draft turned its
-  // title accent blue and promised a page that was not there.
+  // The whole card is the target, but it is not one big link: see the title.
+  // On hover the edge firms to border/strong, the title takes the accent and
+  // the arrow nudges. The ground does not change: the card is already the
+  // lightest surface in the light theme, and a card that changes color on
+  // hover reads as a button, while this is a document.
   //
-  // The one exception is local development: there a draft links through, so a
-  // study can be read in place while it is written. `npm run build` and every
-  // deployment are production, where the draft stays unlinked and its page
-  // answers not found (see isHiddenDraft in content/case-studies).
-  if (isDraft && process.env.NODE_ENV !== "development") {
+  // A draft in production gets none of that: no `group`, no hover, no pointer,
+  // so it never promises a page that is not there.
+  if (!linked) {
     return <article className="@container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0">{body}</article>;
   }
 
   return (
-    <article>
-      <Link
-        href={`/work/${study.slug}`}
-        className="group block @container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 transition-colors duration-[160ms] hover:border-border-default"
-      >
-        {body}
-      </Link>
+    <article
+      className="group relative @container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 transition-[border-color] duration-[160ms] hover:border-border-strong has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-focus-ring"
+    >
+      {body}
     </article>
   );
 }

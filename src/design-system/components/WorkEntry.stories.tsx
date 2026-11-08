@@ -32,7 +32,7 @@ export const Published: Story = {
     docs: {
       description: {
         story:
-          "A finished case study. The whole card is a link and the footer says so: Read the case study, in the accent. On hover the title takes the accent, the arrow nudges 2px and the edge firms from border/subtle to border/default; the ground does not change, because a card that wells on hover reads as a button and this is a document.",
+          "A finished case study. The whole card opens it, but the link is the title: its ::after stretches over the card, so a screen reader hears one link named by the title, and the keyboard focus ring is drawn around the card. The footer says where it goes: Read the case study, in the accent. On hover the edge firms from border/subtle to border/strong, the title takes the accent and the arrow nudges 2px. The ground does not change: a card that changes color on hover reads as a button, and this is a document.",
       },
     },
   },
@@ -47,7 +47,7 @@ export const Draft: Story = {
     docs: {
       description: {
         story:
-          "A case study still being written. Marked, never dimmed. The first version faded drafts to 55% opacity, which made the most important content on the page the least legible thing on it, which is exactly backwards. A draft renders as a div rather than a link, so nobody clicks into an empty page, and `group` lives on the link branch alone: without that, hovering a draft turned its title accent blue and promised a page that was not there.",
+          "A case study still being written. Marked, never dimmed. The first version faded drafts to 55% opacity, which made the most important content on the page the least legible thing on it, which is exactly backwards. A draft has no link in production, so nobody clicks into an empty page, and `group` lives on the linked branch alone: without that, hovering a draft turned its title accent blue and promised a page that was not there.",
       },
     },
   },
