@@ -90,13 +90,18 @@ export function PageHeader({
         </div>
       )}
 
-      <p
+      {/* One paragraph or several. An array becomes one <p> each, 20px apart,
+          because a paragraph cannot hold another and a line break inside one
+          is not a paragraph. */}
+      <div
         className={`${
           type === "resume" ? "mt-12" : "mt-14"
-        } max-w-[46rem] text-lg leading-[1.65] text-text-secondary`}
+        } flex max-w-[46rem] flex-col gap-5 text-lg leading-[1.65] text-text-secondary`}
       >
-        {lede}
-      </p>
+        {(Array.isArray(lede) ? lede : [lede]).map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+      </div>
 
       {actions && <div className="mt-8">{actions}</div>}
     </section>

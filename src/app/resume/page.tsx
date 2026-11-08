@@ -194,7 +194,10 @@ export default function Resume() {
                 </a>
               </>
             }
-            lede="Experience designer with ten years in design and a working engineering background, focused on the internal systems people use all day to do difficult work. I own design systems, and I build the prototypes that prove a design works before engineering commits to it."
+            lede={[
+              "Ten years in design and a working engineering background, focused on the internal systems people use all day to do difficult work. I own design systems, and I build prototypes that prove a design works before engineering commits to it.",
+              "I believe in the double diamond process, where we can learn about a problem and then find a solution for it. We need to ensure our proper discoveries are not neglected, only because we can now deliver faster results with agentic technology, providing a high value, efficient delivery while preserving the quality which impacts the delivery’s long term life.",
+            ]}
             actions={
               <Button
                 href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
