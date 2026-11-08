@@ -7,6 +7,7 @@ import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { Tag } from "@/design-system/components/Tag";
 import { ThemeToggle } from "@/design-system/components/ThemeToggle";
+import { FeaturePanel } from "@/design-system/components/FeaturePanel";
 
 /**
  * A few of the system's own components, live, where a list of facts about the
@@ -102,34 +103,26 @@ export default function Home() {
                 row rather than a grid with fixed columns. */}
             <SectionHead id="system-heading">Design system</SectionHead>
 
-            <div className="mt-10 grid grid-cols-1 gap-12 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_26rem] lg:items-center lg:gap-16">
-              <div>
-                {/* The "Live artifact" eyebrow that used to sit here is gone.
-                    With the section head above, it was the second of three
-                    labels stacked inside 200px, and the heading under it
-                    already says the same thing in a full sentence. */}
-                <h3 className="max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">
-                  This site runs on a design system you can read.
-                </h3>
-                <p className="mt-5 max-w-[52ch] text-base text-text-secondary">
-                  Tokens, components, the accessibility model, and the reasoning behind each, published
-                  and open. The strongest thing a systems designer can show isn&rsquo;t a
-                  screenshot. It&rsquo;s a system somebody else can inspect, use, and disagree with.
-                </p>
-                <div className="mt-7">
-                  {/* Primary, and the only one on the page. The panel is the
-                      single thing the homepage asks a reviewer to go and read,
-                      so it gets the solid fill and nothing else competes for
-                      it. A second primary anywhere on this page would make
-                      both of them mean less. */}
-                  <Button href="/system" variant="primary" iconAfter={<ArrowRight />}>
-                    Read the system
-                  </Button>
-                </div>
-              </div>
-
-              <SystemSpecimen />
-            </div>
+            <FeaturePanel
+              className="mt-10"
+              headingAs="h3"
+              heading="This site runs on a design system you can read."
+              asideWidth="wide"
+              aside={<SystemSpecimen />}
+              action={
+                // Primary, and the only one on the page. The panel is the
+                // single thing the homepage asks a reviewer to go and read, so
+                // it gets the solid fill. The specimen beside it shows a
+                // Primary too, but as a labeled sample, not an action.
+                <Button href="/system" variant="primary" iconAfter={<ArrowRight />}>
+                  Read the system
+                </Button>
+              }
+            >
+              Tokens, components, the accessibility model, and the reasoning behind each, published
+              and open. The strongest thing a systems designer can show isn&rsquo;t a screenshot.
+              It&rsquo;s a system somebody else can inspect, use, and disagree with.
+            </FeaturePanel>
           </section>
         </Container>
       </main>

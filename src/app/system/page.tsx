@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Container, Label } from "@/design-system/primitives/Container";
+import { Container } from "@/design-system/primitives/Container";
 import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
 import { SectionNav } from "@/design-system/components/SectionNav";
+import { FeaturePanel } from "@/design-system/components/FeaturePanel";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
@@ -216,27 +217,24 @@ export default function SystemPage() {
 
               {/* Where to read it */}
             <section id="source" className="mt-24">
-            <div className="grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[1fr_22rem] lg:items-center lg:gap-20">
-              <div>
-                <Label className="!text-text-accent">Read the source</Label>
-                <h2 className="mt-5 max-w-[26ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary">
-                  Every claim on this page is checkable.
-                </h2>
-                <p className="mt-5 max-w-[52ch] text-base text-text-secondary">
-                  The tokens are one file. The components are next to their own stories. Nothing here is a screenshot of
-                  work done elsewhere. It is the thing itself, and you are looking at it running.
-                </p>
-              </div>
-
-              <KeyValueList
-                items={[
-                  { key: "tokens", value: "src/styles/tokens.css" },
-                  { key: "components", value: "src/design-system/" },
-                  { key: "stories", value: "npm run storybook" },
-                  { key: "source", value: "github.com/magnocreative/portfolio" },
-                ]}
-              />
-            </div>
+            <FeaturePanel
+              eyebrow="Read the source"
+              heading="Every claim on this page is checkable."
+              asideWidth="medium"
+              aside={
+                <KeyValueList
+                  items={[
+                    { key: "tokens", value: "src/styles/tokens.css" },
+                    { key: "components", value: "src/design-system/" },
+                    { key: "stories", value: "npm run storybook" },
+                    { key: "source", value: "github.com/magnocreative/portfolio" },
+                  ]}
+                />
+              }
+            >
+              The tokens are one file. The components are next to their own stories. Nothing here is a
+              screenshot of work done elsewhere. It is the thing itself, and you are looking at it running.
+            </FeaturePanel>
             </section>
             </div>
 

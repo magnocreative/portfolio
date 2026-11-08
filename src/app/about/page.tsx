@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import { SectionNav } from "@/design-system/components/SectionNav";
+import { FeaturePanel } from "@/design-system/components/FeaturePanel";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
 import { TextBlock } from "@/design-system/components/TextBlock";
@@ -159,21 +160,27 @@ export default function About() {
                 3.60:1 here against 3.82:1. Re-measured when the panel was added
                 rather than carried over, because a ratio quoted against the
                 wrong surface is just a number somebody made up. */}
-            <div className="mt-10 grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 lg:grid-cols-[15rem_1fr] lg:gap-16">
-              <div>
-                <Logo
-                  title="The Magno Creative mark"
-                  className="w-full sm:w-[180px] md:w-[220px] lg:w-full h-auto"
-                />
-                <KeyValueList
-                  className="mt-6"
-                  items={[
-                    { key: "--mark-deep", value: "#4e729a" },
-                    { key: "--mark-light", value: "#80a2c4" },
-                  ]}
-                />
-              </div>
-
+            <FeaturePanel
+              className="mt-10"
+              asideWidth="narrow"
+              asideSide="start"
+              align="start"
+              aside={
+                <div>
+                  <Logo
+                    title="The Magno Creative mark"
+                    className="w-full sm:w-[180px] md:w-[220px] xl:w-full h-auto"
+                  />
+                  <KeyValueList
+                    className="mt-6"
+                    items={[
+                      { key: "--mark-deep", value: "#4e729a" },
+                      { key: "--mark-light", value: "#80a2c4" },
+                    ]}
+                  />
+                </div>
+              }
+            >
               <div className="flex max-w-measure flex-col gap-6 text-base leading-[1.7] text-text-secondary">
                 <p>
                   Two peaks forming an M, the snowcaps cut as negative space. I&rsquo;m from the
@@ -208,7 +215,7 @@ export default function About() {
                   </Button>
                 </div>
               </div>
-            </div>
+            </FeaturePanel>
           </section>
 
         {/* How I work */}
