@@ -17,7 +17,7 @@ function Cover({ study }: { study: CaseStudy }) {
           src={study.cover.src}
           alt={study.cover.alt}
           fill
-          sizes="(min-width: 1024px) 26rem, (min-width: 768px) 40vw, 100vw"
+          sizes="(min-width: 1024px) 30rem, (min-width: 768px) 40vw, 100vw"
           className="object-cover"
         />
       ) : (
@@ -53,23 +53,28 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
       <Cover study={study} />
 
       <div className="flex flex-col">
-        <div className="flex items-baseline justify-between">
-          <span className="font-label text-xs text-text-tertiary">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="font-label text-xs text-text-tertiary">{study.period}</span>
-        </div>
+        <span className="font-label text-xs text-text-tertiary">
+          {String(index + 1).padStart(2, "0")}
+        </span>
 
         <h3 className="mt-4 max-w-[28ch] font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
           {study.title}
         </h3>
 
-        <p className="mt-3 text-base text-text-secondary">{study.standfirst}</p>
+        {/* Capped at 40rem, about 75 characters a line. Without the rail the
+            column is 700px wide at 1440, and an uncapped standfirst ran to
+            110 characters: long enough to lose the start of the next line. */}
+        <p className="mt-3 max-w-[40rem] text-base text-text-secondary">{study.standfirst}</p>
 
         <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-label text-xs text-text-tertiary">
+          {/* The period joins the other facts here rather than sitting alone at
+              the far right of the column, 700px from the number it belonged
+              beside. Employer, discipline, when: one line to read. */}
           <span>{study.employer}</span>
           <span aria-hidden="true">·</span>
           <span>{study.disciplines[0]}</span>
+          <span aria-hidden="true">·</span>
+          <span>{study.period}</span>
         </div>
 
         {isDraft && (
