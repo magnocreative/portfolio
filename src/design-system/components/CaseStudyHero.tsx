@@ -31,7 +31,8 @@ export const heroFade = {
  * so the band ends in the page rather than on a hard line.
  *
  * The art is desktop only, from 1280 (xl), where the text column and the art
- * each have room. Below that the band is the plain page header on the plain
+ * each have room; from 1440 the column widens and the art narrows (see the
+ * note on the column below). Below that the band is the plain page header on the plain
  * ground: on a phone a side image has no room, and an image above the title
  * pushes the title halfway down the first screen.
  *
@@ -69,7 +70,7 @@ export function CaseStudyHero({
         <div
           aria-hidden="true"
           inert
-          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] xl:block"
+          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] xl:block min-[1440px]:w-[44%]"
           style={fade ? heroFade : undefined}
         >
           {art}
@@ -77,9 +78,14 @@ export function CaseStudyHero({
       )}
 
       <Container>
-        {/* 40rem holds the text clear of the art: at 1280 the art's mask is
-            still fully transparent where this column ends. */}
-        <div className="relative pb-6 xl:max-w-[40rem] xl:pb-24">
+        {/* The column is sized against the art, so the text never sits on
+            it: where the column ends, the art's mask is still fully
+            transparent. From 1280 the column is 40rem beside art 56% wide.
+            From 1440 there is room for a 51rem column, which sets a 64px
+            title of this length in three lines rather than four, so the art
+            narrows to 44% to make way (Alejandro, November 2026). Between
+            1280 and 1439 both cannot fit, and the title takes four lines. */}
+        <div className="relative pb-6 xl:pb-24 min-[1280px]:max-w-[40rem] min-[1440px]:max-w-[51rem]">
           <PageHeader type="withSectionNav" breadcrumb={breadcrumb} title={title} lede={lede} />
         </div>
       </Container>
