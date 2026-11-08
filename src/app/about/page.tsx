@@ -105,7 +105,7 @@ export default function About() {
                 panel's 1px border, its 3rem padding, its 15rem logo column and
                 its 4rem gap, less this row's 1.75rem gap: 20.25rem plus 1px.
                 The two sections then read as one grid instead of two layouts
-                stacked. At 1440 the text column is 447px. */}
+                stacked. At 1440 the text column is 591px. */}
             <div className="mt-10 text-base leading-[1.7] text-text-secondary min-[1360px]:grid min-[1360px]:grid-cols-[calc(20.25rem+1px)_1fr] min-[1360px]:items-start min-[1360px]:gap-7">
               <figure className="mb-7 w-full sm:max-[1359px]:float-left sm:max-[1359px]:mr-7 sm:max-[1359px]:mb-3 sm:max-[1359px]:w-44 lg:max-[1359px]:w-52 min-[1360px]:mb-0">
                 <Image
