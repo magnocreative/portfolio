@@ -12,6 +12,7 @@ import "./globals.css";
 import { themeInitScript } from "@/design-system/components/ThemeToggle";
 import { SiteHeader, railInitScript } from "@/design-system/components/SiteHeader";
 import { SiteFooter } from "@/design-system/components/SiteFooter";
+import { NAV_LAYOUT } from "@/design-system/config/navigation";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://magnocreative.com"),
@@ -42,7 +43,7 @@ export default function RootLayout({
     // page's first element into view instead, and that element starts 64px
     // down, under the sticky banner. With the override, the new page simply
     // opens at the top. In-page anchors (the section nav) still glide.
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" data-nav={NAV_LAYOUT} suppressHydrationWarning>
       <head>
         {/* Applies the stored theme before first paint. Without it the page
             renders at the system theme for one frame — the flash that makes
@@ -52,7 +53,7 @@ export default function RootLayout({
             visible of the two if it is missed: the theme getting it wrong is a
             flash of the wrong color, the rail getting it wrong is the entire
             page sliding 232px sideways after it has already been read. */}
-        <script dangerouslySetInnerHTML={{ __html: railInitScript }} />
+        {railInitScript && <script dangerouslySetInnerHTML={{ __html: railInitScript }} />}
       </head>
       <body className="antialiased">
         {/* The shell lives here rather than in each page. Five pages each
@@ -61,10 +62,17 @@ export default function RootLayout({
             inside each copy of it. */}
         <SiteHeader />
 
-        {/* The content column, inset by exactly the rail's width from 1280px,
-            from the same token the rail is sized by, so the two cannot drift.
-            Below 1280 there is no rail and no inset. */}
-        <div className="transition-[padding] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none min-[1280px]:pl-[var(--rail-width)]">
+        {/* With the rail (NAV_LAYOUT "rail"), the content column is inset by
+            exactly the rail's width from 1280px, from the same token the rail
+            is sized by, so the two cannot drift. With the nav on top there is
+            nothing to clear, and the column is the page's own. */}
+        <div
+          className={
+            NAV_LAYOUT === "rail"
+              ? "transition-[padding] duration-[240ms] ease-[var(--ease-out-quart)] motion-reduce:transition-none min-[1280px]:pl-[var(--rail-width)]"
+              : undefined
+          }
+        >
           {children}
           <SiteFooter />
         </div>

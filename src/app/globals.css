@@ -51,8 +51,13 @@
        Below 1280 the bounce is back, and with it pull-to-refresh on Android.
        That was the cost the old blanket rule avoided; the bounce is worth
        more to a phone than the protection from an accidental refresh. */
-    @media (min-width: 1280px) {
-      overscroll-behavior-y: none;
+    /* Only while the rail is in use (data-nav="rail", set from NAV_LAYOUT).
+       With the nav in the banner there is nothing fixed for the banner to
+       slide over, and the bounce works at every width. */
+    &[data-nav="rail"] {
+      @media (min-width: 1280px) {
+        overscroll-behavior-y: none;
+      }
     }
   }
 

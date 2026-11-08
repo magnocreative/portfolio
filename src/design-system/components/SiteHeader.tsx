@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 import { Logo } from "@/design-system/brand/Logo";
 import { WorkIcon, SystemIcon, AboutIcon, ResumeIcon } from "@/design-system/components/Icon";
+import { NAV_LAYOUT } from "@/design-system/config/navigation";
 
 // Résumé sits in the same list as the rest rather than being appended by hand.
 // A second copy of the markup meant every change to a nav link had to be made
@@ -88,7 +89,7 @@ function NavList({
    * because a tile is 167 x 94 and an outline at 1.8:1 closes. Containers need
    * area, which is the whole reason the two things are one prop.
    */
-  variant?: "rows" | "grid";
+  variant?: "rows" | "grid" | "bar";
   /**
    * Whether this list's labels follow the rail's collapsed state.
    *
@@ -134,6 +135,12 @@ function NavList({
 }) {
   const currentHref = useCurrentHref();
   const grid = variant === "grid";
+  // The banner's row of links, from 1280 up while NAV_LAYOUT is "top". Labels
+  // only: four icons beside four words is the same information twice, and at
+  // the top of every page it is the busiest thing on screen. The current link
+  // keeps the rail's language, the sunken pill and the accent label, so
+  // "you are here" looks the same wherever the nav is drawn.
+  const bar = variant === "bar";
   return (
     <nav aria-label="Main">
       {/* `gap-2` in the grid rather than `gap-1`: a drawn edge needs air around
@@ -158,7 +165,9 @@ function NavList({
         className={
           grid
             ? "grid grid-cols-2 gap-2 sm:grid-cols-4"
-            : "relative flex flex-col gap-1"
+            : bar
+              ? "flex items-center gap-1"
+              : "relative flex flex-col gap-1"
         }
       >
         {nav.map(({ Icon, ...item }) => {
@@ -211,7 +220,7 @@ function NavList({
                       // other three looking like they had lost something.
                       "flex flex-col items-center justify-center gap-2.5 py-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"
                     : "flex items-center gap-3",
-                  grid ? "" : rowClassName,
+                  grid ? "" : bar ? "min-h-10 px-3" : rowClassName,
                   current ? "bg-surface-sunken" : "hover:bg-surface-page",
                 ].join(" ")}
               >
@@ -259,6 +268,7 @@ function NavList({
                     at 24px. That is why the number is not round: it is derived
                     from the artwork rather than chosen, and rounding it to 88
                     or 96 reintroduces the asymmetry it exists to remove. */}
+                {!bar && (
                 <span
                   className={`grid h-6 w-6 shrink-0 place-items-center ${
                     grid ? "" : "-ml-[3.6px]"
@@ -272,6 +282,7 @@ function NavList({
                     }`}
                   />
                 </span>
+                )}
                 <span
                   // Weight, not just color. The vertical marker used to be the
                   // non-color half of this state; without it the current row
@@ -337,7 +348,12 @@ export const RAIL_STORAGE_KEY = "mc-rail";
  * failure the theme script exists to prevent — a stored preference arriving
  * after the paint it was meant to govern.
  */
-export const railInitScript = `(function(){try{if(localStorage.getItem("${RAIL_STORAGE_KEY}")==="collapsed"){document.documentElement.setAttribute("data-rail","collapsed")}}catch(e){}})();`;
+// Empty while the nav is on top: there is no rail to restore, and an
+// attribute set for a component that is not rendered is state with no owner.
+export const railInitScript =
+  NAV_LAYOUT === "rail"
+    ? `(function(){try{if(localStorage.getItem("${RAIL_STORAGE_KEY}")==="collapsed"){document.documentElement.setAttribute("data-rail","collapsed")}}catch(e){}})();`
+    : "";
 
 /** A chevron pointing at the edge it will move toward. It rotates rather than
  *  swapping paths, and the rotation is driven by the same `data-rail`
@@ -778,7 +794,17 @@ function Banner() {
           there is no rail, so the extra 12 aligns with nothing and costs a
           phone 24px of its 390. The inset follows the thing it was measured
           against rather than being a constant that happens to be right once. */}
-      <div className="px-6 min-[1280px]:px-9">
+      {/* With the nav on top there is no rail to line up with, so from 1280
+          the banner takes the page's own column instead: the same 84rem cap
+          and 64px gutters the Container gives every section, which puts the
+          mark directly above the left edge of the content. */}
+      <div
+        className={
+          NAV_LAYOUT === "rail"
+            ? "px-6 min-[1280px]:px-9"
+            : "px-6 min-[1280px]:mx-auto min-[1280px]:max-w-wide min-[1280px]:px-16"
+        }
+      >
         <div className="flex h-[var(--banner-height)] items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3 text-sm font-medium text-text-primary">
             {/* 40 x 30. The mark's natural aspect is 4:3 and its ink fills the
@@ -796,6 +822,15 @@ function Banner() {
           </Link>
 
           <div className="flex items-center gap-2">
+            {/* The four links, from 1280 up, when the nav lives here rather
+                than in the rail. Below 1280 they are in the menu sheet, as
+                before. 24px from the theme control, so the links read as one
+                group and the control as another. */}
+            {NAV_LAYOUT === "top" && (
+              <div className="mr-4 hidden min-[1280px]:block">
+                <NavList variant="bar" />
+              </div>
+            )}
             {/* In the banner from 640 up, where it fits beside the name, and in
                 the disclosure panel below that. At 390 the name, the mark, the
                 three chips and the hamburger come to 419px against 342px of
@@ -1060,7 +1095,9 @@ export function SiteHeader() {
   return (
     <>
       <Banner />
-      <Rail />
+      {/* Retired while NAV_LAYOUT is "top". Kept whole, so setting it back to
+          "rail" restores the rail, its collapse and its remembered state. */}
+      {NAV_LAYOUT === "rail" && <Rail />}
     </>
   );
 }
