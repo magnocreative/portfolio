@@ -212,17 +212,16 @@ export default function Resume() {
             <div className="mt-10 flex flex-col gap-16">
               {experience.map((org) => (
                 <article key={org.employer} id={org.id}>
-                  {/* The mark, then the name and location as one block beside
-                      it. The block wraps on its own, so on a phone the
-                      location drops under the name and starts where the name
-                      starts, not back under the mark. The mark is centered on
-                      the whole block: one line on a wide screen, two on a
-                      phone. Inside the block the two stay baseline aligned.
-                      The mark is 48 on a phone, where it stands beside two
-                      lines, and 40 from 640 up, where it stands beside one. */}
+                  {/* The mark, then the name with the location under it. The
+                      location describes the employer, so it sits with the
+                      name rather than out at the right edge, where it stacked
+                      with the role dates into two lines of spaced capitals.
+                      That leaves the right edge to the dates alone. The block
+                      is always two lines, so the mark is 48 at every width and
+                      centered on both lines. */}
                   <div className="flex max-w-measure items-center gap-3">
-                    <org.Logo className="h-12 w-12 shrink-0 sm:h-10 sm:w-10" />
-                    <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                    <org.Logo className="h-12 w-12 shrink-0" />
+                    <div className="flex min-w-0 flex-col gap-1">
                       <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                         {org.employer}
                       </h3>
