@@ -32,7 +32,7 @@ export const Published: Story = {
     docs: {
       description: {
         story:
-          "A finished case study. The whole card opens it, but the link is the title: its ::after stretches over the card, so a screen reader hears one link named by the title, and the keyboard focus ring is drawn around the card. The footer says where it goes: Read the case study, in the accent. On hover the edge firms from border/subtle to border/rule, the title takes the accent, the arrow nudges 2px and the fill settles quietly to surface/page, the same hover surface the top nav uses.",
+          "A finished case study. The whole card opens it, but the link is the title: its ::after stretches over the card, so a screen reader hears one link named by the title, and the keyboard focus ring is drawn around the card. The footer says where it goes: Read the case study, in the accent. On hover the edge firms from border/subtle to border/default, the title takes the accent, the arrow nudges 2px and the fill settles quietly to surface/page, the same hover surface the top nav uses.",
       },
     },
   },

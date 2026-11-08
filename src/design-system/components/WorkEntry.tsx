@@ -129,16 +129,17 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   );
 
   // The whole card is the target, but it is not one big link: see the title.
-  // On hover the edge firms to border/rule, the title takes the accent, the
+  // On hover the edge firms to border/default, the title takes the accent, the
   // arrow nudges, and the fill settles from surface/raised to surface/page:
   // the same hover surface the top nav uses, so no new role. It is kept very
   // quiet on purpose (Alejandro, November 2026); the edge keeps the card's
   // shape while the fill meets the page. Only border and fill animate: the
   // focus ring must not fade in from currentColor.
   //
-  // border/rule, not border/strong: strong read as a frame snapping on, one
-  // step louder than a quiet fill needs. border/default was tried too and lost
-  // the card's shape in the light theme once the fill met the page.
+  // border/default, the quietest step up from the resting edge (Alejandro,
+  // November 2026). border/strong and border/rule both read as a frame
+  // snapping on. In the light theme the edge nearly meets the page once the
+  // fill does; the accent title and the arrow carry the hover from there.
   //
   // A draft in production gets none of that: no `group`, no hover, no pointer,
   // so it never promises a page that is not there.
@@ -148,7 +149,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
 
   return (
     <article
-      className="group relative @container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 transition-[border-color,background-color] duration-[160ms] hover:border-border-rule hover:bg-surface-page has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-focus-ring"
+      className="group relative @container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 transition-[border-color,background-color] duration-[160ms] hover:border-border-default hover:bg-surface-page has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-focus-ring"
     >
       {body}
     </article>
