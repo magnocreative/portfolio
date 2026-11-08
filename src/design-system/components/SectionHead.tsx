@@ -12,15 +12,17 @@ import type { ReactNode } from "react";
  * Most sections now open onto something with its own edge (the résumé's
  * employer cards, the raised panels, the case study rows), so a full-width
  * line under the title was one more edge in a stack of them. Size does the
- * separating instead, on the type scale's own steps: 48 from 640 (text-4xl),
- * 36 on a phone (text-3xl). That puts it a clear step above what sits inside a
- * section, the 36px panel headings and the 28px employer names, and a step
- * below the 64px page title.
+ * separating instead: 40 from 640 (text-section, a step added for this), 36
+ * on a phone (text-3xl). 48 was tried first and read loud on pages with
+ * several sections. 40 still outranks what sits inside a section, the 36px
+ * panel headings and the 28px employer names, and sits well below the 64px
+ * page title.
  *
  * The count sits beside the title rather than at the far right. Away from a
  * rule there is nothing to run it out to, and 900px from the word it counts
- * it read as a stray number. Tertiary, padded to two digits, tracked wide so
- * the digits do not read as part of the title.
+ * it read as a stray number. Medium weight in the secondary text color, so it
+ * reads as part of the heading's line without competing with it; padded to
+ * two digits, tracked wide so the digits do not read as part of the title.
  *
  * Pass `id` when the section points at the heading with `aria-labelledby`.
  */
@@ -41,11 +43,11 @@ export function SectionHead({
 
   return (
     <div className={`flex items-baseline gap-x-4 ${className}`}>
-      <h2 className="font-display text-3xl text-text-primary sm:text-4xl">
+      <h2 className="font-display text-3xl text-text-primary sm:text-section">
         <span id={id}>{children}</span>
       </h2>
       {hasCount && (
-        <span className="font-label text-xs tracking-[0.14em] text-text-tertiary">
+        <span className="font-label text-xs font-medium tracking-[0.14em] text-text-secondary">
           {String(count).padStart(2, "0")}
         </span>
       )}

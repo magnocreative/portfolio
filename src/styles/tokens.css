@@ -448,6 +448,15 @@
   --text-3xl--letter-spacing: -0.018em;
   --text-3xl--font-weight: 600;
 
+  /* One step outside the doubling-ish ladder, on purpose: the section head.
+     48 (4xl) read loud on pages with several sections; 36 (3xl) is what the
+     panel headings inside a section use, so a section head at 36 would not
+     outrank its own content. 40 sits between them. */
+  --text-section: 2.5rem;
+  --text-section--line-height: 1.1;
+  --text-section--letter-spacing: -0.022em;
+  --text-section--font-weight: 600;
+
   --text-4xl: 3rem;
   --text-4xl--line-height: 1.1;
   --text-4xl--letter-spacing: -0.024em;
