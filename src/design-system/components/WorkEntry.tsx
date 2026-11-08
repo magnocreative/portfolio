@@ -18,7 +18,12 @@ function Cover({ study }: { study: CaseStudy }) {
           src={study.cover.src}
           alt={study.cover.alt}
           fill
-          sizes="(min-width: 1024px) 30rem, (min-width: 768px) 40vw, 100vw"
+          // Side by side from a 64rem card (about 30rem of cover); stacked
+          // below that, the cover is the card's width less its inset.
+          sizes="(min-width: 1280px) 30rem, (min-width: 640px) 42rem, 100vw"
+          // A static import carries a tiny blurred copy; show it while the
+          // full image loads instead of an empty box.
+          placeholder={typeof study.cover.src === "string" ? "empty" : "blur"}
           className="object-cover"
         />
       ) : (

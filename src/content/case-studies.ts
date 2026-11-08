@@ -10,6 +10,11 @@
  * never will be — that line is where confidentiality actually sits.
  */
 
+import type { StaticImageData } from "next/image";
+// Static imports, so Next reads each cover's real size at build time and
+// reserves its box before the bytes arrive.
+import systemCover from "@/assets/covers/a-system-you-can-inspect.png";
+
 export type CaseStudy = {
   slug: string;
   /** The decision, phrased so it survives being read alone. */
@@ -26,7 +31,7 @@ export type CaseStudy = {
    * made for this site. Never a screenshot or anything exported from an
    * employer's tools. Until one exists the index draws a placeholder.
    */
-  cover?: { src: string; alt: string };
+  cover?: { src: StaticImageData | string; alt: string };
 };
 
 /**
@@ -54,6 +59,13 @@ export const caseStudies: CaseStudy[] = [
     employer: "MagnoCreative",
     period: "2026",
     status: "draft",
+    // Made in the Figma Site file (Thumbnail covers), from the library's own
+    // variables and Button: one color through its three tiers, with the
+    // ground split light and dark on a slant. The blue holds on both sides.
+    cover: {
+      src: systemCover,
+      alt: "A blue swatch labeled blue/600, joined by a dotted line to a chip labeled interactive/default, and on to a button reading Read the system. The ground is split on a slant, light on the left and dark on the right, and the blue is the same on both sides.",
+    },
   },
   // PLACEHOLDER. The title, standfirst and period below are written to the
   // right shape, not from the real account — replace all three once the draft
