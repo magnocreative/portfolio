@@ -16,9 +16,10 @@ import { Breadcrumbs, type Crumb } from "@/design-system/components/Breadcrumbs"
  *
  *   hero: Home only. 48 on a phone, 64 from sm, 84 from lg. From lg it is
  *     capped at 12em and wraps plainly instead of balancing, which holds it at
- *     three lines on every desktop width ("I design the systems / behind the
- *     tools people / use all day." from 1440). Balance would even the lines
- *     out and move "people" down.
+ *     three lines from 1280 ("Hey there, I design the / systems behind the /
+ *     tools people use all day."). Below that it takes four lines on a
+ *     tablet and six on a phone. Balance would even the lines out and move
+ *     words down.
  *   subhero: a top-level page with no section nav (Work). 48, then 64 from
  *     lg, balanced, capped at 24ch so a shorter title does not run the full
  *     column.
