@@ -6,7 +6,8 @@ import { Button } from "@/design-system/components/Button";
 import { ArrowRight } from "@/design-system/components/Icon";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { SectionHead } from "@/design-system/components/SectionHead";
-import { PageHeader } from "@/design-system/components/PageHeader";
+import { CaseStudyHero, heroFade } from "@/design-system/components/CaseStudyHero";
+import { RevealAfter } from "@/design-system/components/RevealAfter";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { KeyValueList } from "@/design-system/components/KeyValueList";
 import { Figure } from "@/design-system/components/Figure";
@@ -41,24 +42,70 @@ const contents = [
   { id: "hindsight", label: "What I’d do differently" },
 ];
 
+/* The hero's art, rendered live rather than exported: one color through its
+   three tiers, the same story as the cover, stood upright so it fits beside
+   the title. It is the system drawing itself, so it follows the theme. The
+   swatch reads the primitive directly, which no component may do; that is the
+   point of showing it, and why this lives in the page and not the library. */
+function TokenChain() {
+  const tier = "font-label text-xs font-medium uppercase tracking-[0.14em] text-text-tertiary";
+  const link = (
+    <span className="flex flex-col items-center gap-0" aria-hidden="true">
+      <span className="h-12 border-l-2 border-dashed border-border-strong" />
+      <span className="-mt-1 h-2.5 w-2.5 rounded-full bg-border-strong" />
+    </span>
+  );
+  return (
+    <div className="relative h-full w-full">
+      {/* A faint dotted canvas, the only part that fades: it carries the
+          fade into the text, while the chain on it stays solid. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          ...heroFade,
+          backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      <div className="absolute inset-y-0 left-[62%] flex -translate-x-1/2 flex-col items-center justify-center gap-4">
+        <span className={tier}>Primitive</span>
+        <span className="h-28 w-28 rounded-lg" style={{ background: "var(--p-blue-600)" }} />
+        <span className="font-display text-xl text-text-primary">blue/600</span>
+        {link}
+        <span className={tier}>Role</span>
+        <span className="flex items-center gap-3 rounded-md border border-border-subtle bg-surface-raised px-5 py-3.5">
+          <span className="h-4 w-4 rounded-full bg-interactive" />
+          <span className="text-lg text-text-primary">interactive/default</span>
+        </span>
+        {link}
+        <span className={tier}>Component</span>
+        <Button href="/system" variant="primary" fillOnPhone={false} iconAfter={<ArrowRight />}>
+          Read the system
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export default function SystemCaseStudy() {
   // A draft is readable on localhost and answers not found once deployed.
   if (isHiddenDraft("a-system-you-can-inspect")) notFound();
 
   return (
     <main>
+      <CaseStudyHero
+        breadcrumb={[{ label: "Work", href: "/work" }, { label: "A system you can inspect" }]}
+        title="A system you can inspect, because the ones at work can’t be shown."
+        lede="Every design system I’ve owned or maintained lives behind an employer’s login. A reviewer can’t open it, and a screenshot of it isn’t mine to share. So I built the MagnoCreative design system in the open, in code and in Figma, from what those systems taught me. The site you’re reading runs on it."
+        art={<TokenChain />}
+        fade={false}
+      />
+
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
           <div className="min-w-0">
-            <PageHeader
-              type="withSectionNav"
-              breadcrumb={[{ label: "Work", href: "/work" }, { label: "A system you can inspect" }]}
-              title="A system you can inspect, because the ones at work can’t be shown."
-              lede="Every design system I’ve owned or maintained lives behind an employer’s login. A reviewer can’t open it, and a screenshot of it isn’t mine to share. So I built the MagnoCreative design system in the open, in code and in Figma, from what those systems taught me. The site you’re reading runs on it."
-            />
-
             <KeyValueList
-              className="mt-12 max-w-[36rem]"
+              className="mt-8 max-w-[36rem] xl:mt-0"
               items={[
                 { key: "role", value: "Designer and engineer, solo" },
                 { key: "period", value: "2026" },
@@ -273,10 +320,12 @@ export default function SystemCaseStudy() {
           </div>
 
           {/* Desktop only, as on About: on a phone the contents list would
-              push the title down the first screen. */}
-          <div className="hidden lg:block lg:mt-32">
+              push the title down the first screen. It waits for the hero:
+              faded out (and out of the tab order) while the hero has the
+              screen, faded in once the reader is into the content. */}
+          <RevealAfter target="hero" className="hidden lg:block">
             <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
-          </div>
+          </RevealAfter>
         </div>
       </Container>
     </main>
