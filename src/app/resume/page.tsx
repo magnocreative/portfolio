@@ -221,10 +221,13 @@ export default function Resume() {
           <section id="experience" className="mt-28" aria-labelledby="experience-heading">
             <SectionHead id="experience-heading" className="max-w-measure">Experience</SectionHead>
 
-            {/* One card per employer, 24px apart. The cards carry the
+            {/* One card per employer, 16px apart. The cards carry the
                 separation the space used to: 64px of air between employers
-                read as quiet, and lines read as busy. */}
-            <div className="mt-10 flex flex-col gap-6">
+                read as quiet, and lines read as busy. The border does the
+                separating, so the gap only has to keep two edges apart; at
+                24 the run from one card's last bullet to the next logo was
+                88px, which read as a section break. */}
+            <div className="mt-10 flex flex-col gap-4">
               {experience.map((org) => (
                 <Card as="article" bleed key={org.employer} id={org.id} className="max-w-measure">
                   {/* The mark, then the name with the location under it. The
