@@ -148,8 +148,12 @@
 
   /* Text, ordered by emphasis. Dark-mode body text stops at slate-100 rather
      than pure white — full-contrast white on a dark ground haloes badly at
-     long reading lengths. */
-  --text-primary: light-dark(var(--p-paper-950), var(--p-slate-100));
+     long reading lengths. Light stops one step short of the bottom for the
+     same reason: paper-950 read as flat black at display sizes, paper-900
+     still holds 18:1 on white and keeps a clear step above paper-700 body
+     text, where paper-800 began to blur the two (Alejandro, November 2026).
+     The inverse surface stays at 950. */
+  --text-primary: light-dark(var(--p-paper-900), var(--p-slate-100));
   --text-secondary: light-dark(var(--p-paper-700), var(--p-slate-300));
   /* paper-600, not paper-500. Tertiary carries the small metadata, which is
      small text and therefore needs the full 4.5:1, not the 3:1 large-text

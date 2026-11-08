@@ -192,20 +192,24 @@ export default function Resume() {
               // above. The facts line says where I am; this row is every way
               // to act on it. Four spaced-capital items, two of them underlined
               // links, made the line above the busiest thing in the header.
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-3">
+              // On a phone the primary takes the full width and the two
+              // secondaries split the row under it, so they read as a pair of
+              // equal targets rather than two words left hanging. Secondary,
+              // not tertiary: a bare word in half a row looked unfinished.
+              <div className="grid grid-cols-2 gap-x-2 gap-y-3 sm:flex sm:flex-wrap sm:items-center">
                 <Button
                   href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
                   variant="primary"
+                  className="col-span-2"
                 >
                   Request a PDF
                 </Button>
-                <Button href="mailto:alejandini@gmail.com" variant="tertiary" fillOnPhone={false}>
+                <Button href="mailto:alejandini@gmail.com" variant="secondary">
                   Email
                 </Button>
                 <Button
                   href="https://www.linkedin.com/in/alejandro-m-fernandini"
-                  variant="tertiary"
-                  fillOnPhone={false}
+                  variant="secondary"
                 >
                   LinkedIn
                 </Button>
