@@ -45,7 +45,20 @@ function Cover({ study }: { study: CaseStudy }) {
  * Drafts are marked, never dimmed. Fading them would make the most important
  * content on the page the least legible thing on it.
  */
-export function WorkEntry({ study, index }: { study: CaseStudy; index: number }) {
+export function WorkEntry({
+  study,
+  index,
+  divider = true,
+}: {
+  study: CaseStudy;
+  index: number;
+  /**
+   * The 1px rule under the row. It separates one study from the next in the
+   * index; shown alone, as the specimen on the components page, there is no
+   * next row and it reads as a stray line, so the specimen turns it off.
+   */
+  divider?: boolean;
+}) {
   const isDraft = study.status === "draft";
 
   const body = (
@@ -91,11 +104,14 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   // alone: when the draft branch carried it too, hovering a draft turned its
   // title accent blue and promised a page that was not there.
   if (isDraft) {
-    return <div className="border-b border-border-subtle">{body}</div>;
+    return <div className={divider ? "border-b border-border-subtle" : ""}>{body}</div>;
   }
 
   return (
-    <Link href={`/work/${study.slug}`} className="group block border-b border-border-subtle">
+    <Link
+      href={`/work/${study.slug}`}
+      className={`group block ${divider ? "border-b border-border-subtle" : ""}`}
+    >
       {body}
     </Link>
   );

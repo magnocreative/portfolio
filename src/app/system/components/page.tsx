@@ -386,7 +386,7 @@ export default function ComponentsPage() {
                 />
 
                 <Stage>
-                  <WorkEntry study={caseStudies[1]} index={1} />
+                  <WorkEntry study={caseStudies[1]} index={1} divider={false} />
                 </Stage>
 
                 <Note className="mt-6">
