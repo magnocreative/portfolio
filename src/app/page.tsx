@@ -108,6 +108,7 @@ export default function Home() {
               headingAs="h3"
               heading="This site runs on a design system you can read."
               asideWidth="wide"
+              inset="tight"
               aside={<SystemSpecimen />}
               action={
                 // Primary, and the only one on the page. The panel is the

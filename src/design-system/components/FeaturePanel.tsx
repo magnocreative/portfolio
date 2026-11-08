@@ -54,6 +54,7 @@ export function FeaturePanel({
   asideWidth = "medium",
   asideSide = "end",
   align = "center",
+  inset = "default",
   className = "",
   children,
 }: {
@@ -70,6 +71,15 @@ export function FeaturePanel({
   asideWidth?: keyof typeof widths;
   asideSide?: "start" | "end";
   align?: "center" | "start";
+  /**
+   * "tight" takes the padding to 24px where the columns sit side by side,
+   * for an aside that is itself a bordered box. At 48px the two borders, the
+   * panel's and the box's, stood far enough apart to read as a heavy double
+   * frame; at 24 the box sits close to the panel's edge and the pair reads as
+   * one object (Alejandro, on the home page's specimen). Stacked, below
+   * 1280, the usual padding applies.
+   */
+  inset?: "default" | "tight";
   className?: string;
   children?: ReactNode;
 }) {
@@ -97,6 +107,7 @@ export function FeaturePanel({
     <div
       className={[
         "grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 xl:gap-16",
+        inset === "tight" ? "xl:p-6" : "",
         cols,
         align === "center" ? "xl:items-center" : "",
         className,
