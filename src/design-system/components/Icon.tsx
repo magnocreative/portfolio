@@ -146,3 +146,50 @@ export function ResumeIcon(props: IconProps) {
     </svg>
   );
 }
+
+/* The fact icons, for the labels in a FactsPanel.
+
+   Same grid, stroke and ink box as the rest: each spans x 3 to 17 and centers
+   on (10, 10). None of them reuses a navigation icon. A person was the obvious
+   glyph for "role" and three plates the obvious one for "scope", and both
+   already mean a page in the menu; an icon that means two things on one site
+   means neither. */
+
+/** Role: a badge. Who did the work, and as what. */
+export function RoleIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="4" width="14" height="12" rx="1.5" />
+      <circle cx="7.5" cy="9" r="1.75" />
+      <path d="M5 13.25c.6-1 1.5-1.5 2.5-1.5s1.9.5 2.5 1.5M12 8.5h2.5M12 11.5h2.5" />
+    </svg>
+  );
+}
+
+/** Period: a calendar. */
+export function CalendarIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="4.5" width="14" height="12.5" rx="1.5" />
+      <path d="M3 8.5h14M7 3v3M13 3v3" />
+    </svg>
+  );
+}
+
+/** Scope: crop marks. What falls inside the frame of the work. */
+export function ScopeIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M3 7V4a1 1 0 0 1 1-1h3M13 3h3a1 1 0 0 1 1 1v3M17 13v3a1 1 0 0 1-1 1h-3M7 17H4a1 1 0 0 1-1-1v-3M7 10h6" />
+    </svg>
+  );
+}
+
+/** Stack: code brackets. What it was built with. */
+export function CodeIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M7 6 3 10l4 4M13 6l4 4-4 4M11 4.5 9 15.5" />
+    </svg>
+  );
+}

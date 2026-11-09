@@ -3,13 +3,13 @@ import { notFound } from "next/navigation";
 import { isHiddenDraft } from "@/content/case-studies";
 import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
-import { ArrowRight } from "@/design-system/components/Icon";
+import { ArrowRight, CalendarIcon, CodeIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { SectionHead } from "@/design-system/components/SectionHead";
-import { CaseStudyHero, heroFade } from "@/design-system/components/CaseStudyHero";
+import { CaseStudyHero } from "@/design-system/components/CaseStudyHero";
 import { RevealAfter } from "@/design-system/components/RevealAfter";
 import { TextBlock } from "@/design-system/components/TextBlock";
-import { KeyValueList } from "@/design-system/components/KeyValueList";
+import { FactsPanel } from "@/design-system/components/FactsPanel";
 import { Figure } from "@/design-system/components/Figure";
 
 export const metadata: Metadata = {
@@ -56,34 +56,36 @@ function TokenChain() {
     </span>
   );
   return (
-    <div className="relative h-full w-full">
-      {/* A faint dotted canvas, the only part that fades: it carries the
-          fade into the text, while the chain on it stays solid. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          ...heroFade,
-          backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div className="absolute inset-y-0 left-[62%] flex -translate-x-1/2 flex-col items-center justify-center gap-4">
-        <span className={tier}>Primitive</span>
-        <span className="h-28 w-28 rounded-lg" style={{ background: "var(--p-blue-600)" }} />
-        <span className="font-display text-xl text-text-primary">blue/600</span>
-        {link}
-        <span className={tier}>Role</span>
-        <span className="flex items-center gap-3 rounded-md border border-border-subtle bg-surface-raised px-5 py-3.5">
-          <span className="h-4 w-4 rounded-full bg-interactive" />
-          <span className="text-lg text-text-primary">interactive/default</span>
-        </span>
-        {link}
-        <span className={tier}>Component</span>
-        <Button href="/system" variant="primary" fillOnPhone={false} iconAfter={<ArrowRight />}>
-          Read the system
-        </Button>
-      </div>
+    <div className="flex flex-col items-center gap-4">
+      <span className={tier}>Primitive</span>
+      <span className="h-28 w-28 rounded-lg" style={{ background: "var(--p-blue-600)" }} />
+      <span className="font-display text-xl text-text-primary">blue/600</span>
+      {link}
+      <span className={tier}>Role</span>
+      <span className="flex items-center gap-3 rounded-md border border-border-subtle bg-surface-raised px-5 py-3.5">
+        <span className="h-4 w-4 rounded-full bg-interactive" />
+        <span className="text-lg text-text-primary">interactive/default</span>
+      </span>
+      {link}
+      <span className={tier}>Component</span>
+      <Button href="/system" variant="primary" fillOnPhone={false} iconAfter={<ArrowRight />}>
+        Read the system
+      </Button>
     </div>
+  );
+}
+
+/* The ground under it: a faint dotted canvas, the part that fades and the
+   part that fills a wide screen. */
+function DottedGround() {
+  return (
+    <div
+      className="h-full w-full"
+      style={{
+        backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
+        backgroundSize: "28px 28px",
+      }}
+    />
   );
 }
 
@@ -97,21 +99,22 @@ export default function SystemCaseStudy() {
         breadcrumb={[{ label: "Work", href: "/work" }, { label: "A system you can inspect" }]}
         title="A system you can inspect, because the ones at work can’t be shown."
         lede="Every design system I’ve owned or maintained lives behind an employer’s login. A reviewer can’t open it, and a screenshot of it isn’t mine to share. So I built the MagnoCreative design system in the open, in code and in Figma, from what those systems taught me. The site you’re reading runs on it."
-        art={<TokenChain />}
-        fade={false}
+        art={<DottedGround />}
+        subject={<TokenChain />}
       />
 
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
           <div className="min-w-0">
-            <KeyValueList
-              className="mt-8 max-w-[36rem] xl:mt-0"
+            {/* The measure, like the text and figures below, so the page
+                keeps one right edge. */}
+            <FactsPanel
+              className="mt-8 max-w-measure xl:mt-0"
               items={[
-                { key: "role", value: "Designer and engineer, solo" },
-                { key: "period", value: "2026" },
-                { key: "scope", value: "Tokens, components, Figma library, documentation" },
-                { key: "stack", value: "Next.js, Tailwind CSS, Figma variables" },
-                { key: "status", value: "Live: this site runs on it" },
+                { key: "Role", value: "Designer and engineer, solo", icon: RoleIcon },
+                { key: "Period", value: "2026", icon: CalendarIcon },
+                { key: "Scope", value: "Tokens, components, Figma library, documentation", icon: ScopeIcon },
+                { key: "Stack", value: "Next.js, Tailwind CSS, Figma variables", icon: CodeIcon },
               ]}
             />
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { CaseStudyHero, heroFade } from "./CaseStudyHero";
+import { CaseStudyHero } from "./CaseStudyHero";
 
 const meta = {
   title: "Components/CaseStudyHero",
@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The opening band of a case study: breadcrumb, title and intro on the page's own ground at the left, and art on the right that fades out toward the text. The fade is a mask to transparent, so one piece of art serves both themes, and it is fully transparent before the text column ends. Desktop only from 1280; below that it is the plain page header. The art is decorative: aria-hidden and inert. Give it an id and the page's section nav can wait for it to scroll away (RevealAfter).",
+          "The opening band of a case study: breadcrumb, title and intro on the page's own ground at the left, and art on the right in two layers. The ground (art) bleeds off the right edge and fades out toward the text, a mask to transparent, so one piece of art serves both themes. The subject stays solid in a column at the content's right edge, so on a wide display it holds its place and only the ground grows. Desktop only from 1280; below that it is the plain page header. Both layers are decorative: aria-hidden and inert. Give it an id and the page's section nav can wait for it to scroll away (RevealAfter).",
       },
     },
   },
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 export const WithoutArt: Story = {};
 
-export const FadedArt: Story = {
+export const Ground: Story = {
   args: {
     art: (
       <div
@@ -39,45 +39,32 @@ export const FadedArt: Story = {
   },
   parameters: {
     docs: {
-      description: { story: "The default: the whole art fades, as a picture should." },
+      description: { story: "A ground alone, as a picture would be: it bleeds off the right edge and fades toward the text." },
     },
   },
 };
 
-export const SolidSubjectOnAFadingGround: Story = {
+export const GroundAndSubject: Story = {
   args: {
-    fade: false,
     art: (
-      <div style={{ position: "relative", width: "100%", height: "100%" }}>
-        <div
-          style={{
-            ...heroFade,
-            position: "absolute",
-            inset: 0,
-            backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
-            backgroundSize: "28px 28px",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            left: "62%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 112,
-            height: 112,
-            borderRadius: 16,
-            background: "var(--interactive-default)",
-          }}
-        />
-      </div>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+    ),
+    subject: (
+      <div style={{ width: 112, height: 112, borderRadius: 16, background: "var(--interactive-default)" }} />
     ),
   },
   parameters: {
     docs: {
       description: {
         story:
-          "fade={false}: the art fades only its own background with heroFade, and its subject stays solid. The design system case study uses this for its live token chain.",
+          "A pattern for the ground and a solid subject at the content's right edge. The design system case study uses this for its live token chain on a dotted ground. Widen the canvas past 1440: the subject stays put and the dots fill the extra room.",
       },
     },
   },

@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A short uppercase status, in the site's label setting (Medium, 0.11em). Three tones, and only a pass is drawn as a chip: neutral and danger are text alone, because information and failure are not decorated. Mirrors the Tag component in Figma.",
+          "A short uppercase status, in the site's label setting (Medium, 0.11em). Four tones. Pass and live are drawn as chips; neutral and danger are text alone, because information and failure are not decorated. Mirrors the Tag component in Figma.",
       },
     },
   },
@@ -25,6 +25,17 @@ export const Pass: Story = {
     docs: {
       description: {
         story: "A measured ratio that clears its bar. The chip has a hairline edge because a tint on the page cannot carry its own shape by luminance alone.",
+      },
+    },
+  },
+};
+
+export const Live: Story = {
+  args: { tone: "live", children: "Live on this site" },
+  parameters: {
+    docs: {
+      description: {
+        story: "Something running now, like the site a case study describes. The status green with a dot that always shows. Kept for things that are actually live, so the green keeps meaning something.",
       },
     },
   },
