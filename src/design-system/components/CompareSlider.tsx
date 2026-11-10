@@ -210,6 +210,13 @@ export function CompareSlider({
         createPortal(
           <Button variant="tertiary" fillOnPhone={false} onClick={reset} className={`mt-3 -ml-[1.3125rem] sm:mt-2 sm:-mr-[1.3125rem] sm:ml-0 ${moved ? "" : "invisible max-sm:hidden"}`}>
             Reset
+            {/* Visible "Reset" is enough beside the slider it belongs to. A
+                screen reader's list of buttons has no beside, and this page
+                has two sliders, so the name carries the pair it resets. */}
+            <span className="sr-only">
+              {" "}
+              the comparison of {before.label} and {after.label}
+            </span>
           </Button>,
           actions,
         )}
