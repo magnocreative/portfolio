@@ -1,7 +1,9 @@
 "use client";
 
 import Image, { type StaticImageData } from "next/image";
-import { useId, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
+import { createPortal } from "react-dom";
+import { Button } from "./Button";
 import { ArrowLeft, ArrowRight } from "./Icon";
 
 type Side = { src: StaticImageData | string; alt: string; label: string };
@@ -30,6 +32,18 @@ type Side = { src: StaticImageData | string; alt: string; label: string };
  *   name and a value. When it has focus the handle shows the focus ring, so
  *   the control a keyboard user is on is the one they can see.
  *
+ * Reset: once the divider has moved, a tertiary Reset appears in the
+ * figure's caption row (Figure's actions cell, reached through a portal) and
+ * puts it back where it started. It sits outside the image, because inside
+ * it every corner already shows something being compared. Until there is
+ * something to reset it is invisible but keeps its space, so the caption
+ * never shifts (on a phone it sits under the caption and is simply absent,
+ * so the caption keeps the full width). The button's padding is pulled back
+ * so its label lines up with the caption's edge, not 20px inside it; invisible rather than disabled, because a disabled button
+ * is a control that does nothing, is skipped by the keyboard and cannot say
+ * why. After a reset, focus goes to the slider, so a keyboard user is not
+ * dropped on the page when the button they pressed disappears.
+ *
  * The handle is a round grip with arrows on the divider, so nobody has to
  * guess it moves. Labels in the bottom corners say which side is which; at the top
  * they covered the very navigation one of the comparisons is about. There
@@ -55,7 +69,20 @@ export function CompareSlider({
   const [pos, setPos] = useState(initial);
   const frame = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+  const input = useRef<HTMLInputElement>(null);
   const inputId = useId();
+  const [actions, setActions] = useState<HTMLElement | null>(null);
+
+  // Figure's actions cell, if this slider sits in one.
+  useEffect(() => {
+    setActions(frame.current?.closest("figure")?.querySelector<HTMLElement>("[data-figure-actions]") ?? null);
+  }, []);
+
+  const moved = Math.round(pos) !== Math.round(initial);
+  const reset = () => {
+    setPos(initial);
+    input.current?.focus();
+  };
 
   const fromClientX = (x: number) => {
     const box = frame.current?.getBoundingClientRect();
@@ -63,6 +90,9 @@ export function CompareSlider({
     setPos(Math.min(100, Math.max(0, ((x - box.left) / box.width) * 100)));
   };
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
+    // React bubbles events through portals, so a press on the Reset button
+    // in the caption row arrives here too. Only the image starts a drag.
+    if (!frame.current?.contains(e.target as Node)) return;
     dragging.current = true;
     e.currentTarget.setPointerCapture(e.pointerId);
     fromClientX(e.clientX);
@@ -118,6 +148,7 @@ export function CompareSlider({
         {label}
       </label>
       <input
+        ref={input}
         id={inputId}
         type="range"
         min={0}
@@ -128,6 +159,14 @@ export function CompareSlider({
         aria-valuetext={`${Math.round(pos)}% ${before.label}, ${100 - Math.round(pos)}% ${after.label}`}
         className="sr-only"
       />
+
+      {actions &&
+        createPortal(
+          <Button variant="tertiary" fillOnPhone={false} onClick={reset} className={`mt-3 -ml-[1.3125rem] sm:mt-2 sm:-mr-[1.3125rem] sm:ml-0 ${moved ? "" : "invisible max-sm:hidden"}`}>
+            Reset
+          </Button>,
+          actions,
+        )}
     </div>
   );
 }

@@ -19,7 +19,12 @@ import type { ReactNode } from "react";
  *
  * `children` replaces the image with something live in the same frame, such
  * as a CompareSlider. It fills the frame, so it gets the same ratio, edge and
- * caption as a still.
+ * caption as a still. A live figure also gets an actions cell at the right of
+ * the caption row (`data-figure-actions`; under the caption on a phone, where
+ * the caption needs the width), where the content can put its own
+ * controls, like the slider's Reset, outside the image so they never cover
+ * what is being compared. The caption stays the figure's last child, as the
+ * spec asks; the grid places the two side by side.
  */
 export function Figure({
   src,
@@ -47,9 +52,11 @@ export function Figure({
   children?: ReactNode;
 }) {
   return (
-    <figure className={`max-w-measure ${className}`}>
+    <figure
+      className={`max-w-measure ${children ? "grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6" : ""} ${className}`}
+    >
       <div
-        className="relative w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken"
+        className={`relative w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken ${children ? "col-span-full" : ""}`}
         style={{ aspectRatio: ratio }}
       >
         {children ? (
@@ -66,7 +73,12 @@ export function Figure({
           </span>
         )}
       </div>
-      <figcaption className="mt-4 max-w-[40rem] text-sm text-text-secondary">{caption}</figcaption>
+      {children && <div data-figure-actions className="row-start-3 sm:col-start-2 sm:row-start-2" />}
+      <figcaption
+        className={`mt-4 max-w-[40rem] text-sm text-text-secondary ${children ? "sm:col-start-1 sm:row-start-2" : ""}`}
+      >
+        {caption}
+      </figcaption>
     </figure>
   );
 }
