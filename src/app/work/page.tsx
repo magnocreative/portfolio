@@ -25,6 +25,7 @@ export const metadata: Metadata = {
    the same data would be two answers to one question. */
 // Small counts read as words in a sentence ("All five"), as house style does.
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const capitalize = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
 
 export default function Work() {
   const published = caseStudies.filter((s) => s.status === "published").length;
@@ -53,7 +54,7 @@ export default function Work() {
             <TextBlock className="mt-6">
               {published === 0
                 ? `All ${WORDS[caseStudies.length] ?? caseStudies.length} are being written now. Each one opens here as it is finished.`
-                : `${caseStudies.length - published} of these are still being written. Each one opens here as it is finished.`}
+                : `${capitalize(WORDS[caseStudies.length - published] ?? String(caseStudies.length - published))} of these are still being written. Each one opens here as it is finished.`}
             </TextBlock>
           )}
 

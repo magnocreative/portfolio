@@ -47,9 +47,9 @@ export function isHiddenDraft(slug: string) {
 
 export const caseStudies: CaseStudy[] = [
   // First, because it is the one study a reader can check in full: the system
-  // it describes is the site they are on. Draft until the self-service portal
-  // outcome is written in and the four evidence images are exported from the
-  // Figma library; the page itself already builds at /work/a-system-you-can-inspect.
+  // it describes is the site they are on. Published November 2026. Its portal
+  // paragraph says the portal is in progress; revisit it with numbers after
+  // the portal goes live in February 2027.
   {
     slug: "a-system-you-can-inspect",
     title: "A system you can inspect, because the ones at work can’t be shown",
@@ -58,7 +58,7 @@ export const caseStudies: CaseStudy[] = [
     disciplines: ["Design systems", "Front-end engineering", "Documentation"],
     employer: "MagnoCreative",
     period: "2026",
-    status: "draft",
+    status: "published",
     // Made in the Figma Site file (Thumbnail covers), from the library's own
     // variables and Button: one color through its three tiers, with the
     // ground split light and dark on a slant. The blue holds on both sides.

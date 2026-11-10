@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { caseStudies } from "@/content/case-studies";
 
 /**
  * Only the routes that exist.
@@ -20,5 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/system/components`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/about`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
     { url: `${base}/resume`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    // Published studies only: a draft answers not found in production.
+    ...caseStudies
+      .filter((s) => s.status === "published")
+      .map((s) => ({ url: `${base}/work/${s.slug}`, lastModified: now, changeFrequency: "yearly" as const, priority: 0.8 })),
   ];
 }
