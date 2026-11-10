@@ -11,11 +11,14 @@ import { RevealAfter } from "@/design-system/components/RevealAfter";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { FactsPanel } from "@/design-system/components/FactsPanel";
 import { Tag } from "@/design-system/components/Tag";
-import navigationOneSetting from "@/assets/evidence/navigation-one-setting.png";
+import navigationRail from "@/assets/evidence/navigation-rail.png";
+import navigationTop from "@/assets/evidence/navigation-top.png";
 import contrastMeasured from "@/assets/evidence/contrast-measured.png";
-import buttonSheetBothThemes from "@/assets/evidence/button-sheet-both-themes.png";
+import buttonSheetLight from "@/assets/evidence/button-sheet-light.png";
+import buttonSheetDark from "@/assets/evidence/button-sheet-dark.png";
 import oneSource from "@/assets/evidence/one-source.png";
 import { Figure } from "@/design-system/components/Figure";
+import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
 
 export const metadata: Metadata = {
@@ -35,8 +38,9 @@ export const metadata: Metadata = {
    and it changes on purpose (evolution). Each one names what it cost.
 
    Every number here is checkable on this site or in the published Figma
-   library. The one bracketed passage is the self-service portal outcome,
-   which Alejandro supplies in a shape that is safe to share. */
+   library. The self-service portal is stated as in progress, with no
+   numbers: it goes live in February 2027, and its outcome belongs in its
+   own case study once it is measured. Revisit this paragraph then. */
 
 // Labels are the section headings verbatim, as on About.
 const contents = [
@@ -255,21 +259,43 @@ export default function SystemCaseStudy() {
                   evidence" in Components); the last two are this site,
                   rendered. */}
               <div className="mt-10 flex flex-col gap-14">
-                <Figure
-                  src={buttonSheetBothThemes}
-                  alt="The Button spec sheet from the Figma library, split on a slant: the light theme on the left and the dark theme on the right. A header with the component's purpose, then thirty variants in a grid labelled by variant, shape and state."
-                  caption="Thirty variants and the reasoning behind them on one sheet, drawn from the component itself. One variable mode switches the sheet and every button on it between themes."
-                />
+                {/* Live rather than a still split: the claim is that one mode
+                    switches the whole sheet, so the reader switches it. */}
+                <Figure caption="Thirty variants and the reasoning behind them on one sheet, drawn from the component itself. One variable mode switches the sheet and every button on it between themes. Drag to compare.">
+                  <CompareSlider
+                    label="Compare the Button sheet in the light and dark themes"
+                    before={{
+                      src: buttonSheetLight,
+                      label: "Light",
+                      alt: "The Button spec sheet from the Figma library in the light theme: a header with the component's purpose, then thirty variants in a grid labelled by variant, shape and state.",
+                    }}
+                    after={{
+                      src: buttonSheetDark,
+                      label: "Dark",
+                      alt: "The same sheet in the dark theme, with every surface, label and button recolored by the variable mode.",
+                    }}
+                  />
+                </Figure>
                 <Figure
                   src={oneSource}
                   alt="The token for the darkest text, in code above Figma. In tokens.css, --text-primary points at --p-paper-900 in the light theme and --p-slate-100 in the dark. In the Figma variables panel, text primary is paper/900 under Light and slate/100 under Dark, outlined."
                   caption="The darkest text, softened in one place. The role is defined once in code and once in Figma, under the same name and pointing at the same raw value, so one change carries to both."
                 />
-                <Figure
-                  src={navigationOneSetting}
-                  alt="The home page twice. Before: the navigation in a rail down the left side, labelled NAV_LAYOUT rail. After: the same four links in the top bar and the content across the full width, labelled NAV_LAYOUT top."
-                  caption="The navigation moved from a side rail to the top bar with one setting. The rail is retired, not deleted, and comes back the same way."
-                />
+                <Figure caption="The navigation moved from a side rail to the top bar with one setting, NAV_LAYOUT. The rail is retired, not deleted, and comes back the same way. Drag to compare.">
+                  <CompareSlider
+                    label="Compare the home page with the side rail and with the top bar"
+                    before={{
+                      src: navigationRail,
+                      label: "Rail",
+                      alt: "The home page with the navigation in a rail down the left side: Work, Design system, About and Résumé, each with an icon.",
+                    }}
+                    after={{
+                      src: navigationTop,
+                      label: "Top bar",
+                      alt: "The same home page with the four links in the top bar beside the theme control, and the content across the full width.",
+                    }}
+                  />
+                </Figure>
                 <Figure
                   src={contrastMeasured}
                   alt="The contrast table from the design system page: four text colors, each with its hex value, its ratio measured against the page, and an AA or AAA result. Primary text measures 16.69:1."
@@ -307,13 +333,13 @@ export default function SystemCaseStudy() {
                 items={[
                   { value: "1 token", label: "softened the darkest text on every page, in code and in Figma" },
                   { value: "1 setting", label: "moved the navigation from a side rail to the top bar" },
-                  { value: "0", label: "hard-coded colors across the 23 components in code" },
+                  { value: "0", label: "hard-coded colors across the 24 components in code" },
                 ]}
               />
               <TextBlock className="mt-10">
                 <p>
-                  The site runs on it: 128 variables across six collections, 24 text styles and 23
-                  components in code. Figma mirrors them as 34 components, more than in code because the
+                  The site runs on it: 128 variables across six collections, 24 text styles and 24
+                  components in code. Figma mirrors them as 35 components, more than in code because the
                   repeating parts, like a tab or a table row, are pieces of their own, plus 19 icons and
                   logos.
                 </p>
@@ -323,9 +349,11 @@ export default function SystemCaseStudy() {
                   edit.
                 </p>
                 <p>
-                  At work, the same approach is shaping the self-service portal: [what the portal
-                  replaced, who uses it now, and the outcome, in a shape that&rsquo;s safe to share].
-                  That case study tells the full story.
+                  At work, the same approach is shaping a self-service portal for four lines of
+                  business: one place where teams learn what the platform can do and request changes
+                  themselves, instead of asking for them through the CRM. It goes live in February
+                  2027, and I&rsquo;ve asked the product owners to plan how its impact will be measured
+                  from the first day. That case study will follow, with the numbers.
                 </p>
               </TextBlock>
             </section>

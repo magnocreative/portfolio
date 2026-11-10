@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
+import type { ReactNode } from "react";
 
 /**
  * One piece of evidence in a case study: an image and the claim it proves.
@@ -15,6 +16,10 @@ import Image, { type StaticImageData } from "next/image";
  *
  * Every image here is made for the site. Never a screen or anything exported
  * from an employer's tools.
+ *
+ * `children` replaces the image with something live in the same frame, such
+ * as a CompareSlider. It fills the frame, so it gets the same ratio, edge and
+ * caption as a still.
  */
 export function Figure({
   src,
@@ -23,17 +28,23 @@ export function Figure({
   ratio = "16/10",
   sizes = "(min-width: 1024px) 56rem, 100vw",
   className = "",
+  children,
 }: {
   /** Optional until the image is made. A static import reserves its box. */
   src?: StaticImageData | string;
-  /** Describe what the image shows, not what it proves; the caption does that. */
-  alt: string;
+  /**
+   * Describe what the image shows, not what it proves; the caption does that.
+   * Not needed with `children`, which carry their own.
+   */
+  alt?: string;
   /** The claim the image proves. One or two sentences. */
   caption: string;
   /** Width over height, as CSS aspect-ratio takes it. */
   ratio?: string;
   sizes?: string;
   className?: string;
+  /** Live content in place of the image, filling the frame. */
+  children?: ReactNode;
 }) {
   return (
     <figure className={`max-w-measure ${className}`}>
@@ -41,8 +52,10 @@ export function Figure({
         className="relative w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken"
         style={{ aspectRatio: ratio }}
       >
-        {src ? (
-          <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+        {children ? (
+          children
+        ) : src ? (
+          <Image src={src} alt={alt ?? ""} fill sizes={sizes} className="object-cover" />
         ) : (
           <span
             role="img"

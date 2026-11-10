@@ -17,7 +17,7 @@ const meta = {
     items: [
       { value: "1 token", label: "softened the darkest text on every page, in code and in Figma" },
       { value: "1 setting", label: "moved the navigation from a side rail to the top bar" },
-      { value: "0", label: "hard-coded colors across the 23 components in code" },
+      { value: "0", label: "hard-coded colors across the 24 components in code" },
     ],
   },
 } satisfies Meta<typeof OutcomeStats>;
