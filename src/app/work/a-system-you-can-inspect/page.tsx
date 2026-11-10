@@ -10,7 +10,12 @@ import { CaseStudyHero } from "@/design-system/components/CaseStudyHero";
 import { RevealAfter } from "@/design-system/components/RevealAfter";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { FactsPanel } from "@/design-system/components/FactsPanel";
+import { Tag } from "@/design-system/components/Tag";
+import navigationOneSetting from "@/assets/evidence/navigation-one-setting.png";
+import contrastMeasured from "@/assets/evidence/contrast-measured.png";
+import buttonSheetBothThemes from "@/assets/evidence/button-sheet-both-themes.png";
 import { Figure } from "@/design-system/components/Figure";
+import { OutcomeStats } from "@/design-system/components/OutcomeStats";
 
 export const metadata: Metadata = {
   title: "A system you can inspect",
@@ -110,6 +115,7 @@ export default function SystemCaseStudy() {
                 keeps one right edge. */}
             <FactsPanel
               className="mt-8 max-w-measure xl:mt-0"
+              status={<Tag tone="live">Live on this site</Tag>}
               items={[
                 { key: "Role", value: "Designer and engineer, solo", icon: RoleIcon },
                 { key: "Period", value: "2026", icon: CalendarIcon },
@@ -242,22 +248,30 @@ export default function SystemCaseStudy() {
             <section id="evidence" className="mt-28" aria-labelledby="evidence-heading">
               <SectionHead id="evidence-heading" className="max-w-measure">Evidence</SectionHead>
 
+              {/* In the order the decisions are argued: the reasoning, the
+                  one source, the change made on purpose, the measurement.
+                  The first two are exported from Figma (page "Case study
+                  evidence" in Components); the last two are this site,
+                  rendered. */}
               <div className="mt-10 flex flex-col gap-14">
                 <Figure
-                  alt="The Button spec sheet from the Figma library: thirty variants in a labelled grid above a properties table."
-                  caption="Thirty variants and eight properties on one sheet, drawn from the component itself, so the documentation can’t quietly drift from the thing it documents."
+                  src={buttonSheetBothThemes}
+                  alt="The Button spec sheet from the Figma library, split on a slant: the light theme on the left and the dark theme on the right. A header with the component's purpose, then thirty variants in a grid labelled by variant, shape and state."
+                  caption="Thirty variants and the reasoning behind them on one sheet, drawn from the component itself. One variable mode switches the sheet and every button on it between themes."
                 />
                 <Figure
-                  alt="The same spec sheet twice, in the light theme and the dark theme, side by side."
-                  caption="The same sheet in both themes. Nothing was recolored by hand: one variable mode switches the sheet and every component on it."
+                  alt="The token for the darkest text, in code beside Figma. In tokens.css, --text-primary points at --p-paper-900; in the Figma variables panel, text/primary points at paper/900."
+                  caption="The darkest text, softened in one place. The role is defined once in code and once in Figma, under the same name and pointing at the same raw value, so one change carries to both."
                 />
                 <Figure
-                  alt="The color primitives in Figma: blue, paper and slate ramps, each step labelled with its value."
-                  caption="Raw values, named by step and used by nothing except the semantic roles. A component that wants a color has to ask for a role."
+                  src={navigationOneSetting}
+                  alt="The home page twice. Before: the navigation in a rail down the left side, labelled NAV_LAYOUT rail. After: the same four links in the top bar and the content across the full width, labelled NAV_LAYOUT top."
+                  caption="The navigation moved from a side rail to the top bar with one setting. The rail is retired, not deleted, and comes back the same way."
                 />
                 <Figure
-                  alt="The live Button on the components page beside its Figma counterpart, in the same state."
-                  caption="The component in the browser and in Figma, side by side. Same states, same names, same tokens underneath."
+                  src={contrastMeasured}
+                  alt="The contrast table from the design system page: four text colors, each with its hex value, its ratio measured against the page, and an AA or AAA result. Primary text measures 16.69:1."
+                  caption="Every text color checked in the browser against the surface it renders on, and published on the design system page. Primary text measures 16.69:1."
                 />
               </div>
 
@@ -282,16 +296,29 @@ export default function SystemCaseStudy() {
             {/* 5. Outcome */}
             <section id="outcome" className="mt-28" aria-labelledby="outcome-heading">
               <SectionHead id="outcome-heading" className="max-w-measure">What happened</SectionHead>
+              {/* Outcomes, not sizes. Each one is checkable on this site or
+                  in its source: the token and the setting are one line each,
+                  and the zero is a search of the components for any color
+                  that is not a token (November 2026). */}
+              <OutcomeStats
+                className="mt-10"
+                items={[
+                  { value: "1 token", label: "softened the darkest text on every page, in code and in Figma" },
+                  { value: "1 setting", label: "moved the navigation from a side rail to the top bar" },
+                  { value: "0", label: "hard-coded colors across the 23 components in code" },
+                ]}
+              />
               <TextBlock className="mt-10">
                 <p>
-                  The site runs on it: 128 variables across six collections, 23 text styles, and 18
-                  components in code, mirrored by 44 in Figma, where the repeating parts, like a tab or a
-                  table row, are pieces of their own.
+                  The site runs on it: 128 variables across six collections, 24 text styles and 23
+                  components in code. Figma mirrors them as 34 components, more than in code because the
+                  repeating parts, like a tab or a table row, are pieces of their own, plus 19 icons and
+                  logos.
                 </p>
                 <p>
-                  It has already carried two changes that usually mean a rebuild. Moving the main
-                  navigation from a left rail to the top bar was one setting. Softening the darkest
-                  text across the whole site was one token.
+                  The token and the setting are changes that usually mean a rebuild: softening the
+                  darkest text on every page, and moving the main navigation. Here each was a single
+                  edit.
                 </p>
                 <p>
                   At work, the same approach is shaping the self-service portal: [what the portal
