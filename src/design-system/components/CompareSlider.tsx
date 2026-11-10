@@ -45,7 +45,10 @@ type Side = { src: StaticImageData | string; alt: string; label: string };
  * dropped on the page when the button they pressed disappears.
  *
  * The handle is a round grip with arrows on the divider, so nobody has to
- * guess it moves. Labels in the bottom corners say which side is which; at the top
+ * guess it moves. Divider and grip are the interactive blue, with a white
+ * ring on the grip: the images are light on one side and dark on the other
+ * whatever the theme, and a white divider vanished into the light half. The
+ * blue clears 3:1 against both (it is the same fill as a primary button). Labels in the bottom corners say which side is which; at the top
  * they covered the very navigation one of the comparisons is about. There
  * is no animation to reduce: the divider moves only as fast as the hand.
  */
@@ -78,10 +81,49 @@ export function CompareSlider({
     setActions(frame.current?.closest("figure")?.querySelector<HTMLElement>("[data-figure-actions]") ?? null);
   }, []);
 
-  const moved = Math.round(pos) !== Math.round(initial);
+  // Moved by the reader, as opposed to by the hint below.
+  const [touched, setTouched] = useState(false);
+  const moved = touched && Math.round(pos) !== Math.round(initial);
   const reset = () => {
     setPos(initial);
+    setTouched(false);
     input.current?.focus();
+  };
+
+  // The hint: the first time the slider is mostly on screen, the divider
+  // sways a little to either side and settles back, once, so the reader sees
+  // what moves before reading the caption. Skipped for reduced motion, and
+  // abandoned the moment the reader takes hold of it.
+  const hint = useRef<number | null>(null);
+  useEffect(() => {
+    const el = frame.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let started = false;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (started || entry.intersectionRatio < 0.6) return;
+        started = true;
+        io.disconnect();
+        const begin = performance.now() + 400;
+        const step = (now: number) => {
+          const t = Math.min(1, Math.max(0, (now - begin) / 1600));
+          setPos(initial + 12 * Math.sin(2 * Math.PI * t) * (1 - t));
+          hint.current = t < 1 ? requestAnimationFrame(step) : null;
+        };
+        hint.current = requestAnimationFrame(step);
+      },
+      { threshold: [0.6] },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      if (hint.current) cancelAnimationFrame(hint.current);
+    };
+  }, [initial]);
+  const stopHint = () => {
+    if (hint.current) cancelAnimationFrame(hint.current);
+    hint.current = null;
+    setTouched(true);
   };
 
   const fromClientX = (x: number) => {
@@ -93,6 +135,7 @@ export function CompareSlider({
     // React bubbles events through portals, so a press on the Reset button
     // in the caption row arrives here too. Only the image starts a drag.
     if (!frame.current?.contains(e.target as Node)) return;
+    stopHint();
     dragging.current = true;
     e.currentTarget.setPointerCapture(e.pointerId);
     fromClientX(e.clientX);
@@ -134,9 +177,9 @@ export function CompareSlider({
       {/* The divider and its grip. The grip stays a whole grip at either end:
           it stops 1.5rem in from the edge while the line goes all the way. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0" style={{ left: `${pos}%` }}>
-        <div className="absolute inset-y-0 -left-px w-0.5 bg-surface-raised shadow-[0_0_0_1px_var(--border-default)]" />
+        <div className="absolute inset-y-0 -left-px w-0.5 bg-interactive" />
         <div
-          className="absolute top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-0.5 rounded-full border border-border-default bg-surface-raised text-text-primary group-has-[input:focus-visible]/compare:outline-2 group-has-[input:focus-visible]/compare:outline-offset-2 group-has-[input:focus-visible]/compare:outline-focus-ring"
+          className="absolute top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-0.5 rounded-full border-2 border-interactive-on bg-interactive text-interactive-on group-has-[input:focus-visible]/compare:outline-2 group-has-[input:focus-visible]/compare:outline-offset-2 group-has-[input:focus-visible]/compare:outline-focus-ring"
           style={{ left: handleShift }}
         >
           <ArrowLeft className="h-3.5 w-3.5" />
@@ -155,7 +198,10 @@ export function CompareSlider({
         max={100}
         step={1}
         value={Math.round(pos)}
-        onChange={(e) => setPos(Number(e.target.value))}
+        onChange={(e) => {
+          stopHint();
+          setPos(Number(e.target.value));
+        }}
         aria-valuetext={`${Math.round(pos)}% ${before.label}, ${100 - Math.round(pos)}% ${after.label}`}
         className="sr-only"
       />
