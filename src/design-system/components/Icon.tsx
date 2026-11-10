@@ -193,3 +193,36 @@ export function CodeIcon(props: IconProps) {
     </svg>
   );
 }
+
+/* The point icons, for the cards in a PointCards row. Same grid and stroke as
+   the rest. Each is named for what it shows, not for the one card it first
+   headed, so a later case study can reuse it where the picture fits. */
+
+/** A briefcase, struck through: nothing taken from work. */
+export function BriefcaseOffIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M7.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M15.5 6.5H16a1 1 0 0 1 1 1v8M14 17H4a1 1 0 0 1-1-1V7.5a1 1 0 0 1 1-1h5.5M3 11h7M3 3l14 14" />
+    </svg>
+  );
+}
+
+/** A browser window with a check: it runs, and it was tested where it runs. */
+export function BrowserCheckIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="2.5" y="3.5" width="15" height="13" rx="1.5" />
+      <path d="M2.5 7h15M7.25 11.75l1.75 1.75 3.75-3.75" />
+    </svg>
+  );
+}
+
+/** One person over a two-way arrow: the same hands on both sides of a handoff. */
+export function HandoffIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="10" cy="5" r="2.25" />
+      <path d="M6.25 12c.4-1.9 1.9-3.25 3.75-3.25s3.35 1.35 3.75 3.25M3 15.5h14M5 13.5l-2 2 2 2M15 13.5l2 2-2 2" />
+    </svg>
+  );
+}

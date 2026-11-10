@@ -3,7 +3,16 @@ import { notFound } from "next/navigation";
 import { isHiddenDraft } from "@/content/case-studies";
 import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
-import { ArrowRight, CalendarIcon, CodeIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
+import {
+  ArrowRight,
+  BriefcaseOffIcon,
+  BrowserCheckIcon,
+  CalendarIcon,
+  CodeIcon,
+  HandoffIcon,
+  RoleIcon,
+  ScopeIcon,
+} from "@/design-system/components/Icon";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { CaseStudyHero } from "@/design-system/components/CaseStudyHero";
@@ -20,6 +29,7 @@ import oneSource from "@/assets/evidence/one-source.png";
 import { Figure } from "@/design-system/components/Figure";
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
+import { PointCards } from "@/design-system/components/PointCards";
 
 export const metadata: Metadata = {
   title: "A system you can inspect",
@@ -166,26 +176,30 @@ export default function SystemCaseStudy() {
               <SectionHead id="constraint-heading" className="max-w-measure">The constraint</SectionHead>
               <TextBlock className="mt-10">
                 <p>Three rules made this harder than building a showcase.</p>
-                <p>
-                  <strong className="font-medium text-text-primary">Nothing from an employer.</strong> No
-                  screens, no component names, no tokens copied from a system I&rsquo;ve worked on.
-                  What those systems taught me is in here. Nothing of theirs is.
-                </p>
-                <p>
-                  <strong className="font-medium text-text-primary">It had to run something real.</strong>{" "}
-                  A library that only exists in Figma never meets a browser, a phone or a screen
-                  reader. This one runs the site you&rsquo;re reading, so every decision is tested by
-                  the page it ships on.
-                </p>
-                <p>
-                  <strong className="font-medium text-text-primary">
-                    One person on both sides of the handoff.
-                  </strong>{" "}
-                  I designed it and I built it. There was no engineer to catch a token I fudged and no
-                  designer to catch a component I shortcut, so the rules had to be enforced by the
-                  structure itself.
-                </p>
               </TextBlock>
+              {/* Three parallel rules, so three cards rather than three run-in
+                  paragraphs: a reviewer sees the shape of the constraint
+                  before reading a word of it. */}
+              <PointCards
+                className="mt-8"
+                items={[
+                  {
+                    icon: BriefcaseOffIcon,
+                    title: "No employer material",
+                    body: "No screens, component names or tokens from any system I’ve worked on. What those systems taught me is here. Nothing of theirs is.",
+                  },
+                  {
+                    icon: BrowserCheckIcon,
+                    title: "It runs a real site",
+                    body: "A Figma-only library never meets a browser, a phone or a screen reader. This one runs the site you’re reading, so every decision gets tested.",
+                  },
+                  {
+                    icon: HandoffIcon,
+                    title: "Both sides of the handoff",
+                    body: "I designed it and I built it. With no engineer or designer to catch a shortcut, the structure itself had to enforce the rules.",
+                  },
+                ]}
+              />
             </section>
 
             {/* 3. Decisions: the three ideas, each with its cost */}
@@ -333,14 +347,14 @@ export default function SystemCaseStudy() {
                 items={[
                   { value: "1 token", label: "softened the darkest text on every page, in code and in Figma" },
                   { value: "1 setting", label: "moved the navigation from a side rail to the top bar" },
-                  { value: "0", label: "hard-coded colors across the 24 components in code" },
+                  { value: "0", label: "hard-coded colors across the 25 components in code" },
                 ]}
               />
               <TextBlock className="mt-10">
                 <p>
-                  The site runs on it: 128 variables across six collections, 24 text styles and 24
-                  components in code. Figma mirrors them as 35 components, more than in code because the
-                  repeating parts, like a tab or a table row, are pieces of their own, plus 19 icons and
+                  The site runs on it: 128 variables across six collections, 24 text styles and 25
+                  components in code. Figma mirrors them as 36 components, more than in code because the
+                  repeating parts, like a tab or a table row, are pieces of their own, plus 22 icons and
                   logos.
                 </p>
                 <p>
