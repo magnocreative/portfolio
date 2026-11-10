@@ -82,17 +82,37 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
         <Cover study={study} />
       </div>
 
+      {/* The top row answers who, what and when before the title: the index
+          at the left and the facts at the right, wrapping under the index
+          when a phone has no room for both on one line. The footer holds
+          only the action, at the left where the eye returns after the
+          standfirst (Alejandro, November 2026).
+
+          Spacing: the facts are metadata, so they get more air above the
+          title (24px, 20 on a phone) than the title gets above the
+          standfirst (16px), which belongs to it. Wrapped fact lines sit 8px
+          apart so a phone reads them as one row broken, not a stack, and the
+          separators are half strength so the facts, not the dots, carry the
+          row. */}
       <div className="flex flex-col px-6 pt-7 pb-8 sm:px-8 sm:pb-10 @5xl:p-12">
-        <span className="font-label text-xs text-text-tertiary">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+          <span className="font-label text-xs text-text-tertiary">{String(index + 1).padStart(2, "0")}</span>
+          {/* Employer, discipline, when: one line to read. */}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-label text-xs text-text-tertiary">
+            <span>{study.employer}</span>
+            <span aria-hidden="true" className="opacity-50">·</span>
+            <span>{study.disciplines[0]}</span>
+            <span aria-hidden="true" className="opacity-50">·</span>
+            <span>{study.period}</span>
+          </div>
+        </div>
 
         {/* The title is the link, and its ::after stretches over the whole
             card, so anywhere on the card opens the study while a screen reader
             hears one link named by the title, not the whole card read aloud.
             The ring is drawn on the card (has-focus-visible below), not around
             the title's text. */}
-        <h3 className="mt-4 max-w-[28ch] font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
+        <h3 className="mt-5 max-w-[28ch] sm:mt-6 font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
           {linked ? (
             <Link
               href={`/work/${study.slug}`}
@@ -108,24 +128,24 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
         {/* Capped at 40rem, about 75 characters a line. Without the rail the
             column is 700px wide at 1440, and an uncapped standfirst ran to
             110 characters: long enough to lose the start of the next line. */}
-        <p className="mt-3 max-w-[40rem] text-base text-text-secondary">{study.standfirst}</p>
+        <p className="mt-4 max-w-[40rem] text-base text-text-secondary">{study.standfirst}</p>
 
-        <div className="mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-border-subtle pt-4">
-          {/* Employer, discipline, when: one line to read. */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-label text-xs text-text-tertiary">
-            <span>{study.employer}</span>
-            <span aria-hidden="true">·</span>
-            <span>{study.disciplines[0]}</span>
-            <span aria-hidden="true">·</span>
-            <span>{study.period}</span>
-          </div>
-
+        {/* On a phone the action is drawn as a full-width primary button,
+            the same rule every action on the site follows below 640: a phone
+            has no hover to say the card is a link, so the thing to tap has to
+            look like one, and on a phone it is the one thing on the card to do
+            (Alejandro, November 2026). Drafts have no button, so only
+            published studies carry one. It is still not a second link: the
+            title's link already covers the card, so this is its look, not a
+            control. From 640 it is the quiet uppercase label with an arrow,
+            over a rule. */}
+        <div className="mt-6 sm:mt-7 sm:border-t sm:border-border-subtle sm:pt-4">
           {isDraft ? (
             <Tag dot>In writing</Tag>
           ) : (
-            <span className="inline-flex items-center gap-1.5 font-label text-xs font-medium uppercase tracking-[0.11em] text-text-accent">
+            <span className="flex min-h-[2.5rem] w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-interactive px-5 py-2.5 font-sans text-sm font-medium leading-[1.2] text-interactive-on group-active:bg-interactive-selected sm:inline-flex sm:min-h-0 sm:w-auto sm:justify-start sm:gap-1.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:text-text-accent sm:font-label sm:text-xs sm:uppercase sm:tracking-[0.11em] sm:group-active:bg-transparent">
               Read the case study
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-[160ms] group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-[160ms] group-hover:translate-x-0.5 sm:h-3.5 sm:w-3.5" />
             </span>
           )}
         </div>
