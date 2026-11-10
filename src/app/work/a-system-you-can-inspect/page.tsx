@@ -14,6 +14,7 @@ import { Tag } from "@/design-system/components/Tag";
 import navigationOneSetting from "@/assets/evidence/navigation-one-setting.png";
 import contrastMeasured from "@/assets/evidence/contrast-measured.png";
 import buttonSheetBothThemes from "@/assets/evidence/button-sheet-both-themes.png";
+import oneSource from "@/assets/evidence/one-source.png";
 import { Figure } from "@/design-system/components/Figure";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
 
@@ -260,7 +261,8 @@ export default function SystemCaseStudy() {
                   caption="Thirty variants and the reasoning behind them on one sheet, drawn from the component itself. One variable mode switches the sheet and every button on it between themes."
                 />
                 <Figure
-                  alt="The token for the darkest text, in code beside Figma. In tokens.css, --text-primary points at --p-paper-900; in the Figma variables panel, text/primary points at paper/900."
+                  src={oneSource}
+                  alt="The token for the darkest text, in code above Figma. In tokens.css, --text-primary points at --p-paper-900 in the light theme and --p-slate-100 in the dark. In the Figma variables panel, text primary is paper/900 under Light and slate/100 under Dark, outlined."
                   caption="The darkest text, softened in one place. The role is defined once in code and once in Figma, under the same name and pointing at the same raw value, so one change carries to both."
                 />
                 <Figure
