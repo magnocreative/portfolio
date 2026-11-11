@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Container } from "@/design-system/primitives/Container";
-import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
@@ -50,15 +49,6 @@ function Bullet({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Three sections, no employer links under Experience. The logos already make
-// each employer easy to find while scrolling, so nested links repeated the
-// page. What the nav is for here is the jump past a long Experience block to
-// Skills or Education.
-const contents = [
-  { id: "experience", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "education", label: "Education" },
-];
 
 export default function Resume() {
   return (
@@ -66,20 +56,13 @@ export default function Resume() {
 
       <main>
         <Container>
-          {/* One Container around a grid, rather than a Container per section.
-              The sticky contents nav needs a grid item that stretches the full
-              height of the content beside it; wrapping each section separately
-              gives it nothing to travel down and it scrolls away after the
-              first screen. Same sticky trap the /system page documents. */}
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_13rem] lg:gap-16">
-            {/* min-w-0 is a guard, not a fix for anything currently broken. A
-                grid item defaults to `min-width: auto` and will not shrink
-                below its content's intrinsic width, so a child declaring a
-                minimum — the contrast tables are min-w-[36rem] — would push
-                this column past the viewport. Today it cannot: those tables
-                sit in their own `overflow-x-auto` wrapper, measured at 342px
-                on a 390px screen and clipping correctly. This keeps the next
-                wide child from depending on remembering that. */}
+          {/* No contents nav. The page has three sections and Experience is
+              two thirds of it, so the list mostly said "you are in Experience"
+              (Alejandro, November 2026). A résumé is read top to bottom or
+              downloaded; the contents lists stay on the long pages with many
+              sections, the case studies and /system. Every row is capped at
+              the measure, so the space to the right stays open. */}
+          <div>
             <div className="min-w-0">
           {/* No phone number on a public page. It goes on the copy that gets
               sent to a person, where it reaches one reader rather than every
@@ -250,30 +233,6 @@ export default function Resume() {
           </section>
             </div>
 
-            {/* No `self-start`. Letting the grid item stretch is what gives the
-                sticky nav inside it a tall containing block to travel down. */}
-            {/* Desktop only. Below 1024 this stacked horizontally above the
-                content and ran 154 to 209px tall, which on a 390px phone put
-                the page title 59 to 66 percent of the way down the first
-                screen: the reader met a list of places they could go before
-                the page had said what it was.
-
-                A contents list earns that space on a wide screen, where it
-                sits in a column nothing else wanted and a reader arrives
-                wanting one specific part. On a phone there is no spare column,
-                and people scroll. Every section is still reachable; what is
-                gone is the index, not the content.
-
-                `hidden`, not a second layout. The horizontal variant still
-                exists in the component and in Storybook — it is simply not
-                what these pages want. */}
-            {/* The same 32 the page header carries as `md:pt-32`, so the nav's
-                first label starts on the page eyebrow's line rather than a
-                third of a row below it. The component pulls back by its own
-                row padding; see the note on the sticky offset there. */}
-            <div className="hidden lg:block lg:mt-32">
-              <SectionNav items={contents} orientation="vertical" sticky label="On this page" />
-            </div>
           </div>
         </Container>
       </main>
