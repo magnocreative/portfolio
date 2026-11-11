@@ -37,19 +37,62 @@ export type Point = {
  * the card brings no type style of its own and maps to one in Figma.
  *
  * It takes the measure, so the page keeps one right edge.
+ *
+ * `framed={false}` drops the card: no surface, edge or padding, just the icon,
+ * title and body, for points whose bodies already group themselves, such as a
+ * list of chips (the résumé's Skills: a card around chips was a third nested
+ * outline, Alejandro, November 2026). Open points sit further apart instead.
+ *
+ * `layout="grid"` is the two-by-two version, for four points on a page whose
+ * cards run the full width (the résumé's Skills, Alejandro, November 2026):
+ * two columns from 48rem, no measure. Its titles are one line by the same
+ * rule, so it needs no subgrid; each card simply stretches to its row.
  */
-export function PointCards({ items, className = "" }: { items: Point[]; className?: string }) {
+export function PointCards({
+  items,
+  layout = "row",
+  framed = true,
+  className = "",
+}: {
+  items: Point[];
+  /** "row": side by side at the measure. "grid": two by two, full width. */
+  layout?: "row" | "grid";
+  /** The card around each point. Off for an open grid. */
+  framed?: boolean;
+  className?: string;
+}) {
+  const grid = layout === "grid";
   return (
-    <div className={`@container max-w-measure ${className}`}>
-      <ul className="grid grid-cols-1 gap-4 @3xl:auto-cols-fr @3xl:grid-flow-col @3xl:grid-rows-[auto_auto_1fr] @3xl:gap-y-0">
+    <div className={`@container ${grid ? "" : "max-w-measure"} ${className}`}>
+      <ul
+        className={
+          grid
+            ? `grid grid-cols-1 @3xl:grid-cols-2 ${framed ? "gap-4" : "gap-x-16 gap-y-12"}`
+            : "grid grid-cols-1 gap-4 @3xl:auto-cols-fr @3xl:grid-flow-col @3xl:grid-rows-[auto_auto_1fr] @3xl:gap-y-0"
+        }
+      >
         {items.map(({ icon: Icon, title, body }) => (
           <li
             key={title}
-            className="flex flex-col rounded-sm border border-border-subtle bg-surface-raised p-6 max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 @3xl:row-span-3 @3xl:grid @3xl:grid-rows-subgrid"
+            className={`flex flex-col ${
+              framed
+                ? "rounded-sm border border-border-subtle bg-surface-raised p-6 max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0"
+                : ""
+            } ${
+              grid ? "" : "@3xl:row-span-3 @3xl:grid @3xl:grid-rows-subgrid"
+            }`}
           >
             <Icon className="h-6 w-6 text-text-accent" />
-            <h3 className="mt-5 font-display text-lg leading-[1.3] text-text-primary @3xl:self-end">{title}</h3>
-            <p className="mt-2 text-base leading-[1.65] text-text-secondary">{body}</p>
+            <h3 className={`mt-5 font-display text-lg leading-[1.3] text-text-primary ${grid ? "" : "@3xl:self-end"}`}>
+              {title}
+            </h3>
+            {/* Text in a paragraph; anything else (a list of chips) in a
+                block, since a paragraph cannot hold a list. */}
+            {typeof body === "string" ? (
+              <p className="mt-2 text-base leading-[1.65] text-text-secondary">{body}</p>
+            ) : (
+              <div className="mt-3">{body}</div>
+            )}
           </li>
         ))}
       </ul>

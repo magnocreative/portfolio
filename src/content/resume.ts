@@ -105,26 +105,25 @@ export const experience: Employer[] = [
   },
 ];
 
-export const skills: { group: string; items: string }[] = [
+/* Each skill is a short noun phrase, so the page can set them as chips and
+   the PDF can join them with commas (Alejandro, November 2026). Keep them
+   to a few words: a chip that wraps onto two lines is a sentence in a box. */
+export const skills: { group: string; items: string[] }[] = [
   {
     group: "Design systems",
-    items:
-      "Component architecture, design tokens, auto layout and slot patterns, usage documentation, adoption and governance across teams",
+    items: ["Component architecture", "Design tokens", "Auto layout", "Slot patterns", "Usage documentation", "Adoption and governance"],
   },
   {
     group: "Product design",
-    items:
-      "Discovery, user research and interviews, information architecture, interaction design, prototyping, accessibility (WCAG)",
+    items: ["Discovery", "User research", "Interviews", "Information architecture", "Interaction design", "Prototyping", "Accessibility (WCAG)"],
   },
   {
     group: "Design engineering",
-    items:
-      "Coded prototypes, version control and branching workflows, AI-assisted prototyping, design-to-engineering handoff",
+    items: ["Coded prototypes", "Version control", "Branching workflows", "AI-assisted prototyping", "Design-to-engineering handoff"],
   },
   {
     group: "Tools",
-    items:
-      "Figma, VS Code, Storybook, Salesforce Lightning Design System, Jira, FigJam, Adobe Creative Suite",
+    items: ["Figma", "FigJam", "VS Code", "Storybook", "Salesforce Lightning Design System", "Jira", "Adobe Creative Suite"],
   },
 ];
 
@@ -132,7 +131,7 @@ export const education: { title: string; detail: string; period: string; logo?: 
   {
     title: "Bachelor of Fine Arts, Computer Graphic Arts",
     detail: "University of the Incarnate Word",
-    period: "2015",
+    period: "Class of 2015",
     logo: "uiw",
   },
 ];

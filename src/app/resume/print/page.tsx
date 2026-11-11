@@ -260,7 +260,7 @@ function Skills() {
       {skills.map((s) => (
         <div key={s.group} style={{ display: "contents" }}>
           <dt>{s.group}</dt>
-          <dd>{s.items}</dd>
+          <dd>{s.items.join(", ")}</dd>
         </div>
       ))}
     </dl>

@@ -250,3 +250,51 @@ export function GlobeIcon(props: IconProps) {
     </svg>
   );
 }
+
+/* The skill icons, for the résumé's Skills cards. Same grid and stroke. None
+   reuses a navigation or fact icon: the plates already mean the design system
+   page, and the brackets already mean a stack. */
+
+/** Design systems: three modules and a component diamond, the way a library
+    marks the part that everything else is built from. */
+export function ComponentsIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="3" width="6" height="6" rx="1" />
+      <rect x="11" y="3" width="6" height="6" rx="1" />
+      <rect x="3" y="11" width="6" height="6" rx="1" />
+      <path d="M14 11l3 3-3 3-3-3Z" />
+    </svg>
+  );
+}
+
+/** Product design: a pen nib. */
+export function PenNibIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M10 3l5 6-2.5 7.5h-5L5 9Z" />
+      <path d="M10 3v6.5" />
+      <circle cx="10" cy="10.75" r="1.25" />
+      <path d="M7.5 16.5V17h5v-.5" />
+    </svg>
+  );
+}
+
+/** Design engineering: a terminal prompt. A design that runs. */
+export function TerminalIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="2.5" y="4" width="15" height="12" rx="1.5" />
+      <path d="M6 8.5l2.5 2-2.5 2M10.5 12.5H14" />
+    </svg>
+  );
+}
+
+/** Tools: a wrench. */
+export function WrenchIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M13 3.2a4 4 0 0 0-4 5.4L3.7 13.9a1.6 1.6 0 0 0 2.3 2.3l5.3-5.3a4 4 0 0 0 5.4-4l-2.4 2.3-2.4-.6-.6-2.4Z" />
+    </svg>
+  );
+}

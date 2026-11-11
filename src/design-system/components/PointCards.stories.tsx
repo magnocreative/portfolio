@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { PointCards } from "./PointCards";
-import { BriefcaseOffIcon, BrowserCheckIcon, HandoffIcon } from "./Icon";
+import { BriefcaseOffIcon, BrowserCheckIcon, ComponentsIcon, HandoffIcon, PenNibIcon, TerminalIcon, WrenchIcon } from "./Icon";
+import { skills } from "@/content/resume";
+import { Chips } from "./Chips";
 
 const meta = {
   title: "Components/PointCards",
@@ -68,6 +70,24 @@ export const Phone: Story = {
       description: {
         story:
           "At 390 the cards stack and run to the screen's edges, a hairline above and below each, the same as every card on the site at this width.",
+      },
+    },
+  },
+};
+
+const SKILL_ICONS = [ComponentsIcon, PenNibIcon, TerminalIcon, WrenchIcon];
+
+export const Grid: Story = {
+  args: {
+    layout: "grid",
+    framed: false,
+    items: skills.map((s, i) => ({ icon: SKILL_ICONS[i], title: s.group, body: <Chips items={s.items} /> })),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Four points two by two across the full width and open (framed={false}), as the résumé sets its Skills: the chips group each set, so a card around them would be one outline too many.",
       },
     },
   },

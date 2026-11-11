@@ -5,7 +5,17 @@ import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
-import { Download, GlobeIcon, TexasIcon } from "@/design-system/components/Icon";
+import {
+  ComponentsIcon,
+  Download,
+  GlobeIcon,
+  PenNibIcon,
+  TerminalIcon,
+  TexasIcon,
+  WrenchIcon,
+} from "@/design-system/components/Icon";
+import { PointCards } from "@/design-system/components/PointCards";
+import { Chips } from "@/design-system/components/Chips";
 import {
   education,
   email,
@@ -20,6 +30,13 @@ import {
   skills,
   subtitle,
 } from "@/content/resume";
+
+const SKILL_ICONS: Record<string, typeof ComponentsIcon> = {
+  "Design systems": ComponentsIcon,
+  "Product design": PenNibIcon,
+  "Design engineering": TerminalIcon,
+  Tools: WrenchIcon,
+};
 
 const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo };
 
@@ -205,24 +222,22 @@ export default function Resume() {
           <section id="skills" className="mt-28" aria-labelledby="skills-heading">
             <SectionHead id="skills-heading" className="max-w-measure">Skills</SectionHead>
 
-            {/* Across the full width like the cards above: two by two from
-                640, all four in a row from 1280. Four short groups in one tall
-                column left the right half of the page empty and made the
-                section twice as long as it needed to be; side by side each
-                group is a short paragraph that reads at a glance (Alejandro,
-                November 2026). */}
-            <dl className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 xl:grid-cols-4">
-              {skills.map((skill) => (
-                <div key={skill.group}>
-                  <dt className="font-display text-lg leading-[1.3] text-text-primary">
-                    {skill.group}
-                  </dt>
-                  <dd className="mt-2 text-base leading-[1.65] text-text-secondary">
-                    {skill.items}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            {/* The four groups two by two across the full width, each with
+                its mark and its skills as chips: the same component as the
+                constraints in the design system case study, open rather than
+                carded, because the chips already group each set and a card
+                around them was one outline too many (Alejandro, November
+                2026). A phone stacks them. */}
+            <PointCards
+              layout="grid"
+              framed={false}
+              className="mt-10"
+              items={skills.map((s) => ({
+                icon: SKILL_ICONS[s.group] ?? ComponentsIcon,
+                title: s.group,
+                body: <Chips items={s.items} />,
+              }))}
+            />
           </section>
 
         {/* Education */}
@@ -240,21 +255,24 @@ export default function Resume() {
                   // The school's mark sits where an employer's does: 48px,
                   // centered on the two lines beside it, 16px from the text,
                   // the gap every 48px mark on the page keeps (Alejandro,
-                  // November 2026). On a phone the title
-                  // wraps and the year drops under it, so the mark holds to
-                  // the top, beside the degree it belongs to.
+                  // November 2026). On a phone the title wraps, so the mark
+                  // holds to the top, beside the degree it belongs to.
                   <div key={item.title} className="flex items-start gap-4 sm:items-center">
                     {Mark && <Mark className="h-12 w-12 shrink-0" />}
-                    <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                      <div>
-                        <div className="font-display text-lg leading-[1.3] text-text-primary">
-                          {item.title}
-                        </div>
-                        <div className="mt-1 text-base text-text-secondary">{item.detail}</div>
-                      </div>
-                      <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                    {/* The year rides with the school, not out at the right
+                        edge: alone on a full-width row it sat in a field of
+                        empty space, a long way from what it dates (Alejandro,
+                        November 2026). */}
+                    <div className="min-w-0">
+                      <div className="font-display text-lg leading-[1.3] text-text-primary">{item.title}</div>
+                      <div className="mt-1 text-base text-text-secondary">
+                        {item.detail}
+                        <span aria-hidden="true" className="px-2 text-text-tertiary">
+                          ·
+                        </span>
+                        <span className="sr-only">, </span>
                         {item.period}
-                      </span>
+                      </div>
                     </div>
                   </div>
                 );
