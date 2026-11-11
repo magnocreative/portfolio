@@ -21,7 +21,7 @@ import { join } from "node:path";
 const FILE = "Alejandro-Magno-Fernandini-Resume.pdf";
 const base = process.env.RESUME_URL ?? "http://localhost:3000";
 const phone = process.env.RESUME_PHONE?.trim();
-const out = phone ? join(homedir(), "Downloads", FILE) : join("public", FILE);
+const out = process.env.RESUME_OUT ?? (phone ? join(homedir(), "Downloads", FILE) : join("public", FILE));
 
 // RESUME_CHROMIUM points at a Chromium of your own, if Playwright's is not installed.
 const browser = await chromium.launch(process.env.RESUME_CHROMIUM ? { executablePath: process.env.RESUME_CHROMIUM } : {});
@@ -30,7 +30,11 @@ const context = await browser.newContext({
   httpCredentials: process.env.SITE_PASSWORD ? { username: "", password: process.env.SITE_PASSWORD } : undefined,
 });
 const page = await context.newPage();
-const res = await page.goto(`${base}/resume/print`, { waitUntil: "networkidle" });
+// RESUME_LAYOUT picks one of the print page's layouts (classic, rail, sidebar).
+const query = new URLSearchParams();
+if (process.env.RESUME_LAYOUT) query.set("layout", process.env.RESUME_LAYOUT);
+if (process.env.RESUME_WORK === "off") query.set("work", "off");
+const res = await page.goto(`${base}/resume/print${query.size ? `?${query}` : ""}`, { waitUntil: "networkidle" });
 if (!res?.ok()) {
   console.error(`Could not load ${base}/resume/print (${res?.status()}). Is \`npm run dev\` running?`);
   process.exit(1);
@@ -59,7 +63,10 @@ await page.pdf({
   displayHeaderFooter: true,
   headerTemplate: "<span></span>",
   footerTemplate: footer,
-  margin: { top: "0.6in", bottom: "0.7in", left: "0.7in", right: "0.7in" },
+  // 0.15in on the left plus the sheet's own 0.55in: the text still starts 0.7in
+  // in, and the classic layout's mark, logos and bullet dots have room to hang
+  // (anything outside the page margin box is clipped).
+  margin: { top: "0.6in", bottom: "0.7in", left: "0.15in", right: "0.7in" },
 });
 await browser.close();
 console.log(`Saved ${out}${phone ? " (with phone number; not for the repository)" : ""}`);

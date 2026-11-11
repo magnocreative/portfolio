@@ -5,7 +5,7 @@
  * with the dev server running.
  */
 
-export type EmployerLogo = "jpmc" | "usaa" | "hcl";
+export type EmployerLogo = "jpmc" | "usaa" | "hcl" | "uiw";
 
 export type Employer = {
   employer: string;
@@ -128,10 +128,11 @@ export const skills: { group: string; items: string }[] = [
   },
 ];
 
-export const education: { title: string; detail: string; period: string }[] = [
+export const education: { title: string; detail: string; period: string; logo?: EmployerLogo }[] = [
   {
     title: "Bachelor of Fine Arts, Computer Graphic Arts",
     detail: "University of the Incarnate Word",
     period: "2015",
+    logo: "uiw",
   },
 ];

@@ -352,7 +352,7 @@ export default function SystemCaseStudy() {
               />
               <TextBlock className="mt-10">
                 <p>
-                  The site runs on it: 128 variables across six collections, 24 text styles and 25
+                  The site runs on it: 130 variables across six collections, 24 text styles and 25
                   components in code. Figma mirrors them as 36 components, more than in code because the
                   repeating parts, like a tab or a table row, are pieces of their own, plus 22 icons and
                   logos.

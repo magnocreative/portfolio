@@ -5,7 +5,7 @@ import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { HclLogo, JpmcLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
+import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
 import { Download } from "@/design-system/components/Icon";
 import {
   education,
@@ -22,7 +22,7 @@ import {
   subtitle,
 } from "@/content/resume";
 
-const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo };
+const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo };
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -222,22 +222,30 @@ export default function Resume() {
             <SectionHead id="education-heading" className="max-w-measure">Education</SectionHead>
 
             <div className="mt-10 flex flex-col gap-8">
-              {education.map((item) => (
-                <div
-                  key={item.title}
-                  className="flex max-w-measure flex-wrap items-baseline justify-between gap-x-6 gap-y-1"
-                >
-                  <div>
-                    <div className="font-display text-lg leading-[1.3] text-text-primary">
-                      {item.title}
+              {education.map((item) => {
+                const Mark = item.logo ? LOGOS[item.logo] : null;
+                return (
+                  // The school's mark sits where an employer's does: 48px,
+                  // centered on the two lines beside it, so Education reads as
+                  // the same kind of row as the cards above it, not a list. On
+                  // a phone the title wraps and the year drops under it, so the
+                  // mark holds to the top, beside the degree it belongs to.
+                  <div key={item.title} className="flex max-w-measure items-start gap-3 sm:items-center">
+                    {Mark && <Mark className="h-12 w-12 shrink-0" />}
+                    <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                      <div>
+                        <div className="font-display text-lg leading-[1.3] text-text-primary">
+                          {item.title}
+                        </div>
+                        <div className="mt-1 text-base text-text-secondary">{item.detail}</div>
+                      </div>
+                      <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                        {item.period}
+                      </span>
                     </div>
-                    <div className="mt-1 text-base text-text-secondary">{item.detail}</div>
                   </div>
-                  <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                    {item.period}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
             </div>
