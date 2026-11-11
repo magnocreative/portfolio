@@ -5,6 +5,7 @@ import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import {
   ArrowRight,
+  ArrowUpRight,
   BriefcaseOffIcon,
   BrowserCheckIcon,
   CalendarIcon,
@@ -327,11 +328,16 @@ export default function SystemCaseStudy() {
                     <Button href="/system/components" variant="secondary">
                       See the components
                     </Button>
+                    {/* Third and quietest: it leaves the site. Every state of
+                        every component, published on its own domain. */}
+                    <Button href="https://storybook.magnocreative.com" variant="tertiary" iconAfter={<ArrowUpRight />}>
+                      Open it in Storybook
+                    </Button>
                   </div>
                 }
               >
                 The rest you can check yourself. The tokens, the contrast measurements and every
-                component are live on this site.
+                component are live on this site, and every state of every component is in Storybook.
               </TextBlock>
             </section>
 

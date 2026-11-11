@@ -5,7 +5,7 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { Tabs } from "@/design-system/components/Tabs";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
-import { ArrowRight, ArrowLeft, Download } from "@/design-system/components/Icon";
+import { ArrowRight, ArrowLeft, ArrowUpRight, Download } from "@/design-system/components/Icon";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
@@ -380,10 +380,11 @@ export default function ComponentsPage() {
                   id="work-entry"
                   title="Work entry"
                   decision="One row of the work index: a raised card with the image at 40%, held 16px
-                  from the card's top, bottom and left edge, and the record at 60%. The record closes
-                  on a footer bar, facts on the left and the status on the right, so the row says
-                  whether it can be opened before anyone tries. On a phone the card runs to the
-                  screen's edges, like the résumé cards."
+                  from the card's top, bottom and left edge, and the record at 60%. The index and the
+                  facts open the record, and a footer bar closes it with the status, so the row says
+                  whether it can be opened before anyone tries. Narrower than 64rem, as here, the
+                  image stacks above the record; on a phone the card runs to the screen's edges, like
+                  the résumé cards."
                 />
 
                 <Stage>
@@ -429,12 +430,17 @@ export default function ComponentsPage() {
                   </Button>
                 </div>
 
-                <TextBlock className="mt-10">
+                <TextBlock
+                  className="mt-10"
+                  action={
+                    <Button href="https://storybook.magnocreative.com" variant="secondary" iconAfter={<ArrowUpRight />}>
+                      Open it in Storybook
+                    </Button>
+                  }
+                >
                   Every state of every component, including the ones that are wrong on purpose, lives
-                  in Storybook alongside the source. It runs with{" "}
-                  <code className="font-medium">npm run storybook</code> from the repository.
-                  It is not published at a URL yet; when it is, each specimen above will link to its
-                  own story rather than this paragraph doing the work.
+                  in Storybook alongside the source, published at storybook.magnocreative.com. The
+                  stories use sample content, so nothing there is waiting to be written.
                 </TextBlock>
               </section>
             </div>

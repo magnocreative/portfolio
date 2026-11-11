@@ -4,7 +4,7 @@ import { ContrastAudit, type AuditRow } from "@/design-system/components/Contras
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { FeaturePanel } from "@/design-system/components/FeaturePanel";
 import { Button } from "@/design-system/components/Button";
-import { ArrowRight } from "@/design-system/components/Icon";
+import { ArrowRight, ArrowUpRight } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { PageHeader } from "@/design-system/components/PageHeader";
@@ -221,19 +221,27 @@ export default function SystemPage() {
               eyebrow="Read the source"
               heading="Every claim on this page is checkable."
               asideWidth="medium"
+              action={
+                // Published on its own domain (November 2026), so a reader can
+                // check every state without cloning anything.
+                <Button href="https://storybook.magnocreative.com" variant="secondary" iconAfter={<ArrowUpRight />}>
+                  Open it in Storybook
+                </Button>
+              }
               aside={
                 <KeyValueList
                   items={[
                     { key: "tokens", value: "src/styles/tokens.css" },
                     { key: "components", value: "src/design-system/" },
-                    { key: "stories", value: "npm run storybook" },
+                    { key: "stories", value: "storybook.magnocreative.com" },
                     { key: "source", value: "github.com/magnocreative/portfolio" },
                   ]}
                 />
               }
             >
-              The tokens are one file. The components are next to their own stories. Nothing here is a
-              screenshot of work done elsewhere. It is the thing itself, and you are looking at it running.
+              The tokens are one file. The components are next to their own stories, and the stories are
+              published. Nothing here is a screenshot of work done elsewhere. It is the thing itself, and
+              you are looking at it running.
             </FeaturePanel>
             </section>
             </div>
