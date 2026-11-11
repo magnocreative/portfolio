@@ -176,7 +176,7 @@ export default function About() {
               aside={
                 <div>
                   <Logo
-                    title="The Magno Creative mark"
+                    title="The MagnoCreative mark"
                     className="w-full sm:w-[180px] md:w-[220px] xl:w-full h-auto"
                   />
                   <KeyValueList

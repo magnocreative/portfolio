@@ -1,5 +1,5 @@
 /**
- * The Magno Creative mark: two mountains forming an M, peaks left as negative
+ * The MagnoCreative mark: two mountains forming an M, peaks left as negative
  * space.
  *
  * The two fills are tokens rather than literal hex values, and since the
@@ -16,7 +16,7 @@
  */
 export function Logo({
   className = "",
-  title = "Magno Creative",
+  title = "MagnoCreative",
 }: {
   className?: string;
   title?: string;

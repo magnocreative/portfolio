@@ -105,10 +105,24 @@ export function ContrastAudit({
     // escaped this div at x 600 and widened the whole document, so phones
     // laid the page out at 600px and zoomed it out to fit: the page sat in
     // the left two thirds of the screen with an empty strip beside it.
-    <div className="relative overflow-x-auto" tabIndex={0} role="region" aria-label={label}>
+    //
+    // The outline holds the table together as one object, and the width stops
+    // at the measure, where the paragraph above it stops, so a ratio and its
+    // grade stay near the token they belong to. At full width in Storybook
+    // they sat 600px from it (Alejandro, November 2026). Inside, only the
+    // lines between rows: a table read across, row by row, gains nothing from
+    // vertical rules but noise. No fill: every ratio here is measured against
+    // the page surface, so the rows sit on the page surface. A raised card
+    // under them would show one surface and report another.
+    <div
+      className="relative max-w-measure overflow-x-auto rounded-sm border border-border-subtle"
+      tabIndex={0}
+      role="region"
+      aria-label={label}
+    >
       <table className="w-full min-w-[36rem] border-collapse text-left">
         <thead>
-          <tr className="border-b border-border-default">
+          <tr className="border-b border-border-subtle bg-surface-sunken">
             {/* The swatch and verdict columns are visual, but a header cell with
                 no accessible name is a real failure — a screen reader announces
                 the column as unlabelled. The name is present and hidden, not
@@ -123,7 +137,7 @@ export function ContrastAudit({
               <th
                 key={h.label}
                 scope="col"
-                className={`pb-3 font-label text-xs font-normal uppercase tracking-[0.14em] text-text-tertiary ${
+                className={`py-3 pr-4 font-label text-xs font-normal uppercase tracking-[0.14em] text-text-tertiary first:pl-5 last:pr-5 ${
                   i >= 3 ? "text-right" : ""
                 }`}
               >
@@ -134,8 +148,8 @@ export function ContrastAudit({
         </thead>
         <tbody>
           {(measured ?? rows.map((r) => ({ ...r, hex: "", ratio: 0, verdict: "AA" as Level }))).map((m) => (
-            <tr key={m.token} className="border-b border-border-subtle">
-              <td className="py-3.5 pr-4">
+            <tr key={m.token} className="border-b border-border-subtle last:border-b-0">
+              <td className="py-3.5 pr-4 pl-5">
                 <span
                   className="block h-8 w-8 rounded-sm border border-border-default"
                   style={{ background: `var(${m.token})` }}
@@ -151,7 +165,7 @@ export function ContrastAudit({
                     Printing that invites the reader to treat it as a result. */}
                 {!measured ? "—" : m.token === "--surface-page" ? "—" : `${m.ratio.toFixed(2)}:1`}
               </td>
-              <td className="py-3.5 text-right">
+              <td className="py-3.5 pr-5 text-right">
                 {measured && (
                   // The unboxed tones carry the chip's own padding, so every
                   // verdict's text ends on the same right edge down the column.
@@ -168,7 +182,7 @@ export function ContrastAudit({
         </tbody>
       </table>
       {!measured && (
-        <p className="mt-3 font-label text-xs text-text-tertiary">Measuring…</p>
+        <p className="border-t border-border-subtle px-5 py-3 font-label text-xs text-text-tertiary">Measuring…</p>
       )}
     </div>
   );

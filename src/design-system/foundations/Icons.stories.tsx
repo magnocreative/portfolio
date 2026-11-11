@@ -178,14 +178,14 @@ export const Logos: Story = {
     docs: {
       description: {
         story:
-          "Not icons, but drawn the same way and kept beside them. The Magno Creative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear only on the résumé; USAA's, SWBC's and the university's tiles invert in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
+          "Not icons, but drawn the same way and kept beside them. The MagnoCreative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear only on the résumé; USAA's, SWBC's and the university's tiles invert in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
       },
     },
   },
   render: () => (
     <ul className="grid max-w-[50rem] grid-cols-2 gap-3 sm:grid-cols-4">
       {[
-        ["Magno Creative", <Logo key="m" className="h-10 w-auto" />],
+        ["MagnoCreative", <Logo key="m" className="h-10 w-auto" />],
         ["USAA", <UsaaLogo key="u" className="h-10 w-10" />],
         ["JPMorganChase", <JpmcLogo key="j" className="h-10 w-10" />],
         ["HCL", <HclLogo key="h" className="h-10 w-10" />],

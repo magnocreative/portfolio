@@ -4,7 +4,7 @@ import { create } from "storybook/theming";
 // Storybook is published at storybook.magnocreative.com, so it says whose
 // system it is: the sidebar names it and links back to the site. The theme
 // follows the viewer's light or dark setting, as Storybook's own default does.
-const NAME = "Magno Creative design system";
+const NAME = "MagnoCreative design system";
 
 const dark =
   typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
