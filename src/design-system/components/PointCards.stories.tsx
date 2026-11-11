@@ -57,3 +57,18 @@ export const Two: Story = {
   },
   parameters: { docs: { description: { story: "Two points take the same row, each with more room." } } },
 };
+
+export const Phone: Story = {
+  globals: { viewport: { value: "phone", isRotated: false } },
+  parameters: {
+    layout: "fullscreen",
+    // The page's 24px phone gutter, so the card's bleed meets the edges.
+    padding: "2rem 1.5rem",
+    docs: {
+      description: {
+        story:
+          "At 390 the cards stack and run to the screen's edges, a hairline above and below each, the same as every card on the site at this width.",
+      },
+    },
+  },
+};

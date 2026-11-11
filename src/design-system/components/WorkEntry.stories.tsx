@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%, stacking when the card is under 64rem wide. The record reads in scan order: number, the title (the decision), the standfirst (the argument, never truncated), then a footer bar with the facts on the left and the status on the right. Below 640 the card runs to the screen's edges like the résumé cards. Each image will be a visual from its case study, made for this site, never a screen.",
+          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%, stacking when the card is under 64rem wide. The record reads in scan order: the number with the facts (employer, discipline, period) on the same row, the title (the decision), the standfirst (the argument, never truncated), then the action. From 640 the action is a quiet uppercase label over a rule; on a phone it is a full-width primary button, since a phone has no hover to say the card is a link. Below 640 the card runs to the screen's edges like the résumé cards. Each image is a visual made for this site, never a screen.",
       },
     },
   },
@@ -32,7 +32,7 @@ export const Published: Story = {
     docs: {
       description: {
         story:
-          "A finished case study. The whole card opens it, but the link is the title: its ::after stretches over the card, so a screen reader hears one link named by the title, and the keyboard focus ring is drawn around the card. The footer says where it goes: Read the case study, in the accent. On hover the edge firms from border/subtle to border/default, the title takes the accent, the arrow nudges 2px and the fill settles quietly to surface/page, the same hover surface the top nav uses.",
+          "A finished case study. The whole card opens it, but the link is the title: its ::after stretches over the card, so a screen reader hears one link named by the title, and the keyboard focus ring is drawn around the card. The action says where it goes: Read the case study, in the accent. On hover the edge firms from border/subtle to border/default, the title takes the accent, the arrow nudges 2px and the fill settles quietly to surface/page, the same hover surface the top nav uses.",
       },
     },
   },
@@ -93,4 +93,39 @@ export const TheIndex: Story = {
       </div>
     </div>
   ),
+};
+
+export const Phone: Story = {
+  args: {
+    index: 0,
+    study: { ...caseStudies[0], status: "published" },
+  },
+  globals: { viewport: { value: "phone", isRotated: false } },
+  parameters: {
+    layout: "fullscreen",
+    // The page's 24px phone gutter, so the card's bleed meets the edges.
+    padding: "2rem 1.5rem",
+    docs: {
+      description: {
+        story:
+          "At 390. The facts sit beside the number and wrap under it when they run long, and the action becomes a full-width primary button. It is still not a second link: the title's link covers the card, so tapping the button, the image or the text all open the study.",
+      },
+    },
+  },
+};
+
+export const PhoneDraft: Story = {
+  name: "Phone, draft",
+  args: { index: 1, study: caseStudies[1] },
+  globals: { viewport: { value: "phone", isRotated: false } },
+  parameters: {
+    layout: "fullscreen",
+    // The page's 24px phone gutter, so the card's bleed meets the edges.
+    padding: "2rem 1.5rem",
+    docs: {
+      description: {
+        story: "A draft on a phone: no button, because there is nothing to open yet. In writing says so instead.",
+      },
+    },
+  },
 };
