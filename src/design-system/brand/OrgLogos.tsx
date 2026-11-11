@@ -177,35 +177,41 @@ export function SwbcLogo({ className = "" }: { className?: string }) {
 
 /**
  * M7 Aerospace, an Elbit Systems of America company, for the technical
- * illustrator role. The mark is the company's own: the yellow wedge, the blue
- * band that steps up under it, and M7. The tile drops AEROSPACE and the
- * Elbit line, both unreadable at 48px (the row's text names Elbit instead),
- * and is cropped in on M7 so the letters stay legible, the wedge running off
- * the tile's right edge the way it runs off a page. The wedge and band were
- * redrawn as clean geometry measured from the logo; only the letters are
- * traced. Elbit's own mark is the same wedge and band, so a reader who knows
- * Elbit still sees it. White in both themes, like JPMorganChase's.
+ * illustrator role. M7's own mark: the blue M7 inside a gray orbit, traced
+ * from a high-resolution copy, still in use while Alejandro was there (2013 to
+ * 2016) as the company moved to Elbit's wedge. It replaced a trace of that
+ * Elbit-style logo, whose letters were a thin strip across a wide wedge and
+ * read as a smudge at 48px (Alejandro, November 2026). AEROSPACE is dropped:
+ * about 2px tall at this size, and the row's text names the company. White
+ * in both themes, with a hairline so it holds an edge on the light page.
  */
-const M7_WEDGE = "M-15.76 29.48L25.52 9.20L43.76 26.00L43.76 26.36L17.36 26.36C14.00 26.36 13.52 29.48 10.16 29.48Z";
-const M7_BAND = "M-15.28 29.36L10.16 29.36C13.52 29.36 14.00 26.24 17.36 26.24L43.76 26.24L43.76 27.68L17.84 27.68C14.48 27.68 13.76 30.80 10.40 30.80L-16.24 30.80Z";
+const M7_ORBIT =
+  "M8.16 22.70L7.71 24.87L7.51 26.83L7.51 28.21L7.62 29.45L8.13 31.56L8.92 33.19L9.93 34.46L11.08 35.36L11.90 35.78L12.77 36.09L14.40 36.34L16.12 36.26L17.83 35.89L20 35.08L22 34.01L24.22 32.46L26.02 30.91L28.21 28.61L26.36 28.58L24.61 30.29L22.90 31.64L21.18 32.71L19.16 33.64L17.64 34.09L16.06 34.32L14.77 34.29L13.50 34.03L12.29 33.53L11.20 32.74L10.30 31.73L9.62 30.55L9.17 29.28L8.86 27.54L8.83 25.57L9.03 23.82ZM33.39 19.83L30.88 21.72L30.21 23.15L29.20 24.92L30.86 24.92L32.52 21.91ZM33.95 7.77L33.22 6.47L32.29 5.40L31.05 4.50L29.73 3.94L28.30 3.66L26.61 3.66L24.64 4.02L22.93 4.62L20.93 5.60L19.04 6.81L17.10 8.36L15.11 10.30L13.67 11.96L12.29 13.81L11.03 15.81L9.85 18.09L10.55 19.04L11.65 16.85L13.50 14.07L15.05 12.24L16.54 10.77L17.72 9.79L19.24 8.72L20.79 7.85L22.22 7.23L24.16 6.70L25.34 6.56L27 6.64L28.13 6.92L29.37 7.51L30.60 8.55L31.50 9.82L31.90 10.66L32.23 11.70L32.49 13.08L32.52 13.70L34.79 13.73L34.82 11.65L34.71 10.49L34.43 9.12Z";
 const M7_LETTERS =
-  "M7.76 14.33L7.46 15.14L7.13 16.73L6.80 17.48L6.74 18.38L6.11 20.42L5.93 21.59L6.05 21.83L7.10 21.89L7.43 21.71L7.82 20.45L7.94 19.49L8.18 18.95L8.36 17.63L8.84 16.91L9.05 16.91L9.38 17.18L11.99 20.96L12.56 21.59L12.92 21.80L14.24 21.50L19.67 17.12L20.15 17.00L20.33 17.18L20.21 18.14L19.88 18.92L19.31 21.68L19.58 21.86L20.12 21.89L20.39 21.80L20.69 21.47L21.14 19.91L21.23 19.04L21.53 18.35L22.34 15.29L22.43 14.45L22.16 13.91L21.89 13.91L21.08 14.33L14.78 19.46L13.82 20.03L13.55 20.03L13.25 19.76L10.76 16.22L9.98 14.87L9.08 13.91L8.42 13.82ZM33.95 13.91L33.59 13.70L23.87 13.91L23.72 14.18L23.69 14.93L24.02 15.20L29.96 15.20L30.47 15.29L30.62 15.59L30.26 16.07L23.72 20.96L22.97 21.77L24.56 21.89L24.98 21.71L29.27 18.38L29.69 18.20L30.83 17.18L33.80 15.20L34.04 14.78Z";
+  "M22.67 24.78L25.71 24.78L37.10 16.23L37.55 15.58L37.61 15.22L37.47 14.80L37.21 14.57L36.96 14.49L24.70 14.49L24.13 16.54L33.58 16.60ZM4.56 15.22L2 24.78L4.08 24.78L5.85 18.06L10.61 24.56L12.24 24.56L20.37 18.06L18.65 24.78L20.70 24.78L23.15 15.56L23.12 14.91L22.81 14.57L22.22 14.49L21.66 14.71L11.98 22.42L6.30 14.66L5.94 14.49L5.46 14.52L4.95 14.77Z";
 
 export function M7Logo({ className = "" }: { className?: string }) {
-  const id = useId();
   return (
     <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
       <rect width="40" height="40" rx="8" fill="#FFFFFF" />
-      <g clipPath={`url(#${id}-clip)`}>
-        <path d={M7_WEDGE} fill="#FFE14F" />
-        <path d={M7_BAND} fill="#004890" />
-        <path d={M7_LETTERS} fill="#004890" fillRule="evenodd" />
-      </g>
-      <defs>
-        <clipPath id={`${id}-clip`}>
-          <rect width="40" height="40" rx="8" />
-        </clipPath>
-      </defs>
+      <path d={M7_ORBIT} fill="#999999" fillRule="evenodd" />
+      <path d={M7_LETTERS} fill="#005DAA" fillRule="evenodd" />
+      {/* A hairline in border/subtle, the edge every white card on the site
+          has: the only white tile on the light page, it had none and melted
+          into the paper (Alejandro, November 2026). Drawn inside the tile and
+          kept at 1px at any size. Light page only: on the dark page the white
+          tile already stands out, and the other white tiles there have no rim. */}
+      <rect
+        x="0.5"
+        y="0.5"
+        width="39"
+        height="39"
+        rx="7.5"
+        fill="none"
+        style={{ stroke: "light-dark(var(--border-subtle), transparent)" }}
+        strokeWidth={1}
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
