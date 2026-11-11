@@ -6,117 +6,29 @@ import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { HclLogo, JpmcLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
+import { Download } from "@/design-system/components/Icon";
+import {
+  education,
+  email,
+  experience,
+  lede,
+  linkedin,
+  location,
+  name,
+  pdfFile,
+  prior,
+  relocation,
+  skills,
+  subtitle,
+} from "@/content/resume";
+
+const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo };
 
 export const metadata: Metadata = {
   title: "Résumé",
   description:
     "Alejandro Magno Fernandini, experience designer. Ten years across design systems and complex operational tools at JPMorganChase, USAA and HCL Technologies.",
 };
-
-/* Dates and titles here must match the Google Doc exactly. They were corrected
-   once already: the USAA range originally absorbed the HCL contract, which
-   overstated the employment by twenty months and would not have survived an
-   employment verification. The title is the title of record, not the
-   functional one, for the same reason.
-
-   Periods read "to" rather than an en dash, matching the case study index. */
-const experience = [
-  {
-    employer: "JPMorganChase",
-    id: "jpmorganchase",
-    Logo: JpmcLogo,
-    location: "Plano, Texas",
-    roles: [
-      {
-        title: "Experience Designer",
-        period: "June 2024 to present",
-        bullets: [
-          "Led design and documentation for the platform’s self-service portal, a reference product other lines of business use to adopt shared CRM patterns. Rated exceeding expectations; partners credited the work with high project impact.",
-          "Own and maintain the Salesforce Lightning Design System used by every CRM team in the group: component architecture, auto layout and slot patterns, and the usage documentation designers work from.",
-          "Drove the analysis behind the team’s decision to leave Salesforce and build an in-house design system, after the vendor’s platform shift left the existing system unable to meet cross-line-of-business needs.",
-          "Replaced static prototypes with coded ones, removing a translation step between design and engineering. Built the workflow, the components and the specification format, established the team’s first version-controlled workspace, and taught both to the team.",
-        ],
-      },
-      {
-        title: "Software Engineer",
-        period: "November 2022 to June 2024",
-        bullets: [
-          "Maintained and updated the SQL jobs behind the bank’s submission for the Federal Reserve’s Comprehensive Capital Analysis and Review, the annual stress test that sets how much capital a large bank must hold. Daily run cycle handed to a team in India overnight, working to a fixed month-end delivery date.",
-          "Automating parts of the pipeline made it faster and more fragile. Rebuilt the jobs so they stopped breaking, shipping each fix through a verification deployment before production. Stability was the goal, and month-end data went out on schedule.",
-        ],
-      },
-    ],
-  },
-  {
-    employer: "USAA",
-    id: "usaa",
-    Logo: UsaaLogo,
-    location: "San Antonio and Plano, Texas",
-    roles: [
-      {
-        title: "Designer",
-        period: "October 2018 to November 2022",
-        bullets: [
-          "Designed across governance, risk and compliance, audit, and enterprise reporting: internal platforms where the users are specialists and the cost of a bad interface is measured in rework and missed controls.",
-          "Surveyed 82 people across a compliance organization running on sixteen interconnected applications, and found the problem was not the applications. Nobody could tell when any of them was down or in maintenance.",
-          "Designed the consolidated status view that replaced checking sixteen systems by hand. Shipped to several hundred staff and still in use, with a feedback channel inside it so what got built next came from the people using it.",
-          "Recommended a common design language across all sixteen applications. When platform leadership chose to keep each system’s defaults, redesigned the approach to deliver value without requiring sixteen teams to migrate.",
-        ],
-      },
-    ],
-  },
-  {
-    employer: "HCL Technologies",
-    id: "hcl",
-    Logo: HclLogo,
-    location: "On-site at USAA, San Antonio, Texas",
-    roles: [
-      {
-        title: "Visual Designer",
-        period: "February 2017 to October 2018",
-        bullets: [
-          "Designed web pages for USAA’s public site within the bank team, and prototyped concepts for USAA Labs that directors used to socialize new ideas internally. Converted to a full-time USAA role at the end of the engagement.",
-        ],
-      },
-    ],
-  },
-];
-
-const skills = [
-  {
-    group: "Design systems",
-    items:
-      "Component architecture, design tokens, auto layout and slot patterns, usage documentation, adoption and governance across teams",
-  },
-  {
-    group: "Product design",
-    items:
-      "Discovery, user research and interviews, information architecture, interaction design, prototyping, accessibility (WCAG)",
-  },
-  {
-    group: "Design engineering",
-    items:
-      "Coded prototypes, version control and branching workflows, AI-assisted prototyping, design-to-engineering handoff",
-  },
-  {
-    group: "Tools",
-    items:
-      "Figma, VS Code, Storybook, Salesforce Lightning Design System, Jira, FigJam, Adobe Creative Suite",
-  },
-];
-
-const education = [
-  {
-    title: "Bachelor of Fine Arts, Computer Graphic Arts",
-    detail: "University of the Incarnate Word",
-    period: "2015",
-  },
-  {
-    title: "AWS Certified Cloud Practitioner",
-    detail: "Amazon Web Services",
-    period: "2023 to 2026",
-  },
-];
 
 /* Every row on this page is capped at the 900px measure, headers included.
    The first version let the employer, location, role and date rows run the
@@ -175,18 +87,15 @@ export default function Resume() {
           <PageHeader
             type="resume"
             eyebrow="Résumé"
-            title="Alejandro Magno Fernandini"
-            subtitle="Experience Designer. Design systems and complex operational tools."
+            title={name}
+            subtitle={subtitle}
             meta={
               <>
-                <span>Dallas&ndash;Fort Worth, Texas</span>
-                <span>Open to relocation</span>
+                <span>{location}</span>
+                <span>{relocation}</span>
               </>
             }
-            lede={[
-              "Ten years in design and a working engineering background, focused on the internal systems people use all day to do difficult work. I own design systems, and I build prototypes that prove a design works before engineering commits to it.",
-              "I work in the double diamond: understand the problem, then design the solution. Agentic tools have made delivery faster, and with that comes the temptation to skip discovery. I don’t, because fast work only pays off if it still holds up long after it ships.",
-            ]}
+            lede={lede}
             actions={
               // Where to reach me sits with what to do, not in the facts line
               // above. The facts line says where I am; this row is every way
@@ -197,20 +106,24 @@ export default function Resume() {
               // equal targets rather than two words left hanging. Secondary,
               // not tertiary: a bare word in half a row looked unfinished.
               <div className="grid grid-cols-2 gap-x-2 gap-y-3 sm:flex sm:flex-wrap sm:items-center">
+                {/* A file, not a request. It used to open an email asking for
+                    the PDF, which put a person between a recruiter and a page
+                    they could already read. The download carries no phone
+                    number; the copy sent to a person does (see
+                    scripts/resume-pdf.mjs). */}
                 <Button
-                  href="mailto:alejandini@gmail.com?subject=R%C3%A9sum%C3%A9%20PDF"
+                  href={`/${pdfFile}`}
+                  download={pdfFile}
                   variant="primary"
+                  iconBefore={<Download />}
                   className="col-span-2"
                 >
-                  Request a PDF
+                  Download PDF
                 </Button>
-                <Button href="mailto:alejandini@gmail.com" variant="secondary">
+                <Button href={`mailto:${email}`} variant="secondary">
                   Email
                 </Button>
-                <Button
-                  href="https://www.linkedin.com/in/alejandro-m-fernandini"
-                  variant="secondary"
-                >
+                <Button href={linkedin} variant="secondary">
                   LinkedIn
                 </Button>
               </div>
@@ -228,7 +141,9 @@ export default function Resume() {
                 24 the run from one card's last bullet to the next logo was
                 88px, which read as a section break. */}
             <div className="mt-10 flex flex-col gap-4">
-              {experience.map((org) => (
+              {experience.map((org) => {
+                const Logo = LOGOS[org.logo];
+                return (
                 <Card as="article" bleed key={org.employer} id={org.id} className="max-w-measure">
                   {/* The mark, then the name with the location under it. The
                       location describes the employer, so it sits with the
@@ -238,7 +153,7 @@ export default function Resume() {
                       is always two lines, so the mark is 48 at every width and
                       centered on both lines. */}
                   <div className="flex max-w-measure items-center gap-3">
-                    <org.Logo className="h-12 w-12 shrink-0" />
+                    <Logo className="h-12 w-12 shrink-0" />
                     <div className="flex min-w-0 flex-col gap-1">
                       <h3 className="font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary">
                         {org.employer}
@@ -268,7 +183,8 @@ export default function Resume() {
                     </div>
                   ))}
                 </Card>
-              ))}
+                );
+              })}
 
               {/* Not a card: earlier roles are one line, not a section, and
                   a card around one sentence is all frame. 40px more than the
@@ -276,12 +192,9 @@ export default function Resume() {
                   fourth employer. */}
               <div className="mt-10 max-w-measure">
                 <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                  Career prior to 2017
+                  {prior.label}
                 </span>
-                <p className="mt-3 text-base leading-[1.65] text-text-secondary">
-                  Graphic designer and technical illustrator roles at SWBC and Elbit Systems of
-                  America, 2013 to 2017.
-                </p>
+                <p className="mt-3 text-base leading-[1.65] text-text-secondary">{prior.text}</p>
               </div>
             </div>
           </section>

@@ -37,9 +37,20 @@ type Common = {
   className?: string;
 };
 
-type AsLink = Common & { href: string; onClick?: never; type?: never };
+type AsLink = Common & {
+  href: string;
+  /**
+   * A file to save rather than a page to open: renders a plain anchor with
+   * `download`, not a Next Link, which would try to prefetch the file as a
+   * route. The value is the suggested file name.
+   */
+  download?: string;
+  onClick?: never;
+  type?: never;
+};
 type AsButton = Common & {
   href?: never;
+  download?: never;
   onClick?: () => void;
   type?: "button" | "submit";
 };
@@ -182,6 +193,13 @@ export function Button({
         <button type="button" className={classes} disabled aria-disabled="true">
           {inner}
         </button>
+      );
+    }
+    if (rest.download) {
+      return (
+        <a href={rest.href} download={rest.download} className={classes}>
+          {inner}
+        </a>
       );
     }
     return (
