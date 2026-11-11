@@ -106,8 +106,11 @@ export function PageHeader({
           <div
             className={`${
               type === "resume" ? "mt-12" : "mt-14"
-            } ${meta ? "xl:mt-0" : ""} flex max-w-[46rem] flex-col gap-5 text-lg leading-[1.65] text-text-secondary`}
+            } ${meta ? "xl:mt-0" : ""} flex max-w-[46rem] flex-col gap-5 text-lg leading-[1.65] text-text-secondary text-pretty`}
           >
+            {/* text-pretty: no one-word last line. The résumé's lede ended on
+                "ships." alone (November 2026); the browser now balances the
+                last two lines instead. */}
             {(Array.isArray(lede) ? lede : [lede]).map((p, i) => (
               <p key={i}>{p}</p>
             ))}

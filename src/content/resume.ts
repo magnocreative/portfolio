@@ -24,8 +24,8 @@ export const linkedin = "https://www.linkedin.com/in/alejandro-m-fernandini";
 export const site = "https://magnocreative.com";
 
 export const lede = [
-  "Ten years in design and a working engineering background, focused on the internal systems people use all day to do difficult work. I own design systems, and I build prototypes that prove a design works before engineering commits to it.",
-  "I work in the double diamond: understand the problem, then design the solution. Agentic tools have made delivery faster, and with that comes the temptation to skip discovery. I don’t, because fast work only pays off if it still holds up long after it ships.",
+  "Ten years in design, with an engineering background to match. I design the internal tools people use all day to do difficult work, own the design system our CRM teams build on, and prototype in code to prove a design works before engineering commits to it.",
+  "I work in the double diamond: understand the problem, then design the solution. Agentic tools make delivery faster, and with that comes the temptation to skip discovery. I don’t. Understanding the problem first is what lets engineering move fast and get it right, because fast work only pays off if it still holds up long after it ships.",
 ];
 
 

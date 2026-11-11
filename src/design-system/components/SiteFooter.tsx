@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Container } from "@/design-system/primitives/Container";
-import { TexasIcon } from "@/design-system/components/Icon";
+import { Button } from "@/design-system/components/Button";
+import { Mail, TexasIcon } from "@/design-system/components/Icon";
 
 const elsewhere = [
-  { href: "mailto:alejandini@gmail.com", label: "Email" },
   { href: "https://www.linkedin.com/in/alejandro-m-fernandini", label: "LinkedIn" },
   { href: "https://github.com/magnocreative", label: "GitHub" },
 ];
@@ -27,12 +27,22 @@ export function SiteFooter() {
             <div className="font-display text-xl tracking-[-0.01em] text-text-primary">
               Looking for someone who owns the system, not just the screens?
             </div>
-            <a
+            {/* The closing call to action, so it is drawn as one: a
+                secondary button, the same as Email in the résumé header
+                (Alejandro, November 2026). It keeps the address as its label
+                rather than "Email me", because people copy it, and a mailto
+                link does nothing on a machine with no mail app. It was an
+                underlined link beside an EMAIL link in the row on the right
+                that went to the same place; that one is gone. Full width on a
+                phone, like every action there. */}
+            <Button
               href="mailto:alejandini@gmail.com"
-              className="mt-3 inline-block text-base text-text-accent underline decoration-border-strong underline-offset-4 transition-colors duration-[160ms] hover:text-interactive-hover hover:decoration-current"
+              variant="secondary"
+              iconBefore={<Mail />}
+              className="mt-5"
             >
               alejandini@gmail.com
-            </a>
+            </Button>
           </div>
 
           {/* Wrapped in a nav and set at the header's link color rather than
@@ -48,7 +58,10 @@ export function SiteFooter() {
               rule occupies, so nothing shifts when the section changes. These
               go off-site and can never be current, so reserving space for a
               state that cannot happen would be cargo cult. */}
-          <nav aria-label="Elsewhere">
+          {/* 10px up from the bottom on wide screens: the row aligns bottoms,
+              and the links are one 20px line beside a 40px button, so this
+              centers them on it instead of sitting them on its lower edge. */}
+          <nav aria-label="Elsewhere" className="sm:pb-2.5">
             <ul className="flex gap-6">
               {elsewhere.map((item) => (
                 <li key={item.label}>

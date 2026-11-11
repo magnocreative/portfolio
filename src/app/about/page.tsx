@@ -28,6 +28,13 @@ export const metadata: Metadata = {
    one here is drawn from work that actually happened, which is why none of
    them needs a project name to land. */
 const principles = [
+  // The double diamond, told as what it found rather than named as a method:
+  // the résumé states the belief in a line, this proves it (Alejandro,
+  // November 2026).
+  {
+    title: "Find the problem before the solution",
+    body: "At USAA I surveyed 82 people across a compliance organization that ran on sixteen interconnected applications. The problem turned out not to be the applications: nobody could tell when one of them was down or in maintenance. The answer was one status view that replaced checking sixteen systems by hand. Agentic tools make this step tempting to skip, because a screen is now minutes away. The cost of discovery is that it looks like nothing is happening, and you have to defend that time until the reframed problem pays for it.",
+  },
   {
     title: "Build it rather than describe it",
     body: "A static mockup asks engineering to imagine the behavior. A coded prototype shows them. I replaced our static prototypes with coded ones, built the component workflow and the specification format around them, and set up the team’s first version-controlled workspace. The cost is real: the first pass is slower, and a prototype left to drift out of date is worse than no prototype at all. It buys something worth more, which is that the argument stops being about whether a thing will work.",
@@ -126,7 +133,8 @@ export default function About() {
                 <p>
                   Ten years in design. I started as a graphic designer and technical illustrator,
                   moved into visual design on a bank&rsquo;s public site, and then into product design
-                  on the internal platforms nobody outside the company ever sees.
+                  on the internal platforms nobody outside the company ever sees. Most of that decade
+                  has been in Texas, from San Antonio to Dallas&ndash;Fort Worth.
                 </p>
                 <p className="mt-6">
                   In the middle of that I spent a year and a half as a software engineer, maintaining
