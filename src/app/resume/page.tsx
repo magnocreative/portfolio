@@ -60,6 +60,27 @@ export const metadata: Metadata = {
    color and height are chosen instead of inherited from the font. 6px in
    border-strong, quiet beside the text, centered on the first line's
    lowercase letters. */
+/* A location keeps its last city and its state on one line. "On-site at
+   USAA, San Antonio, Texas" wrapped in the employer column as "San Antonio,"
+   over "Texas"; now it breaks before the city, if it breaks at all
+   (Alejandro, November 2026). Only the last city: "San Antonio and Plano,
+   Texas" held whole ran past a 320px screen, so it may break before "Plano". */
+function Place({ text }: { text: string }) {
+  const parts = text.split(", ");
+  const state = parts.pop() ?? "";
+  const cities = parts.pop() ?? "";
+  const lead = cities.lastIndexOf(" and ");
+  const city = lead >= 0 ? cities.slice(lead + 5) : cities;
+  const note = parts.length ? parts.join(", ") + ", " : "";
+  return (
+    <>
+      {note}
+      {lead >= 0 && cities.slice(0, lead + 5)}
+      <span className="whitespace-nowrap">{city ? `${city}, ${state}` : state}</span>
+    </>
+  );
+}
+
 function Bullet({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex gap-4">
@@ -177,7 +198,7 @@ export default function Resume() {
                           {org.employer}
                         </h3>
                         <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                          {org.location}
+                          <Place text={org.location} />
                         </span>
                       </div>
                     </div>
