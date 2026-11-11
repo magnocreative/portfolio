@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Logo } from "@/design-system/brand/Logo";
-import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
+import { HclLogo, JpmcLogo, M7Logo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 import { caseStudies } from "@/content/case-studies";
 import { BriefcaseIcon } from "@/design-system/components/Icon";
 import {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 const LAYOUTS = ["classic", "rail", "sidebar"] as const;
 type Layout = (typeof LAYOUTS)[number];
 
-const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo };
+const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo, swbc: SwbcLogo, m7: M7Logo };
 const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "");
 
 const css = `
@@ -251,13 +251,24 @@ function Experience({ locationUnder = false }: { locationUnder?: boolean }) {
   );
 }
 
+/* The page shows skills as chips, where each one starts with a capital. Run
+   together in a sentence that reads "Component architecture, Design tokens",
+   so after the first item each starts lowercase, unless its second letter is
+   a capital (AI, WCAG). Tools are all names, so they keep theirs. */
+function sentence(group: string, items: string[]) {
+  if (group === "Tools") return items.join(", ");
+  return items
+    .map((item, i) => (i > 0 && /^[A-Z][a-z]/.test(item) ? item[0].toLowerCase() + item.slice(1) : item))
+    .join(", ");
+}
+
 function Skills() {
   return (
     <dl className="skills">
       {skills.map((s) => (
         <div key={s.group} style={{ display: "contents" }}>
           <dt>{s.group}</dt>
-          <dd>{s.items.join(", ")}</dd>
+          <dd>{sentence(s.group, s.items)}</dd>
         </div>
       ))}
     </dl>

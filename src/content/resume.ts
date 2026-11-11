@@ -5,7 +5,7 @@
  * with the dev server running.
  */
 
-export type OrgLogo = "jpmc" | "usaa" | "hcl" | "uiw";
+export type OrgLogo = "jpmc" | "usaa" | "hcl" | "uiw" | "swbc" | "m7";
 
 export type Employer = {
   employer: string;
@@ -127,12 +127,25 @@ export const skills: { group: string; items: string[] }[] = [
    first. Alone, the earlier roles were a one-line coda under Experience and
    the degree a one-row section, and both looked left over; together they are
    where the career starts, the degree, then the design work that led to HCL
-   (Alejandro, November 2026). A row with no logo gets the briefcase tile. */
+   (Alejandro, November 2026). One row per employer, each with its logo, so
+   the dates are each role's own. M7 Aerospace was a subsidiary of Elbit
+   Systems of America from December 2010, so the row names both, as M7's own
+   logo does. Its title is the title of record, which a background check
+   verifies; the work it was, technical illustration, rides beside it rather
+   than replacing it, and three years from June 2013 says the rest (Alejandro,
+   November 2026). A row with no logo gets the briefcase tile. */
 export const background: { title: string; detail: string; period: string; logo?: OrgLogo }[] = [
   {
-    title: "Graphic designer and technical illustrator",
-    detail: "SWBC and Elbit Systems of America",
-    period: "2013 to 2017",
+    title: "Graphic Designer",
+    detail: "SWBC",
+    period: "May 2016 to February 2017",
+    logo: "swbc",
+  },
+  {
+    title: "Graphic Designer Intern, technical illustration",
+    detail: "M7 Aerospace, an Elbit Systems of America company",
+    period: "June 2013 to May 2016",
+    logo: "m7",
   },
   {
     title: "Bachelor of Fine Arts, Computer Graphic Arts",

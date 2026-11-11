@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import type { ComponentType, SVGProps } from "react";
 import * as Icons from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
-import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
+import { HclLogo, JpmcLogo, M7Logo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 
 /**
  * Every icon in Icon.tsx, READ from the module, never listed by hand.
@@ -176,17 +176,19 @@ export const Logos: Story = {
     docs: {
       description: {
         story:
-          "Not icons, but drawn the same way and kept beside them. The Magno Creative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear only on the résumé; USAA's tile inverts in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
+          "Not icons, but drawn the same way and kept beside them. The Magno Creative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear only on the résumé; USAA's, SWBC's and the university's tiles invert in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
       },
     },
   },
   render: () => (
-    <ul className="grid max-w-[50rem] grid-cols-2 gap-3 sm:grid-cols-5">
+    <ul className="grid max-w-[50rem] grid-cols-2 gap-3 sm:grid-cols-4">
       {[
         ["Magno Creative", <Logo key="m" className="h-10 w-auto" />],
         ["USAA", <UsaaLogo key="u" className="h-10 w-10" />],
         ["JPMorganChase", <JpmcLogo key="j" className="h-10 w-10" />],
         ["HCL", <HclLogo key="h" className="h-10 w-10" />],
+        ["SWBC", <SwbcLogo key="s" className="h-10 w-10" />],
+        ["M7 Aerospace", <M7Logo key="7" className="h-10 w-10" />],
         ["University of the Incarnate Word", <UiwLogo key="w" className="h-10 w-10" />],
       ].map(([name, mark]) => (
         <li

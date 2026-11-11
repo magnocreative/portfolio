@@ -155,3 +155,57 @@ export function UiwLogo({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/**
+ * SWBC, for the graphic designer role under Education and early career.
+ * Traced from the company's arch and wordmark without the registration mark,
+ * which is a speck at 48px. Like USAA's, the tile inverts with the theme: the
+ * company's navy on the light page, white with navy marks on the dark one,
+ * where the navy would sink into the ground.
+ */
+const SWBC_PATH =
+  "M5.00 29.02L5.99 29.19L7.06 29.27L8.23 29.19L8.92 29.04L9.74 28.74L10.68 28.12L11.16 27.61L11.54 26.93L11.70 26.24L11.62 25.65L11.39 25.20L10.93 24.71L10.50 24.43L9.00 23.72L8.72 23.39L8.72 22.98L9.07 22.55L9.56 22.32L10.32 22.22L11.21 22.22L12.11 22.32L12.23 21.99L12.28 22.22L12.16 28.79L12.21 29.04L14.32 29.04L14.40 28.99L16.51 24.69L16.59 24.79L16.59 29.02L18.85 29.02L21.40 23.51L21.55 23.29L21.58 23.46L20.15 29.02L24.48 29.04L25.65 28.89L26.29 28.66L26.80 28.35L27.28 27.87L27.64 27.16L27.72 27.13L28.07 27.74L28.56 28.28L28.94 28.58L29.63 28.96L30.34 29.19L30.80 29.27L31.74 29.27L32.48 29.12L33.12 28.89L33.65 28.58L33.68 26.72L33.60 26.70L33.27 26.93L32.89 27.08L32.30 27.18L31.56 27.16L30.80 26.85L30.29 26.37L30.03 25.88L29.98 25.55L30.03 24.71L30.29 24.10L30.75 23.49L31.33 23.01L31.89 22.72L32.58 22.57L32.99 22.57L33.68 22.70L34.34 23.01L35.00 21.43L35.00 21.30L34.16 20.89L33.29 20.66L32.63 20.59L31.46 20.66L30.67 20.89L30.19 21.12L29.32 21.73L28.53 22.65L27.92 23.82L27.61 24.74L27.54 25.27L27.46 25.30L27.13 24.94L26.62 24.58L27.08 24.25L27.51 23.82L27.74 23.49L27.97 22.90L27.97 22.06L27.82 21.60L27.36 21.04L26.85 20.74L26.42 20.59L25.76 20.48L20.76 20.48L18.47 24.81L18.42 24.76L18.42 20.56L18.37 20.48L16.92 20.51L14.65 24.76L14.63 24.25L14.75 21.25L14.73 20.48L12.33 20.48L12.31 20.59L12.18 20.64L11.37 20.43L10.22 20.38L9.58 20.43L8.90 20.59L8.44 20.74L7.80 21.07L7.32 21.43L6.91 21.86L6.60 22.32L6.38 22.88L6.30 23.18L6.27 23.85L6.30 24.05L6.45 24.38L6.91 24.89L7.60 25.30L8.62 25.68L9.00 25.91L9.20 26.26L9.20 26.52L9.13 26.70L8.87 26.98L8.57 27.16L7.72 27.39L6.58 27.44L5.56 27.33ZM23.44 25.55L24.41 25.60L24.71 25.76L24.92 25.96L24.97 26.14L24.94 26.47L24.66 26.93L24.33 27.16L23.82 27.28L23.34 27.28L23.06 27.18ZM24.20 22.32L24.99 22.34L25.25 22.47L25.45 22.78L25.40 23.13L25.27 23.36L24.97 23.64L24.61 23.79L24.07 23.82L23.85 23.74ZM18.04 13.35L19.01 13.46L20.36 13.76L21.68 14.22L22.70 14.68L24.15 15.52L25.55 16.59L26.67 17.76L27.28 18.70L29.07 18.73L29.12 18.68L28.20 17.38L27.05 16.23L25.83 15.31L24.46 14.55L22.88 13.94L21.30 13.56L19.52 13.35ZM6.78 18.04L7.72 16.84L8.59 15.98L9.46 15.24L11.06 14.17L12.31 13.53L13.89 12.92L15.70 12.46L17.48 12.23L19.44 12.23L21.35 12.46L23.23 12.92L25.02 13.61L26.06 14.14L27.64 15.21L28.76 16.23L29.75 17.40L30.29 18.19L30.52 18.65L30.62 18.73L34.34 18.70L34.08 18.14L33.60 17.38L32.78 16.33L32.02 15.49L30.57 14.19L29.12 13.17L28.05 12.56L27.08 12.11L25.45 11.49L23.23 10.96L21.20 10.73L19.31 10.73L17.84 10.88L16.97 11.04L14.98 11.57L13.96 11.95L12.64 12.56L11.44 13.25L10.65 13.79L9.23 14.96L7.83 16.46L7.06 17.50Z";
+
+export function SwbcLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
+      <rect width="40" height="40" rx="8" style={{ fill: "light-dark(#283349, #FFFFFF)" }} />
+      <path d={SWBC_PATH} fillRule="evenodd" style={{ fill: "light-dark(#FFFFFF, #283349)" }} />
+    </svg>
+  );
+}
+
+/**
+ * M7 Aerospace, an Elbit Systems of America company, for the technical
+ * illustrator role. The mark is the company's own: the yellow wedge, the blue
+ * band that steps up under it, and M7. The tile drops AEROSPACE and the
+ * Elbit line, both unreadable at 48px (the row's text names Elbit instead),
+ * and is cropped in on M7 so the letters stay legible, the wedge running off
+ * the tile's right edge the way it runs off a page. The wedge and band were
+ * redrawn as clean geometry measured from the logo; only the letters are
+ * traced. Elbit's own mark is the same wedge and band, so a reader who knows
+ * Elbit still sees it. White in both themes, like JPMorganChase's.
+ */
+const M7_WEDGE = "M-15.76 29.48L25.52 9.20L43.76 26.00L43.76 26.36L17.36 26.36C14.00 26.36 13.52 29.48 10.16 29.48Z";
+const M7_BAND = "M-15.28 29.36L10.16 29.36C13.52 29.36 14.00 26.24 17.36 26.24L43.76 26.24L43.76 27.68L17.84 27.68C14.48 27.68 13.76 30.80 10.40 30.80L-16.24 30.80Z";
+const M7_LETTERS =
+  "M7.76 14.33L7.46 15.14L7.13 16.73L6.80 17.48L6.74 18.38L6.11 20.42L5.93 21.59L6.05 21.83L7.10 21.89L7.43 21.71L7.82 20.45L7.94 19.49L8.18 18.95L8.36 17.63L8.84 16.91L9.05 16.91L9.38 17.18L11.99 20.96L12.56 21.59L12.92 21.80L14.24 21.50L19.67 17.12L20.15 17.00L20.33 17.18L20.21 18.14L19.88 18.92L19.31 21.68L19.58 21.86L20.12 21.89L20.39 21.80L20.69 21.47L21.14 19.91L21.23 19.04L21.53 18.35L22.34 15.29L22.43 14.45L22.16 13.91L21.89 13.91L21.08 14.33L14.78 19.46L13.82 20.03L13.55 20.03L13.25 19.76L10.76 16.22L9.98 14.87L9.08 13.91L8.42 13.82ZM33.95 13.91L33.59 13.70L23.87 13.91L23.72 14.18L23.69 14.93L24.02 15.20L29.96 15.20L30.47 15.29L30.62 15.59L30.26 16.07L23.72 20.96L22.97 21.77L24.56 21.89L24.98 21.71L29.27 18.38L29.69 18.20L30.83 17.18L33.80 15.20L34.04 14.78Z";
+
+export function M7Logo({ className = "" }: { className?: string }) {
+  const id = useId();
+  return (
+    <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
+      <rect width="40" height="40" rx="8" fill="#FFFFFF" />
+      <g clipPath={`url(#${id}-clip)`}>
+        <path d={M7_WEDGE} fill="#FFE14F" />
+        <path d={M7_BAND} fill="#004890" />
+        <path d={M7_LETTERS} fill="#004890" fillRule="evenodd" />
+      </g>
+      <defs>
+        <clipPath id={`${id}-clip`}>
+          <rect width="40" height="40" rx="8" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
