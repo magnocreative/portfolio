@@ -309,3 +309,31 @@ export function WrenchIcon(props: IconProps) {
     </svg>
   );
 }
+
+/* Social marks: LinkedIn's "in" square and GitHub's Octocat, traced from each
+   company's own one-color mark (Alejandro, November 2026). Filled, not
+   stroked, because a brand mark is a shape, and one color, currentColor, so
+   they take the text color around them like every other glyph here rather
+   than their brand blue and black. The wordmarks are left out: the label
+   beside each already names it. Drawn a little inside the 20-unit box (15 for
+   the square, 16 for the circle, which reads smaller at the same width) so
+   they sit at the weight of the stroke icons. */
+function filled(props: IconProps) {
+  return { viewBox: "0 0 20 20", fill: "currentColor", "aria-hidden": true, focusable: false, ...props };
+}
+
+export function LinkedInIcon(props: IconProps) {
+  return (
+    <svg {...filled(props)}>
+      <path fillRule="evenodd" d="M3.02 2.74L2.67 3.13L2.50 3.62L2.50 16.37L2.74 16.96L3.13 17.31L3.65 17.48L16.33 17.48L16.58 17.45L16.96 17.24L17.31 16.85L17.48 16.33L17.48 3.65L17.45 3.44L17.24 3.02L16.85 2.67L16.37 2.50L3.62 2.50ZM4.94 7.99L6.84 7.99L7.14 8.26L7.14 15.53L7.07 15.67L6.84 15.86L4.94 15.86L4.68 15.63L4.65 15.49L4.65 8.29L4.75 8.12ZM14.90 8.45L15.23 8.78L15.58 9.37L15.86 10.38L15.93 11.05L15.93 15.56L15.86 15.70L15.67 15.86L13.66 15.86L13.47 15.74L13.40 15.63L13.40 11.50L13.33 11.05L13.19 10.63L12.84 10.21L12.76 10.21L12.56 10.07L12.02 10.00L11.57 10.10L11.29 10.28L10.98 10.66L10.77 11.22L10.70 15.63L10.47 15.86L8.53 15.86L8.40 15.79L8.24 15.60L8.24 8.26L8.31 8.12L8.53 7.99L10.44 7.99L10.70 8.19L10.73 8.87L10.82 8.87L10.89 8.71L11.15 8.45L11.57 8.17L12.09 7.96L12.32 7.96L12.48 7.89L13.05 7.85L13.96 7.96L14.62 8.24ZM5.67 4.12L6.11 4.12L6.39 4.19L6.91 4.47L7.28 4.91L7.49 5.40L7.49 6.08L7.35 6.46L7.14 6.77L6.70 7.14L6.11 7.35L5.67 7.35L5.08 7.14L4.80 6.93L4.54 6.63L4.40 6.35L4.26 5.76L4.40 5.12L4.78 4.56L5.22 4.26Z" />
+    </svg>
+  );
+}
+
+export function GitHubIcon(props: IconProps) {
+  return (
+    <svg {...filled(props)}>
+      <path fillRule="evenodd" d="M7.48 2.51L6.53 2.90L5.91 3.23L4.62 4.19L3.59 5.32L3.08 6.09L2.72 6.78L2.28 7.97L2.00 9.59L2.05 11.26L2.21 12.11L2.46 12.96L2.98 14.09L3.49 14.91L4.03 15.58L4.68 16.23L5.42 16.82L6.22 17.31L7.38 17.82L7.79 17.82L7.92 17.72L7.99 17.54L7.97 15.97L7.38 16.07L6.89 16.07L6.45 15.99L5.88 15.74L5.47 15.35L4.88 14.24L4.08 13.52L4.16 13.37L4.32 13.32L4.70 13.34L5.06 13.50L5.47 13.83L6.06 14.63L6.30 14.81L6.84 15.02L7.40 15.02L7.99 14.84L8.15 14.27L8.51 13.76L7.38 13.55L6.42 13.14L6.06 12.88L5.65 12.47L5.34 12.01L5.14 11.54L4.91 10.54L4.88 9.41L4.96 8.95L5.14 8.43L5.68 7.61L5.55 7.07L5.52 6.53L5.60 5.99L5.76 5.50L5.83 5.42L6.12 5.42L6.78 5.60L7.43 5.91L7.99 6.27L9.46 6.01L10.82 6.04L12.01 6.27L12.60 5.88L13.19 5.60L13.70 5.45L14.14 5.42L14.22 5.47L14.32 5.76L14.45 6.45L14.42 7.12L14.30 7.61L14.84 8.41L15.09 9.33L15.09 10.36L14.91 11.34L14.48 12.26L13.70 13.04L13.09 13.37L12.57 13.55L11.47 13.76L11.83 14.27L11.98 14.86L11.98 17.56L12.03 17.69L12.26 17.85L12.73 17.77L14.12 17.10L15.38 16.15L16.30 15.14L16.84 14.35L17.20 13.68L17.67 12.47L17.87 11.57L17.97 10.67L17.97 9.67L17.90 8.95L17.72 8.07L17.49 7.35L16.89 6.09L15.92 4.75L14.99 3.88L14.19 3.31L13.45 2.90L12.16 2.41L11.36 2.23L10.49 2.13L8.95 2.18Z" />
+    </svg>
+  );
+}

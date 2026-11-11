@@ -39,12 +39,14 @@ const ABOUT: Record<string, { family: string; use: string }> = {
   TexasIcon: { family: "Places", use: "Where he is: résumé header, footer" },
   GlobeIcon: { family: "Places", use: "Open to relocation" },
   BriefcaseIcon: { family: "Marks", use: "Stands in for a logo: early career" },
+  LinkedInIcon: { family: "Social", use: "LinkedIn, in the footer" },
+  GitHubIcon: { family: "Social", use: "GitHub, in the footer" },
   ComponentsIcon: { family: "Skills", use: "Design systems, on the résumé" },
   PenNibIcon: { family: "Skills", use: "Product design, on the résumé" },
   TerminalIcon: { family: "Skills", use: "Design engineering, on the résumé" },
   WrenchIcon: { family: "Skills", use: "Tools, on the résumé" },
 };
-const FAMILIES = ["Navigation", "Arrows", "Actions", "Facts", "Points", "Places", "Skills", "Marks", "Not yet described"];
+const FAMILIES = ["Navigation", "Arrows", "Actions", "Facts", "Points", "Places", "Skills", "Marks", "Social", "Not yet described"];
 
 // Function components only: Icon.tsx exports nothing else today, and this
 // keeps a future helper or constant from turning up as a broken tile.

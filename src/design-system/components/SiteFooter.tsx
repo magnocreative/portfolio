@@ -1,11 +1,10 @@
-import Link from "next/link";
 import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
-import { Mail, TexasIcon } from "@/design-system/components/Icon";
+import { GitHubIcon, LinkedInIcon, Mail, TexasIcon } from "@/design-system/components/Icon";
 
 const elsewhere = [
-  { href: "https://www.linkedin.com/in/alejandro-m-fernandini", label: "LinkedIn" },
-  { href: "https://github.com/magnocreative", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/alejandro-m-fernandini", label: "LinkedIn", Icon: LinkedInIcon },
+  { href: "https://github.com/magnocreative", label: "GitHub", Icon: GitHubIcon },
 ];
 
 export function SiteFooter() {
@@ -45,32 +44,24 @@ export function SiteFooter() {
             </Button>
           </div>
 
-          {/* Wrapped in a nav and set at the header's link color rather than
-              the tertiary these used to carry. Two reasons, and the second is
-              the real one: matching the header is the point, but tertiary is
-              the METADATA color — dates, disciplines, the line about
-              the location line below. These are links to somewhere else, and a link
-              wearing the metadata color tells a reader it is a fact rather
-              than a door.
-
-              No `border-b-2` here, which the header links do carry. That
-              border exists there to reserve the two pixels the current-page
-              rule occupies, so nothing shifts when the section changes. These
-              go off-site and can never be current, so reserving space for a
-              state that cannot happen would be cargo cult. */}
-          {/* 10px up from the bottom on wide screens: the row aligns bottoms,
-              and the links are one 20px line beside a 40px button, so this
-              centers them on it instead of sitting them on its lower edge. */}
-          <nav aria-label="Elsewhere" className="sm:pb-2.5">
-            <ul className="flex gap-6">
-              {elsewhere.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="font-label text-xs font-medium uppercase tracking-[0.11em] text-text-secondary transition-colors duration-[160ms] hover:text-text-primary"
-                  >
-                    {item.label}
-                  </Link>
+          {/* Tertiary buttons with each site's mark (Alejandro, November
+              2026): the email is the secondary action, these are the other
+              places to find him, one step quieter. They were uppercase links
+              in the header's style; as buttons they share the email's
+              vocabulary, so the row reads as one set of actions in two
+              volumes. Labelled as well as marked: two words cost nothing, and
+              an icon-only link needs a hidden name and a bigger target.
+              Tighter padding than the default, pulled out by the same amount,
+              so the text meets the container's edge on both sides. Centered on
+              the 40px email button on wide screens. Not full width on a phone:
+              two short links sit side by side. */}
+          <nav aria-label="Elsewhere">
+            <ul className="-mx-3 flex gap-2">
+              {elsewhere.map(({ href, label, Icon }) => (
+                <li key={label}>
+                  <Button href={href} variant="tertiary" fillOnPhone={false} iconBefore={<Icon />} iconSize="lg" className="px-3!">
+                    {label}
+                  </Button>
                 </li>
               ))}
             </ul>

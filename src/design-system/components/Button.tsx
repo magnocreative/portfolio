@@ -12,6 +12,14 @@ type Common = {
   iconBefore?: ReactNode;
   /** Sits after the label. The usual case: an arrow on a forward action. */
   iconAfter?: ReactNode;
+  /**
+   * 16px by default, the size of every stroke icon in a button. "lg" is 20px,
+   * for filled brand marks (LinkedIn, GitHub in the footer): a solid mark is
+   * drawn inside its box and reads smaller and denser than an outline at the
+   * same size, so at 16 they looked undersized beside their labels
+   * (Alejandro, November 2026). The label stays 14px either way.
+   */
+  iconSize?: "md" | "lg";
   disabled?: boolean;
   /**
    * The current choice, not a moment of contact. Holds the deepest tint for as
@@ -146,12 +154,14 @@ function Inner({
   children,
   iconBefore,
   iconAfter,
-}: Pick<Common, "children" | "iconBefore" | "iconAfter">) {
+  iconSize = "md",
+}: Pick<Common, "children" | "iconBefore" | "iconAfter" | "iconSize">) {
+  const box = iconSize === "lg" ? "h-5 w-5" : "h-4 w-4";
   return (
     <>
-      {iconBefore && <span className="-ml-0.5 h-4 w-4 shrink-0">{iconBefore}</span>}
+      {iconBefore && <span className={`-ml-0.5 ${box} shrink-0`}>{iconBefore}</span>}
       <span>{children}</span>
-      {iconAfter && <span className="-mr-0.5 h-4 w-4 shrink-0">{iconAfter}</span>}
+      {iconAfter && <span className={`-mr-0.5 ${box} shrink-0`}>{iconAfter}</span>}
     </>
   );
 }
@@ -162,6 +172,7 @@ export function Button({
   shape = "rounded",
   iconBefore,
   iconAfter,
+  iconSize,
   disabled = false,
   selected = false,
   fillOnPhone,
@@ -183,7 +194,7 @@ export function Button({
     className,
   ].join(" ");
 
-  const inner = <Inner iconBefore={iconBefore} iconAfter={iconAfter}>{children}</Inner>;
+  const inner = <Inner iconBefore={iconBefore} iconAfter={iconAfter} iconSize={iconSize}>{children}</Inner>;
 
   if ("href" in rest && rest.href !== undefined) {
     // A disabled link is not a thing. Render it as a disabled button so it

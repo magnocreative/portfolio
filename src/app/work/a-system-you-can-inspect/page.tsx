@@ -354,7 +354,7 @@ export default function SystemCaseStudy() {
                 <p>
                   The site runs on it: 133 variables across six collections, 25 text styles and 27
                   components in code. Figma mirrors them as 38 components, more than in code because the
-                  repeating parts, like a tab or a table row, are pieces of their own, plus 29 icons and
+                  repeating parts, like a tab or a table row, are pieces of their own, plus 31 icons and
                   logos.
                 </p>
                 <p>
