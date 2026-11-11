@@ -49,7 +49,7 @@ export function HistoryRow({
       ) : null}
       <div className="min-w-0">
         <div className="font-display text-lg leading-[1.3] text-text-primary">{title}</div>
-        <div className="mt-1 text-base leading-[1.5] text-text-secondary">
+        <div className="mt-1 text-base text-text-secondary">
           {detail}
           <span aria-hidden="true" className="px-2 text-text-tertiary">
             ·

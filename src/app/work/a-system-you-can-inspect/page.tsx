@@ -347,14 +347,14 @@ export default function SystemCaseStudy() {
                 items={[
                   { value: "1 token", label: "softened the darkest text on every page, in code and in Figma" },
                   { value: "1 setting", label: "moved the navigation from a side rail to the top bar" },
-                  { value: "0", label: "hard-coded colors across the 25 components in code" },
+                  { value: "0", label: "hard-coded colors across the 27 components in code" },
                 ]}
               />
               <TextBlock className="mt-10">
                 <p>
-                  The site runs on it: 130 variables across six collections, 24 text styles and 25
-                  components in code. Figma mirrors them as 36 components, more than in code because the
-                  repeating parts, like a tab or a table row, are pieces of their own, plus 22 icons and
+                  The site runs on it: 132 variables across six collections, 25 text styles and 27
+                  components in code. Figma mirrors them as 38 components, more than in code because the
+                  repeating parts, like a tab or a table row, are pieces of their own, plus 29 icons and
                   logos.
                 </p>
                 <p>
