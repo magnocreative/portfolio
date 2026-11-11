@@ -3,15 +3,16 @@ import type { ReactNode } from "react";
 import { Logo } from "@/design-system/brand/Logo";
 import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 import { caseStudies } from "@/content/case-studies";
+import { BriefcaseIcon } from "@/design-system/components/Icon";
 import {
-  education,
+  background,
+  backgroundLabel,
   email,
   experience,
   lede,
   linkedin,
   location,
   name,
-  prior,
   relocation,
   site,
   skills,
@@ -80,13 +81,13 @@ const css = `
 .sheet ul{list-style:none;margin-top:5pt;display:flex;flex-direction:column;gap:4.5pt}
 .sheet li{position:relative;break-inside:avoid}
 .sheet li::before{content:"";position:absolute;left:-9pt;top:.62em;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--border-strong)}
-.sheet .prior{margin-top:13pt}
-.sheet .prior p{margin-top:2pt}
 .sheet .work p+p{margin-top:8pt}
 .sheet .edu{display:flex;align-items:center;gap:8pt}
 .sheet .edu .edutext{flex:1}
 .sheet .edu>.label{align-self:flex-start;padding-top:2pt}
 .sheet .edu+.edu{margin-top:7pt}
+.sheet .tile{width:20pt;height:20pt;flex:none;display:flex;align-items:center;justify-content:center;border:.75pt solid var(--border-subtle);border-radius:4pt;color:var(--text-secondary)}
+.sheet .tile svg{width:12pt;height:12pt}
 
 /* Classic: one column. The logo and the bullet dots hang in the margin, so
    the employer name, the role, the bullets and the section text all start on
@@ -246,10 +247,6 @@ function Experience({ locationUnder = false }: { locationUnder?: boolean }) {
           </div>
         );
       })}
-      <div className="prior">
-        <span className="label">{prior.label}</span>
-        <p>{prior.text}</p>
-      </div>
     </>
   );
 }
@@ -267,14 +264,23 @@ function Skills() {
   );
 }
 
-function Education() {
+/* Education and early career: the earlier roles and the degree as one pair
+   of rows, newest first. A row with no logo gets the briefcase in an outlined
+   tile the logo's size, so both rows keep one left edge. */
+function Background() {
   return (
     <>
-      {education.map((e) => {
+      {background.map((e) => {
         const Mark = e.logo ? LOGOS[e.logo] : null;
         return (
           <div key={e.title} className="edu">
-            {Mark && <Mark className="logo" />}
+            {Mark ? (
+              <Mark className="logo" />
+            ) : (
+              <span className="tile" aria-hidden="true">
+                <BriefcaseIcon />
+              </span>
+            )}
             <div className="edutext">
               <b>{e.title}</b>
               <br />
@@ -329,8 +335,8 @@ export default async function ResumePrint({
             <Section label="Skills">
               <Skills />
             </Section>
-            <Section label="Education">
-              <Education />
+            <Section label={backgroundLabel}>
+              <Background />
             </Section>
           </aside>
         </div>
@@ -366,8 +372,8 @@ export default async function ResumePrint({
         <Section label="Skills">
           <Skills />
         </Section>
-        <Section label="Education">
-          <Education />
+        <Section label={backgroundLabel}>
+          <Background />
         </Section>
       </>
     );

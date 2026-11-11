@@ -5,7 +5,9 @@ import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
+import { HistoryRow } from "@/design-system/components/HistoryRow";
 import {
+  BriefcaseIcon,
   ComponentsIcon,
   Download,
   GlobeIcon,
@@ -17,7 +19,8 @@ import {
 import { PointCards } from "@/design-system/components/PointCards";
 import { Chips } from "@/design-system/components/Chips";
 import {
-  education,
+  background,
+  backgroundLabel,
   email,
   experience,
   lede,
@@ -25,7 +28,6 @@ import {
   location,
   name,
   pdfFile,
-  prior,
   relocation,
   skills,
   subtitle,
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     "Alejandro Magno Fernandini, experience designer. Ten years across design systems and complex operational tools at JPMorganChase, USAA and HCL Technologies.",
 };
 
-/* The page is built like the Work index: prose (the header, the prior roles)
+/* The page is built like the Work index: prose (the header)
    stops at the 900px measure, and the cards take the full width and split it,
    the employer on the left and the roles on the right. A role's title and its
    dates share one row inside the roles column, so a date always sits at the
@@ -204,17 +206,6 @@ export default function Resume() {
                 </Card>
                 );
               })}
-
-              {/* Not a card: earlier roles are one line, not a section, and
-                  a card around one sentence is all frame. 40px more than the
-                  gap between cards, so it reads as a coda rather than a
-                  fourth employer. */}
-              <div className="mt-10 max-w-measure">
-                <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                  {prior.label}
-                </span>
-                <p className="mt-3 text-base leading-[1.65] text-text-secondary">{prior.text}</p>
-              </div>
             </div>
           </section>
 
@@ -222,15 +213,16 @@ export default function Resume() {
           <section id="skills" className="mt-28" aria-labelledby="skills-heading">
             <SectionHead id="skills-heading" className="max-w-measure">Skills</SectionHead>
 
-            {/* The four groups two by two across the full width, each with
-                its mark and its skills as chips: the same component as the
-                constraints in the design system case study, open rather than
-                carded, because the chips already group each set and a card
-                around them was one outline too many (Alejandro, November
-                2026). A phone stacks them. */}
+            {/* The four groups two by two across the full width, each in a
+                card with its mark on the title's line and its skills as
+                borderless chips: the same component as the constraints in the
+                design system case study. Open, on the bare page, the chips
+                were one step from the ground and everything blended; the card
+                groups each set and gives the chips something to sit on
+                (Alejandro, November 2026). A phone stacks them. */}
             <PointCards
               layout="grid"
-              framed={false}
+              header="inline"
               className="mt-10"
               items={skills.map((s) => ({
                 icon: SKILL_ICONS[s.group] ?? ComponentsIcon,
@@ -240,43 +232,26 @@ export default function Resume() {
             />
           </section>
 
-        {/* Education */}
-          <section id="education" className="mt-28" aria-labelledby="education-heading">
-            <SectionHead id="education-heading" className="max-w-measure">Education</SectionHead>
+        {/* Education and early career */}
+          <section id="background" className="mt-28" aria-labelledby="background-heading">
+            <SectionHead id="background-heading" className="max-w-measure">{backgroundLabel}</SectionHead>
 
-            {/* A row, not a card: one degree is one line, and a card built
-                for roles and bullets looked empty around it (Alejandro,
-                November 2026). It runs the full width like Skills above it,
-                on the page's left edge, the year at the right. */}
+            {/* Rows, not cards: each is one line, and a card built for roles
+                and bullets looked empty around it (Alejandro, November 2026).
+                The earlier roles used to close Experience as a one-line coda
+                and the degree stood alone here; as a pair they read as where
+                the career starts. */}
             <div className="mt-10 flex flex-col gap-8">
-              {education.map((item) => {
-                const Mark = item.logo ? LOGOS[item.logo] : null;
-                return (
-                  // The school's mark sits where an employer's does: 48px,
-                  // centered on the two lines beside it, 16px from the text,
-                  // the gap every 48px mark on the page keeps (Alejandro,
-                  // November 2026). On a phone the title wraps, so the mark
-                  // holds to the top, beside the degree it belongs to.
-                  <div key={item.title} className="flex items-start gap-4 sm:items-center">
-                    {Mark && <Mark className="h-12 w-12 shrink-0" />}
-                    {/* The year rides with the school, not out at the right
-                        edge: alone on a full-width row it sat in a field of
-                        empty space, a long way from what it dates (Alejandro,
-                        November 2026). */}
-                    <div className="min-w-0">
-                      <div className="font-display text-lg leading-[1.3] text-text-primary">{item.title}</div>
-                      <div className="mt-1 text-base text-text-secondary">
-                        {item.detail}
-                        <span aria-hidden="true" className="px-2 text-text-tertiary">
-                          ·
-                        </span>
-                        <span className="sr-only">, </span>
-                        {item.period}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              {background.map((item) => (
+                <HistoryRow
+                  key={item.title}
+                  logo={item.logo ? LOGOS[item.logo] : undefined}
+                  icon={BriefcaseIcon}
+                  title={item.title}
+                  detail={item.detail}
+                  period={item.period}
+                />
+              ))}
             </div>
           </section>
             </div>

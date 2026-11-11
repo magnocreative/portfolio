@@ -28,10 +28,6 @@ export const lede = [
   "I work in the double diamond: understand the problem, then design the solution. Agentic tools have made delivery faster, and with that comes the temptation to skip discovery. I don’t, because fast work only pays off if it still holds up long after it ships.",
 ];
 
-export const prior = {
-  label: "Career prior to 2017",
-  text: "Graphic designer and technical illustrator roles at SWBC and Elbit Systems of America, 2013 to 2017.",
-};
 
 /** The PDF's file name, also the path it is served from in /public. */
 export const pdfFile = "Alejandro-Magno-Fernandini-Resume.pdf";
@@ -127,7 +123,17 @@ export const skills: { group: string; items: string[] }[] = [
   },
 ];
 
-export const education: { title: string; detail: string; period: string; logo?: OrgLogo }[] = [
+/* Education and early career: one section for everything before 2017, newest
+   first. Alone, the earlier roles were a one-line coda under Experience and
+   the degree a one-row section, and both looked left over; together they are
+   where the career starts, the degree, then the design work that led to HCL
+   (Alejandro, November 2026). A row with no logo gets the briefcase tile. */
+export const background: { title: string; detail: string; period: string; logo?: OrgLogo }[] = [
+  {
+    title: "Graphic designer and technical illustrator",
+    detail: "SWBC and Elbit Systems of America",
+    period: "2013 to 2017",
+  },
   {
     title: "Bachelor of Fine Arts, Computer Graphic Arts",
     detail: "University of the Incarnate Word",
@@ -135,3 +141,5 @@ export const education: { title: string; detail: string; period: string; logo?: 
     logo: "uiw",
   },
 ];
+
+export const backgroundLabel = "Education and early career";

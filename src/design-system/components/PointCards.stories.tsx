@@ -80,14 +80,14 @@ const SKILL_ICONS = [ComponentsIcon, PenNibIcon, TerminalIcon, WrenchIcon];
 export const Grid: Story = {
   args: {
     layout: "grid",
-    framed: false,
+    header: "inline",
     items: skills.map((s, i) => ({ icon: SKILL_ICONS[i], title: s.group, body: <Chips items={s.items} /> })),
   },
   parameters: {
     docs: {
       description: {
         story:
-          "Four points two by two across the full width and open (framed={false}), as the résumé sets its Skills: the chips group each set, so a card around them would be one outline too many.",
+          "Four points two by two across the full width with the icon on the title's line (header=\"inline\"), as the résumé sets its Skills. The chips are a sunken fill with no border, so the card is the only outline.",
       },
     },
   },

@@ -198,6 +198,17 @@ export function CodeIcon(props: IconProps) {
    the rest. Each is named for what it shows, not for the one card it first
    headed, so a later case study can reuse it where the picture fits. */
 
+/** A briefcase: work, where no employer's logo stands for it (the early
+ *  career row on the résumé). */
+export function BriefcaseIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M7.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M3 11h14" />
+      <rect x="3" y="6.5" width="14" height="10.5" rx="1" />
+    </svg>
+  );
+}
+
 /** A briefcase, struck through: nothing taken from work. */
 export function BriefcaseOffIcon(props: IconProps) {
   return (
