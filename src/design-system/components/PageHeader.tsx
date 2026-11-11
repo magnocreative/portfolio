@@ -85,26 +85,37 @@ export function PageHeader({
         <p className="mt-5 max-w-measure text-lg leading-[1.55] text-text-secondary">{subtitle}</p>
       )}
 
-      {meta && (
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-          {meta}
+      {/* The résumé's facts beside its intro from 1280: the intro keeps the
+          page's left edge like every other page's, and the facts sit in the
+          fourth column of the same four-column grid Skills uses further down,
+          so they start on the line where "Tools" does (Alejandro, November
+          2026). Narrower, the facts sit in a row above the intro as before.
+          In the source the facts come first either way, so a phone and a
+          screen reader meet them in the same order. */}
+      <div className={meta ? "xl:mt-12 xl:grid xl:grid-cols-4 xl:gap-x-10" : ""}>
+        {meta && (
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary xl:col-start-4 xl:row-start-1 xl:mt-1 xl:flex-col xl:items-start xl:gap-y-3">
+            {meta}
+          </div>
+        )}
+
+        <div className={meta ? "xl:col-span-3 xl:col-start-1 xl:row-start-1" : ""}>
+          {/* One paragraph or several. An array becomes one <p> each, 20px
+              apart, because a paragraph cannot hold another and a line break
+              inside one is not a paragraph. */}
+          <div
+            className={`${
+              type === "resume" ? "mt-12" : "mt-14"
+            } ${meta ? "xl:mt-0" : ""} flex max-w-[46rem] flex-col gap-5 text-lg leading-[1.65] text-text-secondary`}
+          >
+            {(Array.isArray(lede) ? lede : [lede]).map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+
+          {actions && <div className="mt-8">{actions}</div>}
         </div>
-      )}
-
-      {/* One paragraph or several. An array becomes one <p> each, 20px apart,
-          because a paragraph cannot hold another and a line break inside one
-          is not a paragraph. */}
-      <div
-        className={`${
-          type === "resume" ? "mt-12" : "mt-14"
-        } flex max-w-[46rem] flex-col gap-5 text-lg leading-[1.65] text-text-secondary`}
-      >
-        {(Array.isArray(lede) ? lede : [lede]).map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
       </div>
-
-      {actions && <div className="mt-8">{actions}</div>}
     </section>
   );
 }

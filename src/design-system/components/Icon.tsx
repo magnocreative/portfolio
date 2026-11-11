@@ -226,3 +226,27 @@ export function HandoffIcon(props: IconProps) {
     </svg>
   );
 }
+
+/* The place icons, for where Alejandro is and where he would go. Same grid
+   and stroke as the rest. */
+
+/** Texas: the state's outline, the home base. Drawn from its borders and
+    simplified to read at 16px; the panhandle and the Rio Grande are what make
+    it Texas at that size, so those are the parts kept faithful. */
+export function TexasIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M6.85 3.38L10.12 3.38L10.12 5.82L10.98 6.08L12.16 6.39L13.45 6.71L14.96 6.71L16.05 6.97L16.53 7.77L16.53 10.28L17 11.41L16.74 11.91L15.82 12.35L14.96 13.04L13.77 13.92L13.13 14.55L12.91 15.55L13.18 16.62L12.59 16.55L11.62 16.18L10.98 15.43L10.66 14.67L9.8 13.67L9.37 12.67L8.61 11.83L7.54 11.83L7.22 12.29L6.68 12.82L5.82 12.41L5.06 11.54L4.1 10.41L3.13 9.28L3 9.03L6.83 9.03Z" />
+    </svg>
+  );
+}
+
+/** A globe: open to relocation, anywhere. */
+export function GlobeIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="10" cy="10" r="7" />
+      <path d="M3 10h14M10 3c-2 2-3 4.4-3 7s1 5 3 7M10 3c2 2 3 4.4 3 7s-1 5-3 7" />
+    </svg>
+  );
+}

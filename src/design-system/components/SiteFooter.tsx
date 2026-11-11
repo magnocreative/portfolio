@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/design-system/primitives/Container";
+import { TexasIcon } from "@/design-system/components/Icon";
 
 const elsewhere = [
   { href: "mailto:alejandini@gmail.com", label: "Email" },
@@ -64,7 +65,10 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-2 border-t border-border-subtle py-6 font-label text-xs text-text-tertiary sm:flex-row sm:justify-between">
-          <div>Dallas–Fort Worth, Texas</div>
+          <div className="inline-flex items-center gap-1.5">
+            <TexasIcon className="h-5 w-5 shrink-0" />
+            Dallas–Fort Worth, Texas
+          </div>
           <div>Built from scratch. The design system is open, and you can read it on GitHub.</div>
         </div>
       </Container>

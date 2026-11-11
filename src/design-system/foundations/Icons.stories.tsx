@@ -36,8 +36,10 @@ const ABOUT: Record<string, { family: string; use: string }> = {
   BriefcaseOffIcon: { family: "Points", use: "Nothing taken from work" },
   BrowserCheckIcon: { family: "Points", use: "Runs, and was tested where it runs" },
   HandoffIcon: { family: "Points", use: "Both sides of a handoff" },
+  TexasIcon: { family: "Places", use: "Where he is: résumé header, footer" },
+  GlobeIcon: { family: "Places", use: "Open to relocation" },
 };
-const FAMILIES = ["Navigation", "Arrows", "Actions", "Facts", "Points", "Not yet described"];
+const FAMILIES = ["Navigation", "Arrows", "Actions", "Facts", "Points", "Places", "Not yet described"];
 
 // Function components only: Icon.tsx exports nothing else today, and this
 // keeps a future helper or constant from turning up as a broken tile.
