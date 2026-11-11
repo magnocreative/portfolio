@@ -4,7 +4,7 @@ import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
+import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 import { Download, GlobeIcon, TexasIcon } from "@/design-system/components/Icon";
 import {
   education,

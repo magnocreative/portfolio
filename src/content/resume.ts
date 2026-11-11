@@ -5,12 +5,12 @@
  * with the dev server running.
  */
 
-export type EmployerLogo = "jpmc" | "usaa" | "hcl" | "uiw";
+export type OrgLogo = "jpmc" | "usaa" | "hcl" | "uiw";
 
 export type Employer = {
   employer: string;
   id: string;
-  logo: EmployerLogo;
+  logo: OrgLogo;
   location: string;
   roles: { title: string; period: string; bullets: string[] }[];
 };
@@ -128,7 +128,7 @@ export const skills: { group: string; items: string }[] = [
   },
 ];
 
-export const education: { title: string; detail: string; period: string; logo?: EmployerLogo }[] = [
+export const education: { title: string; detail: string; period: string; logo?: OrgLogo }[] = [
   {
     title: "Bachelor of Fine Arts, Computer Graphic Arts",
     detail: "University of the Incarnate Word",

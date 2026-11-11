@@ -1,10 +1,12 @@
 import { useId } from "react";
 
 /**
- * Employer marks for the résumé, beside each company's name. Traced by hand
- * from the companies' own logos (Alejandro, November 2026) rather than taken
- * from any internal brand library, and used only to identify a former
- * employer next to its name.
+ * Organization marks for the résumé: the employers beside each company's name,
+ * and the university beside the degree. Named for organizations rather than
+ * employers once the university joined them (Alejandro, November 2026); the
+ * Figma set is "org-logo" for the same reason. Traced by hand from each
+ * organization's own logo rather than taken from any internal brand library,
+ * and used only to identify it next to its name.
  *
  * Decorative to assistive tech: the company name is the heading right beside
  * the mark, so announcing the logo as well would say the same thing twice.

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import type { ComponentType, SVGProps } from "react";
 import * as Icons from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
-import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
+import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 
 /**
  * Every icon in Icon.tsx, READ from the module, never listed by hand.

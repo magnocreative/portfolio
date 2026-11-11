@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Logo } from "@/design-system/brand/Logo";
-import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/EmployerLogos";
+import { HclLogo, JpmcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 import { caseStudies } from "@/content/case-studies";
 import {
   education,
