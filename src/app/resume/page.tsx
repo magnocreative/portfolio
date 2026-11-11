@@ -219,7 +219,7 @@ export default function Resume() {
 
         {/* Education */}
           <section id="education" className="mt-28" aria-labelledby="education-heading">
-            <SectionHead id="education-heading" className="max-w-measure">Education &amp; certification</SectionHead>
+            <SectionHead id="education-heading" className="max-w-measure">Education</SectionHead>
 
             <div className="mt-10 flex flex-col gap-8">
               {education.map((item) => (

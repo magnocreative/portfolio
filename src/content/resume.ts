@@ -134,9 +134,4 @@ export const education: { title: string; detail: string; period: string }[] = [
     detail: "University of the Incarnate Word",
     period: "2015",
   },
-  {
-    title: "AWS Certified Cloud Practitioner",
-    detail: "Amazon Web Services",
-    period: "2023 to 2026",
-  },
 ];

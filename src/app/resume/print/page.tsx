@@ -186,7 +186,7 @@ export default function ResumePrint() {
 
         <section>
           <div className="head">
-            <span className="label">Education and certification</span>
+            <span className="label">Education</span>
           </div>
           {education.map((e) => (
             <div key={e.title} className="edu">
