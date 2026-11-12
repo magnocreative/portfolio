@@ -30,6 +30,7 @@ import oneSource from "@/assets/evidence/one-source.png";
 import { Figure } from "@/design-system/components/Figure";
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
+import { systemCounts } from "@/content/system-counts";
 import { PointCards } from "@/design-system/components/PointCards";
 
 export const metadata: Metadata = {
@@ -356,15 +357,19 @@ export default function SystemCaseStudy() {
                 items={[
                   { value: "1 token", label: "softened the darkest text on every page, in code and in Figma" },
                   { value: "1 setting", label: "moved the navigation from a side rail to the top bar" },
-                  { value: "0", label: "hard-coded colors across the 27 components in code" },
+                  { value: "0", label: `hard-coded colors across the ${systemCounts.components} components in code` },
                 ]}
               />
               <TextBlock className="mt-10">
                 <p>
-                  The site runs on it: 133 variables across six collections, 25 text styles and 27
-                  components in code. Figma mirrors them as 38 components, more than in code because the
-                  repeating parts, like a tab or a table row, are pieces of their own, plus 32 icons and
-                  logos.
+                  {/* The code's two counts come from the code at build time, like
+                      the panel on /system; Figma's are written down, and move when
+                      the libraries do. They differ on purpose: Figma also holds the
+                      logo colors as variables, and leaves out the Tailwind aliases. */}
+                  The site runs on it: {systemCounts.tokens} tokens in one file and {systemCounts.components}{" "}
+                  components in code. Figma mirrors them as 133 variables across six collections, 25 text
+                  styles and 39 components, more than in code because the repeating parts, like a tab or a
+                  table row, are pieces of their own, plus 32 icons and logos.
                 </p>
                 <p>
                   The token and the setting are changes that usually mean a rebuild: softening the

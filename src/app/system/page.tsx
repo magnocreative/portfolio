@@ -8,7 +8,8 @@ import { ArrowRight, StorybookIcon } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { KeyValueList } from "@/design-system/components/KeyValueList";
+import { StatGrid } from "@/design-system/components/StatGrid";
+import { systemCounts } from "@/content/system-counts";
 import { Figure } from "@/design-system/components/Figure";
 import Image from "next/image";
 import storybookLight from "@/assets/evidence/storybook-light.png";
@@ -253,13 +254,29 @@ export default function SystemPage() {
                 </Figure>
               }
               aside={
-                <KeyValueList
+                // What there is to check and where, counted from the code at
+                // build time (src/content/system-counts.ts), so the panel that
+                // says every claim is checkable can't drift from the system.
+                // Replaced a list of four paths that named places without
+                // saying why they mattered (Alejandro, November 2026).
+                <StatGrid
                   items={[
-                    { key: "tokens", value: "src/styles/tokens.css" },
-                    { key: "components", value: "src/design-system/" },
-                    { key: "stories", value: "storybook.magnocreative.com", href: "https://storybook.magnocreative.com" },
-                    { key: "source", value: "github.com/magnocreative/portfolio" },
+                    { value: String(systemCounts.tokens), label: "tokens, in one file", detail: "src/styles/tokens.css" },
+                    { value: String(systemCounts.components), label: "components, in code", detail: "src/design-system/" },
+                    {
+                      value: String(systemCounts.stories),
+                      label: "stories, published",
+                      detail: "storybook.magnocreative.com",
+                      href: "https://storybook.magnocreative.com",
+                    },
+                    {
+                      value: String(textRoles.length + interactiveRoles.length),
+                      label: "color roles, measured live on this page",
+                      detail: "Contrast, measured",
+                      href: "#contrast",
+                    },
                   ]}
+                  note="Counted from the code when the site is built."
                 />
               }
             >
