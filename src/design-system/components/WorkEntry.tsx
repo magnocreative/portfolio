@@ -138,15 +138,40 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
             published studies carry one. It is still not a second link: the
             title's link already covers the card, so this is its look, not a
             control. From 640 it is the quiet uppercase label with an arrow,
-            over a rule. */}
+            over a rule.
+
+            It darkens only when it is the thing pressed. It used to darken
+            whenever the card was pressed, and on a phone a finger that lands
+            on a card to scroll the list presses it: the button flashed its
+            pressed color under a thumb that was nowhere near it (Alejandro,
+            November 2026). Now a press on the button is the button's, and a
+            press anywhere else is the card's (see below); both open the study. */}
         <div className="mt-6 sm:mt-7 sm:border-t sm:border-border-subtle sm:pt-4">
           {isDraft ? (
             <Tag dot>In writing</Tag>
           ) : (
-            <span className="flex min-h-[2.5rem] w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-interactive px-5 py-2.5 font-sans text-sm font-medium leading-[1.2] text-interactive-on group-active:bg-interactive-selected sm:inline-flex sm:min-h-0 sm:w-auto sm:justify-start sm:gap-1.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:text-text-accent sm:font-label sm:text-xs sm:uppercase sm:tracking-[0.11em] sm:group-active:bg-transparent">
-              Read the case study
-              <ArrowRight className="h-4 w-4 transition-transform duration-[160ms] group-hover:translate-x-0.5 sm:h-3.5 sm:w-3.5" />
-            </span>
+            linked ? (
+              // Its own link to the same page, raised above the title's
+              // stretched link (relative z-10), so a finger on the button
+              // presses the button and a finger anywhere else on the card
+              // presses the card. Hidden from the tab order and from screen
+              // readers: the title is still the card's one link for them.
+              <Link
+                href={`/work/${study.slug}`}
+                tabIndex={-1}
+                aria-hidden="true"
+                data-card-button=""
+                className="relative z-10 flex min-h-[2.5rem] w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-interactive px-5 py-2.5 font-sans text-sm font-medium leading-[1.2] text-interactive-on sm:inline-flex sm:min-h-0 sm:w-auto sm:justify-start sm:gap-1.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:text-text-accent sm:font-label sm:text-xs sm:uppercase sm:tracking-[0.11em] active:bg-interactive-selected sm:active:bg-transparent"
+              >
+                Read the case study
+                <ArrowRight className="h-4 w-4 transition-transform duration-[160ms] group-hover:translate-x-0.5 sm:h-3.5 sm:w-3.5" />
+              </Link>
+            ) : (
+              <span className="flex min-h-[2.5rem] w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-interactive px-5 py-2.5 font-sans text-sm font-medium leading-[1.2] text-interactive-on sm:inline-flex sm:min-h-0 sm:w-auto sm:justify-start sm:gap-1.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:text-text-accent sm:font-label sm:text-xs sm:uppercase sm:tracking-[0.11em]">
+                Read the case study
+                <ArrowRight className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+              </span>
+            )
           )}
         </div>
       </div>
@@ -166,6 +191,12 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   // snapping on. In the light theme the edge nearly meets the page once the
   // fill does; the accent title and the arrow carry the hover from there.
   //
+  // Pressed, the card takes the same surface/page fill, the one feedback a
+  // phone gets, since it has no hover. It is the card that was touched, so
+  // the card answers, not the button drawn on it; and at this quiet a press
+  // that turns out to be the start of a scroll costs nothing. A press on the
+  // button is the button's alone, so the card keeps its fill then.
+  //
   // A draft in production gets none of that: no `group`, no hover, no pointer,
   // so it never promises a page that is not there.
   if (!linked) {
@@ -174,7 +205,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
 
   return (
     <article
-      className="group relative @container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 transition-[border-color,background-color] duration-[160ms] hover:border-border-default hover:bg-surface-page has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-focus-ring"
+      className="group relative @container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 transition-[border-color,background-color] duration-[160ms] hover:border-border-default hover:bg-surface-page active:bg-surface-page has-[[data-card-button]:active]:bg-surface-raised has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-focus-ring"
     >
       {body}
     </article>
