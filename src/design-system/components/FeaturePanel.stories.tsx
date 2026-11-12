@@ -3,6 +3,7 @@ import { FeaturePanel } from "./FeaturePanel";
 import { KeyValueList } from "./KeyValueList";
 import { Button } from "./Button";
 import { ArrowRight } from "./Icon";
+import { Figure } from "./Figure";
 
 const meta = {
   title: "Components/FeaturePanel",
@@ -56,5 +57,19 @@ export const AsideAtTheStart: Story = {
     asideWidth: "narrow",
     asideSide: "start",
     align: "start",
+  },
+};
+
+export const WithMedia: Story = {
+  args: {
+    media: (
+      <Figure
+        alt="Sample image"
+        caption="A figure that belongs to the panel, in the full-width row under both columns, 48px below them and lined up with the text."
+      />
+    ),
+  },
+  parameters: {
+    docs: { description: { story: "As on /system, where the Storybook capture sits under \"Read the source\"." } },
   },
 };

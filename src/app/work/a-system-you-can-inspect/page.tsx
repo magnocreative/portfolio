@@ -5,7 +5,7 @@ import { Container } from "@/design-system/primitives/Container";
 import { Button } from "@/design-system/components/Button";
 import {
   ArrowRight,
-  ArrowUpRight,
+  StorybookIcon,
   BriefcaseOffIcon,
   BrowserCheckIcon,
   CalendarIcon,
@@ -329,8 +329,11 @@ export default function SystemCaseStudy() {
                       See the components
                     </Button>
                     {/* Third and quietest: it leaves the site. Every state of
-                        every component, published on its own domain. */}
-                    <Button href="https://storybook.magnocreative.com" variant="tertiary" iconAfter={<ArrowUpRight />}>
+                        every component, published on its own domain. Storybook's
+                        mark leads, as LinkedIn's and GitHub's do in the footer,
+                        and stands in for the up-right arrow: two icons on the
+                        lightest button made it the busiest in the row. */}
+                    <Button href="https://storybook.magnocreative.com" variant="tertiary" iconBefore={<StorybookIcon />} iconSize="lg">
                       Open it in Storybook
                     </Button>
                   </div>
@@ -360,7 +363,7 @@ export default function SystemCaseStudy() {
                 <p>
                   The site runs on it: 133 variables across six collections, 25 text styles and 27
                   components in code. Figma mirrors them as 38 components, more than in code because the
-                  repeating parts, like a tab or a table row, are pieces of their own, plus 31 icons and
+                  repeating parts, like a tab or a table row, are pieces of their own, plus 32 icons and
                   logos.
                 </p>
                 <p>

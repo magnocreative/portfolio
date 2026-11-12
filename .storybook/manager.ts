@@ -15,6 +15,11 @@ addons.setConfig({
     brandTitle: NAME,
     brandUrl: "https://magnocreative.com",
     brandTarget: "_self",
+    // The selected story, active tab and focus ring in the system's own
+    // interactive blue rather than Storybook's, so the frame around the
+    // components reads as part of them.
+    colorSecondary: "#4e729a",
+    barSelectedColor: dark ? "#a4bfdc" : "#4e729a",
   }),
 });
 

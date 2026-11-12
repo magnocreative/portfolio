@@ -16,6 +16,21 @@
    holds no second copy of the truth. */
 @custom-variant rail-collapsed (&:where([data-rail="collapsed"] *));
 
+/* The theme the page is actually in, whichever decided it: an explicit
+   [data-theme], or the OS when there is none. `dark:` above only answers the
+   first. For things that are not colors and so can't use light-dark(), like
+   the pair of Storybook captures on /system, which swap with the page. */
+@custom-variant scheme-dark {
+  &:where([data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
 @layer base {
   *,
   *::before,

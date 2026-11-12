@@ -32,6 +32,13 @@ import { Label } from "@/design-system/primitives/Container";
  * The main column takes an optional eyebrow, heading and action. A string
  * body is set as one paragraph at 52ch; anything else is placed as given, for
  * prose that brings its own paragraphs.
+ *
+ * `media` is a full-width row under both columns, for a figure that belongs to
+ * the panel: the Storybook capture under "Read the source". It sat under the
+ * panel first and read as a separate thing from the claim it backs; inside,
+ * the panel is one object, claim and evidence (Alejandro, November 2026).
+ * 48px under the columns, the panel's own inset, so the figure lines up with
+ * the text above it.
  */
 const widths = {
   narrow: "xl:grid-cols-[1fr_15rem]",
@@ -51,6 +58,7 @@ export function FeaturePanel({
   headingAs: Heading = "h2",
   action,
   aside,
+  media,
   asideWidth = "medium",
   asideSide = "end",
   align = "center",
@@ -68,6 +76,8 @@ export function FeaturePanel({
   action?: ReactNode;
   /** The second column: facts, a specimen, the mark. */
   aside: ReactNode;
+  /** Optional. A full-width row under both columns, usually a Figure. Standard inset only. */
+  media?: ReactNode;
   asideWidth?: keyof typeof widths;
   asideSide?: "start" | "end";
   align?: "center" | "start";
@@ -156,6 +166,9 @@ export function FeaturePanel({
           {aside}
         </>
       )}
+      {/* The grid's gap is 40 stacked and 64 side by side; the media row
+          takes 48 either way. */}
+      {media && <div className="mt-2 xl:col-span-full xl:-mt-4">{media}</div>}
     </div>
   );
 }

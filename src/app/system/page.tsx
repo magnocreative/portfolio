@@ -4,11 +4,15 @@ import { ContrastAudit, type AuditRow } from "@/design-system/components/Contras
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { FeaturePanel } from "@/design-system/components/FeaturePanel";
 import { Button } from "@/design-system/components/Button";
-import { ArrowRight, ArrowUpRight } from "@/design-system/components/Icon";
+import { ArrowRight, StorybookIcon } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { PageHeader } from "@/design-system/components/PageHeader";
 import { KeyValueList } from "@/design-system/components/KeyValueList";
+import { Figure } from "@/design-system/components/Figure";
+import Image from "next/image";
+import storybookLight from "@/assets/evidence/storybook-light.png";
+import storybookDark from "@/assets/evidence/storybook-dark.png";
 
 export const metadata: Metadata = {
   title: "The design system",
@@ -97,6 +101,9 @@ const decisions = [
     body: "Dividers sit deliberately below 3:1. A hairline that meets text contrast is a heavy black line and the page stops reading as a document. Non-text contrast governs controls and meaningful graphics; a rule between two rows is neither. Knowing which rules do not apply is part of applying them.",
   },
 ];
+
+const storybookAlt =
+  "Storybook for this design system: the component list on the left with Button open, and the Button's States story showing primary, secondary and tertiary buttons at rest, hover, selected and disabled, with its controls below.";
 
 export default function SystemPage() {
   return (
@@ -224,9 +231,26 @@ export default function SystemPage() {
               action={
                 // Published on its own domain (November 2026), so a reader can
                 // check every state without cloning anything.
-                <Button href="https://storybook.magnocreative.com" variant="secondary" iconAfter={<ArrowUpRight />}>
+                <Button href="https://storybook.magnocreative.com" variant="secondary" iconBefore={<StorybookIcon />} iconSize="lg">
                   Open it in Storybook
                 </Button>
+              }
+              media={
+                // What is behind the button, so the claim has something to
+                // point at, in the panel's full-width media row (Alejandro,
+                // November 2026): not in the 26rem aside, where Storybook drew
+                // at a third of its size, and not under the panel, where it
+                // read as a separate thing. Taken from the published Storybook
+                // by scripts/storybook-shot.mjs, in both themes, and swapped
+                // with the page (scheme-dark, globals.css): a light Storybook
+                // on a dark page read as a hole in it.
+                <Figure
+                  ratio="16/10"
+                  caption="The Button's States story: every variant at rest, hover, selected and disabled, with the controls to change any of it. Captured from storybook.magnocreative.com."
+                >
+                  <Image src={storybookLight} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 100vw" className="object-cover object-left-top scheme-dark:hidden" />
+                  <Image src={storybookDark} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 100vw" className="hidden object-cover object-left-top scheme-dark:block" />
+                </Figure>
               }
               aside={
                 <KeyValueList
@@ -240,9 +264,10 @@ export default function SystemPage() {
               }
             >
               The tokens are one file. The components are next to their own stories, and the stories are
-              published. Nothing here is a screenshot of work done elsewhere. It is the thing itself, and
-              you are looking at it running.
+              published. The one picture on this page, below, is of those stories. Everything else is the
+              thing itself, and you are looking at it running.
             </FeaturePanel>
+
             </section>
             </div>
 

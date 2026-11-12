@@ -5,7 +5,7 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { Tabs } from "@/design-system/components/Tabs";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
-import { ArrowRight, ArrowLeft, ArrowUpRight, Download } from "@/design-system/components/Icon";
+import { ArrowRight, ArrowLeft, Download, StorybookIcon } from "@/design-system/components/Icon";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
@@ -433,7 +433,7 @@ export default function ComponentsPage() {
                 <TextBlock
                   className="mt-10"
                   action={
-                    <Button href="https://storybook.magnocreative.com" variant="secondary" iconAfter={<ArrowUpRight />}>
+                    <Button href="https://storybook.magnocreative.com" variant="secondary" iconBefore={<StorybookIcon />} iconSize="lg">
                       Open it in Storybook
                     </Button>
                   }
