@@ -120,7 +120,7 @@ export function ContrastAudit({
       role="region"
       aria-label={label}
     >
-      <table className="w-full min-w-[36rem] border-collapse text-left">
+      <table className="w-full min-w-[38rem] border-collapse text-left">
         <thead>
           <tr className="border-b border-border-subtle bg-surface-sunken">
             {/* The swatch and verdict columns are visual, but a header cell with
@@ -165,7 +165,11 @@ export function ContrastAudit({
                     Printing that invites the reader to treat it as a result. */}
                 {!measured ? "—" : m.token === "--surface-page" ? "—" : `${m.ratio.toFixed(2)}:1`}
               </td>
-              <td className="py-3.5 pr-5 text-right">
+              {/* nowrap: at 390 the table is held at its minimum width, and
+                  without it "NON-TEXT AA" broke into two lines inside its
+                  chip. 38rem rather than 36 gives the 20px insets back so the
+                  role column keeps its width. */}
+              <td className="py-3.5 pr-5 text-right whitespace-nowrap">
                 {measured && (
                   // The unboxed tones carry the chip's own padding, so every
                   // verdict's text ends on the same right edge down the column.
