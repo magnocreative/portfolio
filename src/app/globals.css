@@ -183,3 +183,29 @@
     margin-left: -0.06em;
   }
 }
+
+/* The password gate (PasswordGate). The field's shake on a wrong password:
+   small and quick, the size of a head shake rather than an error. */
+@keyframes gate-shake {
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+/* Entering the password reloads the address the visitor asked for, and the
+   blurred opening behind the gate crossfades into the page itself: the blur
+   lifts rather than the screen going white and drawing again. A cross-document
+   view transition, so it applies to full page loads between this site's own
+   pages, which after the gate are rare: Next's own navigations are not full
+   loads. Off for anyone who has asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 600ms;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}

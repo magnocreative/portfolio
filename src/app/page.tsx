@@ -5,6 +5,7 @@ import { WorkEntry } from "@/design-system/components/WorkEntry";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { PageHeader } from "@/design-system/components/PageHeader";
+import { homeHero } from "@/content/home";
 import { Tag } from "@/design-system/components/Tag";
 import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 import { FeaturePanel } from "@/design-system/components/FeaturePanel";
@@ -70,12 +71,7 @@ export default function Home() {
               page carrying a title that employment verification would not
               return is a discrepancy waiting to be found at the worst moment.
               The seniority is argued by the work below it instead. */}
-          <PageHeader
-            type="hero"
-            eyebrow="Experience Designer · Design Systems"
-            title="Hey there, I design the systems behind the tools people use all day."
-            lede="Ten years on internal software: compliance platforms, audit tooling, and the CRM systems bankers and advisors work in every day. I own the design system, and I build the prototypes that prove a design works before engineering commits to it."
-          />
+          <PageHeader type="hero" {...homeHero} />
         </Container>
 
         {/* Work index */}
