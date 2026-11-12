@@ -11,6 +11,7 @@ import { PageHeader } from "@/design-system/components/PageHeader";
 import { StatGrid } from "@/design-system/components/StatGrid";
 import { systemCounts } from "@/content/system-counts";
 import { Figure } from "@/design-system/components/Figure";
+import { SplitList } from "@/design-system/components/SplitList";
 import Image from "next/image";
 import storybookLight from "@/assets/evidence/storybook-light.png";
 import storybookDark from "@/assets/evidence/storybook-dark.png";
@@ -182,23 +183,13 @@ export default function SystemPage() {
             <section id="decisions" className="mt-24" aria-labelledby="decisions-heading">
             <SectionHead id="decisions-heading">Decisions, and what each one cost</SectionHead>
 
-            {/* One column. These were two, and two columns is the wrong shape
-                for this content: each entry is a paragraph of argument, not a
-                specification, and two columns of unequal paragraphs makes a
-                reader choose a reading order the writing does not have. Down
-                one column they read in sequence, which is how they were
-                written — each decision setting up the next.
-
-                The measure stays at 52ch rather than widening into the space
-                the second column gave up. A column that fills the page is not
-                a better column; it is one nobody finishes. */}
-            <div className="mt-10 flex flex-col gap-10">
-              {decisions.map((d) => (
-                <TextBlock key={d.title} heading={d.title}>
-                  {d.body}
-                </TextBlock>
-              ))}
-            </div>
+            {/* Title left, reasoning right: a SplitList. The rule the old
+                comment here set still holds, that these read in sequence and
+                that a paragraph wants a measure, not the page: two columns of
+                unequal paragraphs was the wrong shape, and so was one column
+                at 120 characters a line. A row per decision keeps the order
+                and puts the paragraph at about 75 (Alejandro, November 2026). */}
+            <SplitList className="mt-10" items={decisions} />
             </section>
 
               {/* Components */}
