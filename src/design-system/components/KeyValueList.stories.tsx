@@ -56,3 +56,15 @@ export const TwoRows: Story = {
   },
   parameters: { docs: { description: { story: "The mark's two fills, under the logo on About." } } },
 };
+
+export const WithLink: Story = {
+  args: {
+    items: [
+      { key: "tokens", value: "src/styles/tokens.css" },
+      { key: "stories", value: "storybook.magnocreative.com", href: "https://storybook.magnocreative.com" },
+    ],
+  },
+  parameters: {
+    docs: { description: { story: "A value with an href is a link: accent color, underlined at rest, a heavier line on hover." } },
+  },
+};

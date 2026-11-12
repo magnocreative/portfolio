@@ -17,12 +17,19 @@
  *
  * A real <dl>: the pairs are terms and their definitions, and a screen reader
  * announces them that way.
+ *
+ * A value with `href` is a link: an address that goes somewhere, like the
+ * published Storybook under "Read the source" (Alejandro, November 2026). It
+ * takes the accent color and keeps an underline at rest, because beside
+ * values that are not links, color alone would not say which one is. Hover
+ * thickens the line rather than changing the color: the hover blue is the one
+ * that falls under 4.5:1 on the dark ground.
  */
 export function KeyValueList({
   items,
   className = "",
 }: {
-  items: { key: string; value: string }[];
+  items: { key: string; value: string; href?: string }[];
   className?: string;
 }) {
   return (
@@ -35,7 +42,18 @@ export function KeyValueList({
           }`}
         >
           <dt className="text-text-tertiary">{item.key}</dt>
-          <dd className="text-text-primary">{item.value}</dd>
+          <dd className="text-text-primary">
+            {item.href ? (
+              <a
+                href={item.href}
+                className="text-text-accent underline decoration-1 underline-offset-[0.3em] hover:decoration-2"
+              >
+                {item.value}
+              </a>
+            ) : (
+              item.value
+            )}
+          </dd>
         </div>
       ))}
     </dl>

@@ -257,7 +257,7 @@ export default function SystemPage() {
                   items={[
                     { key: "tokens", value: "src/styles/tokens.css" },
                     { key: "components", value: "src/design-system/" },
-                    { key: "stories", value: "storybook.magnocreative.com" },
+                    { key: "stories", value: "storybook.magnocreative.com", href: "https://storybook.magnocreative.com" },
                     { key: "source", value: "github.com/magnocreative/portfolio" },
                   ]}
                 />
