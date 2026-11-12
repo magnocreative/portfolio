@@ -120,7 +120,22 @@ export function ContrastAudit({
       role="region"
       aria-label={label}
     >
-      <table className="w-full min-w-[38rem] border-collapse text-left">
+      {/* Fixed columns, the same in every table on the page. Sized by their
+          content, the browser gave each table its own grid, so the Value and
+          Ratio columns of the two /system tables sat 40px apart, one above the
+          other (Alejandro, November 2026). The widths hold the longest of
+          each: a hex, a ratio, NON-TEXT AA; the role takes what is left,
+          446px at the measure, room for every note on one line but the
+          longest. 43rem is the narrowest that keeps them: on a phone the
+          table scrolls inside its outline rather than wrap. */}
+      <table className="w-full min-w-[43rem] table-fixed border-collapse text-left">
+        <colgroup>
+          <col className="w-[4.25rem]" />
+          <col />
+          <col className="w-28" />
+          <col className="w-24" />
+          <col className="w-40" />
+        </colgroup>
         <thead>
           <tr className="border-b border-border-subtle bg-surface-sunken">
             {/* The swatch and verdict columns are visual, but a header cell with
@@ -165,10 +180,8 @@ export function ContrastAudit({
                     Printing that invites the reader to treat it as a result. */}
                 {!measured ? "—" : m.token === "--surface-page" ? "—" : `${m.ratio.toFixed(2)}:1`}
               </td>
-              {/* nowrap: at 390 the table is held at its minimum width, and
-                  without it "NON-TEXT AA" broke into two lines inside its
-                  chip. 38rem rather than 36 gives the 20px insets back so the
-                  role column keeps its width. */}
+              {/* nowrap: a chip never breaks across two lines. At 390, before
+                  the columns were fixed, "NON-TEXT AA" did. */}
               <td className="py-3.5 pr-5 text-right whitespace-nowrap">
                 {measured && (
                   // The unboxed tones carry the chip's own padding, so every
