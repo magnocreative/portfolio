@@ -45,8 +45,21 @@ export const config = {
   matcher: "/((?!_next/static/(?!media/)).*)",
 };
 
-/** Reached without the cookie: the gate itself, the route it posts to, and the tab icons. */
-const OPEN = new Set(["/gate", "/api/enter", "/favicon.ico", "/icon.svg", "/apple-icon.png"]);
+/** Reached without the cookie: the gate itself, the route it posts to, and the
+ *  site's icons. Safari and iOS also ask for /apple-touch-icon.png (and the
+ *  -precomposed name) at the root whatever the page declares, and an answer
+ *  of 401 there left them showing whatever icon they had cached for the
+ *  domain: for magnocreative.com, the old host's (Alejandro, November 2026).
+ *  public/ has both, copies of the 180px apple-icon. */
+const OPEN = new Set([
+  "/gate",
+  "/api/enter",
+  "/favicon.ico",
+  "/icon.svg",
+  "/apple-icon.png",
+  "/apple-touch-icon.png",
+  "/apple-touch-icon-precomposed.png",
+]);
 
 function basicAuthPasses(request: NextRequest, expected: string): boolean {
   const header = request.headers.get("authorization");
