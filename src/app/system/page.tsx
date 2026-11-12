@@ -95,12 +95,16 @@ const decisions = [
     body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small metadata requires, and it looked completely fine to me on screen.",
   },
   {
-    title: "Two hairlines, both below the bar, for different reasons",
-    body: "A panel edge sits at 1.13:1 and a secondary button's edge at about 1.9:1. Both are under the 3:1 non-text minimum, and they are under it for different reasons worth separating. The panel edge is decoration: the bar governs controls and meaningful graphics, a container outline is neither, and an edge drawn to meet it is a heavy line that turns a document into a form. The button edge is a genuine trade. WCAG 1.4.11 asks 3:1 of the visual information required to identify a component, and at 1.9:1 that edge is not what identifies the button. The label is, at 6.35:1, inside a real button element with a 40px target. Somebody who cannot resolve the line still finds the control. What the trade buys is that at 3:1 the edge reads as an outline and a quiet variant stops being quiet, which is the call every mainstream system this pattern comes from also makes. It was built at 3.64:1, softened to 3.10:1, and landed here. Recording that mattered more than winning it: a system that only documents the rules it passes is a brochure.",
+    title: "One edge below the bar, on purpose",
+    // Was "Two hairlines, both below the bar, for different reasons", five
+    // times the length of the shortest entry. Its panel-edge half is what
+    // "Borders are allowed to fail" already argues, so that entry carries it
+    // and this one keeps the button (Alejandro, November 2026).
+    body: "A secondary button's edge measures about 1.9:1, under the 3:1 non-text minimum. WCAG 1.4.11 asks 3:1 of what identifies a control, and the edge isn't that: the label is, at 6.35:1, inside a real button with a 40px target. At 3:1 the edge reads as an outline and the quiet variant stops being quiet. It was built at 3.64:1, softened to 3.10:1 and landed here. A system that only documents the rules it passes is a brochure.",
   },
   {
     title: "Borders are allowed to fail",
-    body: "Dividers sit deliberately below 3:1. A hairline that meets text contrast is a heavy black line and the page stops reading as a document. Non-text contrast governs controls and meaningful graphics; a rule between two rows is neither. Knowing which rules do not apply is part of applying them.",
+    body: "Dividers and panel edges sit deliberately below 3:1. A hairline that meets text contrast is a heavy black line and the page stops reading as a document. Non-text contrast governs controls and meaningful graphics; a rule between two rows is neither. Knowing which rules do not apply is part of applying them.",
   },
 ];
 
