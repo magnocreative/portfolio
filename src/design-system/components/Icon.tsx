@@ -33,19 +33,6 @@ export function ArrowRight(props: IconProps) {
   );
 }
 
-/** Working: a quarter arc turning on a faint ring, for a button whose press
- *  is being answered (the password gate's "Enter the site"). The same 1.5
- *  stroke as every glyph. With reduced motion it holds still: the arc alone
- *  still says "working", and the label beside it says what. */
-export function Spinner({ className = "", ...props }: IconProps) {
-  return (
-    <svg {...base(props)} className={`animate-spin [animation-duration:900ms] motion-reduce:animate-none ${className}`}>
-      <circle cx="10" cy="10" r="6.25" opacity="0.3" />
-      <path d="M10 3.75a6.25 6.25 0 0 1 6.25 6.25" />
-    </svg>
-  );
-}
-
 export function ArrowUpRight(props: IconProps) {
   return (
     <svg {...base(props)}>

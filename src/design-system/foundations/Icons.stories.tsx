@@ -26,7 +26,6 @@ const ABOUT: Record<string, { family: string; use: string }> = {
   ResumeIcon: { family: "Navigation", use: "Résumé, in the menu" },
   ArrowRight: { family: "Arrows", use: "Go to: buttons, Read the case study" },
   ArrowUpRight: { family: "Arrows", use: "Leaves the site" },
-  Spinner: { family: "Actions", use: "Working: the gate's button while it lets you in" },
   ArrowLeft: { family: "Arrows", use: "Go back" },
   Download: { family: "Actions", use: "Download the résumé" },
   Mail: { family: "Actions", use: "Email" },

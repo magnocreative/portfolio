@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { Button } from "./Button";
-import { ArrowRight, Spinner } from "./Icon";
+import { ArrowRight } from "./Icon";
 import { Toast } from "./Toast";
 import { MARK_DEEP_PATH, MARK_LIGHT_PATH, MARK_VIEWBOX } from "@/design-system/brand/Logo";
 
@@ -166,9 +166,11 @@ export function PasswordGate({
         entering ? "opacity-100" : "",
       ].join(" ")}
     >
-      {/* On entry the words step back and the mark and the button stay: the
-          two things that are answering. */}
-      <div className={`flex flex-col gap-5 [&>*]:transition-opacity [&>*]:duration-300 ${entering ? "[&>*:not(:first-child):not(form)]:opacity-40" : ""}`}>
+      {/* On entry everything but the mark steps back: the fill is the one
+          thing answering, so it is the one thing at full strength. No spinner
+          on the button as well; two signs of progress compete, and the mark
+          is the one worth watching (Alejandro, November 2026). */}
+      <div className={`flex flex-col gap-5 [&>*]:transition-opacity [&>*]:duration-300 ${entering ? "[&>*:not(:first-child)]:opacity-40" : ""}`}>
         <GateMark level={level} draining={phase === "wrong"} entering={entering} />
 
         <div>
@@ -207,16 +209,7 @@ export function PasswordGate({
               }`}
             />
           </div>
-          {/* From the press until the site is up, the arrow turns into a
-              spinner: the button that was pressed says it is working on it,
-              through the check and the fill (Alejandro, November 2026). The
-              label stays put so the button does not jump in width. */}
-          <Button
-            type="submit"
-            variant="primary"
-            iconAfter={phase === "checking" || entering ? <Spinner /> : <ArrowRight />}
-            className="w-full sm:w-full"
-          >
+          <Button type="submit" variant="primary" iconAfter={<ArrowRight />} className="w-full sm:w-full">
             Enter the site
           </Button>
         </form>
