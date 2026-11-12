@@ -271,7 +271,10 @@ export default function SystemPage() {
                     },
                     {
                       value: String(textRoles.length + interactiveRoles.length),
-                      label: "color roles, measured live on this page",
+                      // Short enough for one line in the cell, like the
+                      // other three labels; the detail under it says what was
+                      // measured (Alejandro, November 2026).
+                      label: "colors, measured live",
                       detail: "Contrast, measured",
                       href: "#contrast",
                     },

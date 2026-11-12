@@ -77,6 +77,31 @@ function Cell({ caption, children }: { caption: string; children: React.ReactNod
   );
 }
 
+/**
+ * The way from a section to the same component in Storybook. The page is the
+ * argument, curated: each component beside its decision and its cost. Storybook
+ * is the evidence: every state, with controls. This link joins the two, so a
+ * reader who wants the whole catalog for one component is a tap away from it
+ * and the page never has to become a catalog itself (Alejandro, November
+ * 2026). Tertiary, with Storybook's mark like every way into it on the site;
+ * pulled 20px left so its label lines up with the text above, and its own
+ * width on a phone: it closes a section, it is not the section's action.
+ */
+function StoryLink({ story }: { story: string }) {
+  return (
+    <Button
+      href={`https://storybook.magnocreative.com/?path=/story/${story}`}
+      variant="tertiary"
+      iconBefore={<StorybookIcon />}
+      iconSize="lg"
+      fillOnPhone={false}
+      className="mt-6 -ml-5"
+    >
+      Every state in Storybook
+    </Button>
+  );
+}
+
 function Head({ id, title, decision }: { id: string; title: string; decision: string }) {
   return (
     <>
@@ -178,6 +203,7 @@ export default function ComponentsPage() {
                   same component was placed on the page, a panel and a well side by side, which is
                   the argument for a gallery like this one.
                 </Note>
+                <StoryLink story="components-button--states" />
               </section>
 
               {/* Theme toggle */}
@@ -213,6 +239,7 @@ export default function ComponentsPage() {
                   three&rdquo; while behaving as three separate tab stops. A static scan cannot see
                   either of those, because both are behavior.
                 </Note>
+                <StoryLink story="components-themetoggle--default" />
               </section>
 
               {/* Breadcrumbs */}
@@ -270,6 +297,7 @@ export default function ComponentsPage() {
                   truncates at 28ch rather than 22ch. The unit measures the zero glyph and ignores
                   letterspacing, so at this tracking about a fifth of the budget is gaps.
                 </Note>
+                <StoryLink story="components-breadcrumbs--states" />
               </section>
 
               {/* Tabs */}
@@ -327,6 +355,7 @@ export default function ComponentsPage() {
                   and an unacceptable one for the case this site is making, which is why the
                   components below are in page flow rather than in the component directly above.
                 </Note>
+                <StoryLink story="components-tabs--states" />
               </section>
 
               {/* Section nav */}
@@ -368,6 +397,7 @@ export default function ComponentsPage() {
                   <code className="font-medium">scroll-margin-top</code> lands an anchor on the
                   right line.
                 </Note>
+                <StoryLink story="components-sectionnav--states" />
               </section>
 
               {/* Work entry */}
@@ -401,6 +431,7 @@ export default function ComponentsPage() {
                   study, made for this site, never a screen: the screens belong to the companies that
                   paid for them.
                 </Note>
+                <StoryLink story="components-workentry--the-index" />
               </section>
 
               {/* Foundations */}

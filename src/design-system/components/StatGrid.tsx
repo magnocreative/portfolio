@@ -17,6 +17,23 @@ function breakable(text: string) {
   ));
 }
 
+/**
+ * A label wraps at its comma or not at all: "tokens," over "in one file",
+ * never "tokens, in one" over "file". Each label is the noun and then where
+ * it is, and in a phone's narrow cell the break belongs between the two
+ * (Alejandro, November 2026). At the aside's full width every label fits on
+ * one line.
+ */
+function phrased(label: string) {
+  const i = label.indexOf(", ");
+  if (i < 0) return label;
+  return (
+    <>
+      {label.slice(0, i + 1)} <span className="whitespace-nowrap">{label.slice(i + 2)}</span>
+    </>
+  );
+}
+
 export type Stat = {
   /** The number, set in display type. */
   value: string;
@@ -73,7 +90,7 @@ export function StatGrid({
             ].join(" ")}
           >
             <span className="font-display text-3xl leading-[1.2] text-text-primary">{item.value}</span>
-            <span className="mt-1 text-sm text-text-secondary">{item.label}</span>
+            <span className="mt-1 text-sm text-text-secondary">{phrased(item.label)}</span>
             {item.detail && (
               <span className="mt-3 font-label text-xs text-text-tertiary">
                 {item.href ? (
@@ -91,7 +108,7 @@ export function StatGrid({
           </li>
         ))}
       </ul>
-      {note && <p className="mt-2 font-label text-xs text-text-tertiary">{note}</p>}
+      {note && <p className="mt-2 font-label text-xs text-text-tertiary text-pretty">{note}</p>}
     </div>
   );
 }

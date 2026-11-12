@@ -18,7 +18,7 @@ const meta = {
       { value: "140", label: "tokens, in one file", detail: "src/styles/tokens.css" },
       { value: "28", label: "components, in code", detail: "src/design-system/" },
       { value: "95", label: "stories, published", detail: "storybook.magnocreative.com", href: "https://storybook.magnocreative.com" },
-      { value: "7", label: "color roles, measured live on this page", detail: "Contrast, measured", href: "#contrast" },
+      { value: "7", label: "colors, measured live", detail: "Contrast, measured", href: "#contrast" },
     ],
     note: "Counted from the code when the site is built.",
   },
