@@ -99,7 +99,7 @@ export function ContrastAudit({
     // at 1440, where the table fits and never scrolls. The bug was not hiding;
     // nobody had looked at the width where it exists.
     //
-    // `relative` is load-bearing. The Result header is `sr-only`, which is
+    // `relative` is load-bearing. The Swatch header is `sr-only`, which is
     // position: absolute, and an absolute box is clipped by a scroller only
     // when the scroller is its containing block. Without it the hidden label
     // escaped this div at x 600 and widened the whole document, so phones
@@ -138,21 +138,26 @@ export function ContrastAudit({
         </colgroup>
         <thead>
           <tr className="border-b border-border-subtle bg-surface-sunken">
-            {/* The swatch and verdict columns are visual, but a header cell with
-                no accessible name is a real failure — a screen reader announces
-                the column as unlabelled. The name is present and hidden, not
-                absent. */}
+            {/* Headers are Label/Current, SemiBold at the label tracking, so
+                the column names read as headings above the rows rather than
+                as one more line of metadata (Alejandro, November 2026). */}
+            {/* The swatch column is visual, but a header cell with no
+                accessible name is a real failure: a screen reader announces
+                the column as unlabelled. Its name is present and hidden, not
+                absent. Result is shown: the grade is what a reader scans the
+                table for, and an unnamed column left them to guess what AAA
+                and Decorative were grading (Alejandro, November 2026). */}
             {[
               { label: "Swatch", visible: false },
               { label: "Role", visible: true },
               { label: "Value", visible: true },
               { label: "Ratio", visible: true },
-              { label: "Result", visible: false },
+              { label: "Result", visible: true },
             ].map((h, i) => (
               <th
                 key={h.label}
                 scope="col"
-                className={`py-3 pr-4 font-label text-xs font-normal uppercase tracking-[0.14em] text-text-tertiary first:pl-5 last:pr-5 ${
+                className={`py-3 pr-4 font-label text-xs font-semibold uppercase tracking-[0.11em] text-text-tertiary first:pl-5 last:pr-5 ${
                   i >= 3 ? "text-right" : ""
                 }`}
               >
