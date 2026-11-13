@@ -11,10 +11,10 @@ import { CircleCheckIcon, CircleXIcon, InfoIcon } from "./Icon";
  * note there for that reason (Alejandro, November 2026).
  *
  * The tone is an icon (an X, a check, an i) as well as a color, so it never
- * rests on color alone, and a hairline along the bottom drains over the time
- * the toast is up, so its leaving is never a surprise (WCAG 2.2.1). The parent
- * closes it: pass the same `duration` to the hairline that the parent waits.
- * With reduced motion the hairline is not drawn.
+ * rests on color alone. The icon is 20px, the size its 20-unit grid is drawn
+ * at, so its 1.5px strokes land on whole pixels. A countdown hairline was
+ * tried along the bottom and taken out: more motion than message (Alejandro,
+ * November 2026). The parent decides how long it stays up.
  *
  * The live region is always in the page and only its content changes, so a
  * screen reader announces the message when it appears (a region added at the
@@ -44,13 +44,10 @@ const TONES = {
 export function Toast({
   open,
   tone = "info",
-  duration = 3200,
   children,
 }: {
   open: boolean;
   tone?: keyof typeof TONES;
-  /** How long the parent keeps it open, in milliseconds. Drives the hairline. */
-  duration?: number;
   children: ReactNode;
 }) {
   const { Icon, pill } = TONES[tone];
@@ -63,14 +60,9 @@ export function Toast({
       }`}
     >
       {open && (
-        <div className={`relative flex items-center gap-2.5 overflow-hidden rounded-full border py-3 pr-4 pl-3.5 text-sm shadow-[0_8px_24px_rgb(3_16_33/0.12)] ${pill}`}>
-          <Icon className="h-[18px] w-[18px] shrink-0" />
+        <div className={`flex items-center gap-2.5 rounded-full border py-3 pr-4 pl-3.5 text-sm shadow-[0_8px_24px_rgb(3_16_33/0.12)] ${pill}`}>
+          <Icon className="h-5 w-5 shrink-0" />
           <span>{children}</span>
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-4 bottom-0 h-0.5 origin-left rounded-full bg-current opacity-50 [animation:toast-drain_linear_forwards] motion-reduce:hidden"
-            style={{ animationDuration: `${duration}ms` }}
-          />
         </div>
       )}
     </div>

@@ -186,12 +186,6 @@
 
 /* The password gate (PasswordGate). The field's shake on a wrong password:
    small and quick, the size of a head shake rather than an error. */
-/* A toast's countdown: its hairline drains over the time it is up. */
-@keyframes toast-drain {
-  from { transform: scaleX(1); }
-  to { transform: scaleX(0); }
-}
-
 @keyframes gate-shake {
   20% { transform: translateX(-6px); }
   40% { transform: translateX(5px); }
