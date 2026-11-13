@@ -276,6 +276,40 @@ export function PhoneIcon(props: IconProps) {
   );
 }
 
+/* The status icons, for messages that need a tone: a toast, a field's error.
+   Each carries its meaning in its shape, so the tone never rests on color
+   alone (WCAG 1.4.1). Same grid and stroke, each in a circle. */
+
+/** Something went wrong: an X in a circle. */
+export function CircleXIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="10" cy="10" r="7.25" />
+      <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" />
+    </svg>
+  );
+}
+
+/** It worked: a check in a circle. */
+export function CircleCheckIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="10" cy="10" r="7.25" />
+      <path d="M6.75 10.25l2.25 2.25 4.25-4.75" />
+    </svg>
+  );
+}
+
+/** For your information: an i in a circle. */
+export function InfoIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="10" cy="10" r="7.25" />
+      <path d="M10 9.25v4M10 6.6v.15" />
+    </svg>
+  );
+}
+
 /** A globe: open to relocation, anywhere. */
 export function GlobeIcon(props: IconProps) {
   return (

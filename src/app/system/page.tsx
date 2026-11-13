@@ -27,6 +27,8 @@ const textRoles: AuditRow[] = [
   { token: "--text-secondary", note: "Standfirsts, supporting copy" },
   { token: "--text-tertiary", note: "Metadata: dates, disciplines, labels" },
   { token: "--text-accent", note: "Links and section markers" },
+  { token: "--text-danger", note: "Errors: under a field, in a toast" },
+  { token: "--text-success", note: "Confirmations: a toast, a live tag" },
 ];
 
 /* --interactive-default used to sit in the table above, where it was judged

@@ -112,10 +112,12 @@
   --p-blue-subtle-dark-selected: oklch(37.8% 0.056 252);
 
   /* Functional */
+  --p-success-300: oklch(74% 0.13 152);
   --p-success-500: oklch(62.4% 0.146 152);
   --p-success-700: oklch(45.8% 0.118 152);
   --p-warning-500: oklch(75.6% 0.148 76);
   --p-warning-700: oklch(56.2% 0.126 76);
+  --p-danger-300: oklch(72% 0.13 22);
   --p-danger-500: oklch(59.8% 0.192 22);
   --p-danger-700: oklch(46.4% 0.168 22);
 }
@@ -179,6 +181,14 @@
      cannot. Anyone who tries to finish the job by making this constant too
      will find the arithmetic, not an opinion. */
   --text-accent: light-dark(var(--p-blue-700), var(--p-blue-300));
+
+  /* Status as TEXT: an error under a field, a toast's message. The same rule
+     as the accent: the status fills below serve dots, edges and tints, and in
+     dark the red one reads only 4.10:1 as small text on a raised panel. So
+     text takes a lighter step in dark, 6.86:1 there, and stays the status
+     color in light, where it already clears 7:1 (November 2026). */
+  --text-danger: light-dark(var(--p-danger-700), var(--p-danger-300));
+  --text-success: light-dark(var(--p-success-700), var(--p-success-300));
 
   /* Borders */
   /* Dividers between rows, and the edge of a raised panel. Both are the same
@@ -341,6 +351,8 @@
   --color-text-tertiary: var(--text-tertiary);
   --color-text-inverse: var(--text-inverse);
   --color-text-accent: var(--text-accent);
+  --color-text-danger: var(--text-danger);
+  --color-text-success: var(--text-success);
 
   --color-border-subtle: var(--border-subtle);
   --color-border-default: var(--border-default);

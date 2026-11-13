@@ -10,7 +10,7 @@ import { join } from "node:path";
  * Server only: it reads the repository, which exists at build time and not in
  * the browser. /system is prerendered, so this runs once per build.
  *
- *   tokens      custom properties declared in tokens.css, less the 29
+ *   tokens      custom properties declared in tokens.css, less the
  *               `--color-*` aliases that only feed Tailwind's utilities. Those
  *               restate tokens that are already counted; they are not designed
  *               with. The deliberately unused text-2xs and text-3xs steps are

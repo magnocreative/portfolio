@@ -2,8 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { Button } from "./Button";
-import { ArrowRight } from "./Icon";
-import { Toast } from "./Toast";
+import { ArrowRight, CircleXIcon } from "./Icon";
 import { MARK_DEEP_PATH, MARK_LIGHT_PATH, MARK_VIEWBOX } from "@/design-system/brand/Logo";
 
 /**
@@ -21,7 +20,13 @@ import { MARK_DEEP_PATH, MARK_LIGHT_PATH, MARK_VIEWBOX } from "@/design-system/b
  * would mean sending the password to the browser to check against. Only the
  * server knows the password. A right one fills the mark to the top and the
  * site comes up under it; a wrong one drains it, the field shakes and clears,
- * and a toast asks for another try.
+ * and a note under the field asks for another try.
+ *
+ * THE NOTE IS UNDER THE FIELD, NOT IN A TOAST (Alejandro, November 2026). It
+ * used to rise from the bottom of the screen, far from where the eye is, and
+ * on a phone under the keyboard. Under the field it is where the visitor is
+ * already looking, the field's own description for a screen reader, and it
+ * stays until they type again instead of leaving on a timer.
  *
  * A native <dialog> opened with showModal(): the page behind it is inert, so
  * neither a pointer nor the Tab key can reach the links under the blur, and
@@ -111,18 +116,16 @@ export function PasswordGate({
   const input = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");
-  const [toast, setToast] = useState(false);
   const [shaking, setShaking] = useState(false);
-  const toastTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     const d = dialog.current;
     if (d && !d.open) d.showModal();
-    return () => clearTimeout(toastTimer.current);
   }, []);
 
   const entering = phase === "entering";
-  const level = entering ? 1 : phase === "wrong" ? 0 : typed(value.length);
+  const wrong = phase === "wrong";
+  const level = entering ? 1 : wrong ? 0 : typed(value.length);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -130,7 +133,6 @@ export function PasswordGate({
     setPhase("checking");
     const ok = await check(value).catch(() => false);
     if (ok) {
-      setToast(false);
       setPhase("entering");
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       // The fill climbs for about a second and a quarter; the card lets go
@@ -144,9 +146,6 @@ export function PasswordGate({
     setPhase("wrong");
     setValue("");
     setShaking(true);
-    setToast(true);
-    clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToast(false), 3200);
     input.current?.focus();
   }
 
@@ -171,7 +170,7 @@ export function PasswordGate({
           on the button as well; two signs of progress compete, and the mark
           is the one worth watching (Alejandro, November 2026). */}
       <div className={`flex flex-col gap-5 [&>*]:transition-opacity [&>*]:duration-300 ${entering ? "[&>*:not(:first-child)]:opacity-40" : ""}`}>
-        <GateMark level={level} draining={phase === "wrong"} entering={entering} />
+        <GateMark level={level} draining={wrong} entering={entering} />
 
         <div>
           <h2 id="gate-title" className="font-display text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.015em] text-text-primary">
@@ -190,24 +189,39 @@ export function PasswordGate({
             <label htmlFor="gate-password" className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
               Password
             </label>
-            <input
-              ref={input}
-              id="gate-password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={value}
-              aria-invalid={phase === "wrong" ? true : undefined}
-              onAnimationEnd={() => setShaking(false)}
-              onChange={(e) => {
-                setValue(e.target.value);
-                if (phase === "wrong") setPhase("idle");
-              }}
-              className={`h-11 w-full rounded-sm border border-border-default bg-surface-page px-3.5 text-base text-text-primary outline-none transition-[border-color,box-shadow] duration-[160ms] focus:border-interactive focus:shadow-[0_0_0_3px_color-mix(in_oklab,var(--interactive-default)_25%,transparent)] ${
-                shaking ? "[animation:gate-shake_.36s] motion-reduce:[animation:none]" : ""
-              }`}
-            />
+            <div>
+              <input
+                ref={input}
+                id="gate-password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={value}
+                aria-invalid={wrong ? true : undefined}
+                aria-describedby={wrong ? "gate-error" : undefined}
+                onAnimationEnd={() => setShaking(false)}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  if (wrong) setPhase("idle");
+                }}
+                className={`h-11 w-full rounded-sm border bg-surface-page px-3.5 text-base text-text-primary outline-none transition-[border-color,box-shadow] duration-[160ms] ${
+                  wrong
+                    ? "border-status-danger shadow-[0_0_0_3px_color-mix(in_oklab,var(--status-danger)_18%,transparent)]"
+                    : "border-border-default focus:border-interactive focus:shadow-[0_0_0_3px_color-mix(in_oklab,var(--interactive-default)_25%,transparent)]"
+                } ${shaking ? "[animation:gate-shake_.36s] motion-reduce:[animation:none]" : ""}`}
+              />
+              {/* Always in the page, so the note is announced when it appears;
+                  empty, it takes no room. */}
+              <div id="gate-error" aria-live="polite">
+                {wrong && (
+                  <p className="mt-2 flex items-start gap-1.5 text-sm leading-[1.5] text-text-danger">
+                    <CircleXIcon className="mt-px h-4 w-4 shrink-0" />
+                    That’s not quite it. Try again.
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
           <Button type="submit" variant="primary" iconAfter={<ArrowRight />} className="w-full sm:w-full">
             Enter the site
@@ -222,7 +236,6 @@ export function PasswordGate({
         </p>
       </div>
 
-      <Toast open={toast}>That’s not quite it. Try again.</Toast>
     </dialog>
   );
 }

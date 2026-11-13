@@ -18,7 +18,7 @@ const meta = {
       story: { inline: false, iframeHeight: 720 },
       description: {
         component:
-          "The way in while the site is password-protected: a card over the blurred opening of the home page, with the mark, a welcome and the password field. Each keystroke raises the mark's fill a step (any keystroke: it never says whether a character is right); the right password fills it and opens the site, a wrong one drains it, shakes the field and shows a toast. A native modal dialog, so the page behind it is inert. Try the sample password \"storybook\". Mirrors the Password gate component in Figma.",
+          "The way in while the site is password-protected: a card over the blurred opening of the home page, with the mark, a welcome and the password field. Each keystroke raises the mark's fill a step (any keystroke: it never says whether a character is right); the right password fills it and opens the site, a wrong one drains it, shakes and clears the field, and puts a note under it until you type again. A native modal dialog, so the page behind it is inert. Try the sample password \"storybook\". Mirrors the Password gate component in Figma.",
       },
     },
   },

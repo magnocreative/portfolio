@@ -27,6 +27,10 @@ export type TagTone = "pass" | "live" | "neutral" | "danger";
  *     3:1 on purpose.
  *   danger: the status red, no box. A failure is not decorated.
  *
+ * Their words take --text-success and --text-danger, not the status colors:
+ * in dark the status red reads only about 4.3:1 as small text, and status
+ * colors are for dots, edges and tints (November 2026).
+ *
  * `dot` puts a small mark in front, for a tag that sits alone on a line and
  * needs something to anchor it there, like the draft tag under a case study.
  */
@@ -34,9 +38,9 @@ const tones: Record<TagTone, string> = {
   pass:
     "rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--text-accent)_35%,transparent)] bg-interactive-subtle px-2.5 py-0.5 text-text-accent",
   live:
-    "rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--status-success)_35%,transparent)] bg-[color-mix(in_oklab,var(--status-success)_8%,transparent)] px-2.5 py-0.5 text-status-success",
+    "rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--status-success)_35%,transparent)] bg-[color-mix(in_oklab,var(--status-success)_8%,transparent)] px-2.5 py-0.5 text-text-success",
   neutral: "text-text-tertiary",
-  danger: "text-status-danger",
+  danger: "text-text-danger",
 };
 
 export function Tag({
