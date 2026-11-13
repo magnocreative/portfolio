@@ -46,7 +46,7 @@ if (phone) {
     const slot = document.querySelector("[data-phone]");
     if (!slot) throw new Error("No [data-phone] slot on /resume/print");
     slot.hidden = false;
-    slot.innerHTML = "<br>" + number.replace(/[<>&]/g, "");
+    slot.querySelector("[data-phone-number]").textContent = number;
   }, phone);
 }
 

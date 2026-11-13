@@ -252,6 +252,30 @@ export function TexasIcon(props: IconProps) {
   );
 }
 
+/* The contact icons, for the résumé PDF's contact column. Same grid and stroke.
+   The website takes a link rather than the globe: the globe already means
+   open to relocation, on /resume and in the PDF's sidebar layout. */
+
+/** A link: the portfolio's address. Two links of a chain at 45°. */
+export function LinkIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M8 12a3.5 3.5 0 0 0 4.95 0l3.3-3.3a3.5 3.5 0 0 0-4.95-4.95l-.83.83" />
+      <path d="M12 8a3.5 3.5 0 0 0-4.95 0l-3.3 3.3a3.5 3.5 0 0 0 4.95 4.95l.83-.83" />
+    </svg>
+  );
+}
+
+/** A phone: the number on the copy sent to a person, never the public one. */
+export function PhoneIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="5.5" y="2.5" width="9" height="15" rx="1.75" />
+      <path d="M9 14.75h2" />
+    </svg>
+  );
+}
+
 /** A globe: open to relocation, anywhere. */
 export function GlobeIcon(props: IconProps) {
   return (

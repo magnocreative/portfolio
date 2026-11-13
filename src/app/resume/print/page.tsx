@@ -3,7 +3,15 @@ import type { ReactNode } from "react";
 import { Logo } from "@/design-system/brand/Logo";
 import { HclLogo, JpmcLogo, M7Logo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 import { caseStudies } from "@/content/case-studies";
-import { BriefcaseIcon } from "@/design-system/components/Icon";
+import {
+  BriefcaseIcon,
+  GlobeIcon,
+  LinkedInIcon,
+  LinkIcon,
+  Mail,
+  PhoneIcon,
+  TexasIcon,
+} from "@/design-system/components/Icon";
 import {
   background,
   backgroundLabel,
@@ -58,114 +66,168 @@ const LAYOUTS = ["classic", "rail", "sidebar"] as const;
 type Layout = (typeof LAYOUTS)[number];
 
 const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo, swbc: SwbcLogo, m7: M7Logo };
+/** The title on its own line and what he works on below it (Alejandro,
+ *  November 2026): the title is the thing a recruiter scans for. */
+const [role, focus] = (() => {
+  const at = subtitle.indexOf(". ");
+  // On their own lines they are a title and a tagline, not sentences, so
+  // neither keeps a period. /resume runs them together and keeps both.
+  const clip = (s: string) => s.replace(/\.$/, "");
+  return at === -1 ? [clip(subtitle), ""] : [subtitle.slice(0, at), clip(subtitle.slice(at + 2))];
+})();
 const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "");
 
+/* SIZES ARE WHAT PRINTS (November 2026). Until then every size here was 1/0.86
+   of this: the rail header was wider than the page, so Chrome shrank the
+   whole document to 86% to fit it, quietly, and the PDF has always been the
+   shrunken version. The sizes were restated at what actually printed, so the
+   PDF looks the same, nothing overflows, and the Figma frames (612 x 792, one
+   pixel to the point) can match it exactly. Hairlines stay .75pt. If the
+   header ever overflows again the shrink comes back: check that
+   document.documentElement.scrollWidth does not exceed the page in print. */
 const css = `
-.sheet{color-scheme:light;background:var(--surface-raised);color:var(--text-secondary);font-family:var(--font-sans);font-size:9.4pt;line-height:1.5;width:8.5in;margin:2rem auto 4rem;padding:.6in .7in .7in;box-shadow:0 0 0 1px var(--border-subtle)}
+.sheet{color-scheme:light;background:var(--surface-raised);color:var(--text-secondary);font-family:var(--font-sans);font-size:8.1pt;line-height:1.5;width:8.5in;margin:2rem auto 4rem;padding:.6in .7in .7in .625in;box-shadow:0 0 0 1px var(--border-subtle)}
 .sheet a{color:var(--text-accent);text-decoration:none}
 .sheet b{font-weight:500;color:var(--text-primary)}
-.sheet .label{font-size:7.4pt;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--text-tertiary);line-height:1.5}
-.sheet h1{white-space:nowrap;font-size:20pt;font-weight:600;letter-spacing:-.02em;line-height:1.1;color:var(--text-primary)}
-.sheet .sub{margin-top:3pt;font-size:10pt}
-.sheet .mark{width:34pt;height:auto;flex:none}
-.sheet .contact{font-size:8.4pt;line-height:1.6;white-space:nowrap}
-.sheet .lede{display:flex;flex-direction:column;gap:6pt;font-size:9.6pt;line-height:1.6}
-.sheet .orghead{display:flex;align-items:center;gap:8pt;break-after:avoid}
-.sheet .logo{width:20pt;height:20pt;flex:none}
-.sheet .orgname{font-size:12.5pt;font-weight:600;letter-spacing:-.01em;line-height:1.2;color:var(--text-primary)}
+.sheet .label{font-size:6.4pt;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--text-tertiary);line-height:1.5}
+.sheet h1{white-space:nowrap;font-size:17.2pt;font-weight:600;letter-spacing:-.02em;line-height:1.1;color:var(--text-primary)}
+.sheet .sub{margin-top:2.6pt;font-size:8.6pt}
+.sheet .mark{width:29.2pt;height:auto;flex:none}
+.sheet .contact{display:flex;flex-direction:column;font-size:7.2pt;line-height:1.6;white-space:nowrap}
+.sheet .ci{display:flex;align-items:center;gap:4.3pt}
+.sheet .ci[hidden]{display:none}
+.sheet .ci>svg{width:8.2pt;height:8.2pt;flex:none;color:var(--text-tertiary)}
+.sheet .lede{display:flex;flex-direction:column;gap:5.2pt;font-size:8.3pt;line-height:1.6}
+.sheet .orghead{display:flex;align-items:center;gap:6.9pt;break-after:avoid}
+.sheet .logo{width:17.2pt;height:17.2pt;flex:none}
+.sheet .orgname{font-size:10.8pt;font-weight:600;letter-spacing:-.01em;line-height:1.2;color:var(--text-primary)}
 .sheet .org{break-inside:avoid}
-.sheet .org+.org{margin-top:13pt}
-.sheet .role{margin-top:8pt}
-.sheet .rolehead{display:flex;justify-content:space-between;align-items:baseline;gap:12pt;break-after:avoid}
-.sheet .title{font-size:10.4pt;font-weight:500;color:var(--text-primary)}
-.sheet ul{list-style:none;margin-top:5pt;display:flex;flex-direction:column;gap:4.5pt}
+.sheet .org+.org{margin-top:11.2pt}
+.sheet .role{margin-top:6.9pt}
+.sheet .rolehead{display:flex;justify-content:space-between;align-items:baseline;gap:10.3pt;break-after:avoid}
+.sheet .title{font-size:8.9pt;font-weight:500;color:var(--text-primary)}
+.sheet ul{list-style:none;margin-top:4.3pt;display:flex;flex-direction:column;gap:3.9pt}
 .sheet li{position:relative;break-inside:avoid}
-.sheet li::before{content:"";position:absolute;left:-9pt;top:.62em;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--border-strong)}
-.sheet .work p+p{margin-top:8pt}
-.sheet .edu{display:flex;align-items:center;gap:8pt}
+.sheet li::before{content:"";position:absolute;left:-7.7pt;top:.62em;width:3.1pt;height:3.1pt;border-radius:50%;background:var(--border-strong)}
+.sheet .work p+p{margin-top:6.9pt}
+.sheet .edu{display:flex;align-items:center;gap:6.9pt}
 .sheet .edu .edutext{flex:1}
-.sheet .edu>.label{align-self:flex-start;padding-top:2pt}
-.sheet .edu+.edu{margin-top:7pt}
-.sheet .tile{width:20pt;height:20pt;flex:none;display:flex;align-items:center;justify-content:center;border:.75pt solid var(--border-subtle);border-radius:4pt;color:var(--text-secondary)}
-.sheet .tile svg{width:12pt;height:12pt}
+.sheet .edu>.label{align-self:flex-start;padding-top:1.7pt}
+.sheet .edu+.edu{margin-top:6pt}
+.sheet .tile{width:17.2pt;height:17.2pt;flex:none;display:flex;align-items:center;justify-content:center;border:.75pt solid var(--border-subtle);border-radius:3.4pt;color:var(--text-secondary)}
+.sheet .tile svg{width:10.3pt;height:10.3pt}
 
 /* Classic: one column. The logo and the bullet dots hang in the margin, so
    the employer name, the role, the bullets and the section text all start on
    the same left edge as the name. */
-.l-classic .top{display:flex;justify-content:space-between;align-items:flex-end;gap:24pt;padding-bottom:14pt;border-bottom:.75pt solid var(--border-subtle)}
+.l-classic .top{display:flex;justify-content:space-between;align-items:flex-end;gap:20.6pt;padding-bottom:12pt;border-bottom:.75pt solid var(--border-subtle)}
 .l-classic .who{position:relative}
-.l-classic .who .mark{position:absolute;right:calc(100% + 9pt);top:50%;transform:translateY(-50%);width:28pt}
-.l-classic .contact{text-align:right}
-.l-classic .lede{margin-top:13pt}
-.l-classic .sec{margin-top:18pt}
-.l-classic .sec>.label{display:flex;align-items:center;gap:10pt;margin-bottom:10pt}
+.l-classic .who .mark{position:absolute;right:calc(100% + 7.7pt);top:50%;transform:translateY(-50%);width:24.1pt}
+.l-classic .contact{align-items:flex-end}
+.l-classic .lede{margin-top:11.2pt}
+.l-classic .sec{margin-top:15.5pt}
+.l-classic .sec>.label{display:flex;align-items:center;gap:8.6pt;margin-bottom:8.6pt}
 .l-classic .sec>.label::after{content:"";flex:1;border-top:.75pt solid var(--border-subtle)}
-.l-classic .orghead,.l-classic .edu{margin-left:-28pt}
+.l-classic .orghead,.l-classic .edu{margin-left:-24.1pt}
 .l-classic .orgloc{margin-left:auto}
-.l-classic .rolehead{padding-bottom:4pt;border-bottom:.75pt solid var(--border-subtle)}
-.l-classic .skills{display:grid;grid-template-columns:118pt 1fr;row-gap:6pt;column-gap:12pt}
+.l-classic .rolehead{padding-bottom:3.4pt;border-bottom:.75pt solid var(--border-subtle)}
+.l-classic .skills{display:grid;grid-template-columns:101.5pt 1fr;row-gap:5.2pt;column-gap:10.3pt}
 .l-classic .skills dt{font-weight:500;color:var(--text-primary)}
-.l-classic.sheet{padding-left:.95in;padding-right:.7in}
+.l-classic.sheet{padding-left:58.8pt;padding-right:43.3pt}
 
-/* Rail: a 1.3in column of section names down the left. Every block of text
+/* Rail: an 80.5pt column of section names down the left. Every block of text
    starts on the second column's edge; dates end on the right edge. */
-.l-rail .top{display:grid;grid-template-columns:1.3in 1fr auto;column-gap:16pt;align-items:end;padding-bottom:14pt;border-bottom:.75pt solid var(--border-subtle)}
-.l-rail .top .mark{width:40pt;justify-self:start;align-self:center}
-.l-rail .contact{text-align:right}
-.l-rail .sec{display:grid;grid-template-columns:1.3in 1fr;column-gap:16pt;margin-top:16pt}
-.l-rail .sec>.label{padding-top:2pt}
-.l-rail .sec.profile{margin-top:14pt}
+.l-rail .top{display:grid;grid-template-columns:80.5pt 1fr auto;column-gap:13.8pt;align-items:end;padding-bottom:12pt;border-bottom:.75pt solid var(--border-subtle)}
+/* The mark is set to the type beside it rather than centered on it: its peaks
+   sit on the name's cap line and its base on the subtitle's last baseline, so
+   it reads as one block with the name (Alejandro, November 2026). The
+   subtitle is always two lines (title, then focus), so the block is a fixed
+   height: 3.4pt is Poppins' space above the cap height of the 17.2pt name, 40.4pt
+   runs from there to the second line's baseline. */
+.l-rail .top{align-items:start}
+/* 10.3pt in from the margin closes the gap to the name (Alejandro, November
+   2026). The name keeps the text column's edge; the mark gives up the label
+   column's instead, because the text edge is the line the eye reads down. */
+.l-rail .top .mark{margin-top:3.4pt;margin-left:10.3pt;height:40.4pt;width:auto}
+/* Four lines spaced so the first cap and the last baseline land on the
+   name's cap line and the subtitle's last baseline: one block, three
+   columns. 11.8pt = (40.4pt minus the 5.1pt cap height of 7.2pt type) / 3. */
+.l-rail .contact{line-height:11.8pt}
+.l-rail .sec{display:grid;grid-template-columns:80.5pt 1fr;column-gap:13.8pt;margin-top:13.8pt}
+.l-rail .sec>.label{padding-top:1.7pt}
+.l-rail .sec.profile{margin-top:12pt}
 .l-rail .orgloc{margin-left:auto}
-.l-rail .rolehead{padding-bottom:3pt;border-bottom:.75pt solid var(--border-subtle)}
-.l-rail .sec+.sec{padding-top:14pt;border-top:.75pt solid var(--border-subtle)}
-.l-rail .skills{display:grid;grid-template-columns:110pt 1fr;row-gap:6pt;column-gap:12pt}
+.l-rail .rolehead{padding-bottom:2.6pt;border-bottom:.75pt solid var(--border-subtle)}
+.l-rail .sec+.sec{padding-top:12pt;border-top:.75pt solid var(--border-subtle)}
+.l-rail .skills{display:grid;grid-template-columns:94.6pt 1fr;row-gap:5.2pt;column-gap:10.3pt}
 .l-rail .skills dt{font-weight:500;color:var(--text-primary)}
-.l-rail ul{margin-left:9pt}
+.l-rail ul{margin-left:7.7pt}
 
 /* Sidebar: experience in a wide main column, the short sections in a narrow
    one to its right, a hairline between. The header runs across both. */
-.l-sidebar .top{display:flex;align-items:center;gap:12pt;padding-bottom:14pt;border-bottom:.75pt solid var(--border-subtle)}
-.l-sidebar .cols{display:grid;grid-template-columns:1fr 1.85in;column-gap:22pt;margin-top:14pt}
-.l-sidebar aside{border-left:.75pt solid var(--border-subtle);padding-left:16pt;font-size:8.6pt;line-height:1.5}
+.l-sidebar .top{display:flex;align-items:center;gap:10.3pt;padding-bottom:12pt;border-bottom:.75pt solid var(--border-subtle)}
+.l-sidebar .cols{display:grid;grid-template-columns:1fr 114.6pt;column-gap:18.9pt;margin-top:12pt}
+.l-sidebar aside{border-left:.75pt solid var(--border-subtle);padding-left:13.8pt;font-size:7.4pt;line-height:1.5}
 .l-sidebar aside .sec{break-inside:avoid}
-.l-sidebar aside .sec+.sec{margin-top:16pt}
-.l-sidebar aside .sec>.label{display:block;margin-bottom:6pt}
+.l-sidebar aside .sec+.sec{margin-top:13.8pt}
+.l-sidebar aside .sec>.label{display:block;margin-bottom:5.2pt}
 .l-sidebar aside .contact{white-space:normal}
 .l-sidebar aside .nobr{white-space:nowrap}
-.l-sidebar .main .sec{margin-top:16pt}
-.l-sidebar .main .sec>.label{display:block;margin-bottom:8pt}
-.l-sidebar .orgloc{display:block;margin-top:1pt}
+.l-sidebar .main .sec{margin-top:13.8pt}
+.l-sidebar .main .sec>.label{display:block;margin-bottom:6.9pt}
+.l-sidebar .orgloc{display:block;margin-top:.9pt}
 .l-sidebar .orghead{align-items:flex-start}
-.l-sidebar .rolehead{padding-bottom:3pt;border-bottom:.75pt solid var(--border-subtle)}
-.l-sidebar ul{margin-left:9pt}
+.l-sidebar .rolehead{padding-bottom:2.6pt;border-bottom:.75pt solid var(--border-subtle)}
+.l-sidebar ul{margin-left:7.7pt}
 .l-sidebar .skills dt{font-weight:500;color:var(--text-primary)}
-.l-sidebar .skills dd{margin-bottom:6pt}
+.l-sidebar .skills dd{margin-bottom:5.2pt}
 .l-sidebar .edu{align-items:flex-start}
-.l-sidebar .edu .label{display:block;margin-top:1pt}
+.l-sidebar .edu .label{display:block;margin-top:.9pt}
 
 @media print{
   body>header,body>div>footer{display:none!important}
   body{background:none}
-  .sheet{width:auto;margin:0;padding:0 0 0 .55in!important;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet{width:auto;margin:0;padding:0 0 0 34.1pt!important;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }`;
 
 function Contact({ stacked = false }: { stacked?: boolean }) {
   return (
+    // One row per way to reach him, each led by its icon, all on one left edge
+    // (Alejandro, November 2026). The icons sit in the tertiary text color so
+    // the addresses stay the thing being read.
     <div className="contact">
-      {location}
-      {stacked ? <br /> : ", "}
-      {stacked ? relocation : relocation.toLowerCase()}
-      <br />
-      <a href={`mailto:${email}`}>{email}</a>
-      <span data-phone hidden />
-      <br />
-      <a href={linkedin}>
-        {bare(linkedin).replace(/\/in\/.*/, "/in/")}
-        <wbr />
-        <span className="nobr">{bare(linkedin).replace(/.*\/in\//, "")}</span>
-      </a>
-      <br />
-      <a href={site}>{bare(site)}</a>
+      <span className="ci">
+        <TexasIcon />
+        <span>{stacked ? location : `${location}, ${relocation.toLowerCase()}`}</span>
+      </span>
+      {stacked && (
+        <span className="ci">
+          <GlobeIcon />
+          <span>{relocation}</span>
+        </span>
+      )}
+      <span className="ci">
+        <Mail />
+        <a href={`mailto:${email}`}>{email}</a>
+      </span>
+      {/* Filled in by `RESUME_PHONE=… npm run resume:pdf` for the copy sent to
+          a person; hidden and empty in the public file. */}
+      <span className="ci" data-phone hidden>
+        <PhoneIcon />
+        <span data-phone-number />
+      </span>
+      <span className="ci">
+        <LinkedInIcon className="filled" />
+        <a href={linkedin}>
+          {bare(linkedin).replace(/\/in\/.*/, "/in/")}
+          <wbr />
+          <span className="nobr">{bare(linkedin).replace(/.*\/in\//, "")}</span>
+        </a>
+      </span>
+      <span className="ci">
+        <LinkIcon />
+        <a href={site}>{bare(site)}</a>
+      </span>
     </div>
   );
 }
@@ -324,7 +386,11 @@ export default async function ResumePrint({
           <Logo className="mark" />
           <div>
             <h1>{name}</h1>
-            <p className="sub">{subtitle}</p>
+            <p className="sub">
+              {role}
+              <br />
+              {focus}
+            </p>
           </div>
         </header>
         <div className="cols">
@@ -361,7 +427,11 @@ export default async function ResumePrint({
           <div className="who">
             {layout === "classic" && <Logo className="mark" />}
             <h1>{name}</h1>
-            <p className="sub">{subtitle}</p>
+            <p className="sub">
+              {role}
+              <br />
+              {focus}
+            </p>
           </div>
           <Contact />
         </header>
