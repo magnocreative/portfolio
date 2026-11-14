@@ -90,20 +90,19 @@ export default function Home() {
         {/* The system, as an artifact rather than a claim */}
         <Container>
           <section className="pt-28" aria-labelledby="system-heading">
-            {/* The same section head the work index uses. The page had one
-                sectioning device used once, which made the panel below read as
-                a floating object rather than a part of the document.
-
-                No count on the right. The work head carries one because four
-                case studies is a fact worth stating; a system is not a
-                quantity. The layout takes a missing second child without
-                complaint, which is the point of building the head as a flex
-                row rather than a grid with fixed columns. */}
-            <SectionHead id="system-heading">Design system</SectionHead>
-
+            {/* No section head here, an eyebrow instead (Alejandro, November
+                2026). "Design system" in display type over "This site runs on
+                a design system you can read" was two headlines saying one
+                thing, competing. The rule the page now follows: a section
+                that holds a list gets a section head, which names the list and
+                counts it (Case studies); a section that is one object gets an
+                eyebrow, and the object's own headline is the section's
+                heading. The same panel on /system opens the same way, with
+                "Read the source". */}
             <FeaturePanel
-              className="mt-10"
-              headingAs="h3"
+              eyebrow="Design system"
+              headingAs="h2"
+              headingId="system-heading"
               heading="This site runs on a design system you can read."
               asideWidth="wide"
               asideInset="snug"

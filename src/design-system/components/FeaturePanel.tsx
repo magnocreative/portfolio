@@ -67,6 +67,7 @@ export function FeaturePanel({
   eyebrow,
   heading,
   headingAs: Heading = "h2",
+  headingId,
   action,
   aside,
   media,
@@ -83,6 +84,8 @@ export function FeaturePanel({
   heading?: ReactNode;
   /** h2 when the panel opens its own section; h3 under a SectionHead. */
   headingAs?: "h2" | "h3";
+  /** For a section that names itself by this heading (aria-labelledby). */
+  headingId?: string;
   /** Optional. Usually a Button, 28px under the body. */
   action?: ReactNode;
   /** The second column: facts, a specimen, the mark. */
@@ -111,6 +114,7 @@ export function FeaturePanel({
       {eyebrow && <Label className="!text-text-accent">{eyebrow}</Label>}
       {heading && (
         <Heading
+          id={headingId}
           className={`${eyebrow ? "mt-5 " : ""}max-w-[24ch] font-display text-3xl leading-[1.2] tracking-[-0.018em] text-text-primary`}
         >
           {heading}
