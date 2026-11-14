@@ -21,7 +21,11 @@ export function SiteFooter() {
     // than finished.
     <footer className="mt-8 border-t border-border-subtle bg-surface-raised sm:mt-32">
       <Container>
-        <div className="flex flex-col gap-8 py-12 sm:flex-row sm:items-end sm:justify-between">
+        {/* 8px between the email and the links on a phone, the same as
+            between the two links: they are one set of actions, and 32px split
+            them into two groups (Alejandro, November 2026). From 640 they sit
+            side by side, 32px apart. */}
+        <div className="flex flex-col gap-2 py-12 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div>
             <div className="font-display text-xl tracking-[-0.01em] text-text-primary">
               Looking for someone who owns the system, not just the screens?
@@ -53,13 +57,15 @@ export function SiteFooter() {
               an icon-only link needs a hidden name and a bigger target.
               Tighter padding than the default, pulled out by the same amount,
               so the text meets the container's edge on both sides. Centered on
-              the 40px email button on wide screens. Not full width on a phone:
-              two short links sit side by side. */}
+              the 40px email button on wide screens. On a phone they split the
+              row in half, each centered in its half, so the pair sits square
+              under the full-width email button instead of bunching at the left
+              (Alejandro, November 2026). */}
           <nav aria-label="Elsewhere">
-            <ul className="-mx-3 flex gap-2">
+            <ul className="grid grid-cols-2 gap-2 sm:-mx-3 sm:flex">
               {elsewhere.map(({ href, label, Icon }) => (
                 <li key={label}>
-                  <Button href={href} variant="tertiary" fillOnPhone={false} iconBefore={<Icon />} iconSize="lg" className="px-3!">
+                  <Button href={href} variant="tertiary" iconBefore={<Icon />} iconSize="lg" className="px-3!">
                     {label}
                   </Button>
                 </li>
