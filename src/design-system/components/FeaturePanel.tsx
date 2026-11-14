@@ -39,7 +39,18 @@ import { Label } from "@/design-system/primitives/Container";
  * the panel is one object, claim and evidence (Alejandro, November 2026).
  * 48px under the columns, the panel's own inset, so the figure lines up with
  * the text above it.
+ *
+ * ON A PHONE IT BLEEDS. Below 640px the panel runs to both edges of the
+ * screen: it steps out over the Container's 24px gutter, drops its side
+ * borders and its corners, and keeps the hairlines above and below. Inset
+ * 24px on a 390px screen it read as a card floating in the page, with three
+ * frames stacked at its sides (screen edge, panel, specimen); edge to edge it
+ * reads as a band across the page (Alejandro, November 2026). Its contents
+ * then sit 24px in, on the same left edge as the page text above and below
+ * it, aside included. From 640 the Container's gutter is wide enough for the
+ * panel to sit inside it as a panel.
  */
+const bleed = "max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0";
 const widths = {
   narrow: "xl:grid-cols-[1fr_15rem]",
   medium: "xl:grid-cols-[1fr_22rem]",
@@ -120,13 +131,14 @@ export function FeaturePanel({
     // the one it shares with the text. The aside stretches to the panel's
     // height beside the text, so its box can fill it.
     const snugMain = (
-      <div className={`p-8 md:p-12 ${align === "center" ? "xl:self-center" : ""}`}>{main}</div>
+      <div className={`p-8 max-sm:px-6 md:p-12 ${align === "center" ? "xl:self-center" : ""}`}>{main}</div>
     );
-    const snugAside = <div className="px-4 pb-4 xl:py-4 xl:pl-0">{aside}</div>;
+    const snugAside = <div className="px-4 pb-4 max-sm:px-6 xl:py-4 xl:pl-0">{aside}</div>;
     return (
       <div
         className={[
           "grid grid-cols-1 rounded-sm border border-border-subtle bg-surface-raised",
+          bleed,
           cols,
           className,
         ].join(" ")}
@@ -149,7 +161,8 @@ export function FeaturePanel({
   return (
     <div
       className={[
-        "grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 md:p-12 xl:gap-16",
+        "grid grid-cols-1 gap-10 rounded-sm border border-border-subtle bg-surface-raised p-8 max-sm:px-6 md:p-12 xl:gap-16",
+        bleed,
         cols,
         align === "center" ? "xl:items-center" : "",
         className,
