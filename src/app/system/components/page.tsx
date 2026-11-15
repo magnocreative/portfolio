@@ -83,19 +83,22 @@ function Cell({ caption, children }: { caption: string; children: React.ReactNod
  * is the evidence: every state, with controls. This link joins the two, so a
  * reader who wants the whole catalog for one component is a tap away from it
  * and the page never has to become a catalog itself (Alejandro, November
- * 2026). Tertiary, with Storybook's mark like every way into it on the site;
- * pulled 20px left so its label lines up with the text above, and its own
- * width on a phone: it closes a section, it is not the section's action.
+ * 2026). Secondary, with Storybook's mark like every way into it on the site:
+ * it was tertiary, and on the dark page a bare label read as a caption rather
+ * than something to press (Alejandro, November 2026). Its edge now sits on
+ * the text's left edge, so it no longer needs the 20px pull a tertiary
+ * button took to line its label up. Its own width on a phone: it closes a
+ * section, it is not the section's action.
  */
 function StoryLink({ story }: { story: string }) {
   return (
     <Button
       href={`https://storybook.magnocreative.com/?path=/story/${story}`}
-      variant="tertiary"
+      variant="secondary"
       iconBefore={<StorybookIcon />}
       iconSize="lg"
       fillOnPhone={false}
-      className="mt-6 -ml-5"
+      className="mt-6"
     >
       Every state in Storybook
     </Button>
