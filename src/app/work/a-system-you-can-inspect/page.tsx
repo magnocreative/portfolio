@@ -383,7 +383,7 @@ export default function SystemCaseStudy() {
                       iconBefore={<StorybookIcon />}
                       iconSize="lg"
                     >
-                      Open it in Storybook
+                      Open in Storybook
                     </Button>
                   </div>
                 }

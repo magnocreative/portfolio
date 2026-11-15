@@ -68,7 +68,8 @@ export function PageHeader({
   subtitle?: ReactNode;
   /** Résumé only: the contact row, as inline items. */
   meta?: ReactNode;
-  /** Résumé only: what follows the intro, such as the PDF button. */
+  /** What follows the intro: the résumé's PDF and contact buttons, the
+   *  design system's way into its gallery and Storybook. */
   actions?: ReactNode;
 }) {
   return (

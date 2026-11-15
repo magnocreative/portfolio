@@ -134,6 +134,28 @@ export default function SystemPage() {
                 eyebrow="The design system"
                 title="A system you can read, not a claim you have to take on trust."
                 lede="This site runs on the system documented below. Everything here is live. The swatches are the real tokens, and the contrast figures are measured in your browser as you read them. Switch your device to dark mode and every number here changes with it."
+                actions={
+                  // The proof under the promise (Alejandro, November 2026).
+                  // The lede says everything is live; a reader skimming the
+                  // top of the page shouldn't have to scroll four screens to
+                  // check. The same two links return further down, where each
+                  // is the next step for someone who read that far: the
+                  // gallery under Components, Storybook in Read the source.
+                  // Stacked full width on a phone, side by side from 640.
+                  <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                    <Button href="/system/components" variant="primary" iconAfter={<ArrowRight />}>
+                      See the components running
+                    </Button>
+                    <Button
+                      href="https://storybook.magnocreative.com"
+                      variant="secondary"
+                      iconBefore={<StorybookIcon />}
+                      iconSize="lg"
+                    >
+                      Open in Storybook
+                    </Button>
+                  </div>
+                }
               />
               {/* Three tiers */}
             <section id="tiers" className="mt-24" aria-labelledby="tiers-heading">
@@ -230,7 +252,7 @@ export default function SystemPage() {
                 // Published on its own domain (November 2026), so a reader can
                 // check every state without cloning anything.
                 <Button href="https://storybook.magnocreative.com" variant="secondary" iconBefore={<StorybookIcon />} iconSize="lg">
-                  Open it in Storybook
+                  Open in Storybook
                 </Button>
               }
               media={

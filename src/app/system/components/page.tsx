@@ -468,7 +468,7 @@ export default function ComponentsPage() {
                   className="mt-10"
                   action={
                     <Button href="https://storybook.magnocreative.com" variant="secondary" iconBefore={<StorybookIcon />} iconSize="lg">
-                      Open it in Storybook
+                      Open in Storybook
                     </Button>
                   }
                 >

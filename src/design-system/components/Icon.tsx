@@ -387,7 +387,7 @@ export function WrenchIcon(props: IconProps) {
    the square, 16 for the circle, which reads smaller at the same width) so
    they sit at the weight of the stroke icons.
 
-   Storybook joined them for the three "Open it in Storybook" buttons
+   Storybook joined them for the "Open in Storybook" buttons
    (Alejandro, November 2026): its book with the S cut out and the bookmark
    notch, traced from Storybook's own mark, 16 units tall like the Octocat. */
 function filled(props: IconProps) {
