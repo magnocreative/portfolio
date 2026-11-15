@@ -70,7 +70,11 @@ export function DataTable({
 }) {
   const stack = layout === "stack";
   const frame = `relative max-w-measure rounded-sm border border-border-subtle ${
-    stack ? "@container" : "overflow-x-auto"
+    // Stack clips too, though it never scrolls: the heading row's sunken
+    // fill is square, and without a clip its corners showed past the
+    // frame's rounded ones (Alejandro, November 2026). The scroll layout
+    // clips already, as a scroller does.
+    stack ? "@container overflow-hidden" : "overflow-x-auto"
   } ${className}`;
 
   const table = (
