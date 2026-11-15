@@ -5,6 +5,10 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { Tabs } from "@/design-system/components/Tabs";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
+import { PreviewCard } from "@/design-system/components/PreviewCard";
+import { ContrastReading } from "@/design-system/components/ContrastReading";
+import { decisions } from "@/content/system";
+import { StorybookPanel } from "../StorybookPanel";
 import { ArrowRight, ArrowLeft, Download, StorybookIcon } from "@/design-system/components/Icon";
 import { caseStudies } from "@/content/case-studies";
 import { SectionHead } from "@/design-system/components/SectionHead";
@@ -445,37 +449,86 @@ export default function ComponentsPage() {
               >
                 <Head
                   id="foundations"
-                  title="Foundations"
-                  decision="Color, type and spacing are not repeated here. They live on the system
-                  page with the contrast measured live in your browser, and duplicating them would
-                  create a second source of truth that drifts from the first. A design system with
-                  two swatch tables has a bug in it already."
+                  title="Where the foundations live"
+                  decision="Color, type and spacing are documented once, on the system page, and not
+                  repeated here: two swatch tables is a design system with a bug in it already. Each
+                  card below shows a piece of that page instead, drawn from the same tokens and the
+                  same lists, so it can't disagree with the page it links to."
                 />
 
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <Button href="/system#tiers" variant="secondary" iconAfter={<ArrowRight />}>
-                    Three tiers
-                  </Button>
-                  <Button href="/system#contrast" variant="secondary" iconAfter={<ArrowRight />}>
-                    Contrast, measured
-                  </Button>
-                  <Button href="/system#decisions" variant="secondary" iconAfter={<ArrowRight />}>
-                    Decisions
-                  </Button>
+                {/* Live pieces, not pictures (Alejandro, November 2026). Three
+                    bare buttons asked to be taken on trust; a screenshot of
+                    the system page would have been a copy of it, and the first
+                    copy to go stale, on the one page that argues copies drift.
+                    One column until the cards have 48rem between them. */}
+                <div className="@container mt-10">
+                  <div className="grid grid-cols-1 gap-4 @3xl:grid-cols-3">
+                    <PreviewCard
+                      href="/system#tiers"
+                      title="Three tiers"
+                      description="Follow the button’s blue from a raw value, to the role that names it, to the component that asks for the role."
+                      action="Read the tiers"
+                      preview={
+                        <span className="flex flex-col items-center gap-2 font-label text-xs">
+                          <span className="flex items-center gap-2 text-text-tertiary">
+                            <span className="block h-4 w-4 rounded-[4px] border border-border-default bg-interactive" />
+                            --p-blue-600
+                          </span>
+                          <ArrowRight className="h-3.5 w-3.5 rotate-90 text-text-tertiary" />
+                          <span className="text-text-primary">--interactive-default</span>
+                          <ArrowRight className="h-3.5 w-3.5 rotate-90 text-text-tertiary" />
+                          <Button specimen variant="primary" fillOnPhone={false}>
+                            Button
+                          </Button>
+                        </span>
+                      }
+                    />
+                    <PreviewCard
+                      href="/system#contrast"
+                      title="Contrast, measured"
+                      description="Every text color, measured in your browser against the page it sits on. Switch the theme and these figures change with it."
+                      action="See every reading"
+                      preview={
+                        <span className="flex flex-col gap-4">
+                          <ContrastReading token="--text-primary" />
+                          <ContrastReading token="--text-tertiary" />
+                        </span>
+                      }
+                    />
+                    <PreviewCard
+                      href="/system#decisions"
+                      title="Decisions"
+                      description="Why the system is the way it is, and what each choice cost to make."
+                      action="Read the decisions"
+                      preview={
+                        <span className="flex flex-col items-center text-center">
+                          <span className="font-display text-4xl leading-none text-text-primary">{decisions.length}</span>
+                          <span className="mt-2 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                            decisions, each with its cost
+                          </span>
+                          <span className="mt-3 text-sm text-text-secondary">
+                            The first: &ldquo;{decisions[0].title}&rdquo;
+                          </span>
+                        </span>
+                      }
+                    />
+                  </div>
                 </div>
 
-                <TextBlock
-                  className="mt-10"
-                  action={
-                    <Button href="https://storybook.magnocreative.com" variant="secondary" iconBefore={<StorybookIcon />} iconSize="lg">
-                      Open in Storybook
-                    </Button>
-                  }
-                >
-                  Every state of every component, including the ones that are wrong on purpose, lives
-                  in Storybook alongside the source, published at storybook.magnocreative.com. The
-                  stories use sample content, so nothing there is waiting to be written.
-                </TextBlock>
+                {/* The way into Storybook, with what is behind it: the same
+                    panel as Read the source on /system, so the two can't
+                    disagree about the counts. It replaced a sentence and a
+                    button that described Storybook without showing it. */}
+                <div className="mt-16">
+                  <StorybookPanel
+                    eyebrow="Every state"
+                    heading="Every state of every component, published."
+                    contrastHref="/system#contrast"
+                  >
+                    Including the ones that are wrong on purpose. The stories sit next to the source and use
+                    sample content, so nothing there is waiting to be written.
+                  </StorybookPanel>
+                </div>
               </section>
             </div>
 

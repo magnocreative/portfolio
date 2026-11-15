@@ -46,6 +46,7 @@ type Common = {
 };
 
 type AsLink = Common & {
+  specimen?: never;
   href: string;
   /**
    * A file to save rather than a page to open: renders a plain anchor with
@@ -57,13 +58,29 @@ type AsLink = Common & {
   type?: never;
 };
 type AsButton = Common & {
+  specimen?: never;
   href?: never;
   download?: never;
   onClick?: () => void;
   type?: "button" | "submit";
 };
 
-export type ButtonProps = AsLink | AsButton;
+/**
+ * A picture of a button, not a button: the same classes on a span, hidden
+ * from assistive tech and out of the tab order. For a preview that sits
+ * inside something that is already a link, such as a PreviewCard, where a
+ * real control would be a link inside a link (Alejandro, November 2026).
+ * Drawn by the component rather than copied, so it can't drift from it.
+ */
+type AsSpecimen = Common & {
+  specimen: true;
+  href?: never;
+  download?: never;
+  onClick?: never;
+  type?: never;
+};
+
+export type ButtonProps = AsLink | AsButton | AsSpecimen;
 
 /**
  * One component, two elements.
@@ -195,6 +212,14 @@ export function Button({
   ].join(" ");
 
   const inner = <Inner iconBefore={iconBefore} iconAfter={iconAfter} iconSize={iconSize}>{children}</Inner>;
+
+  if ("specimen" in rest && rest.specimen) {
+    return (
+      <span aria-hidden="true" className={classes}>
+        {inner}
+      </span>
+    );
+  }
 
   if ("href" in rest && rest.href !== undefined) {
     // A disabled link is not a thing. Render it as a disabled button so it

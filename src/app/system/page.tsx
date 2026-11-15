@@ -1,51 +1,22 @@
 import type { Metadata } from "next";
 import { Container } from "@/design-system/primitives/Container";
 import { DataTable } from "@/design-system/components/DataTable";
-import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
+import { ContrastAudit } from "@/design-system/components/ContrastAudit";
+import { decisions, interactiveRoles, textRoles } from "@/content/system";
+import { StorybookPanel } from "./StorybookPanel";
 import { SectionNav } from "@/design-system/components/SectionNav";
-import { FeaturePanel } from "@/design-system/components/FeaturePanel";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight, StorybookIcon } from "@/design-system/components/Icon";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { StatGrid } from "@/design-system/components/StatGrid";
-import { systemCounts } from "@/content/system-counts";
-import { Figure } from "@/design-system/components/Figure";
 import { SplitList } from "@/design-system/components/SplitList";
-import Image from "next/image";
-import storybookLight from "@/assets/evidence/storybook-light.png";
-import storybookDark from "@/assets/evidence/storybook-dark.png";
 
 export const metadata: Metadata = {
   title: "The design system",
   description:
     "The tokens, themes and accessibility model behind this site: three tiers, two neutral grounds, one set of semantic roles, and contrast measured rather than asserted.",
 };
-
-const textRoles: AuditRow[] = [
-  { token: "--text-primary", note: "Body and headings" },
-  { token: "--text-secondary", note: "Standfirsts, supporting copy" },
-  { token: "--text-tertiary", note: "Metadata: dates, disciplines, labels" },
-  { token: "--text-accent", note: "Links and section markers" },
-  { token: "--text-danger", note: "Errors: under a field, in a toast" },
-  { token: "--text-success", note: "Confirmations: a toast, a live tag" },
-];
-
-/* --interactive-default used to sit in the table above, where it was judged
-   against the page at the 4.5:1 TEXT bar. That passed in light by luck (4.62:1)
-   and soft-failed in dark (3.82:1) — a failing verdict, on the public page, for
-   a token this same page argues is correct. The table was contradicting the
-   system.
-
-   A filled control owes its contrast to its own label, not to the page behind
-   it. That is the whole reason these three can be single values. Audited here
-   at the 3:1 non-text bar, which is the one that actually governs them. */
-const interactiveRoles: AuditRow[] = [
-  { token: "--interactive-default", note: "Filled controls, the focus ring, the mark. One value, both themes" },
-  { token: "--interactive-hover", note: "Hover on a filled control" },
-  { token: "--interactive-selected", note: "Pressed and selected" },
-];
 
 const contents = [
   { id: "tiers", label: "Three tiers" },
@@ -116,44 +87,6 @@ const tierRows = [
     who: "Only that component",
   },
 ];
-
-const decisions = [
-  {
-    title: "Two ramps, not one inverted",
-    body: "Light is paper, a near-neutral gray with just enough warmth left in it to not read as gray. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Paper began five times warmer, a proper cream, and it was lovely until a cool blue fill sat on it: warm ground against cool tint is a complementary clash, and a tint that faint loses that argument every time. The lightness of every step is untouched, so no contrast figure on this page moved. Only the amount of hue did.",
-  },
-  {
-    title: "Both themes stated in one declaration",
-    body: "Every role is written once, as light-dark(paper, slate). Twin light and dark blocks always drift eventually. Someone edits one and forgets the other, and the bug ships because nobody looks at both themes on the same day. Stating them together makes drift structurally impossible rather than a matter of discipline.",
-  },
-  {
-    title: "The switch sets color-scheme, not a class",
-    body: "Native form controls, scrollbars and the text caret follow color-scheme. A class-based theme leaves all of them light while the page goes dark. That is the detail that makes a dark mode feel almost right and never quite.",
-  },
-  {
-    title: "Components never reach past the semantic tier",
-    body: "One constraint, and it is the reason the site rethemes by editing two files. It also means no component carries a light branch and a dark branch, which is where most theme bugs actually live.",
-  },
-  {
-    title: "Contrast is measured, not asserted",
-    body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small metadata requires, and it looked completely fine to me on screen.",
-  },
-  {
-    title: "One edge below the bar, on purpose",
-    // Was "Two hairlines, both below the bar, for different reasons", five
-    // times the length of the shortest entry. Its panel-edge half is what
-    // "Borders are allowed to fail" already argues, so that entry carries it
-    // and this one keeps the button (Alejandro, November 2026).
-    body: "A secondary button's edge measures about 1.9:1, under the 3:1 non-text minimum. WCAG 1.4.11 asks 3:1 of what identifies a control, and the edge isn't that: the label is, at 6.35:1, inside a real button with a 40px target. At 3:1 the edge reads as an outline and the quiet variant stops being quiet. It was built at 3.64:1, softened to 3.10:1 and landed here. A system that only documents the rules it passes is a brochure.",
-  },
-  {
-    title: "Borders are allowed to fail",
-    body: "Dividers and panel edges sit deliberately below 3:1. A hairline that meets text contrast is a heavy black line and the page stops reading as a document. Non-text contrast governs controls and meaningful graphics; a rule between two rows is neither. Knowing which rules do not apply is part of applying them.",
-  },
-];
-
-const storybookAlt =
-  "Storybook for this design system: the component list on the left with Button open, and the Button's States story showing primary, secondary and tertiary buttons at rest, hover, selected and disabled, with its controls below.";
 
 export default function SystemPage() {
   return (
@@ -313,68 +246,11 @@ export default function SystemPage() {
 
               {/* Where to read it */}
             <section id="source" className="mt-24">
-            <FeaturePanel
-              eyebrow="Read the source"
-              heading="Every claim on this page is checkable."
-              asideWidth="medium"
-              action={
-                // Published on its own domain (November 2026), so a reader can
-                // check every state without cloning anything.
-                <Button href="https://storybook.magnocreative.com" variant="secondary" iconBefore={<StorybookIcon />} iconSize="lg">
-                  Open in Storybook
-                </Button>
-              }
-              media={
-                // What is behind the button, so the claim has something to
-                // point at, in the panel's full-width media row (Alejandro,
-                // November 2026): not in the 26rem aside, where Storybook drew
-                // at a third of its size, and not under the panel, where it
-                // read as a separate thing. Taken from the published Storybook
-                // by scripts/storybook-shot.mjs, in both themes, and swapped
-                // with the page (scheme-dark, globals.css): a light Storybook
-                // on a dark page read as a hole in it.
-                <Figure
-                  ratio="16/10"
-                  caption="The Button's States story: every variant at rest, hover, selected and disabled, with the controls to change any of it. Captured from storybook.magnocreative.com."
-                >
-                  <Image src={storybookLight} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 100vw" className="object-cover object-left-top scheme-dark:hidden" />
-                  <Image src={storybookDark} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 100vw" className="hidden object-cover object-left-top scheme-dark:block" />
-                </Figure>
-              }
-              aside={
-                // What there is to check and where, counted from the code at
-                // build time (src/content/system-counts.ts), so the panel that
-                // says every claim is checkable can't drift from the system.
-                // Replaced a list of four paths that named places without
-                // saying why they mattered (Alejandro, November 2026).
-                <StatGrid
-                  items={[
-                    { value: String(systemCounts.tokens), label: "tokens, in one file", detail: "src/styles/tokens.css" },
-                    { value: String(systemCounts.components), label: "components, in code", detail: "src/design-system/" },
-                    {
-                      value: String(systemCounts.stories),
-                      label: "stories, published",
-                      detail: "storybook.magnocreative.com",
-                      href: "https://storybook.magnocreative.com",
-                    },
-                    {
-                      value: String(textRoles.length + interactiveRoles.length),
-                      // Short enough for one line in the cell, like the
-                      // other three labels; the detail under it says what was
-                      // measured (Alejandro, November 2026).
-                      label: "colors, measured live",
-                      detail: "Contrast, measured",
-                      href: "#contrast",
-                    },
-                  ]}
-                  note="Counted from the code when the site is built."
-                />
-              }
-            >
+            <StorybookPanel eyebrow="Read the source" heading="Every claim on this page is checkable." contrastHref="#contrast">
               The tokens are one file. The components are next to their own stories, and the stories are
               published. The one picture on this page, below, is of those stories. Everything else is the
               thing itself, and you are looking at it running.
-            </FeaturePanel>
+            </StorybookPanel>
 
             </section>
             </div>
