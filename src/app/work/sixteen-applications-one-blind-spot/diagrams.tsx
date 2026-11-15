@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
 import { CompareSlider } from "@/design-system/components/CompareSlider";
-import { ScaledFrame } from "@/design-system/components/ScaledFrame";
+import { RecreatedScreen } from "@/design-system/components/RecreatedScreen";
 
 /* The evidence for this study, drawn live rather than exported, the way the
    first study draws its token chain. Every one is a schematic made for this
@@ -333,53 +332,13 @@ function MockCard({ app, requestable = false }: { app: MockApp; requestable?: bo
   );
 }
 
-/* A browser window around a recreated screen: light only, whatever the page
-   is in, because the products it shows only ever had a light theme, and this
-   is a picture of them, the way a screenshot would be. data-scheme="light"
-   recomputes every role inside in its light value (tokens.css). Inert:
-   nothing in it is a link or a button, only drawn to look like one. */
-function BrowserWindow({ address, children }: { address: string; children: ReactNode }) {
-  return (
-    <div
-      inert
-      data-scheme="light"
-      className="overflow-hidden rounded-lg border border-border-default bg-surface-page shadow-[0_12px_32px_rgb(3_16_33/0.10)]"
-    >
-      <div className="flex items-center gap-3 border-b border-border-subtle bg-surface-sunken px-3 py-2">
-        <span className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border-default" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border-default" />
-        </span>
-        <span className="mx-auto flex min-w-64 items-center gap-1.5 rounded-sm bg-surface-raised px-3 py-1 text-xs text-text-tertiary">
-          <Glyph d="lock" className="h-3 w-3" />
-          {address}
-        </span>
-        <span className="w-10" />
-      </div>
-      {children}
-    </div>
-  );
-}
-
-/* Always the desktop layout, scaled to fit. Both products were responsive
-   but never had a mobile design, so a phone shows a smaller picture of the
-   desktop screen rather than a layout that didn't exist. 840 is the width
-   the screens are drawn at; the @container inside is that fixed width, so
-   their layout never changes, only their size. */
-const SCREEN_WIDTH = 840;
-
-function Screen({ children }: { children: ReactNode }) {
-  return (
-    <ScaledFrame width={SCREEN_WIDTH}>
-      <div className="@container">{children}</div>
-    </ScaledFrame>
-  );
-}
+/* The screens are drawn inside RecreatedScreen (design system): a browser
+   window, light only, desktop width scaled to fit, inert. Only the screens
+   themselves belong to this study. */
 
 function HubScreen({ open }: { open?: "search" | "menu" }) {
   return (
-    <BrowserWindow address="hub.example">
+    <>
             {/* App header */}
             <div className="flex items-center gap-5 border-b border-border-subtle bg-surface-raised px-4 py-3 @md:px-5">
               <span className="flex items-center gap-2">
@@ -594,7 +553,7 @@ function HubScreen({ open }: { open?: "search" | "menu" }) {
                 </div>
               </div>
             </div>
-    </BrowserWindow>
+    </>
   );
 }
 
@@ -605,9 +564,9 @@ export function HubMock({ open = "search" }: { open?: "search" | "menu" }) {
       aria-label="The hub, recreated with invented content, in a browser window. In the header, search has the word risk typed in, and its results list two applications, Risk Assessments (up) and Vendor Risk (request access), and a doc on how risk scores are calculated. Beside it, notifications with two unread and the account menu, which holds Report an incident. A maintenance banner reads: Issue Tracker is down Saturday, 2 to 4 AM. Filters for all platforms, Salesforce, ServiceNow and React sit above the applications. Under Your applications, six cards, each with the application's mark, name, platform, one line on what it's for, a status (Up, or Maintenance for the one going down), a Launch button and a Docs link. Under Request access, three cards in dashed outline with a Request access button and a Docs link. On the left, a welcome, the user's role, recently viewed applications with when, and resources."
       className="h-full w-full p-3 sm:p-6"
     >
-      <Screen>
+      <RecreatedScreen address="hub.example">
         <HubScreen open={open} />
-      </Screen>
+      </RecreatedScreen>
     </div>
   );
 }
@@ -637,7 +596,7 @@ const LIST_ROWS: [string, string, string, string][] = [
 function ListScreen() {
   const cell = "border-b border-border-subtle px-3 py-2";
   return (
-    <BrowserWindow address="platform.example">
+    <>
       {/* The platform's global bar and its tabs */}
       <div className="flex items-center gap-4 border-b border-border-default bg-surface-raised px-4 py-2.5">
         <span className="grid h-5 w-5 grid-cols-3 gap-0.5">
@@ -703,7 +662,7 @@ function ListScreen() {
           </div>
         ))}
       </div>
-    </BrowserWindow>
+    </>
   );
 }
 
@@ -713,18 +672,18 @@ export function BuildComparison() {
       label="Compare the out-of-the-box list view with the hub as built"
       before={{
         node: (
-          <Screen>
+          <RecreatedScreen address="platform.example">
             <ListScreen />
-          </Screen>
+          </RecreatedScreen>
         ),
         label: "Out of the box",
         alt: "Out of the box, recreated with invented content: a platform's default list view titled All Applications, with a row of tabs and a table of application names, platforms, owners and last-modified dates. Nothing says what an application is for or whether it's up.",
       }}
       after={{
         node: (
-          <Screen>
+          <RecreatedScreen address="hub.example">
             <HubScreen />
-          </Screen>
+          </RecreatedScreen>
         ),
         label: "What we built",
         alt: "The hub as built, recreated with invented content: a maintenance banner, platform filters, and application cards that each say what the application is for, its status, and how to launch it or read its docs.",

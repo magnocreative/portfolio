@@ -26,3 +26,18 @@ type Story = StoryObj<typeof meta>;
 export const Placeholder: Story = {};
 
 export const Square: Story = { args: { ratio: "1/1" } };
+
+export const Recreated: Story = {
+  args: {
+    recreated: true,
+    caption: "Every application says what it’s for and whether it’s up, before anyone opens it.",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "For a figure that redraws a product with invented content. One standard note follows the caption, in the tertiary text color, the same words on every case study.",
+      },
+    },
+  },
+};

@@ -117,7 +117,8 @@ export default function SixteenApplications() {
           after={
             <Figure
               ratio="auto"
-              caption="Every application says what it’s for and whether it’s up, maintenance is announced before anyone runs into it, and the applications you can open sit apart from the ones you’d have to request, a split users asked for in sketch testing. Recreated for this site with invented names and content."
+              recreated
+              caption="Every application says what it’s for and whether it’s up, maintenance is announced before anyone runs into it, and the applications you can open sit apart from the ones you’d have to request, a split users asked for in sketch testing."
             >
               <HubMock />
             </Figure>
@@ -152,7 +153,7 @@ export default function SixteenApplications() {
           id="constraint"
           heading="The constraint"
           after={
-            <Figure ratio="auto" caption="Sixteen applications on three platforms, and no shared front door. Building the hub inside one of them meant reaching the other two from the outside. Names invented; the split is approximate.">
+            <Figure ratio="auto" recreated caption="Sixteen applications on three platforms, and no shared front door. Building the hub inside one of them meant reaching the other two from the outside. The split between platforms is approximate.">
               <Ecosystem />
             </Figure>
           }
@@ -176,7 +177,8 @@ export default function SixteenApplications() {
           after={
             <Figure
               ratio="3/2"
-              caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for and whether it’s up. Recreated with invented content. Drag to compare."
+              recreated
+              caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for and whether it’s up. Drag to compare."
             >
               <BuildComparison />
             </Figure>

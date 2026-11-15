@@ -310,6 +310,16 @@ export function InfoIcon(props: IconProps) {
   );
 }
 
+/** A padlock: the secure address in a recreated browser window. */
+export function LockIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M6.5 9V6.75a3.5 3.5 0 0 1 7 0V9" />
+      <rect x="4.75" y="9" width="10.5" height="8" rx="1.5" />
+    </svg>
+  );
+}
+
 /** A globe: open to relocation, anywhere. */
 export function GlobeIcon(props: IconProps) {
   return (

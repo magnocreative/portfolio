@@ -17,6 +17,12 @@ import type { ReactNode } from "react";
  * Every image here is made for the site. Never a screen or anything exported
  * from an employer's tools.
  *
+ * `recreated` marks a figure that redraws a product with invented content
+ * (RecreatedScreen, or a diagram whose names are made up). It adds one
+ * standard note after the caption, the same words on every case study, so a
+ * reader learns once what it means and no caption has to spend its claim on
+ * saying it. The caption still makes the claim; the note only labels it.
+ *
  * `children` replaces the image with something live in the same frame, such
  * as a CompareSlider. It fills the frame, so it gets the same ratio, edge and
  * caption as a still. A live figure also gets an actions cell at the right of
@@ -34,6 +40,7 @@ export function Figure({
   sizes = "(min-width: 1024px) 56rem, 100vw",
   className = "",
   children,
+  recreated = false,
 }: {
   /** Optional until the image is made. A static import reserves its box. */
   src?: StaticImageData | string;
@@ -50,6 +57,8 @@ export function Figure({
   className?: string;
   /** Live content in place of the image, filling the frame. */
   children?: ReactNode;
+  /** Adds "Recreated with invented content." after the caption. */
+  recreated?: boolean;
 }) {
   return (
     <figure
@@ -78,6 +87,7 @@ export function Figure({
         className={`mt-4 max-w-[40rem] text-sm text-text-secondary ${children ? "sm:col-start-1 sm:row-start-2" : ""}`}
       >
         {caption}
+        {recreated && <span className="text-text-tertiary"> Recreated with invented content.</span>}
       </figcaption>
     </figure>
   );
