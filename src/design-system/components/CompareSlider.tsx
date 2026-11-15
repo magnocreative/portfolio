@@ -1,15 +1,34 @@
 "use client";
 
 import Image, { type StaticImageData } from "next/image";
-import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "./Button";
 import { ArrowLeft, ArrowRight } from "./Icon";
 
-type Side = { src: StaticImageData | string; alt: string; label: string };
+/**
+ * One side: an image, or live content drawn on the page (`node`), like the
+ * recreated screens in the GRC case study. Live content fills the frame and
+ * is named by `alt` as an image would be; anything inside it should be inert,
+ * because the whole frame is the slider's drag surface.
+ */
+type Side = { alt: string; label: string } & (
+  | { src: StaticImageData | string; node?: never }
+  | { node: ReactNode; src?: never }
+);
+
+function Layer({ side, sizes }: { side: Side; sizes: string }) {
+  return side.node ? (
+    <div role="img" aria-label={side.alt} className="absolute inset-0 overflow-hidden">
+      {side.node}
+    </div>
+  ) : (
+    <Image src={side.src!} alt={side.alt} fill sizes={sizes} className="object-cover" draggable={false} />
+  );
+}
 
 /**
- * Two images of the same thing, one over the other, with a divider the
+ * Two images of the same thing (or two live drawings of it), one over the other, with a divider the
  * reader drags to compare them: light and dark, before and after. Built for
  * the design system case study, where the claim is that one variable mode
  * switches a whole sheet between themes; a slider lets the reviewer flip it
@@ -162,9 +181,9 @@ export function CompareSlider({
       onPointerUp={onUp}
       onPointerCancel={onUp}
     >
-      <Image src={after.src} alt={after.alt} fill sizes={sizes} className="object-cover" draggable={false} />
+      <Layer side={after} sizes={sizes} />
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-        <Image src={before.src} alt={before.alt} fill sizes={sizes} className="object-cover" draggable={false} />
+        <Layer side={before} sizes={sizes} />
       </div>
 
       <span aria-hidden="true" className={`${tag} left-3 sm:left-4`}>

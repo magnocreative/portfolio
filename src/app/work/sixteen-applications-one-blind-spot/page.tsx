@@ -99,8 +99,9 @@ export default function SixteenApplications() {
           }
         >
           <p>
-            USAA&rsquo;s Governance, Risk and Compliance organization ran its daily work across
-            sixteen applications: more than half in Salesforce, the rest split between ServiceNow and
+            USAA&rsquo;s Governance, Risk and Compliance organization, the people who make sure
+            the company follows the law and its own policies, ran its daily work across sixteen
+            applications: more than half in Salesforce, the rest split between ServiceNow and
             React, midway through a three-year modernization. Nothing tied them together. When one
             went down for maintenance, the people who depended on it found out by trying to open it.
           </p>
@@ -151,7 +152,7 @@ export default function SixteenApplications() {
           id="constraint"
           heading="The constraint"
           after={
-            <Figure ratio="auto" caption="Sixteen applications on three platforms, and no shared front door. Building the hub inside one of them meant reaching the other two from the outside.">
+            <Figure ratio="auto" caption="Sixteen applications on three platforms, and no shared front door. Building the hub inside one of them meant reaching the other two from the outside. Names invented; the split is approximate.">
               <Ecosystem />
             </Figure>
           }
@@ -173,7 +174,10 @@ export default function SixteenApplications() {
           id="decision"
           heading="The decision"
           after={
-            <Figure ratio="auto" caption="The same content, two builds. Out of the box gave a list of names; the hub says what each application is for and whether it’s up. The question was whether the hub should look like what users were trying to see past.">
+            <Figure
+              ratio="3/2"
+              caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for and whether it’s up. Recreated with invented content. Drag to compare."
+            >
               <BuildComparison />
             </Figure>
           }

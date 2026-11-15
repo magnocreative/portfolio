@@ -129,7 +129,8 @@
    branch resolves is decided by `color-scheme` alone.
    --------------------------------------------------------------------------- */
 
-:root {
+:root,
+[data-scheme="light"] {
   color-scheme: light dark;
 
   /* Surfaces, ordered by elevation, three levels per theme and deliberately
@@ -333,6 +334,17 @@
    caret follow along, which a class-based theme never manages. */
 :root[data-theme="light"] { color-scheme: light; }
 :root[data-theme="dark"] { color-scheme: dark; }
+
+/* A region held in the light theme whatever the page is in: a recreation of
+   a product that only ever had a light theme, shown the way a screenshot of
+   it would be (the hub in the GRC case study, November 2026).
+
+   Setting `color-scheme` on the region alone is not enough. The browser
+   resolves light-dark() inside a custom property where the property is
+   declared, so the roles arrive already dark from :root. The roles block
+   above is therefore declared on the region too, and recomputed there
+   under its own color-scheme. Same declarations, so nothing can drift. */
+[data-scheme="light"] { color-scheme: light; }
 
 /* ---------------------------------------------------------------------------
    3. THEME — expose the semantic tier to Tailwind as utilities.
