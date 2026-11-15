@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The facts of a piece of work in one card, under a case study's hero: role, period, scope and stack, with the status in the header. Values sit beside their labels rather than at the far edge. Two columns once the card is 48rem wide (a container query), filled down then across, so the visual order and the reading order agree. Bleeds to the screen edge below 640. Mirrors the Facts panel component in Figma.",
+          "The facts of a piece of work, under a case study's hero: role, period, scope and tools, with an optional status. Two columns once the card is 48rem wide.\n\nFigma: Facts panel.",
       },
     },
   },
@@ -31,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 export const WithStatus: Story = {
   args: { status: <Tag tone="live">Live on this site</Tag> },
   parameters: {
-    docs: { description: { story: "The design system study: the work is running on the site you are reading." } },
+    docs: { description: { story: "Work that is running now carries a status, as on the design system study." } },
   },
 };
 
@@ -39,7 +39,7 @@ export const WithoutStatus: Story = {
   parameters: {
     docs: {
       description: {
-        story: "A study of work behind an employer's login has nothing live to point at, so the header holds the label alone.",
+        story: "Work behind an employer's login has nothing live to point at, so there's no status.",
       },
     },
   },

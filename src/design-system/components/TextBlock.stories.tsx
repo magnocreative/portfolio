@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A run of prose at the 900px measure: an optional heading, the body, and an optional action. Mirrors the Text block component in Figma, where Show heading and Show action are the same two choices. Body is 16px at 1.7, paragraphs 24px apart, and the action sits 32px under the last line.",
+          "A run of prose at the reading measure, with an optional heading and action.\n\nFigma: Text block.",
       },
     },
   },
@@ -29,7 +29,7 @@ export const WithHeading: Story = {
   parameters: {
     docs: {
       description: {
-        story: "One of a list: the principles on About and the decisions on the design system page.",
+        story: "With a heading, as for each principle on About.",
       },
     },
   },
@@ -39,7 +39,7 @@ export const BodyOnly: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Straight under a SectionHead, which already names it, so there is no heading of its own.",
+        story: "Under a section head, which already names it.",
       },
     },
   },
@@ -58,7 +58,7 @@ export const WithAction: Story = {
   parameters: {
     docs: {
       description: {
-        story: "A pointer at the end of a section. The action is whatever Button the page needs; its variant is the page's call, not the block's.",
+        story: "Ending in an action. The page chooses the button.",
       },
     },
   },
@@ -79,7 +79,7 @@ export const SeveralParagraphs: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Pass <p> elements and they sit 24px apart. In Figma, the same thing is a return inside the Body text.",
+        story: "Paragraphs sit 24px apart.",
       },
     },
   },

@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The heading that opens a section: an uppercase label in the primary text color on a full-width rule, with an optional count at the far right. It replaced fourteen hand-written copies across six pages. The count is padded to two digits and tracked wider than the label, so it reads as a figure, not as part of the heading.",
+          "The heading that opens a section: a display-size title with an optional count beside it. Size does the separating, so there's no rule under it.\n\nFigma: Section head.",
       },
     },
   },
@@ -23,7 +23,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "A label and a rule. Most sections on the site open this way.",
+        story: "A title alone, as most sections open.",
       },
     },
   },
@@ -35,7 +35,7 @@ export const WithCount: Story = {
     docs: {
       description: {
         story:
-          "With a count, for sections that list things: the case studies on the home page and the work index, and the principles on About. The count is the length of the list it heads, so it cannot drift from the content.",
+          "With a count, for sections that list things. The count is the list's length, so it can't drift.",
       },
     },
   },
@@ -47,7 +47,7 @@ export const LongLabel: Story = {
     docs: {
       description: {
         story:
-          "The label is a phrase, not a single word, on several pages. Label and count share a baseline.",
+          "A phrase rather than a word, as on several pages.",
       },
     },
   },

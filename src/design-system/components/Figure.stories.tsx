@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One piece of evidence in a case study: an image and the claim it proves. The caption is required and is written as a claim, never a label. Until the image exists the frame holds its place at the same proportion.",
+          "One piece of evidence and the claim it proves. The caption is required and states a claim, never a label. Until the image exists, the frame holds its place.\n\nFigma: Figure.",
       },
     },
   },
@@ -36,7 +36,7 @@ export const Recreated: Story = {
     docs: {
       description: {
         story:
-          "For a figure that redraws a product with invented content. One standard note follows the caption, in the tertiary text color, the same words on every case study.",
+          "A figure that redraws a product with invented content adds one standard note after the caption.",
       },
     },
   },

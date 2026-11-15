@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Shows its child at one fixed design width, scaled down to the room there is, like an image of a screen; never scaled up. For recreations of products that only had one layout, so a phone sees a smaller picture of the desktop screen rather than a mobile design that never existed. Resize the canvas to see it scale.",
+          "Shows its content at a fixed design width, scaled down to fit and never up. For recreations of products that only had a desktop layout, so a phone sees a smaller picture rather than a mobile design that never existed.",
       },
     },
   },

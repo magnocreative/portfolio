@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A raised surface with a hairline edge, 32px in: the FeaturePanel material in one column. Mirrors Card in Figma. With bleed, below 640px it runs to the screen's edges with square corners and no side borders, so the text inside stays as wide as the page's own column.",
+          "A raised surface for content one column long, such as each employer on the résumé. With `bleed`, it runs to the screen's edges below 640px so the text keeps the page's width.\n\nFigma: Card.",
       },
     },
   },

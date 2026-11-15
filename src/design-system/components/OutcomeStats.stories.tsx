@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Two to four numbers that open a case study's outcome. Each is an outcome, not a size, and its label finishes the sentence the number starts. Rules above and below rather than a card, so it does not read as more metadata. Side by side once the row is 48rem wide, stacked below that. Mirrors the Outcome stats component in Figma.",
+          "Two to four outcomes that open a case study's result. Each label finishes the sentence its number starts. Side by side from 48rem, stacked below.\n\nFigma: Outcome stats.",
       },
     },
   },
@@ -35,6 +35,6 @@ export const Two: Story = {
     ],
   },
   parameters: {
-    docs: { description: { story: "Two outcomes take the same row, each with more room." } },
+    docs: { description: { story: "Two outcomes, each with more room." } },
   },
 };

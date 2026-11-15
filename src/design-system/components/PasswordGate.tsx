@@ -159,7 +159,7 @@ export function PasswordGate({
         "m-auto w-[min(420px,calc(100%-2rem))] overflow-visible rounded-lg border border-border-subtle bg-surface-raised p-8 pt-10 text-text-primary",
         // The one shadow in the system: a card floating over a page it is not
         // part of. Everything else sits flat on its surface.
-        "shadow-[0_24px_64px_rgb(3_16_33/0.14)]",
+        "shadow-[var(--shadow-dialog)]",
         "backdrop:bg-[color-mix(in_oklab,var(--surface-page)_55%,transparent)] backdrop:backdrop-blur-[14px]",
         "transition-opacity duration-300 motion-reduce:transition-none",
         entering ? "opacity-100" : "",

@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The header at the top of every page: an eyebrow or a breadcrumb trail, the h1, and the intro. Mirrors the Page header component in Figma type for type. The type sets the headline's size and measure, because that decides where it breaks; everything else (the 56px gap, the 46rem intro) is shared.",
+          "The top of every page: an eyebrow or breadcrumb, the headline and the intro, with optional actions under it. The type sets the headline's size and measure; the spacing is shared.\n\nFigma: Page header.",
       },
     },
   },
@@ -30,7 +30,7 @@ export const Hero: Story = {
     docs: {
       description: {
         story:
-          "Home only. 48 on a phone, 64 from sm, 84 from lg, where it is capped at 12em and wraps plainly rather than balancing, so it holds three lines on every desktop width.",
+          "Home only: the largest headline, capped so it holds three lines on every desktop width.",
       },
     },
   },
@@ -56,7 +56,7 @@ export const WithSectionNav: Story = {
     docs: {
       description: {
         story:
-          "The left column beside the section nav. The column is narrower, so the headline is capped at 15ch until xl and 24ch from there.",
+          "For pages with a contents list beside them, so the headline column is narrower.",
       },
     },
   },
@@ -73,7 +73,7 @@ export const WithBreadcrumb: Story = {
     docs: {
       description: {
         story:
-          "A level down, the trail replaces the eyebrow. Its last item names the page, so there is no eyebrow under it repeating the same word.",
+          "A level down, the breadcrumb replaces the eyebrow.",
       },
     },
   },
@@ -102,7 +102,7 @@ export const Resume: Story = {
     docs: {
       description: {
         story:
-          "The name, uncapped, then a subtitle and a contact row before the intro, which sits 48px below them. The PDF request follows the intro.",
+          "The résumé: name, subtitle and contact row, then the intro and the PDF button.",
       },
     },
   },

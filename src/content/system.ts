@@ -35,7 +35,7 @@ export const interactiveRoles: AuditRow[] = [
 export const decisions = [
   {
     title: "Two ramps, not one inverted",
-    body: "Light is paper, a near-neutral gray with just enough warmth left in it to not read as gray. Dark is slate, drawn from the logo's own blue, so the mark sits natively in it rather than being placed on top of something unrelated. Paper began five times warmer, a proper cream, and it was lovely until a cool blue fill sat on it: warm ground against cool tint is a complementary clash, and a tint that faint loses that argument every time. The lightness of every step is untouched, so no contrast figure on this page moved. Only the amount of hue did.",
+    body: "Light is paper, a near-neutral gray with just enough warmth to keep it from reading as gray. Dark is slate, drawn from the logo's own blue, so the mark sits naturally on it. Paper began five times warmer, a proper cream, and it was lovely until a cool blue fill sat on it: warm against cool is a complementary clash, and a faint tint loses that argument every time. Only the amount of hue changed, so no contrast figure on this page moved.",
   },
   {
     title: "Both themes stated in one declaration",
@@ -51,7 +51,7 @@ export const decisions = [
   },
   {
     title: "Contrast is measured, not asserted",
-    body: "Reading a token back gives you oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. That is not academic: it caught text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small metadata requires, and it looked completely fine to me on screen.",
+    body: "Reading a token back returns oklch(...), and anything that parses that as RGB produces confident nonsense. So each value is painted to a canvas and the pixel is read. It earned its place early: it caught text-tertiary at 3.92:1 in the light theme, under the 4.5:1 its small metadata requires, and it looked fine to me on screen.",
   },
   {
     title: "One edge below the bar, on purpose",
@@ -59,7 +59,7 @@ export const decisions = [
     // times the length of the shortest entry. Its panel-edge half is what
     // "Borders are allowed to fail" already argues, so that entry carries it
     // and this one keeps the button (Alejandro, November 2026).
-    body: "A secondary button's edge measures about 1.9:1, under the 3:1 non-text minimum. WCAG 1.4.11 asks 3:1 of what identifies a control, and the edge isn't that: the label is, at 6.35:1, inside a real button with a 40px target. At 3:1 the edge reads as an outline and the quiet variant stops being quiet. It was built at 3.64:1, softened to 3.10:1 and landed here. A system that only documents the rules it passes is a brochure.",
+    body: "A secondary button's edge measures about 1.9:1, under the 3:1 non-text minimum. WCAG 1.4.11 asks 3:1 of whatever identifies a control, and here that is the label, at 6.35:1, inside a real button with a 40px target. At 3:1 the edge reads as an outline and the quiet variant stops being quiet. A system that only documents the rules it passes is a brochure.",
   },
   {
     title: "Borders are allowed to fail",

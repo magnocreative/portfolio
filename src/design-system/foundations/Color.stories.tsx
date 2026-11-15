@@ -1,24 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
 import type { TokenKind } from "@/design-system/utils/contrast";
+import { interactiveRoles, textRoles } from "@/content/system";
 
-const textRoles: AuditRow[] = [
-  { token: "--text-primary", note: "Body and headings" },
-  { token: "--text-secondary", note: "Standfirsts, supporting copy" },
-  { token: "--text-tertiary", note: "Metadata: dates, disciplines, labels" },
-  { token: "--text-accent", note: "Links and section markers" },
-];
-
-/* --interactive-default used to sit in the text table above, which judged it
-   against the page at the 4.5:1 text bar and handed it a soft fail in dark.
-   That was the table contradicting the system: a fill owes its contrast to its
-   own label, not to the page behind it. It is audited here as a non-text role
-   instead, which is the bar that actually governs it. */
-const interactiveRoles: AuditRow[] = [
-  { token: "--interactive-default", note: "Filled controls, the focus ring, the mark. One value, both themes" },
-  { token: "--interactive-hover", note: "Hover on a filled control" },
-  { token: "--interactive-selected", note: "Pressed and selected" },
-];
+/* The text and interactive roles come from the same list the design system
+   page measures, so the two tables can't disagree (Alejandro, November 2026:
+   this one had stopped at four text roles after the page grew to six). */
 
 const surfaces: AuditRow[] = [
   { token: "--surface-page", note: "The page itself" },
@@ -75,25 +62,25 @@ function ColorDocs() {
     <div className="max-w-[68rem]">
       <Section
         title="Text roles, measured"
-        intro="These ratios are measured live in your browser against whichever theme the toolbar is set to, not written down and hoped for. Each token is painted to a canvas and the pixel is read back, because a computed custom property comes back as oklch() and anything that parses that as RGB produces confident nonsense. This table is what caught --text-tertiary sitting at 3.92:1 in the light theme, under the 4.5:1 its small mono metadata needs; it has since been moved to paper-600 and the row below shows it passing. Flip the theme in the toolbar and watch every number change."
+        intro="Each text color, measured live against the page in whichever theme the toolbar is set to. Switch the theme and the figures change."
         rows={textRoles}
       />
       <Section
         title="Interactive fills"
         kind="nontext"
-        intro="Judged at the 3:1 non-text bar, not the 4.5:1 text one, because a filled control owes its contrast to its own label rather than to the page behind it. That distinction is the whole reason these can be single values: --interactive-default is blue-600 in both themes, with a white label in both, and white on it measures 5.00:1. Flip the theme and watch the hex column stay put while the ratios move: same colors, different grounds. That is the whole change, visible in one table.\n\nThe ratios here are measured against the page. On the dark theme hover reads 2.56:1 and pressed 1.75:1 (2.41:1 and 1.65:1 against a raised surface), and the audit marks both DECORATIVE, correctly. They are transient, pointer-anchored states carrying labels at 7.46:1 and 10.90:1, so the control never becomes unfindable; it dims toward the ground while touched. Lightening them instead would cost the white label, which is the one number that cannot move. Shown failing rather than quietly left out of the table."
+        intro="Filled controls are held to the 3:1 non-text bar, since the white label on the fill carries the text contrast. Switch the theme: the ratios move, the colors don't. On the dark page, hover and pressed fall below 3:1 and are graded Decorative: they're passing states, and their label still measures 7.46:1 and 10.90:1."
         rows={interactiveRoles}
       />
       <Section
         title="Surfaces"
         kind="surface"
-        intro="Elevation, measured against the page as information rather than as a test. No WCAG threshold applies to a background compared with another background, and surfaces are supposed to sit close together. That closeness is what makes elevation subtle instead of stripey. What matters is whether text placed on them passes, which the table above answers."
+        intro="Surfaces measured against the page, for reference. No contrast rule applies between two backgrounds; elevation is meant to be subtle."
         rows={surfaces}
       />
       <Section
         title="Borders and rules"
         kind="nontext"
-        intro="Judged against WCAG 1.4.11 at 3:1, not the text threshold. That rule covers interface boundaries and graphics you need in order to understand the content; a divider between two rows is neither, so the ones marked Decorative are choices rather than defects. A hairline that meets text contrast is a heavy black line, and the page stops reading as a document."
+        intro="Held to the 3:1 non-text bar. Dividers graded Decorative sit below it on purpose: a hairline at text contrast reads as a heavy line."
         rows={borders}
       />
 

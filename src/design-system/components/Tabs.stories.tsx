@@ -15,7 +15,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One region, several views of it. Built to the ARIA tabs pattern rather than styled to look like it, which is a bigger difference than it sounds: arrow keys move between tabs, Tab itself moves out of the set to the panel, `aria-selected` and `aria-controls` say which tab is active and what it governs, and the panel is focusable so it can be scrolled by keyboard. A row of divs with a click handler looks identical in a screenshot and does none of that. Labels take the mono uppercase wayfinding register, and the indicator is a rule rather than a fill, because the button family already owns fills here and a row of filled tabs beside a filled button reads as two primaries competing.",
+          "Switches one region between views. Built to the ARIA tabs pattern: arrow keys move between tabs, and Tab moves into the panel. Use it for reference content someone looks things up in, not for an argument that should stay visible.\n\nFigma: Tabs.",
       },
     },
   },
@@ -75,7 +75,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Four states, measured. Selected is 18.28:1 in light with a 4.62:1 rule beneath it. The rule is the interactive blue, which is now a single value in both themes rather than a per-theme pair, so it measures 4.62:1 on the light page and 3.82:1 on the dark one instead of two unrelated numbers. Rest is 8.85:1 and lifts to 18.28:1 on hover, which also brings in a gray rule so the hover previews the shape selection will take. Disabled is 5.87:1, drawn in an explicit color rather than dimmed with opacity, because an opacity-dimmed label has a ratio that depends on whatever happens to be behind it. Disabled is also skipped by the arrow keys, not merely styled as unavailable, which is the part that separates a real disabled state from a gray one.",
+          "Rest, hover, selected and disabled. Disabled is skipped by the arrow keys, not just grayed out.",
       },
     },
   },
@@ -86,7 +86,7 @@ export const Keyboard: Story = {
     docs: {
       description: {
         story:
-          "Click any tab, then use the keyboard. Left and Right move between tabs and skip the disabled one. Home and End jump to the ends. Tab moves out of the set and into the panel rather than to the next tab, which is the whole purpose of the roving tabindex: the set is one stop, not one stop per tab, so nine tabs do not cost a keyboard user nine keypresses to get past. Selection follows focus, so arrowing reveals each panel rather than needing a second key to confirm it.",
+          "Click a tab, then use the arrows, Home and End. Tab leaves the set for the panel.",
       },
     },
   },
@@ -105,7 +105,7 @@ export const ManyTabs: Story = {
     docs: {
       description: {
         story:
-          "Seven tabs, wrapping to a second row at narrow widths rather than scrolling horizontally, since a horizontally scrolling tab strip hides its own contents. This is also the case tabs are genuinely for: reference material somebody looks something up in. On a case study, where a reviewer is skimming for evidence you did the work, hiding two thirds of it behind tabs costs more than the scroll it saves. Hidden content is not scanned, not found by Cmd+F, not printed, and not indexed.",
+          "Seven tabs wrap to a second row rather than scroll sideways.",
       },
     },
   },

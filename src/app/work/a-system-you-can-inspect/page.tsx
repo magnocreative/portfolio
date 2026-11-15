@@ -229,15 +229,14 @@ export default function SystemCaseStudy() {
             </>
           }
         >
-          {/* The code's two counts come from the code at build time, like
-              the panel on /system; Figma's are written down, and move when
-              the libraries do. They differ on purpose: Figma also holds the
-              logo colors as variables, and leaves out the Tailwind aliases. */}
+          {/* The two counts come from the code at build time, like the panel
+              on /system. Figma's own counts (variables, text styles,
+              components, icons) were listed here until the content pass of
+              November 2026: they read as an inventory, and they were written
+              down by hand, so they drifted whenever the libraries moved. */}
           <p>
-            The site runs on it: {systemCounts.tokens} tokens in one file and {systemCounts.components}{" "}
-            components in code. Figma mirrors them as 133 variables across six collections, 25 text styles
-            and 42 components, more than in code because the repeating parts, like a tab or a table row,
-            are pieces of their own, plus 33 icons and logos.
+            The site you are reading runs on it: {systemCounts.tokens} tokens in one file and{" "}
+            {systemCounts.components} components, mirrored in a Figma library that uses the same names.
           </p>
         </CaseStudyBeat>
 

@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Titled rows: the title on the left, its paragraph on the right, a hairline between rows. Side by side once the list is 48rem wide, stacked below. The decisions on /system. Mirrors the Split list component in Figma.",
+          "Titled rows: the title on the left, its paragraph on the right, a hairline between rows. Side by side from 48rem, stacked below. Used for the decisions on /system.\n\nFigma: Split list.",
       },
     },
   },
@@ -38,5 +38,5 @@ export const Default: Story = {};
 
 export const Phone: Story = {
   globals: { viewport: { value: "phone", isRotated: false } },
-  parameters: { docs: { description: { story: "Under 48rem of its own width the title sits over its paragraph." } } },
+  parameters: { docs: { description: { story: "Below 48rem each title sits above its paragraph." } } },
 };

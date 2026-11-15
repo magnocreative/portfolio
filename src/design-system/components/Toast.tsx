@@ -60,7 +60,7 @@ export function Toast({
       }`}
     >
       {open && (
-        <div className={`flex items-center gap-2.5 rounded-full border py-3 pr-4 pl-3.5 text-sm shadow-[0_8px_24px_rgb(3_16_33/0.12)] ${pill}`}>
+        <div className={`flex items-center gap-2.5 rounded-full border py-3 pr-4 pl-3.5 text-sm shadow-[var(--shadow-toast)] ${pill}`}>
           <Icon className="h-5 w-5 shrink-0" />
           <span>{children}</span>
         </div>

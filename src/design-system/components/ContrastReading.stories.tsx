@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One contrast figure, measured live against the page surface: the token's swatch, its name, the ratio and the grade. The same measurement ContrastAudit makes for a table, for a place that needs one reading. Re-measures when the theme changes.",
+          "One contrast figure, measured live against the page: swatch, token, ratio and grade. Use it where a full table would be too much. It re-measures when the theme changes.\n\nFigma: Contrast reading.",
       },
     },
   },
@@ -22,5 +22,5 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {};
 export const Tertiary: Story = {
   args: { token: "--text-tertiary" },
-  parameters: { docs: { description: { story: "The role this measurement caught at 3.92:1 in the light theme, under the 4.5:1 its small metadata needs, before paper-600 replaced paper-500." } } },
+  parameters: { docs: { description: { story: "The role this measurement once caught at 3.92:1 in the light theme, before it was darkened to pass." } } },
 };

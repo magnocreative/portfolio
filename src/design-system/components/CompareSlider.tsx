@@ -176,7 +176,7 @@ export function CompareSlider({
      read as part of the control, clear 3:1 on either half in either theme,
      and the arrow in each says which way that side lies. */
   const tag =
-    "pointer-events-none absolute bottom-3 flex items-center gap-1.5 rounded-[var(--radius-pill)] border-2 border-interactive-on bg-interactive px-2.5 py-1 font-label text-xs font-semibold uppercase tracking-[0.11em] text-interactive-on shadow-[0_4px_12px_rgb(3_16_33/0.18)] sm:bottom-4";
+    "pointer-events-none absolute bottom-3 flex items-center gap-1.5 rounded-[var(--radius-pill)] border-2 border-interactive-on bg-interactive px-2.5 py-1 font-label text-xs font-semibold uppercase tracking-[0.11em] text-interactive-on shadow-[var(--shadow-chip)] sm:bottom-4";
 
   return (
     <div

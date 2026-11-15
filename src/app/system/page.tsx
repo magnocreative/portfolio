@@ -108,7 +108,7 @@ export default function SystemPage() {
                 type="withSectionNav"
                 eyebrow="The design system"
                 title="A system you can read, not a claim you have to take on trust."
-                lede="This site runs on the system documented below. Everything here is live. The swatches are the real tokens, and the contrast figures are measured in your browser as you read them. Switch your device to dark mode and every number here changes with it."
+                lede="This site runs on the system documented below, and everything here is live. The swatches are the real tokens, and the contrast figures are measured in your browser as you read. Switch your device to dark mode and every number changes with it."
                 actions={
                   // The proof under the promise (Alejandro, November 2026).
                   // The lede says everything is live; a reader skimming the
@@ -191,20 +191,24 @@ export default function SystemPage() {
             <section id="contrast" className="mt-24" aria-labelledby="contrast-heading">
             <SectionHead id="contrast-heading">Text roles, measured live</SectionHead>
             <TextBlock className="mt-8 mb-10">
-              Each token below is painted to a canvas and the resulting pixel read back, then checked against the
-              WCAG 2.2 threshold for the size it is actually used at. Small metadata is held to 4.5:1, not the 3:1
-              large-text allowance, because it is small.
+              Each token below is painted to a canvas and the pixel read back, so the figure describes the color
+              you actually see. It is then checked against the WCAG 2.2 threshold for the size it is used at.
+              Small metadata is held to 4.5:1, not the 3:1 large-text allowance.
             </TextBlock>
             <ContrastAudit rows={textRoles} label="Text roles, measured" />
 
             <TextBlock className="mt-14 mb-8" heading="Interactive fills, at the non-text bar">
-              Judged at 3:1 rather than 4.5:1, because a filled control owes its contrast to its own
-              label and not to the page behind it. That distinction is why these can be single values:
-              the fill is blue-600 in both themes, with a white label in both, and white on it measures
-              5.00:1. Watch the hex column stay still while the ratios move when you change the theme.
-              Hover and pressed drop below the bar on the dark ground and are marked accordingly:
-              transient states carrying labels at 7.46:1 and 10.90:1, shown failing rather than left
-              out of the table.
+              <p>
+                Filled controls are judged at 3:1 rather than 4.5:1, because a fill owes its contrast to
+                its own label, not to the page behind it. That is why each can be a single value:
+                blue-600 in both themes, with a white label that measures 5.00:1. Change your theme and
+                watch the ratios move while the hex column stays still.
+              </p>
+              <p>
+                On the dark ground, hover and pressed fall below the bar. The table grades them
+                Decorative rather than hiding them: they are passing states, and the white label on them
+                still measures 7.46:1 and 10.90:1.
+              </p>
             </TextBlock>
             <ContrastAudit rows={interactiveRoles} kind="nontext" label="Interactive fills, measured" />
             </section>
@@ -247,9 +251,9 @@ export default function SystemPage() {
               {/* Where to read it */}
             <section id="source" className="mt-24">
             <StorybookPanel eyebrow="Read the source" heading="Every claim on this page is checkable." contrastHref="#contrast">
-              The tokens are one file. The components are next to their own stories, and the stories are
+              The tokens are one file. The components sit next to their own stories, and the stories are
               published. The one picture on this page, below, is of those stories. Everything else is the
-              thing itself, and you are looking at it running.
+              real thing, running in front of you.
             </StorybookPanel>
 
             </section>

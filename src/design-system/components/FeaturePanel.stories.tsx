@@ -13,7 +13,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A raised panel with a main column and an aside. Mirrors Feature panel in Figma. The spacing is fixed: 32px inside on a phone, 48px from 768, 40px between the columns stacked and 64px side by side, which starts at 1280. What varies is the aside's width (narrow, medium, wide), its side, and whether the columns center on each other.",
+          "A raised panel with a main column and an aside, for a section that pairs an argument with its evidence. The aside's width, side and alignment vary; the spacing doesn't.\n\nFigma: Feature panel.",
       },
     },
   },
@@ -70,6 +70,6 @@ export const WithMedia: Story = {
     ),
   },
   parameters: {
-    docs: { description: { story: "As on /system, where the Storybook capture sits under \"Read the source\"." } },
+    docs: { description: { story: "With a full-width media row, as in Read the source on /system." } },
   },
 };

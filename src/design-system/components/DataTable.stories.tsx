@@ -63,7 +63,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The bordered table the design system page reads its records in: the three tiers and both contrast tables. One frame stopping at the measure, a sunken heading row in Label SemiBold, lines between rows and none between columns, no fill. Two ways to meet a narrow screen: scroll keeps the columns and scrolls sideways inside the frame, for figures compared down a column; stack turns each row into a block below 48rem of its own width, with every cell under its column's name, for sentences. Mirrors the Data table component in Figma.",
+          "A bordered table for records, as on the design system page. Two ways to handle a narrow screen: `scroll` keeps the columns, for figures read down a column; `stack` turns each row into a block, for sentences.\n\nFigma: Tiers table and Contrast table.",
       },
     },
   },
@@ -74,23 +74,23 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Stack: Story = {
-  parameters: { docs: { description: { story: "Sentences, as in Three tiers on /system. Narrow the canvas under 48rem and each row becomes a block." } } },
+  parameters: { docs: { description: { story: "Sentences, as in the three tiers. Narrow the canvas below 48rem and each row becomes a block." } } },
 };
 
 export const StackNarrow: Story = {
   name: "Stack, narrow",
   decorators: [(Story) => <div className="max-w-[22rem]">{Story()}</div>],
-  parameters: { docs: { description: { story: "At a phone's width: the first cell is the row's title, and every other cell sits under its column's name." } } },
+  parameters: { docs: { description: { story: "At a phone's width: each row's first cell is its title, and the rest sit under their column names." } } },
 };
 
 export const Scroll: Story = {
   args: figures,
-  parameters: { docs: { description: { story: "Figures, as in the contrast tables. Sample values; the page measures its own." } } },
+  parameters: { docs: { description: { story: "Figures, as in the contrast tables. Sample values." } } },
 };
 
 export const ScrollNarrow: Story = {
   name: "Scroll, narrow",
   args: { ...figures, minWidth: "min-w-[30rem]" },
   decorators: [(Story) => <div className="max-w-[22rem]">{Story()}</div>],
-  parameters: { docs: { description: { story: "Under its minimum width the table scrolls inside the frame, and the frame becomes a named tab stop so a keyboard can reach it." } } },
+  parameters: { docs: { description: { story: "Below its minimum width the table scrolls inside its frame, and the frame becomes a keyboard stop." } } },
 };

@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%. Between 54 and 64rem of card width the two split evenly, so the cover keeps close to 4:3; under 54rem the image stacks above the record. The record reads in scan order: the number with the facts (the employer's mark and name, discipline, period) on the same row, the title (the decision), the standfirst (the argument, never truncated), then the action. From 640 the action is a quiet uppercase label over a rule; on a phone it is a full-width primary button, since a phone has no hover to say the card is a link. Below 640 the card runs to the screen's edges like the résumé cards. Each image is a visual made for this site, never a screen.",
+          "One case study on the work index: a card with the cover and the record (number, organization, title, standfirst, action). Side by side from 54rem of card width, stacked below. Covers are made for the site, never employer screens.\n\nFigma: Work entry.",
       },
     },
   },
@@ -32,7 +32,7 @@ export const Published: Story = {
     docs: {
       description: {
         story:
-          "A finished case study. The whole card opens it, but the link is the title: its ::after stretches over the card, so a screen reader hears one link named by the title, and the keyboard focus ring is drawn around the card. The action says where it goes: Read the case study, in the accent. On hover the edge firms from border/subtle to border/default, the title takes the accent, the arrow nudges 2px and the fill settles quietly to surface/page, the same hover surface the top nav uses.",
+          "A finished study. The whole card opens it; the title is the one link a screen reader hears.",
       },
     },
   },
@@ -47,7 +47,7 @@ export const Draft: Story = {
     docs: {
       description: {
         story:
-          "A case study still being written. Marked, never dimmed. The first version faded drafts to 55% opacity, which made the most important content on the page the least legible thing on it, which is exactly backwards. A draft has no link in production, so nobody clicks into an empty page, and `group` lives on the linked branch alone: without that, hovering a draft turned its title accent blue and promised a page that was not there.",
+          "A study still being written: marked, never dimmed, and not a link in production.",
       },
     },
   },
@@ -66,7 +66,7 @@ export const LongTitle: Story = {
     docs: {
       description: {
         story:
-          "Titles are sentences, so they will sometimes be long ones. The measure is capped at 28ch and balanced, so a long title breaks into even lines instead of a full line and a stray word. Double-digit numbering also stops the padding at two.",
+          "A long title breaks into even lines.",
       },
     },
   },
@@ -79,7 +79,7 @@ export const TheIndex: Story = {
     docs: {
       description: {
         story:
-          "Every study as the index renders them: one card each, 16px apart, 40px under the section head.",
+          "Every study as the index shows them, 16px apart.",
       },
     },
   },
@@ -108,7 +108,7 @@ export const Phone: Story = {
     docs: {
       description: {
         story:
-          "At 390. The facts sit beside the number and wrap under it when they run long, and the action becomes a full-width primary button. It is still not a second link: the title's link covers the card, so tapping the button, the image or the text all open the study.",
+          "At 390px the action becomes a full-width button, still part of the card's one link.",
       },
     },
   },
@@ -124,7 +124,7 @@ export const PhoneDraft: Story = {
     padding: "2rem 1.5rem",
     docs: {
       description: {
-        story: "A draft on a phone: no button, because there is nothing to open yet. In writing says so instead.",
+        story: "A draft on a phone: no button, since there's nothing to open yet.",
       },
     },
   },

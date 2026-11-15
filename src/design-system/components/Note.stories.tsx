@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A note set off by a 1px rule down its left edge, 20px from the text. Same type as the body, so it reads as an aside to the prose rather than a louder or quieter version of it. On a phone, below 640px, the rule and the inset go and it reads as plain prose: a narrow column cannot spare the indent. Mirrors the Note component in Figma, which has the same two versions.",
+          "An aside to the prose, set off by a rule down its left edge, in the same type as the body. On a phone the rule goes and it reads as plain prose.\n\nFigma: Note.",
       },
     },
   },
@@ -37,7 +37,7 @@ export const WithInlineCode: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Inline code is marked by weight, as everywhere else on the site, not by a second face.",
+        story: "Inline code is marked by weight, not a second typeface.",
       },
     },
   },
@@ -56,7 +56,7 @@ export const UnderProse: Story = {
   parameters: {
     docs: {
       description: {
-        story: "In context: under a component's decision on the components page, 24px below the prose it comments on.",
+        story: "In context, under a component's description on the components page.",
       },
     },
   },

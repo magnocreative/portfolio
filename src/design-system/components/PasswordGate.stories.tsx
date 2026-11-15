@@ -18,7 +18,7 @@ const meta = {
       story: { inline: false, iframeHeight: 720 },
       description: {
         component:
-          "The way in while the site is password-protected: a card over the blurred opening of the home page, with the mark, a welcome and the password field. Each keystroke raises the mark's fill a step (any keystroke: it never says whether a character is right); the right password fills it and opens the site, a wrong one drains it, shakes and clears the field, and puts a note under it until you type again. A native modal dialog, so the page behind it is inert. Try the sample password \"storybook\". Mirrors the Password gate component in Figma.",
+          "The way in while the site is private: a card with the mark, a welcome and a password field. The mark fills as you type without hinting whether you're right; a wrong password shakes and clears. Try the sample password \"storybook\".\n\nFigma: Password gate.",
       },
     },
   },
@@ -58,5 +58,5 @@ export const MarkLevels: StoryObj = {
       ))}
     </div>
   ),
-  parameters: { layout: "padded", docs: { story: { inline: true }, description: { story: "At rest, typing (it stops short of 70%), and on entry." } } },
+  parameters: { layout: "padded", docs: { story: { inline: true }, description: { story: "The mark at rest, while typing and on entry." } } },
 };

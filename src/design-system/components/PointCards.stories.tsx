@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Two to four parallel points, each a card with a 24px icon in the accent, a title and a few sentences. Side by side once the row is 48rem wide, sharing rows so the bodies start on one line; stacked below that. Mirrors the Point cards component in Figma.",
+          "Two to four parallel points, each a card with an icon, a title and a few sentences. Side by side from 48rem, stacked below.\n\nFigma: Point cards.",
       },
     },
   },
@@ -57,7 +57,7 @@ export const Two: Story = {
       },
     ],
   },
-  parameters: { docs: { description: { story: "Two points take the same row, each with more room." } } },
+  parameters: { docs: { description: { story: "Two points, each with more room." } } },
 };
 
 export const Phone: Story = {
@@ -69,7 +69,7 @@ export const Phone: Story = {
     docs: {
       description: {
         story:
-          "At 390 the cards stack and run to the screen's edges, a hairline above and below each, the same as every card on the site at this width.",
+          "At 390px the cards stack and run to the screen's edges.",
       },
     },
   },
@@ -87,7 +87,7 @@ export const Grid: Story = {
     docs: {
       description: {
         story:
-          "Four points two by two across the full width with the icon on the title's line (header=\"inline\"), as the résumé sets its Skills. The chips are a sunken fill with no border, so the card is the only outline.",
+          "Four points two by two with the icon beside the title, as in the résumé's skills.",
       },
     },
   },

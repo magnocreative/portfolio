@@ -40,7 +40,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A contents list for a long page. Real anchors to sections that all stay in the document, with the current one marked as the reader scrolls. **Not tabs, and not a variant of them.** Tabs swap one region between mutually exclusive views; this navigates a page where everything is present, which is the entire reason to choose it. Nothing is hidden from Cmd+F, from print, from search, or from a reviewer skimming in forty seconds. It is the component the case study template wants, which is why it exists before that template does.",
+          "A contents list for a long page: links to sections that all stay on the page, with the current one marked as you scroll. Not tabs: nothing is hidden from search, print or a quick skim.\n\nFigma: Section nav.",
       },
     },
   },
@@ -68,7 +68,7 @@ export const Vertical: Story = {
     docs: {
       description: {
         story:
-          "The rail a long case study wants, and the intended use. Scroll and the marker follows. It sits beside the content rather than above it, so it costs no vertical space and never competes with the site header. The active marker is a left rule, which reads as a position in a list rather than a selected control.",
+          "The rail beside a long page's content. Scroll and the marker follows.",
       },
     },
   },
@@ -92,7 +92,7 @@ export const VerticalRightColumn: Story = {
     docs: {
       description: {
         story:
-          "The same rail in the right-hand column. Which side it sits on is a layout decision, not a prop: swap the grid columns and the component does not care. A `side` prop that mirrored the rule to the outer edge was built and thrown away after one look, because it put the marker at the far end of the column from the label it marks. The labels are left-aligned either way, so the rule belongs on their left either way.",
+          "The same rail in a right-hand column, as on the case studies. The marker stays on the labels' left.",
       },
     },
   },
@@ -114,7 +114,7 @@ export const Horizontal: Story = {
     docs: {
       description: {
         story:
-          "The bar form, for narrow viewports where a rail has nowhere to sit. Note the `sticky` prop is deliberately ignored here. A sticky element only sticks inside its own parent's box, so a bar wrapped in a one-line div scrolls away with that div, silently and with no error. Making the bar stick is the page's job: it has to be a direct child of an element spanning the scrolling region. This was learned the expensive way on a prototype.",
+          "The bar form, for narrow screens. Making it stick is the page's job, so `sticky` is ignored here.",
       },
     },
   },
@@ -139,7 +139,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Two states, measured in both themes. Visually this matches Tabs on purpose, since both organize one page, but the markup underneath is a nav and a list of anchors rather than a tablist. Looking alike while behaving differently is the correct outcome here: the reader learns one visual language, and assistive technology gets the truth about which one it is.",
+          "Rest, hover and current, in both themes. It looks like Tabs on purpose but is a list of links, not a tablist.",
       },
     },
   },

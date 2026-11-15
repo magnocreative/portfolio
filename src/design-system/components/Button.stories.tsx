@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Three levels of emphasis, one size, two shapes. The variant is a statement about how much attention the action deserves, not a decoration: primary is the loudest object on a page and so should appear once on it, secondary carries the ordinary forward action, and tertiary is a link that has been given a hit area. All three are fills rather than two fills and an outline, which is what keeps them legible as one family at three volumes. The label is sentence case at 14px rather than the tracked uppercase the rest of the interface furniture uses, because uppercase names a thing and a button asks you to do one. Given an `href` the component renders an anchor; otherwise a real button, which is a keyboard and screen-reader distinction rather than a styling one.\n\nOn a phone, below 640px, a button fills the column it sits in and goes back to hugging its label from there up: a narrow column makes a short button floating at the left edge read as unfinished, and a full-width one is the easiest target on the screen. Pills keep their own width, because a stretched pill is a bar. `fillOnPhone={false}` opts any other button out, for one that shares a row with something else. Drag the Storybook viewport under 640 to see it.",
+          "One way to ask for an action, at three levels of emphasis. Primary appears once per view, secondary carries everyday actions, and tertiary is a link with a button's hit area. With an `href` it renders a link; without one, a real button.\n\nBelow 640px a button fills its column; pills and `fillOnPhone={false}` keep their width. `specimen` draws a non-interactive picture of a button, for previews inside a link.\n\nFigma: Button.",
       },
     },
   },
@@ -57,7 +57,7 @@ export const Primary: Story = {
     docs: {
       description: {
         story:
-          "Solid fill on the interactive blue. It wins any competition it enters, which is the reason to allow it only once per view. Two primaries on a page means neither is primary.\n\nThe fill is one value in both themes (blue-600, the deep peak of the mark itself) with a white label in both. It used to be a `light-dark()` pair, a deep slate-blue in light and a pale blue in dark, which meant the same control wore two different colors and its identity flipped with the theme rather than surviving it. A fill can hold a single value because its contrast obligation is to its own label, not to the page: white on it is 5.00:1, and the fill clears 3.60:1 against the darkest surface it can land on.",
+          "The loudest action on a page, so use it once per view. One blue in both themes, with a white label at 5.00:1.",
       },
     },
   },
@@ -69,7 +69,7 @@ export const Secondary: Story = {
     docs: {
       description: {
         story:
-          "The same blue as primary at a fraction of the strength, so the two read as one family at two volumes. The first build of this was an outline instead, and an outline is the weaker answer: it sits at about the weight of a disabled control, it competes with every hairline rule on a page like this one, and beside a solid primary the pair reads as one real button and one ghost. A tint plus a hairline is a different thing from an outline, and it is where this landed after a round without any edge at all. The tint measures about 1.1:1 against whatever is behind it, so on its own the fill gives the control no boundary and the label carries the entire job of announcing it is a button. The hairline roughly doubles that, to 1.85:1 on the page and 2.00:1 on a panel in light, 1.92:1 and 1.81:1 in dark. Enough to see a shape, not enough to meet the 3:1 non-text bar, and the honest description of that is a trade rather than a pass. WCAG 1.4.11 asks 3:1 of the visual information required to identify a component. This edge is not carrying that. The label is, at 6.35:1, inside a real button element with a 40px target and the right announcement. Somebody who cannot resolve a 1.9:1 line still finds the control. What the trade buys is that at 3:1 the edge reads as an outline and the quiet variant stops being quiet. It was built at 3.64:1, softened to 3.10:1, and landed here across three rounds of looking at it. Panel edges sit at 1.13:1 on purpose, because a container outline is decoration; a control edge is what tells you the control is there. Same 1px line, two jobs, and the job decides the value.",
+          "The same blue at a fraction of the strength, with a hairline edge. The label, not the edge, is what identifies the control.",
       },
     },
   },
@@ -81,7 +81,7 @@ export const Tertiary: Story = {
     docs: {
       description: {
         story:
-          "Text alone, with a transparent border so it stands exactly as tall as the other two and a row of mixed variants sits on one baseline. The border is invisible and load-bearing. It underlines on hover rather than taking a fill, because a tertiary that fills on hover becomes a secondary and the distinction you spent three variants building disappears the moment anyone touches it.",
+          "Text alone, with a transparent border so it stands as tall as the others. It underlines on hover instead of filling.",
       },
     },
   },
@@ -106,7 +106,7 @@ export const Hierarchy: Story = {
     docs: {
       description: {
         story:
-          "The three together, at real size. The test of a variant set is whether the order of emphasis is obvious without labels. Read left to right: solid, tinted, bare. One blue, three volumes.",
+          "The three together. The order of emphasis should read without labels: solid, tinted, bare.",
       },
     },
   },
@@ -158,7 +158,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "Hover forced on, since a static page cannot show it otherwise. Selected is a real prop, not a simulation: it holds the deepest tint for as long as it is true and it announces itself, `aria-pressed` on a button and `aria-current=\"page\"` on a link, so a filter chip or a current nav item is correct to a screen reader and not only to the eye. Pressing borrows the same values through `:active`, which makes a press a half-second preview of what being chosen looks like rather than a fourth idea to keep in step. The two filled variants no longer move the same way. Secondary is still a `light-dark()` tint and steps about four points of lightness per state, four being the smallest move that reads as a state change rather than a rendering difference. Primary darkens in both themes, about nine points a step down the blue ramp, because it is now a single value and lightening it would cost the white label: blue-500 drops that to 3.94:1, under the 4.5 a 14px label needs.\n\nThat has a price, on the dark theme, and it is stated in the token rather than hidden. Against the dark raised surface the primary fill measures 3.60:1 at rest, 2.41:1 on hover and 1.65:1 while pressed, the last two under the 3:1 non-text bar. Both are transient and pointer-anchored, with labels at 7.46:1 and 10.90:1, so the control never becomes unidentifiable; it dims toward the ground for as long as it is touched. The alternative was keeping hover theme-dependent, which would have put the inversion back into the exact part of the button somebody is looking at while using it. The lowest label anywhere in the set is 5.00:1, on a primary at rest.",
+          "Hover, pressed, selected and disabled. Selected is a real prop: `aria-pressed` on a button, `aria-current` on a link. On the dark page, hover and pressed dim below 3:1 against the ground while their labels stay at 7.46:1 and 10.90:1.",
       },
     },
   },
@@ -196,7 +196,7 @@ export const Shapes: Story = {
     docs: {
       description: {
         story:
-          "Rounded is 8px and pill is a full round, and the gap between them is the point. The first version put the button at 16px, which is four fifths of a pill on a 40px control: the two shapes came out as nearly the same object and the variant had nothing to say. Everything on the site now rounds at 8px, buttons and containers alike, and the shapes still read as two different decisions because 8px on a 40px control is a corner you notice and 8px on a wide panel is an edge you do not.",
+          "Rounded (8px) for most actions, pill for compact ones. The gap between them is wide on purpose, so the two read as two decisions.",
       },
     },
   },
@@ -227,7 +227,7 @@ export const WithIcons: Story = {
     docs: {
       description: {
         story:
-          "Position carries meaning. An icon after the label is the destination of the action, which is why a forward arrow belongs on the right and an up-right arrow means the link leaves the site. An icon before the label is the kind of the action: a download, a message. Icons inherit `currentColor` and are sized by the button, so they follow every hover and theme change without a second declaration.",
+          "An icon after the label shows where the action goes; before it, what kind of action it is. Icons take the label's color.",
       },
     },
   },
@@ -252,7 +252,7 @@ export const Disabled: Story = {
     docs: {
       description: {
         story:
-          "All three collapse to one disabled appearance, because a disabled button has no emphasis left to express. It stays a fill so it reads as the same object drained of color rather than a different kind of control, and it is drawn with explicit values rather than dimmed with opacity: an opacity-dimmed control has a contrast ratio that depends on whatever happens to be behind it, so nobody can tell you what it measures. Its fill is also its own value rather than a borrowed surface. It used to reuse `surface-sunken`, which was fine until a disabled button landed on a sunken well and measured 1.00:1 against it: identical values, so the control disappeared. A control cannot share a value with a surface it might sit on, and that only shows up when you put the component on every surface it will ever meet rather than on the one in the story. It now sits between 1.07:1 and 1.26:1 against every surface in both themes, with a label at 5.20:1 in light and 5.84:1 in dark. Disabled does not have to mean illegible; losing the color is the signal.",
+          "All three variants share one disabled look, drawn in explicit colors rather than opacity, so its contrast never depends on what sits behind it.",
       },
     },
   },
@@ -274,7 +274,7 @@ export const AsLink: Story = {
     docs: {
       description: {
         story:
-          "Identical on screen, different to a keyboard and a screen reader. The first renders an anchor: it announces as a link, opens in a new tab on the modifier key, and shows a URL on hover. The second renders a button: it announces as a button and responds to Space as well as Enter. Getting this backwards is the most common defect in a hand-built button, and it is invisible in a screenshot.",
+          "Identical on screen, different to a keyboard and a screen reader: the first is a link, the second a button.",
       },
     },
   },
@@ -316,7 +316,7 @@ export const InContext: Story = {
     docs: {
       description: {
         story:
-          "The homepage system panel, in its real two-column shape and under its real section rule. The button here is the only primary on that page, which is what makes it mean anything: the panel is the single place the homepage sends a reviewer.\n\nPanel and button both round at 8px, and the same radius reads differently at the two sizes: on a 40px control it is a fifth of the way to a pill and the corner is the shape, on a panel several hundred pixels wide it is a crisp edge you barely register.",
+          "The home page's design system panel, where this is the page's only primary button.",
       },
     },
   },

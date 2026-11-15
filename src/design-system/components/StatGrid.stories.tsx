@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Numbers two by two, each with what it counts and where to check it. Hairlines between cells, none round the edge. Two columns from 16rem of its own width, one below. Paths break only after a slash or a dot. A detail with an href is a link. Mirrors the Stat grid component in Figma.",
+          "Numbers two by two, each with what it counts and where to check it. A detail with an href is a link. Two columns from 16rem.\n\nFigma: Stat grid.",
       },
     },
   },
@@ -30,10 +30,10 @@ type Story = StoryObj<typeof meta>;
 
 export const InAPanelAside: Story = {
   name: "In a panel's aside",
-  parameters: { docs: { description: { story: "As in Read the source on /system, at the aside's 22rem. Sample numbers; the page counts its own." } } },
+  parameters: { docs: { description: { story: "As in Read the source on /system. Sample numbers; the page counts its own." } } },
 };
 
 export const Narrow: Story = {
   decorators: [(Story) => <div className="max-w-[17.25rem]">{Story()}</div>],
-  parameters: { docs: { description: { story: "At a phone panel's 276px it stays two by two; under 16rem the cells stack." } } },
+  parameters: { docs: { description: { story: "At a phone panel's width it stays two by two; below 16rem the cells stack." } } },
 };

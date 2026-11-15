@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The opening band of a case study: breadcrumb, title and intro on the page's own ground at the left, and art on the right in two layers. The ground (art) bleeds off the right edge and fades out toward the text, a mask to transparent, so one piece of art serves both themes. The subject stays solid in a column at the content's right edge, so on a wide display it holds its place and only the ground grows. Desktop only from 1280; below that it is the plain page header. Both layers are decorative: aria-hidden and inert. Give it an id and the page's section nav can wait for it to scroll away (RevealAfter).",
+          "The opening of a case study: breadcrumb, title and intro on the left, art on the right. The ground bleeds off the edge and fades toward the text, so one piece of art works in both themes; the subject holds its place at the content's edge. Desktop only, from 1280px. Both layers are decorative.\n\nFigma: Case study hero.",
       },
     },
   },
@@ -39,7 +39,7 @@ export const Ground: Story = {
   },
   parameters: {
     docs: {
-      description: { story: "A ground alone, as a picture would be: it bleeds off the right edge and fades toward the text." },
+      description: { story: "A ground alone: it bleeds off the right edge and fades toward the text." },
     },
   },
 };
@@ -64,7 +64,7 @@ export const GroundAndSubject: Story = {
     docs: {
       description: {
         story:
-          "A pattern for the ground and a solid subject at the content's right edge. The design system case study uses this for its live token chain on a dotted ground. Widen the canvas past 1440: the subject stays put and the dots fill the extra room.",
+          "A dotted ground with a solid subject, as on the design system case study. Widen the canvas: the subject stays put and the ground fills the room.",
       },
     },
   },

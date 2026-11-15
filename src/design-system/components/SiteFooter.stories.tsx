@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The end of every page: a raised ground with one hairline facing the page, the header's construction at the other edge of the document. One prompt, the email under it, and the places to find me elsewhere at the header's link color. 32px above it on a phone and 128 from 640, so a long phone page does not read as having stopped early. Mirrors Footer in Figma.",
+          "The end of every page: one prompt, the email and the links elsewhere, on a raised ground.\n\nFigma: Footer.",
       },
     },
   },
@@ -22,10 +22,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Desktop: Story = {
   globals: { viewport: { value: "desktop", isRotated: false } },
-  parameters: { docs: { description: { story: "At 1440: the prompt on the left, the links on the right, bottoms aligned." } } },
+  parameters: { docs: { description: { story: "At 1440px: the prompt on the left, the links on the right." } } },
 };
 
 export const Phone: Story = {
   globals: { viewport: { value: "phone", isRotated: false } },
-  parameters: { docs: { description: { story: "At 390 the two stack: the prompt and email first, the links under them." } } },
+  parameters: { docs: { description: { story: "At 390px the prompt and email stack above the links." } } },
 };

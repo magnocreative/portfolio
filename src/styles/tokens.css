@@ -327,6 +327,23 @@
   /* Screenshots and diagrams are authored on light grounds. Rather than let
      them glare out of a dark page, they sit on their own light plate. */
   --media-plate: light-dark(var(--p-paper-0), var(--p-slate-200));
+
+  /* Shadows. One ink, the darkest slate, at four elevations. They were
+     written into four components as rgb(3 16 33), the same color typed out,
+     which made "0 hard-coded colors" on the design system case study untrue
+     (Alejandro, November 2026). Now the ink is a role like every other color
+     and each shadow names what it lifts. One value in both themes: on the
+     dark page a shadow this deep barely reads, which is right, since slate
+     surfaces separate by lightness, not by shadow. */
+  --shadow-ink: var(--p-slate-1000);
+  /* A label pinned over an image: the compare slider's Before and After. */
+  --shadow-chip: 0 4px 12px color-mix(in oklab, var(--shadow-ink) 18%, transparent);
+  /* A message floating over the page: the toast. */
+  --shadow-toast: 0 8px 24px color-mix(in oklab, var(--shadow-ink) 12%, transparent);
+  /* A picture of a window set on the page: RecreatedScreen. */
+  --shadow-window: 0 12px 32px color-mix(in oklab, var(--shadow-ink) 10%, transparent);
+  /* The one thing on the screen: the password gate's dialog. */
+  --shadow-dialog: 0 24px 64px color-mix(in oklab, var(--shadow-ink) 14%, transparent);
 }
 
 /* The toggle. Setting `color-scheme` is the entire mechanism — every role

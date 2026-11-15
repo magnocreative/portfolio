@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One of a case study's two halves, What changed and How I got there, with its beats inside. The half takes a section head and an eyebrow in words (Part one, Part two); each beat takes a small heading in the storytelling guide's words, its prose, and the evidence that backs it. Mirrors the Case study part component in Figma.",
+          "One half of a case study, What changed or How I got there, with its beats inside. Each beat has a short heading, its prose and the evidence that backs it.\n\nFigma: Case study part.",
       },
     },
   },

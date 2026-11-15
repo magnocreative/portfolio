@@ -31,7 +31,10 @@ const withTheme: Decorator = (Story, context) => {
         // Page chrome (header, footer) sets `padding: 0` so it meets the
         // edges of the frame the way it meets the edges of the window.
         padding: (context.parameters.padding as string | undefined) ?? "2rem",
-        minHeight: "100vh",
+        // A full screen in the canvas, so a page-like story fills it; on a
+        // Docs page every story is its own frame, and 100vh each made the
+        // page a column of tall empty boxes.
+        minHeight: context.viewMode === "docs" ? undefined : "100vh",
         colorScheme: theme,
       }}
     >
@@ -41,6 +44,11 @@ const withTheme: Decorator = (Story, context) => {
 };
 
 const preview: Preview = {
+  // A Docs page for every component: its description, then each story with
+  // its own line (Alejandro, November 2026). Without it the descriptions
+  // were written but shown nowhere: Storybook only renders them on a Docs
+  // page, and none had one.
+  tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },

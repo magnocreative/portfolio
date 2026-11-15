@@ -5,6 +5,7 @@ import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { Tabs } from "@/design-system/components/Tabs";
 import { WorkEntry } from "@/design-system/components/WorkEntry";
+import { SpecimenCell, SpecimenStage } from "@/design-system/components/SpecimenStage";
 import { PreviewCard } from "@/design-system/components/PreviewCard";
 import { ContrastReading } from "@/design-system/components/ContrastReading";
 import { decisions } from "@/content/system";
@@ -50,36 +51,6 @@ const contents = [
   { id: "work-entry", label: "Work entry" },
   { id: "foundations", label: "Foundations" },
 ];
-
-/** The ground every specimen sits on. One surface, so nothing is flattered by
- *  a background chosen to suit it. `surface-raised` is also the ground the
- *  homepage panel uses, which is where several of these actually appear. */
-function Stage({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div
-      className={`mt-8 rounded-sm border border-border-subtle bg-surface-raised p-6 md:p-10 ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-/** A labelled cell inside a stage. The caption is the state's real name, in
- *  the same label face the rest of the site uses for metadata, so a reader can match
- *  what they are looking at to the prop that produces it. */
-function Cell({ caption, children }: { caption: string; children: React.ReactNode }) {
-  // Full width on a phone, so the specimen behaves the way the component does
-  // in a page: a button there fills its column, and showing it at label width
-  // here would document a phone layout the site never uses.
-  return (
-    <div className="flex w-full flex-col gap-3 sm:w-auto">
-      <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-        {caption}
-      </span>
-      <div className="flex items-center">{children}</div>
-    </div>
-  );
-}
 
 /**
  * The way from a section to the same component in Storybook. The page is the
@@ -148,7 +119,7 @@ export default function ComponentsPage() {
                 type="withSectionNav"
                 breadcrumb={[{ label: "Design system", href: "/system" }, { label: "Components" }]}
                 title="The real components, running live."
-                lede="Every component below is the real one, rendered by this page, reading the same tokens as everything else on the site. Change your theme and they all change with it. Each sits next to the decision it embodies and what that decision cost, because a component library that only shows the happy state is a catalog, not a system."
+                lede="Every component below is the real one, rendered by this page from the same tokens as the rest of the site. Change your theme and they all follow. Each sits beside the decision it embodies and what that decision cost, because a library that only shows the happy state is a catalog, not a system."
               />
 
               {/* Button */}
@@ -156,51 +127,50 @@ export default function ComponentsPage() {
                 <Head
                   id="button"
                   title="Button"
-                  decision="Three fills, not two fills and an outline. An outlined secondary sits at
-                  almost the same visual weight as a disabled one, competes with every hairline rule
-                  on a page built from hairlines, and next to a solid primary it reads as one real
-                  button and one ghost. A tint is the same blue at a lower volume, so the pair are
-                  obviously one family. The cost is that the tint alone measures about 1.1:1 against
-                  the page, so the shape depends on a hairline that reaches only 1.9:1, under the 3:1
-                  non-text bar. That is a stated trade: what identifies the control is its label at
-                  6.35:1 inside a real button element."
+                  decision="Three fills rather than two fills and an outline. An outlined secondary
+                  sits at almost the same weight as a disabled one, and beside a solid primary it reads
+                  as one real button and one ghost. A tint is the same blue at a lower volume, so the
+                  pair read as one family. The cost: the tint alone measures about 1.1:1 against the
+                  page, and its hairline reaches only 1.9:1, under the 3:1 non-text bar. It is a stated
+                  trade, because what identifies the control is its label, at 6.35:1, inside a real
+                  button element."
                 />
 
-                <Stage>
+                <SpecimenStage className="mt-8">
                   <div className="flex flex-wrap items-start gap-x-12 gap-y-8">
-                    <Cell caption="primary">
+                    <SpecimenCell caption="primary">
                       <Button variant="primary" iconAfter={<ArrowRight />}>
                         Read the system
                       </Button>
-                    </Cell>
-                    <Cell caption="secondary">
+                    </SpecimenCell>
+                    <SpecimenCell caption="secondary">
                       <Button variant="secondary">Request a PDF</Button>
-                    </Cell>
-                    <Cell caption="tertiary">
+                    </SpecimenCell>
+                    <SpecimenCell caption="tertiary">
                       <Button variant="tertiary" iconBefore={<ArrowLeft />}>
                         Back
                       </Button>
-                    </Cell>
+                    </SpecimenCell>
                   </div>
 
                   <div className="mt-10 flex flex-wrap items-start gap-x-12 gap-y-8 border-t border-border-subtle pt-10">
-                    <Cell caption="selected">
+                    <SpecimenCell caption="selected">
                       <Button variant="secondary" selected>
                         Selected
                       </Button>
-                    </Cell>
-                    <Cell caption="disabled">
+                    </SpecimenCell>
+                    <SpecimenCell caption="disabled">
                       <Button variant="primary" disabled>
                         Unavailable
                       </Button>
-                    </Cell>
-                    <Cell caption="pill + icon">
+                    </SpecimenCell>
+                    <SpecimenCell caption="pill + icon">
                       <Button variant="secondary" shape="pill" iconBefore={<Download />}>
                         Download
                       </Button>
-                    </Cell>
+                    </SpecimenCell>
                   </div>
-                </Stage>
+                </SpecimenStage>
 
                 <Note className="mt-6">
                   Disabled is an explicit fill rather than an opacity. A button dimmed with opacity
@@ -226,11 +196,11 @@ export default function ComponentsPage() {
                   setting away the first time anyone touched it, and it is the one most people want."
                 />
 
-                <Stage>
-                  <Cell caption="live, in step with the header">
+                <SpecimenStage className="mt-8">
+                  <SpecimenCell caption="live, in step with the header">
                     <ThemeToggle />
-                  </Cell>
-                </Stage>
+                  </SpecimenCell>
+                </SpecimenStage>
 
                 <TextBlock className="mt-6">
                   Neither toggle keeps the theme to itself. Both read it from the page, so this one and
@@ -269,9 +239,9 @@ export default function ComponentsPage() {
                   weak cue in a two-item trail, and hue on its own would be the whole state."
                 />
 
-                <Stage>
+                <SpecimenStage className="mt-8">
                   <div className="flex flex-col gap-8">
-                    <Cell caption="two levels">
+                    <SpecimenCell caption="two levels">
                       <Breadcrumbs
                         label="Breadcrumb example, two levels"
                         items={[
@@ -279,8 +249,8 @@ export default function ComponentsPage() {
                           { label: "Components" },
                         ]}
                       />
-                    </Cell>
-                    <Cell caption="three levels, long current page">
+                    </SpecimenCell>
+                    <SpecimenCell caption="three levels, long current page">
                       <Breadcrumbs
                         label="Breadcrumb example, three levels"
                         items={[
@@ -289,9 +259,9 @@ export default function ComponentsPage() {
                           { label: "Self-service portal" },
                         ]}
                       />
-                    </Cell>
+                    </SpecimenCell>
                   </div>
-                </Stage>
+                </SpecimenStage>
 
                 <Note className="mt-6">
                   Not used on the homepage, <code className="font-medium">/about</code>,{" "}
@@ -319,7 +289,7 @@ export default function ComponentsPage() {
                   swapping the panel underneath you."
                 />
 
-                <Stage>
+                <SpecimenStage className="mt-8">
                   <Tabs
                     label="Tabs specimen"
                     tabs={[
@@ -353,7 +323,7 @@ export default function ComponentsPage() {
                       },
                     ]}
                   />
-                </Stage>
+                </SpecimenStage>
 
                 <Note className="mt-6">
                   Deliberately absent from the homepage, the case studies and this page. Tabs hide
@@ -377,14 +347,14 @@ export default function ComponentsPage() {
                   narrow one."
                 />
 
-                <Stage>
-                  <Cell caption="horizontal, not sticky">
+                <SpecimenStage className="mt-8">
+                  <SpecimenCell caption="horizontal, not sticky">
                     <SectionNav
                       items={contents.slice(0, 4)}
                       orientation="horizontal"
                       label="Section nav specimen"
                     />
-                  </Cell>
+                  </SpecimenCell>
                   <TextBlock className="mt-8">
                     This one is live and tracking the real sections of this page, so scrolling moves
                     the current item in both it and the rail on the right. Two instances, two
@@ -392,7 +362,7 @@ export default function ComponentsPage() {
                     that prop is for: two nav landmarks sharing a name are two doors with the same
                     sign.
                   </TextBlock>
-                </Stage>
+                </SpecimenStage>
 
                 <Note className="mt-6">
                   The vertical rail has no <code className="font-medium">self-start</code> on

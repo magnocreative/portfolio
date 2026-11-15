@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One line of history with no card: a 48px mark, a title, and where and when beside each other under it. An organization's logo when there is one; otherwise a stroke icon in an outlined tile of the same size. Mirrors the History row component in Figma.",
+          "One line of history without a card: a 48px mark, a title, and where and when under it. An organization's logo when there is one, otherwise an outlined icon.\n\nFigma: History row.",
       },
     },
   },
@@ -36,7 +36,7 @@ export const WithIcon: Story = {
     detail: "SWBC and Elbit Systems of America",
     period: "2013 to 2017",
   },
-  parameters: { docs: { description: { story: "No logo to show, so the briefcase stands in, outlined so it never reads as a brand." } } },
+  parameters: { docs: { description: { story: "No logo, so an outlined briefcase stands in." } } },
 };
 
 export const Pair: Story = {
@@ -57,12 +57,12 @@ export const Pair: Story = {
       />
     </div>
   ),
-  parameters: { docs: { description: { story: "Education and early career: two rows 32px apart, newest first." } } },
+  parameters: { docs: { description: { story: "Two rows, newest first, as in the résumé's background." } } },
 };
 
 export const Phone: Story = {
   ...Pair,
   name: "Phone",
   globals: { viewport: { value: "phone", isRotated: false } },
-  parameters: { docs: { description: { story: "At 390 the titles wrap and each mark holds to the top, beside its title." } } },
+  parameters: { docs: { description: { story: "At 390px the titles wrap and each mark stays beside its title." } } },
 };

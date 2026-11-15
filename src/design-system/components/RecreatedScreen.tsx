@@ -50,7 +50,7 @@ export function RecreatedScreen({
         <div
           inert
           data-scheme="light"
-          className="overflow-hidden rounded-lg border border-border-default bg-surface-page shadow-[0_12px_32px_rgb(3_16_33/0.10)]"
+          className="overflow-hidden rounded-lg border border-border-default bg-surface-page shadow-[var(--shadow-window)]"
         >
           <div className="flex items-center gap-3 border-b border-border-subtle bg-surface-sunken px-3 py-2">
             <span className="flex gap-1.5">

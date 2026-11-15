@@ -37,7 +37,7 @@ export default function Work() {
           type="subhero"
           eyebrow="Work"
           title="Each of these is a decision, not a project."
-          lede="Internal software rarely leaves a screen worth showing, and the screens it does leave belong to the companies that paid for them. What I can show is the call that was made, what it cost, and what happened after. The products stay unnamed. The employers and the outcomes do not."
+          lede="The screens I design belong to the companies that paid for them, so you will not find them here. What you will find is the story behind each one: the call I made, what it cost, and what happened next. The products stay unnamed; the employers and the outcomes do not."
         />
       </Container>
 
@@ -83,9 +83,9 @@ export default function Work() {
               </Button>
             }
           >
-            The design system this site runs on is live and published in full: the tokens, the
-            components, the contrast measurements and the reasoning behind each decision. It is
-            the one project here you can check rather than take on trust.
+            The design system this site runs on is published in full: the tokens, the components,
+            the contrast measurements and the reasoning behind each decision. It is the one project
+            here you can check for yourself rather than take on trust.
           </TextBlock>
         </section>
       </Container>

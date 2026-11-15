@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A link to somewhere else on the site that shows a piece of what is there before anyone follows it: a live preview on the sunken surface, then the title, one line and the action. The preview is the thing itself, drawn from the same tokens as the page it links to, never a screenshot of that page. The card is one link, named by its title, with WorkEntry's hover. The preview holds nothing interactive, so a button in it is a Button specimen. Mirrors the Preview card component in Figma.",
+          "A link people won't follow on trust, so it shows a live piece of where it goes first. The preview is drawn from the same tokens as the destination, never a screenshot, and holds nothing interactive.\n\nFigma: Preview card.",
       },
     },
   },
@@ -43,7 +43,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Tiers: Story = {
-  parameters: { docs: { description: { story: "The tiers preview: the button's blue from primitive to role to a Button specimen." } } },
+  parameters: { docs: { description: { story: "The button's blue, from primitive to role to the button itself." } } },
 };
 
 export const Measured: Story = {
@@ -59,5 +59,5 @@ export const Measured: Story = {
       </span>
     ),
   },
-  parameters: { docs: { description: { story: "Two live ContrastReadings. Switch the theme in the toolbar and the figures move." } } },
+  parameters: { docs: { description: { story: "Two live contrast readings. Switch the theme and the figures change." } } },
 };

@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Where you are, and the way back out. Set in the same uppercase label as the main navigation, because both are wayfinding: they name places rather than ask you to do something, which is the line that decides type on this site. Two things make it correct rather than decorative, and neither is visible. It is an ordered list inside a labelled nav, so the order is the hierarchy and a screen reader announces position within it. And the last crumb is not a link, because it is the page you are already on.\n\nThat crumb is set in the accent blue at semibold, the same treatment the current item in the main navigation carries, so *you are here* reads as one idea wherever it appears. Weight as well as color, because position is a weak cue in a two-item trail and hue alone would be the entire state. Measured on both grounds it lands on: 6.89:1 light and 10.06:1 dark on the page, 7.46:1 and 9.49:1 on a raised panel. Monospace, so the weight costs no layout.",
+          "Shows where you are and the way back out. The trail is an ordered list in a labeled nav, so a screen reader announces each step's position. The last crumb is the current page: not a link, set in the accent at semibold like the current item in the main navigation.\n\nFigma: Breadcrumb.",
       },
     },
   },
@@ -32,7 +32,7 @@ export const TwoLevels: Story = {
   parameters: {
     docs: {
       description: {
-        story: "The shortest useful trail, and the one the design system page will carry.",
+        story: "The shortest useful trail: one level up, then the current page.",
       },
     },
   },
@@ -50,7 +50,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          "There are two states here, not four, and the missing ones are the point. Ancestors are links: they sit at 8.85:1 and go to 18.28:1 on hover. The current page has no hover state, because it has no href. A hover on something you cannot click is a promise about what happens next that the page does not keep, and it is the single most common defect in a hand-built breadcrumb. Hover the first two items and then the last one to feel the difference.",
+          "Ancestors are links and darken on hover. The current page has no hover, because there's nothing to click.",
       },
     },
   },
@@ -68,7 +68,7 @@ export const LongCurrentLabel: Story = {
     docs: {
       description: {
         story:
-          "A real case study title, truncating. Pass a short label for the current crumb rather than the full headline: the full one is already the h1 a few pixels below, so repeating it costs a line of the trail and tells the reader nothing new. The truncation is a safety net, not the plan, and the whole string stays in the title attribute. The budget is 28ch rather than the 22 it started at, because `ch` measures the zero glyph and knows nothing about letterspacing, so at this tracking about a fifth of the box is gaps between characters rather than characters.",
+          "A long current label truncates and keeps the full text in its title. Prefer a short label: the full title is the h1 just below.",
       },
     },
   },
@@ -87,7 +87,7 @@ export const DeepTrail: Story = {
     docs: {
       description: {
         story:
-          "Four levels, which is about the limit before a trail stops being a shortcut and becomes another thing to read. This site is two levels deep by design, so a crumb this long is a sign the information architecture has drifted rather than a case the component needs to handle well.",
+          "Four levels, about the limit before a trail becomes something to read. The site is two levels deep, so a trail this long means the structure has drifted.",
       },
     },
   },

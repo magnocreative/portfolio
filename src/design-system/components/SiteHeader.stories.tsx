@@ -34,7 +34,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The banner on every page: the mark and name on the left, the four sections and the theme control on the right. From 1024 the sections sit in the bar; below it they fold into a menu that hangs from the bar's bottom edge as a sheet over the page, moved with transforms so opening it never reflows the document. The current page is marked in the nav and announced with aria-current. Mirrors Banner in Figma.",
+          "The banner on every page: the mark and name, the four sections and the theme controls. Below 1024px the sections fold into a menu that opens as a sheet without moving the page. The current page is marked and announced.\n\nFigma: Banner.",
       },
     },
   },
@@ -51,7 +51,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Desktop: Story = {
   globals: { viewport: { value: "desktop", isRotated: false } },
-  parameters: { docs: { description: { story: "At 1440, on the Work page: Work carries the current marker." } } },
+  parameters: { docs: { description: { story: "At 1440px on the Work page, with Work marked current." } } },
 };
 
 export const Phone: Story = {
@@ -59,7 +59,7 @@ export const Phone: Story = {
   parameters: {
     docs: {
       description: {
-        story: "At 390: the mark, the name and the menu control. The sections are one tap away, not squeezed into the bar.",
+        story: "At 390px: the mark, the name and the menu control.",
       },
     },
   },
@@ -72,7 +72,7 @@ export const PhoneMenuOpen: Story = {
     docs: {
       description: {
         story:
-          "The menu opened, as a play step taps it. The control's name turns to Close menu and aria-expanded to true; Escape closes it and puts focus back on the control.",
+          "The menu open. Escape closes it and returns focus to the control.",
       },
     },
   },

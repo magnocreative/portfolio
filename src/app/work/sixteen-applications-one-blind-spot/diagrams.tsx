@@ -86,7 +86,7 @@ export function HeroSubject() {
       </div>
       {link}
       <span className={label}>One front door</span>
-      <span className="flex w-56 flex-col gap-2.5 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-[0_8px_24px_rgb(3_16_33/0.08)]">
+      <span className="flex w-56 flex-col gap-2.5 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)]">
         <span className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-status-success" />
           <Bar w="7rem" strong />
@@ -388,7 +388,7 @@ function HubScreen({ open }: { open?: "search" | "menu" }) {
                     )}
                   </span>
                   {open === "search" && (
-                    <span className="absolute top-full right-0 z-10 mt-1.5 flex w-72 flex-col rounded-md border border-border-default bg-surface-raised py-2 text-xs shadow-[0_12px_32px_rgb(3_16_33/0.16)]">
+                    <span className="absolute top-full right-0 z-10 mt-1.5 flex w-72 flex-col rounded-md border border-border-default bg-surface-raised py-2 text-xs shadow-[0_12px_32px_color-mix(in_oklab,var(--shadow-ink)_16%,transparent)]">
                       <span className={`px-3 pb-1 ${mockLabel}`}>Applications</span>
                       {[
                         {
@@ -463,7 +463,7 @@ function HubScreen({ open }: { open?: "search" | "menu" }) {
                     <Glyph d="chevron" className="h-3.5 w-3.5 text-text-tertiary" />
                   </span>
                   {open === "menu" && (
-                    <span className="absolute top-full right-0 z-10 mt-1.5 flex w-60 flex-col rounded-md border border-border-default bg-surface-raised py-2 text-xs shadow-[0_12px_32px_rgb(3_16_33/0.16)]">
+                    <span className="absolute top-full right-0 z-10 mt-1.5 flex w-60 flex-col rounded-md border border-border-default bg-surface-raised py-2 text-xs shadow-[0_12px_32px_color-mix(in_oklab,var(--shadow-ink)_16%,transparent)]">
                       <span className="flex flex-col px-3 pt-1 pb-2">
                         <span className="text-sm font-semibold text-text-primary">Jordan Reyes</span>
                         <span className="text-text-tertiary">Compliance analyst</span>

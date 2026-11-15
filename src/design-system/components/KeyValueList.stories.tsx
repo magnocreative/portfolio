@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Short facts as label and value pairs: label left in the tertiary color, value right in the primary, 12px above and below each row and a hairline between rows, not after the last. A long value drops under its label instead of running off the edge. Mirrors the Key value row component in Figma.",
+          "Short facts as label and value pairs, with a hairline between rows. A long value drops under its label instead of overflowing.\n\nFigma: Key value row.",
       },
     },
   },
@@ -28,7 +28,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  parameters: { docs: { description: { story: "The home page's system panel." } } },
+  parameters: { docs: { description: { story: "The home page's design system panel." } } },
 };
 
 export const LongValue: Story = {
@@ -41,7 +41,7 @@ export const LongValue: Story = {
   parameters: {
     docs: {
       description: {
-        story: "A value longer than the row has room for wraps under its label rather than overflowing. The design system page's source panel, at phone width.",
+        story: "A long value wraps under its label.",
       },
     },
   },
@@ -54,7 +54,7 @@ export const TwoRows: Story = {
       { key: "--mark-light", value: "#80a2c4" },
     ],
   },
-  parameters: { docs: { description: { story: "The mark's two fills, under the logo on About." } } },
+  parameters: { docs: { description: { story: "The mark's two colors, as on About." } } },
 };
 
 export const WithLink: Story = {
@@ -65,6 +65,6 @@ export const WithLink: Story = {
     ],
   },
   parameters: {
-    docs: { description: { story: "A value with an href is a link: accent color, underlined at rest, a heavier line on hover." } },
+    docs: { description: { story: "A value with an href becomes a link." } },
   },
 };

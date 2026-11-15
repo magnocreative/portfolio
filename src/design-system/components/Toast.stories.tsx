@@ -10,7 +10,7 @@ const meta = {
       story: { inline: false, iframeHeight: 200 },
       description: {
         component:
-          "A short message about the whole page that rises from the bottom of the screen and leaves on its own. Each tone is drawn in its own color, the words, a hairline edge and a light tint, with an icon so it never rests on color alone. Not for a form error: that goes under its field. The live region is always present, so the message is announced when it appears. Mirrors the Toast component in Figma.",
+          "A short message about the whole page that appears at the bottom and leaves on its own. Each tone has its own color and icon, so it never relies on color alone. Not for form errors: those go under the field.\n\nFigma: Toast.",
       },
     },
   },

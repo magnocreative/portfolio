@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A short uppercase status, in the site's label setting (Medium, 0.11em). Four tones. Pass and live are drawn as chips; neutral and danger are text alone, because information and failure are not decorated. Mirrors the Tag component in Figma.",
+          "A short uppercase status in four tones. Pass and live are chips; neutral and danger are text alone, because information and failure aren't decorated.\n\nFigma: Tag.",
       },
     },
   },
@@ -24,7 +24,7 @@ export const Pass: Story = {
   parameters: {
     docs: {
       description: {
-        story: "A measured ratio that clears its bar. The chip has a hairline edge because a tint on the page cannot carry its own shape by luminance alone.",
+        story: "A measured ratio that clears its bar.",
       },
     },
   },
@@ -35,7 +35,7 @@ export const Live: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Something running now, like the site a case study describes. The status green with a dot that always shows. Kept for things that are actually live, so the green keeps meaning something.",
+        story: "Something running now. Kept for things that are actually live.",
       },
     },
   },
@@ -45,7 +45,7 @@ export const Neutral: Story = {
   args: { tone: "neutral", children: "AA Large" },
   parameters: {
     docs: {
-      description: { story: "Information rather than a result: a large-text allowance, a divider kept under 3:1 on purpose." },
+      description: { story: "Information rather than a result." },
     },
   },
 };
@@ -58,7 +58,7 @@ export const Draft: Story = {
   args: { tone: "neutral", dot: true, children: "In writing" },
   parameters: {
     docs: {
-      description: { story: "The draft marker under a case study in the work index. The dot anchors a tag that sits alone on its line." },
+      description: { story: "Marks a case study still being written." },
     },
   },
 };
@@ -77,7 +77,7 @@ export const AllVerdicts: Story = {
   parameters: {
     docs: {
       description: {
-        story: "As the contrast table uses them, right aligned. The unboxed tones take the chip's padding so every label ends on the same edge.",
+        story: "As the contrast table uses them, right-aligned on one edge.",
       },
     },
   },

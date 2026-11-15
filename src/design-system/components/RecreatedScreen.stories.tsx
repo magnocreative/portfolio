@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The frame a case study's recreated product screens sit in: a browser window with an invented address, always light, drawn at desktop width and scaled down to fit, and inert. The screen inside belongs to the case study. Switch the toolbar to dark: the window stays light. Narrow the canvas: it scales rather than reflows.",
+          "A browser window for a case study's recreated product screens: an invented address, always light, drawn at desktop width and scaled to fit. Switch the theme: it stays light. Narrow the canvas: it scales rather than reflows.\n\nFigma: Recreated screen.",
       },
     },
   },

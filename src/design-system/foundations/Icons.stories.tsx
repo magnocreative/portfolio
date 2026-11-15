@@ -70,7 +70,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A small stroke set, drawn rather than imported: a 20-unit grid, 1.5 stroke, round caps and joins, `currentColor`. An icon takes its color from the text around it and its size from the component that holds it, never from itself. Read straight from Icon.tsx, so nothing here can fall behind the code.",
+          "A small stroke set drawn for this site: a 20-unit grid, 1.5 stroke, round caps. An icon takes its color from the text around it and its size from its container. Read straight from Icon.tsx.\n\nFigma: Icons.",
       },
     },
   },
@@ -81,7 +81,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Gallery: Story = {
   parameters: {
-    docs: { description: { story: "Every exported icon at 24px, the size the site uses most, grouped by family." } },
+    docs: { description: { story: "Every icon at 24px, grouped by family." } },
   },
   render: () => (
     <div className="flex max-w-[64rem] flex-col gap-10">
@@ -110,7 +110,7 @@ export const Sizes: Story = {
     docs: {
       description: {
         story:
-          "The same glyphs at the four sizes in use: 14 in a compact label, 16 in a button, 20 in the menu, 24 in a card or panel. The stroke scales with the icon, so it stays the same weight relative to the drawing. The ink box is shared, so icons of different families sit on one center line.",
+          "The four sizes in use: 14, 16, 20 and 24.",
       },
     },
   },
@@ -153,7 +153,7 @@ export const InContext: Story = {
     docs: {
       description: {
         story:
-          "One icon, no color of its own: it paints in whatever text color surrounds it. Primary in a heading, tertiary beside a fact's key, accent on a point card and in a link.",
+          "One icon taking the color of the text around it.",
       },
     },
   },
@@ -179,7 +179,7 @@ export const Logos: Story = {
     docs: {
       description: {
         story:
-          "Not icons, but drawn the same way and kept beside them. The MagnoCreative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear on the résumé and, for the employers, beside each case study on the work index; the MagnoCreative tile sets the mark on a white tile for work under its own name, so it sits in that row at the same weight; USAA's, SWBC's and the university's tiles invert in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
+          "The MagnoCreative mark and the organization tiles traced for the résumé and the work index. Switch the theme: some tiles invert so they don't sink into the dark page.",
       },
     },
   },
