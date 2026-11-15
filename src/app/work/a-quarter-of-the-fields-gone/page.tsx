@@ -32,7 +32,7 @@ export const metadata: Metadata = {
    does not already say). Every figure is drawn for this site (./diagrams).
 
    Every fact is Alejandro's account (November 2026): 2021 to 2022, a team of
-   four, about 150 auditors and 4 interviewed, 30 fields to 22 in each area,
+   four, about 150 auditors and 4 interviewed, 30 fields to 22 across the four areas,
    the out-of-the-box rule and that even the Lightning Design System counted
    as custom, App Builder, Sketch and InVision, the one-hour proof-of-concept
    touchpoints he hosted twice a week (about 40), the three-column homepage,
@@ -107,7 +107,7 @@ export default function AQuarterOfTheFields() {
             <>
               <OutcomeStats
                 items={[
-                  { value: "30 → 22", label: "fields in each area: training, résumé, conflicts of interest and reports" },
+                  { value: "30 → 22", label: "fields across the four areas: training, résumé, conflicts of interest and reports" },
                   { value: "About 150", label: "auditors, all moved to Lightning before Classic retired" },
                   { value: "About 40", label: "one-hour touchpoints with product and engineering" },
                 ]}
@@ -123,9 +123,9 @@ export default function AQuarterOfTheFields() {
           }
         >
           <p>
-            An MVP shipped, and every auditor moved to Lightning. Each of the four areas, training, résumé,
-            conflicts of interest and reports, went from 30 fields to 22, and what remains is grouped into
-            sections that follow the way an auditor works through a record.
+            An MVP shipped, and every auditor moved to Lightning. Across the four areas, training, résumé,
+            conflicts of interest and reports, the fields went from 30 to 22, and what remains is grouped
+            into sections that follow the way an auditor works through a record.
           </p>
           <p>
             The rollout let people choose before they had to. During the MVP, auditors could switch between
