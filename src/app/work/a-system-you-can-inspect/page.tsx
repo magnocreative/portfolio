@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { isHiddenDraft } from "@/content/case-studies";
 import { Button } from "@/design-system/components/Button";
 import {
@@ -21,10 +22,13 @@ import { FactsPanel } from "@/design-system/components/FactsPanel";
 import { Tag } from "@/design-system/components/Tag";
 import navigationRail from "@/assets/evidence/navigation-rail.png";
 import navigationTop from "@/assets/evidence/navigation-top.png";
-import contrastMeasured from "@/assets/evidence/contrast-measured.png";
 import buttonSheetLight from "@/assets/evidence/button-sheet-light.png";
 import buttonSheetDark from "@/assets/evidence/button-sheet-dark.png";
-import oneSource from "@/assets/evidence/one-source.png";
+import figmaTextVariables from "@/assets/evidence/figma-text-variables.png";
+import { CodeBlock } from "@/design-system/components/CodeBlock";
+import { ContrastAudit } from "@/design-system/components/ContrastAudit";
+import { textRoles } from "@/content/system";
+import { tokenLine } from "@/content/token-source";
 import { Figure } from "@/design-system/components/Figure";
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
@@ -339,11 +343,41 @@ export default function SystemCaseStudy() {
                   quicker, even when it would be.
                 </p>
               </TextBlock>
+              {/* Live, not a picture of a light editor (Alejandro, November
+                  2026). The code is quoted from tokens.css when the site
+                  builds, so it shows what the file says today, in the
+                  site's own colors, and follows the theme. The comment above
+                  the primitive says what OKLCH is, where the reader meets
+                  it. The Figma panel stays a picture: it is Figma's own
+                  interface, dark in both themes, on the figure's sunken
+                  ground so it reads as a figure on the light page too. */}
               <Figure
-                src={oneSource}
-                alt="The token for the darkest text, in code above Figma. In tokens.css, --text-primary points at --p-paper-900 in the light theme and --p-slate-100 in the dark. In the Figma variables panel, text primary is paper/900 under Light and slate/100 under Dark, outlined."
-                caption="The darkest text, softened in one place. The role is defined once in code and once in Figma, under the same name and pointing at the same raw value, so one change carries to both."
-              />
+                ratio="auto"
+                caption="The darkest text, softened in one place. The role is defined once in code and once in Figma, under the same name and pointing at the same raw value, so one change carries to both. The code is read from the token file when the site is built."
+              >
+                <div className="flex flex-col gap-3 p-5 sm:p-8">
+                  <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                    Code · tokens.css
+                  </span>
+                  <CodeBlock
+                    lines={[
+                      "/* Primitive, in OKLCH: lightness, chroma, hue */",
+                      tokenLine("--p-paper-900"),
+                      "/* Role: one value per theme */",
+                      tokenLine("--text-primary"),
+                    ]}
+                  />
+                  <span className="mt-5 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                    Figma · Color variables, text group
+                  </span>
+                  <Image
+                    src={figmaTextVariables}
+                    alt="The Figma variables panel, text group: primary is paper/900 under Light and slate/100 under Dark, outlined; secondary is paper/700 and slate/300."
+                    sizes="(min-width: 1024px) 52rem, 100vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+              </Figure>
               <TextBlock heading="It changes on purpose, and it’s measured" headingAs="h4">
                 <p>
                   A system that can&rsquo;t change becomes the thing people work around, so changes here are
@@ -352,18 +386,35 @@ export default function SystemCaseStudy() {
                 <p>
                   Quality is measured, not asserted. Every text color is checked for contrast in the browser,
                   against the surface it renders on, and the results are published on the design system
-                  page. Primary text measures 16.69:1.
+                  page. The table below is that check, running in your browser as you read this: switch
+                  your device between light and dark and the figures move with it.
                 </p>
                 <p>
                   The cost is that measurement isn&rsquo;t enough on its own. Twice the numbers passed on
                   type that was clearly too faint, so every change still gets looked at, not just checked.
                 </p>
               </TextBlock>
+              {/* The table itself, not a screenshot of it (Alejandro, November
+                  2026). The screenshot was a light capture that read as a
+                  hole in the dark page, and it had already drifted: the
+                  table it showed had since gained its frame and its Result
+                  column. The figure keeps its sunken ground, so on the light
+                  page it reads as a figure and not as more of the page; the
+                  table inside it sits on the page surface, because that is
+                  the surface every ratio here is measured against. */}
               <Figure
-                src={contrastMeasured}
-                alt="The contrast table from the design system page: four text colors, each with its hex value, its ratio measured against the page, and an AA or AAA result. Primary text measures 16.69:1."
-                caption="Every text color checked in the browser against the surface it renders on, and published on the design system page. Primary text measures 16.69:1."
-              />
+                ratio="auto"
+                caption="Every text color, measured in your browser against the page it sits on, the same table the design system page publishes. Nothing here is a picture."
+              >
+                <div className="flex flex-col gap-3 p-5 sm:p-8">
+                  <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                    From the design system page · Measured live
+                  </span>
+                  <div className="rounded-sm bg-surface-page">
+                    <ContrastAudit rows={textRoles} label="Text roles, measured live" />
+                  </div>
+                </div>
+              </Figure>
               </div>
               <TextBlock
                 action={
