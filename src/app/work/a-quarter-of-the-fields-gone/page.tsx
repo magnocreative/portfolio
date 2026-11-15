@@ -7,14 +7,15 @@ import { CaseStudyBeat, CaseStudyPart } from "@/design-system/components/CaseStu
 import { FactsPanel } from "@/design-system/components/FactsPanel";
 import { Figure } from "@/design-system/components/Figure";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
+import { PointCards } from "@/design-system/components/PointCards";
 import { Tag } from "@/design-system/components/Tag";
-import { CalendarIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
+import { CalendarIcon, CodeIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
 import { HeroSubject, HomeMock, RecordComparison } from "./diagrams";
 
 export const metadata: Metadata = {
   title: "A quarter of the fields gone, and the users who missed the old system told us which ones",
   description:
-    "Eighteen auditors were moving off a Salesforce application they had used for years, and the rebuild had to stay out of the box. The users who resisted the change told us which fields to cut. I argued for custom record pages, and lost.",
+    "About 150 auditors were moving off a Salesforce application they had used for years, and the rebuild had to stay out of the box. The users who resisted the change told us which fields to cut. I argued for custom record pages, and lost.",
 };
 
 /* The third study, and the second from USAA's Governance, Risk and Compliance
@@ -31,10 +32,11 @@ export const metadata: Metadata = {
    does not already say). Every figure is drawn for this site (./diagrams).
 
    Every fact is Alejandro's account (November 2026): 2021 to 2022, a team of
-   four, about 18 users and 4 interviewed, the out-of-the-box rule and that
-   even the Lightning Design System counted as custom, App Builder, Sketch
-   and InVision, weekly proof-of-concept calls, the three-column homepage,
-   the art-of-the-possible prototype, about 25 percent fewer fields, and
+   four, about 150 auditors and 4 interviewed, 30 fields to 22 in each area,
+   the out-of-the-box rule and that even the Lightning Design System counted
+   as custom, App Builder, Sketch and InVision, the one-hour proof-of-concept
+   touchpoints he hosted twice a week (about 40), the three-column homepage,
+   the art-of-the-possible prototype, the optional switch during the MVP, and
    that the users who resisted told the team which fields were unused. */
 
 const contents = [
@@ -67,7 +69,7 @@ export default function AQuarterOfTheFields() {
     <CaseStudyLayout
       breadcrumb={[{ label: "Work", href: "/work" }, { label: "A quarter of the fields" }]}
       title="A quarter of the fields gone, and the users who missed the old system told us which ones."
-      lede="USAA’s auditors kept their professional records in a Salesforce Classic application that was being retired: their background experience, their conflicts of interest, and the details that keep an auditor’s profile current. I designed its move to Lightning, under one rule: nothing custom."
+      lede="USAA’s auditors kept their professional records in a Salesforce Classic application that was being retired: their training, their background experience, and their conflict of interest disclosures. I designed its move to Lightning, under one rule: nothing custom."
       art={<DottedGround />}
       subject={<HeroSubject />}
       contents={contents}
@@ -87,9 +89,9 @@ export default function AQuarterOfTheFields() {
       <CaseStudyPart id="what-changed" eyebrow="Part one" title="What changed" className="mt-28">
         <CaseStudyBeat id="situation" heading="The situation">
           <p>
-            Salesforce Classic was retiring, and the eighteen auditors who relied on this application had
-            used it for years. Each record was one long page of fields, with sections collapsed and
-            reopened by hand. In interviews, people described the layout as overwhelming, with related
+            Salesforce Classic was retiring, and the audit department, about 150 auditors, had used this
+            application for years. Each record was one long page of fields, with sections collapsed and
+            reopened by hand. In four interviews, people described the layout as overwhelming, with related
             information sitting far apart.
           </p>
           <p>
@@ -105,15 +107,15 @@ export default function AQuarterOfTheFields() {
             <>
               <OutcomeStats
                 items={[
-                  { value: "25%", label: "fewer fields on the record pages" },
-                  { value: "18", label: "auditors moved off Classic before it retired" },
-                  { value: "4", label: "interviews, with users for the change and against it" },
+                  { value: "30 → 22", label: "fields in each area: training, résumé, conflicts of interest and reports" },
+                  { value: "About 150", label: "auditors, all moved to Lightning before Classic retired" },
+                  { value: "About 40", label: "one-hour touchpoints with product and engineering" },
                 ]}
               />
               <Figure
                 ratio="4/3"
                 recreated
-                caption="One auditor’s record, before and after. The fields nobody used are gone, and the rest sit in three sections, so an auditor reads profile, experience and independence in order instead of searching one long list. Drag to compare."
+                caption="One training record, before and after. The fields nobody used are gone, the rest sit in sections in the order an auditor fills them in, and a path shows where the record stands, from draft to complete, beside the sections still to fill. Drag to compare."
               >
                 <RecordComparison />
               </Figure>
@@ -121,9 +123,14 @@ export default function AQuarterOfTheFields() {
           }
         >
           <p>
-            An MVP shipped. The record pages carry about a quarter fewer fields, and what remains is grouped
-            into sections that follow the way an auditor works through a record, with related content
-            together.
+            An MVP shipped, and every auditor moved to Lightning. Each of the four areas, training, résumé,
+            conflicts of interest and reports, went from 30 fields to 22, and what remains is grouped into
+            sections that follow the way an auditor works through a record.
+          </p>
+          <p>
+            The rollout let people choose before they had to. During the MVP, auditors could switch between
+            Classic and Lightning on their own, until Classic was retired for good. More features were planned
+            for later releases, with product still shaping them.
           </p>
           <p>
             The cuts came from an unexpected place. The longtime users who were least happy about Lightning
@@ -132,11 +139,51 @@ export default function AQuarterOfTheFields() {
           </p>
         </CaseStudyBeat>
 
-        <CaseStudyBeat id="role" heading="My role">
+        <CaseStudyBeat
+          id="role"
+          heading="My role"
+          after={
+            /* What the touchpoints covered, in Alejandro's words (November
+               2026): timeline deliveries, design progression, MVP and
+               non-MVP requirements, and technical items. */
+            <PointCards
+              layout="grid"
+              header="inline"
+              items={[
+                {
+                  icon: CalendarIcon,
+                  title: "Timeline",
+                  body: "Where each delivery stood, and what the next one needed from design.",
+                },
+                {
+                  icon: PenNibIcon,
+                  title: "Design progression",
+                  body: "What had changed since the last session, shown in the prototype.",
+                },
+                {
+                  icon: ScopeIcon,
+                  title: "MVP or later",
+                  body: "Each requirement sorted into the first release or a later one.",
+                },
+                {
+                  icon: CodeIcon,
+                  title: "Technical questions",
+                  body: "What App Builder could and could not do, settled with the engineers.",
+                },
+              ]}
+            />
+          }
+        >
           <p>
             I was the UX designer on a team of four, with a tech lead and two engineers, working alongside a
             product partner and an agility lead who ran the backlog and stand-ups. I interviewed the users,
             designed the homepage, list views and record pages, and prototyped every screen.
+          </p>
+          <p>
+            Twice a week, for about forty sessions, I hosted a one-hour proof-of-concept touchpoint with
+            product and engineering. It was where design met delivery: we checked the timeline, walked
+            through how the designs had progressed, sorted requirements into MVP and later, and settled
+            technical questions together.
           </p>
         </CaseStudyBeat>
       </CaseStudyPart>
@@ -161,7 +208,7 @@ export default function AQuarterOfTheFields() {
             <Figure
               ratio="auto"
               recreated
-              caption="The homepage in three columns, one topic each: my record, what is due, and what was added lately. App Builder offers a handful of layouts, and this one needed nothing beyond them."
+              caption="The homepage in three columns, one record type each: training, résumé and conflicts of interest. Each column is a stock chart over a stock list, in a layout App Builder offered as it came."
             >
               <HomeMock />
             </Figure>
@@ -170,13 +217,14 @@ export default function AQuarterOfTheFields() {
           <p>
             I chose to design with the platform&rsquo;s own parts rather than against them. Every prototype
             was built from components App Builder offered, assembled into flows in InVision, and proven with
-            the engineers in a weekly proof-of-concept call before it reached users. When I showed users
+            the engineers at those touchpoints before it reached users. When I showed users
             alternate layouts, I told them which parts were out of the box and which would count as custom,
             so their feedback was about choices we were able to make.
           </p>
           <p>
             The homepage is the clearest example. App Builder allows only certain layouts, so I proposed three
-            columns with one topic in each. Every column answers one question, and the page asks nothing of
+            columns, one for each kind of record: training, résumé and conflicts of interest. Every column
+            answers one question, and the page asks nothing of
             the platform that it is unable to do.
           </p>
           <p>
