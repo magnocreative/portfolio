@@ -419,9 +419,10 @@ export default function ComponentsPage() {
                   decision="One row of the work index: a raised card with the image at 40%, held 16px
                   from the card's top, bottom and left edge, and the record at 60%. The index and the
                   facts open the record, and a footer bar closes it with the status, so the row says
-                  whether it can be opened before anyone tries. Narrower than 64rem, as here, the
-                  image stacks above the record; on a phone the card runs to the screen's edges, like
-                  the résumé cards."
+                  whether it can be opened before anyone tries. Between 54 and 64rem, as here and on
+                  a tablet held sideways, the card splits evenly so the image keeps close to its
+                  shape; narrower, the image stacks above the record, and on a phone the card runs to
+                  the screen's edges, like the résumé cards."
                 />
 
                 {/* No stage. Every other specimen sits on one, a neutral

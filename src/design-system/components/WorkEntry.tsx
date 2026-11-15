@@ -13,15 +13,16 @@ import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
  */
 function Cover({ study }: { study: CaseStudy }) {
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken @5xl:h-full">
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken @min-[54rem]:h-full">
       {study.cover ? (
         <Image
           src={study.cover.src}
           alt={study.cover.alt}
           fill
-          // Side by side from a 64rem card (about 30rem of cover); stacked
-          // below that, the cover is the card's width less its inset.
-          sizes="(min-width: 1280px) 30rem, (min-width: 640px) 42rem, 100vw"
+          // Side by side from a 54rem card (27rem of cover at most, half of
+          // it from 54 to 64rem); stacked below that, the cover is the card's
+          // width less its inset.
+          sizes="(min-width: 1024px) 30rem, (min-width: 640px) 42rem, 100vw"
           // A static import carries a tiny blurred copy; show it while the
           // full image loads instead of an empty box.
           placeholder={typeof study.cover.src === "string" ? "empty" : "blur"}
@@ -56,11 +57,17 @@ function Cover({ study }: { study: CaseStudy }) {
  * study" for a finished one, in the same place, so the row says whether it
  * can be opened before anyone tries.
  *
- * Side by side only when the CARD is 64rem wide or more, a container query
- * rather than a breakpoint. With a 4:3 cover beside text that wraps longer as
- * the card narrows, a narrower card left the image small and floating in the
- * middle of a tall card (at 768, and in the components page's 862px stage).
- * Below 64rem the image stacks above the record at full width. Below 640 the card runs to the
+ * Side by side when the CARD is 54rem wide or more, a container query rather
+ * than a breakpoint, so a tablet in landscape reads like the desktop
+ * (Alejandro, November 2026). It used to stack below 64rem, because a 4:3
+ * cover centered beside text that wraps longer as the card narrows floated
+ * in the middle of a tall card. Now the cover stretches to the card's height,
+ * so it never floats; the limit is how much of the cover a narrow column
+ * crops. From 54rem to 64rem the card splits evenly and the record takes
+ * 32px in, which keeps the cover close to 4:3 (about 1.1:1 at a 1024 screen);
+ * from 64rem it is 40/60 with 48px, as before. Under 54rem the cover would be
+ * cropped to a portrait strip that loses the sides of its picture, so the
+ * image stacks above the record at full width. Below 640 the card runs to the
  * screen's edges like the résumé cards (square, no side borders), and both
  * the image and the record keep the page's 24px gutter, so nothing is
  * narrower than it was before the card existed. Cards sit 16px apart: the
@@ -79,7 +86,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   const Logo = ORG_LOGOS[study.logo];
 
   const body = (
-    <div className="grid grid-cols-1 @5xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] @5xl:items-center">
+    <div className="grid grid-cols-1 @min-[54rem]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] @5xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] @min-[54rem]:items-center">
       {/* Side by side, the cover holds 16px from the card's top, bottom and
           left whatever the record's length. It used to sit centered at 4:3,
           so a study whose title ran to three lines made a taller card and
@@ -91,7 +98,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
           minmax(0, …) because a stretched 4:3 box otherwise reports its
           height times 4/3 as its least width, and the taller card's cover
           column grew wider than its neighbor's. */}
-      <div className="px-6 pt-6 sm:px-4 sm:pt-4 @5xl:self-stretch @5xl:py-4 @5xl:pr-0 @5xl:pl-4">
+      <div className="px-6 pt-6 sm:px-4 sm:pt-4 @min-[54rem]:self-stretch @min-[54rem]:py-4 @min-[54rem]:pr-0 @min-[54rem]:pl-4">
         <Cover study={study} />
       </div>
 
@@ -107,7 +114,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
           apart so a phone reads them as one row broken, not a stack, and the
           separators are half strength so the facts, not the dots, carry the
           row. */}
-      <div className="flex flex-col px-6 pt-7 pb-8 sm:px-8 sm:pb-10 @5xl:p-12">
+      <div className="flex flex-col px-6 pt-7 pb-8 sm:px-8 sm:pb-10 @min-[54rem]:p-8 @5xl:p-12">
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
           <span className="font-label text-xs text-text-tertiary">{String(index + 1).padStart(2, "0")}</span>
           {/* Employer, discipline, when: one line to read. The employer

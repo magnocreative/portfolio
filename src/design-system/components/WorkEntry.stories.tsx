@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%, stacking when the card is under 64rem wide. The record reads in scan order: the number with the facts (the employer's mark and name, discipline, period) on the same row, the title (the decision), the standfirst (the argument, never truncated), then the action. From 640 the action is a quiet uppercase label over a rule; on a phone it is a full-width primary button, since a phone has no hover to say the card is a link. Below 640 the card runs to the screen's edges like the résumé cards. Each image is a visual made for this site, never a screen.",
+          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%. Between 54 and 64rem of card width the two split evenly, so the cover keeps close to 4:3; under 54rem the image stacks above the record. The record reads in scan order: the number with the facts (the employer's mark and name, discipline, period) on the same row, the title (the decision), the standfirst (the argument, never truncated), then the action. From 640 the action is a quiet uppercase label over a rule; on a phone it is a full-width primary button, since a phone has no hover to say the card is a link. Below 640 the card runs to the screen's edges like the résumé cards. Each image is a visual made for this site, never a screen.",
       },
     },
   },
