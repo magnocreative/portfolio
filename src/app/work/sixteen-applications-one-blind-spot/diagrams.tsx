@@ -101,9 +101,8 @@ export function Ecosystem() {
 }
 
 /* --------------------------------------------------------------------------
-   The hub, in grayscale: the alert banner, then the applications you can
-   open, then the ones you'd have to request. Users asked for that split in
-   sketch testing. The profile column shows from a 40rem frame. */
+   The hub. AppCard is its grayscale form, used in the build comparison
+   below; HubMock is the near-shipped form the result shows. */
 
 function AppCard({ requestable = false }: { requestable?: boolean }) {
   return (
@@ -130,63 +129,164 @@ function AppCard({ requestable = false }: { requestable?: boolean }) {
   );
 }
 
-export function HubSchematic() {
+/* The hub at near-shipped fidelity, recreated for this site with invented
+   content: every application name, description, person and time below is
+   made up, and the colors are this system's, not USAA's brand. What it keeps
+   from the real hub is the thinking: each application says what it's for and
+   whether it's up, the ones you can open sit apart from the ones you'd have
+   to request, and maintenance is announced before you run into it.
+
+   A picture, not an interface: the whole frame is role="img" and inert, and
+   nothing in it is a link or a button, only drawn to look like one. */
+
+type MockApp = {
+  name: string;
+  purpose: string;
+  platform: string;
+  maintenance?: boolean;
+};
+
+const MY_APPS: MockApp[] = [
+  { name: "Policy Library", purpose: "Find and cite the current policies and standards.", platform: "Salesforce" },
+  { name: "Issue Tracker", purpose: "Log control issues and track them to closure.", platform: "ServiceNow", maintenance: true },
+  { name: "Risk Assessments", purpose: "Score and review risk by business area.", platform: "Salesforce" },
+  { name: "Control Testing", purpose: "Plan tests and record results for each control.", platform: "Salesforce" },
+  { name: "Incident Reporting", purpose: "Report an incident and follow its status.", platform: "ServiceNow" },
+  { name: "Regulatory Change", purpose: "Track new rules and who they affect.", platform: "React" },
+];
+
+const REQUEST_APPS: MockApp[] = [
+  { name: "Audit Workpapers", purpose: "Prepare and review audit evidence.", platform: "Salesforce" },
+  { name: "Vendor Risk", purpose: "Assess third parties before onboarding.", platform: "React" },
+  { name: "Compliance Training", purpose: "Assign and track required training.", platform: "ServiceNow" },
+];
+
+const mockLabel = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
+
+function MockCard({ app, requestable = false }: { app: MockApp; requestable?: boolean }) {
+  return (
+    <span
+      className={`flex h-full flex-col rounded-md border p-4 ${
+        requestable ? "border-dashed border-border-default bg-transparent" : "border-border-subtle bg-surface-raised"
+      }`}
+    >
+      <span className={`text-sm font-semibold leading-snug ${requestable ? "text-text-secondary" : "text-text-primary"}`}>
+        {app.name}
+      </span>
+      {/* The platform and the status share a row, so a long name keeps the
+          card's full width. In a narrow card the status drops under the
+          platform rather than pushing past the edge. */}
+      <span className="mt-1.5 flex min-h-6 flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+        <span className="font-label text-xs uppercase tracking-[0.08em] text-text-tertiary">{app.platform}</span>
+        {!requestable &&
+          (app.maintenance ? (
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--status-warning)_45%,transparent)] bg-[color-mix(in_oklab,var(--status-warning)_12%,transparent)] px-2 py-0.5 font-label text-xs font-medium text-text-primary">
+              <span className="h-1.5 w-1.5 rounded-full bg-status-warning" />
+              Maintenance
+            </span>
+          ) : (
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--status-success)_35%,transparent)] bg-[color-mix(in_oklab,var(--status-success)_8%,transparent)] px-2 py-0.5 font-label text-xs font-medium text-text-success">
+              <span className="h-1.5 w-1.5 rounded-full bg-status-success" />
+              Up
+            </span>
+          ))}
+      </span>
+      <span className="mt-2 text-xs leading-relaxed text-text-secondary">{app.purpose}</span>
+      <span className="mt-auto pt-4">
+        <span
+          className={`inline-block whitespace-nowrap rounded-sm px-3 py-1.5 text-xs font-medium ${
+            requestable
+              ? "border border-border-default text-text-secondary"
+              : "bg-interactive text-interactive-on"
+          }`}
+        >
+          {requestable ? "Request access" : "Launch"}
+        </span>
+      </span>
+    </span>
+  );
+}
+
+export function HubMock() {
   return (
     <div
       role="img"
-      aria-label="A grayscale schematic of the hub. A top bar, then a maintenance alert across the page. Below it, six applications the user can launch, each with a green status dot, and under them three applications the user would have to request access to, drawn in dashed outline."
-      className="@container h-full w-full p-4 @md:p-8"
+      aria-label="The hub, recreated with invented content. A maintenance banner reads: Issue Tracker is down for scheduled maintenance Saturday, 2 to 4 AM. Under Your applications, six cards, each with the application's name, one line on what it's for, its platform, a status (Up, or Maintenance for the one that's going down) and a Launch button. Under Request access, three cards in dashed outline with a Request access button. On the left, a welcome, the user's role and recently viewed applications."
+      className="@container h-full w-full p-3 @md:p-6"
     >
-      <div className="overflow-hidden rounded-md border border-border-default bg-surface-page">
+      <div inert className="overflow-hidden rounded-md border border-border-default bg-surface-page shadow-[0_8px_24px_rgb(3_16_33/0.06)]">
         {/* Top bar */}
-        <div className="flex items-center gap-3 border-b border-border-subtle bg-surface-raised px-4 py-3">
-          <span className="h-4 w-4 rounded-sm bg-border-strong" />
-          <Bar w="4.5rem" strong />
-          <span className="ml-auto flex items-center gap-3">
-            <span className="hidden @md:block">
-              <Bar w="3rem" />
+        <div className="flex items-center gap-4 border-b border-border-subtle bg-surface-raised px-4 py-3 @md:px-5">
+          <span className="flex items-center gap-2">
+            <span className="grid h-6 w-6 grid-cols-2 gap-0.5 rounded-sm bg-interactive p-1">
+              <span className="rounded-[1px] bg-interactive-on" />
+              <span className="rounded-[1px] bg-interactive-on opacity-60" />
+              <span className="rounded-[1px] bg-interactive-on opacity-60" />
+              <span className="rounded-[1px] bg-interactive-on" />
             </span>
-            <span className="h-3.5 w-3.5 rounded-full border-2 border-border-strong" />
-            <span className="h-5 w-5 rounded-full bg-border-default" />
+            <span className="text-sm font-semibold text-text-primary">Hub</span>
+          </span>
+          <span className="hidden items-center gap-4 text-xs text-text-secondary @lg:flex">
+            <span className="font-medium text-text-primary">Home</span>
+            <span>Notifications</span>
+            <span>Help</span>
+          </span>
+          <span className="ml-auto flex items-center gap-3">
+            <span className="relative h-4 w-4 rounded-full border-2 border-text-tertiary">
+              <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-status-danger" />
+            </span>
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-sunken font-label text-xs font-medium text-text-secondary">
+              JR
+            </span>
           </span>
         </div>
-        {/* The alert */}
-        <div className="flex items-center gap-2 border-b border-border-subtle bg-[color-mix(in_oklab,var(--status-warning)_14%,var(--surface-raised))] px-4 py-2">
+
+        {/* The alert: maintenance announced before anyone runs into it */}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-[color-mix(in_oklab,var(--status-warning)_35%,var(--surface-raised))] bg-[color-mix(in_oklab,var(--status-warning)_12%,var(--surface-raised))] px-4 py-2.5 text-xs @md:px-5">
           <span className="h-2 w-2 shrink-0 rounded-full bg-status-warning" />
-          <span className="font-label text-xs font-medium uppercase tracking-[0.08em] text-text-secondary">
-            Scheduled maintenance
-          </span>
-          <span className="hidden flex-1 @md:block">
-            <Bar w="40%" />
-          </span>
+          <span className="font-semibold text-text-primary">Scheduled maintenance</span>
+          <span className="text-text-secondary">Issue Tracker is down Saturday, 2 to 4 AM.</span>
+          <span className="font-medium text-text-accent underline decoration-1 underline-offset-2">Details</span>
         </div>
 
         <div className="flex gap-6 p-4 @md:p-6">
-          {/* Profile column */}
-          <div className="hidden w-32 shrink-0 flex-col gap-2.5 @2xl:flex">
-            <span className="h-10 w-10 rounded-full bg-border-default" />
-            <Bar w="80%" strong />
-            <Bar w="100%" />
-            <Bar w="60%" />
-            <span className="mt-3 flex flex-col gap-2">
-              <Bar w="70%" strong />
-              <Bar w="90%" />
-              <Bar w="85%" />
+          {/* Profile and recents */}
+          <div className="hidden w-40 shrink-0 flex-col @2xl:flex">
+            <span className="text-sm font-semibold text-text-primary">Welcome back, Jordan</span>
+            <span className="mt-0.5 text-xs text-text-secondary">Compliance analyst</span>
+            <span className={`mt-6 ${mockLabel}`}>Recently viewed</span>
+            <span className="mt-2 flex flex-col gap-2 text-xs text-text-secondary">
+              <span>Control Testing</span>
+              <span>Policy Library</span>
+              <span>Risk Assessments</span>
+            </span>
+            <span className={`mt-6 ${mockLabel}`}>New here?</span>
+            <span className="mt-2 text-xs leading-relaxed text-text-secondary">
+              Sixteen applications, three platforms. Start with what each one is for.
             </span>
           </div>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-3">
-            <span className={label}>Your applications</span>
-            <div className="grid grid-cols-2 gap-3 @lg:grid-cols-3">
-              {Array.from({ length: 6 }, (_, i) => (
-                <AppCard key={i} />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <span className="flex items-baseline gap-2">
+              <span className="text-base font-semibold text-text-primary">Your applications</span>
+              <span className="font-label text-xs text-text-tertiary">06</span>
+            </span>
+            <div className="mt-3 grid grid-cols-1 gap-3 @md:grid-cols-2 @3xl:grid-cols-3">
+              {MY_APPS.map((app, i) => (
+                <span key={app.name} className={i >= 4 ? "hidden @3xl:block" : i >= 2 ? "hidden @md:block" : ""}>
+                  <MockCard app={app} />
+                </span>
               ))}
             </div>
-            <span className={`mt-3 ${label}`}>Request access</span>
-            <div className="grid grid-cols-2 gap-3 @lg:grid-cols-3">
-              {Array.from({ length: 3 }, (_, i) => (
-                <span key={i} className={i === 2 ? "hidden @lg:block" : ""}>
-                  <AppCard requestable />
+
+            <span className="mt-6 flex items-baseline gap-2">
+              <span className="text-base font-semibold text-text-primary">Request access</span>
+              <span className="font-label text-xs text-text-tertiary">03</span>
+            </span>
+            <div className="mt-3 grid grid-cols-1 gap-3 @md:grid-cols-2 @3xl:grid-cols-3">
+              {REQUEST_APPS.map((app, i) => (
+                <span key={app.name} className={i >= 2 ? "hidden @3xl:block" : i >= 1 ? "hidden @md:block" : ""}>
+                  <MockCard app={app} requestable />
                 </span>
               ))}
             </div>

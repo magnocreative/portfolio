@@ -9,7 +9,7 @@ import { Figure } from "@/design-system/components/Figure";
 import { StatGrid } from "@/design-system/components/StatGrid";
 import { Tag } from "@/design-system/components/Tag";
 import { CalendarIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
-import { BuildComparison, Ecosystem, HeroSubject, HubSchematic } from "./diagrams";
+import { BuildComparison, Ecosystem, HeroSubject, HubMock } from "./diagrams";
 
 export const metadata: Metadata = {
   title: "Sixteen applications, and no way to know when any of them would go down",
@@ -116,9 +116,9 @@ export default function SixteenApplications() {
           after={
             <Figure
               ratio="auto"
-              caption="Applications you can open, separated from the ones you’d have to request, under one alert for maintenance. Users asked for that split in sketch testing: what I can use, and what I’d need access to."
+              caption="Every application says what it’s for and whether it’s up, maintenance is announced before anyone runs into it, and the applications you can open sit apart from the ones you’d have to request, a split users asked for in sketch testing. Recreated for this site with invented names and content."
             >
-              <HubSchematic />
+              <HubMock />
             </Figure>
           }
         >
