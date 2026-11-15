@@ -64,8 +64,8 @@ function Layer({ side, sizes }: { side: Side; sizes: string }) {
  * dropped on the page when the button they pressed disappears.
  *
  * The handle is a round grip with arrows on the divider, so nobody has to
- * guess it moves. Divider and grip are the interactive blue, with a white
- * ring on the grip: the images are light on one side and dark on the other
+ * guess it moves. Divider, grip and the two side labels are the interactive
+ * blue, with a white ring: the images are light on one side and dark on the other
  * whatever the theme, and a white divider vanished into the light half. The
  * blue clears 3:1 against both (it is the same fill as a primary button). Labels in the bottom corners say which side is which; at the top
  * they covered the very navigation one of the comparisons is about. There
@@ -169,8 +169,14 @@ export function CompareSlider({
   // Offset of the grip from the line, so it never crosses the frame's edge.
   const handleShift = `clamp(calc(1.5rem - ${pos}cqw), 0px, calc(${100 - pos}cqw - 1.5rem))`;
 
+  /* The side labels wear the divider's own colors: the interactive blue
+     with the white edge the grip has. They used to be a 90% raised pill in
+     secondary text, which vanished on a light screen and let the content
+     show through it (Alejandro, November 2026). In the control's colors they
+     read as part of the control, clear 3:1 on either half in either theme,
+     and the arrow in each says which way that side lies. */
   const tag =
-    "pointer-events-none absolute bottom-3 rounded-[var(--radius-pill)] border border-border-subtle bg-surface-raised/90 px-2.5 py-0.5 font-label text-xs font-medium uppercase tracking-[0.11em] text-text-secondary sm:bottom-4";
+    "pointer-events-none absolute bottom-3 flex items-center gap-1.5 rounded-[var(--radius-pill)] border-2 border-interactive-on bg-interactive px-2.5 py-1 font-label text-xs font-semibold uppercase tracking-[0.11em] text-interactive-on shadow-[0_4px_12px_rgb(3_16_33/0.18)] sm:bottom-4";
 
   return (
     <div
@@ -187,10 +193,12 @@ export function CompareSlider({
       </div>
 
       <span aria-hidden="true" className={`${tag} left-3 sm:left-4`}>
+        <ArrowLeft className="h-3.5 w-3.5" />
         {before.label}
       </span>
       <span aria-hidden="true" className={`${tag} right-3 sm:right-4`}>
         {after.label}
+        <ArrowRight className="h-3.5 w-3.5" />
       </span>
 
       {/* The divider and its grip. The grip stays a whole grip at either end:

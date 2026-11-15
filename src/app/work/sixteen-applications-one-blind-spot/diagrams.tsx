@@ -112,8 +112,11 @@ export function Ecosystem() {
     >
       {/* Salesforce across the top, the other two side by side under it, so
           every tile is the same width and a two-word name fits on its two
-          lines at the type scale's floor. */}
-      <div className="grid w-full grid-cols-1 gap-8 @xl:grid-cols-2 @xl:gap-x-10">
+          lines at the type scale's floor. The gap between the two lower
+          groups is the tiles' own 10px, so their four tiles sit exactly
+          under Salesforce's four columns and React's label lines up with
+          the third (Alejandro, November 2026). */}
+      <div className="grid w-full grid-cols-1 gap-8 @xl:grid-cols-2 @xl:gap-x-2.5">
         {PLATFORMS.map((p) => (
           <div key={p.key} className={`flex flex-col gap-3 ${p.count === 8 ? "@xl:col-span-2" : ""}`}>
             <span className={label}>{p.label}</span>
