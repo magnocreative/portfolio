@@ -10,7 +10,7 @@ import { OutcomeStats } from "@/design-system/components/OutcomeStats";
 import { PointCards } from "@/design-system/components/PointCards";
 import { Tag } from "@/design-system/components/Tag";
 import { CalendarIcon, CodeIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
-import { HeroSubject, HomeMock, RecordComparison } from "./diagrams";
+import { HeroSubject, HomeMock, RecordComparison, RecordFlow } from "./diagrams";
 
 export const metadata: Metadata = {
   title: "A quarter of the fields gone, and the users who missed the old system told us which ones",
@@ -32,7 +32,10 @@ export const metadata: Metadata = {
    does not already say). Every figure is drawn for this site (./diagrams).
 
    Every fact is Alejandro's account (November 2026): 2021 to 2022, a team of
-   four, about 150 auditors and 4 interviewed, 30 fields to 22 across the four areas,
+   four, about 150 auditors and 4 interviewed, 30 fields to 22 across six areas (training, résumé,
+   conflicts of interest, skills assessment, third-party performance survey
+   and reports), one path for every record type with approval only for
+   conflicts of interest (from his user flow),
    the out-of-the-box rule and that even the Lightning Design System counted
    as custom, App Builder, Sketch and InVision, the one-hour proof-of-concept
    touchpoints he hosted twice a week (about 40), the three-column homepage,
@@ -107,7 +110,7 @@ export default function AQuarterOfTheFields() {
             <>
               <OutcomeStats
                 items={[
-                  { value: "30 → 22", label: "fields across the four areas: training, résumé, conflicts of interest and reports" },
+                  { value: "30 → 22", label: "fields across all six areas, from training to reports" },
                   { value: "About 150", label: "auditors, all moved to Lightning before Classic retired" },
                   { value: "About 40", label: "one-hour touchpoints with product and engineering" },
                 ]}
@@ -123,9 +126,10 @@ export default function AQuarterOfTheFields() {
           }
         >
           <p>
-            An MVP shipped, and every auditor moved to Lightning. Across the four areas, training, résumé,
-            conflicts of interest and reports, the fields went from 30 to 22, and what remains is grouped
-            into sections that follow the way an auditor works through a record.
+            An MVP shipped, and every auditor moved to Lightning. Across the six areas, training, résumé,
+            conflicts of interest, skills assessments, performance surveys and reports, the fields went
+            from 30 to 22, and what remains is grouped into sections that follow the way an auditor works
+            through a record.
           </p>
           <p>
             The rollout let people choose before they had to. During the MVP, auditors could switch between
@@ -205,13 +209,21 @@ export default function AQuarterOfTheFields() {
           id="decision"
           heading="The decision"
           after={
-            <Figure
-              ratio="auto"
-              recreated
-              caption="The homepage in three columns, one record type each: training, résumé and conflicts of interest. Each column is a stock chart over a stock list, in a layout App Builder offered as it came."
-            >
-              <HomeMock />
-            </Figure>
+            <>
+              <Figure
+                ratio="auto"
+                recreated
+                caption="The homepage in three columns, one record type each: training, résumé and conflicts of interest. Each column is a stock chart over a stock list, in a layout App Builder offered as it came."
+              >
+                <HomeMock />
+              </Figure>
+              <Figure
+                ratio="auto"
+                caption="One path for every record type, built from the platform’s stock list view and record page. Conflict of interest changes are the one exception: they wait for approval before they count. Simplified from my user flow."
+              >
+                <RecordFlow />
+              </Figure>
+            </>
           }
         >
           <p>
@@ -226,6 +238,12 @@ export default function AQuarterOfTheFields() {
             columns, one for each kind of record: training, résumé and conflicts of interest. Every column
             answers one question, and the page asks nothing of
             the platform that it is unable to do.
+          </p>
+          <p>
+            The same thinking carried through the records. Every record type, from training to the
+            performance survey, followed the same five steps: status, list, record, edit, save. Designing
+            one meant designing all of them, and the only exception was the approval that conflict of
+            interest changes required.
           </p>
           <p>
             The cost was range. Some of what users asked for, such as a more interactive way to track

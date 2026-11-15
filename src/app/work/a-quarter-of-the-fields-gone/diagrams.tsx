@@ -1,5 +1,6 @@
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { RecreatedScreen } from "@/design-system/components/RecreatedScreen";
+import { Tag } from "@/design-system/components/Tag";
 
 /* The evidence for the audit records study, drawn live like the GRC study's.
    Every one is made for this site with invented content: no USAA screen, no
@@ -542,6 +543,79 @@ export function HomeMock() {
       <RecreatedScreen address="records.example">
         <HomeScreen />
       </RecreatedScreen>
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The flow: one path for every record type. Drawn from Alejandro's own user
+   flow (November 2026), simplified: the sign-in, retry and password reset
+   branches are standard platform behavior and left out, and the five
+   identical lanes become one, marked with the five record types. What stays
+   is the shape that mattered: status, list, record, edit, save, the same for
+   every type, and one exception, the approval that conflict of interest
+   changes waited on. A diagram, not a screen, so it follows the theme. */
+
+const FLOW_TYPES = ["Training", "Résumé", "Conflicts of interest", "Skills assessment", "Performance survey"];
+const FLOW_STEPS = ["Status", "List", "Record", "Edit", "Save"];
+
+function FlowArrow() {
+  return (
+    <span aria-hidden="true" className="flex items-center justify-center text-border-strong">
+      <svg viewBox="0 0 20 20" className="h-4 w-4 rotate-90 @lg:rotate-0" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 10h13M12 6l4 4-4 4" />
+      </svg>
+    </span>
+  );
+}
+
+const flowBox =
+  "flex items-center justify-center rounded-md border border-border-default bg-surface-raised px-3 py-2.5 text-center text-sm font-medium text-text-primary";
+
+export function RecordFlow() {
+  return (
+    <div
+      role="img"
+      aria-label="One path for every record type: training, résumé, conflicts of interest, skills assessment and performance survey. Each goes from status, to the list, to the record, to edit, to save, and a saved change returns to the record. Conflicts of interest is the one exception: a saved change waits as approval pending, then comes back approved or not approved."
+      className="@container flex h-full w-full flex-col gap-8 p-6 @md:p-10"
+    >
+      <div className="flex flex-col gap-3">
+        <span className={label}>Every record type</span>
+        <span className="flex flex-wrap gap-2">
+          {FLOW_TYPES.map((t) => (
+            <span key={t} className="rounded-sm border border-border-subtle bg-surface-raised px-2.5 py-1 text-xs text-text-secondary">
+              {t}
+            </span>
+          ))}
+        </span>
+      </div>
+
+      {/* The five steps, one row on a wide frame and a column on a narrow
+          one, with the arrows turning to point down. */}
+      <div className="grid grid-cols-1 gap-2 @lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] @lg:items-center">
+        {FLOW_STEPS.map((step, i) => (
+          <span key={step} className="contents">
+            {i > 0 && <FlowArrow />}
+            <span className={`${flowBox} ${step === "Save" ? "border-interactive" : ""}`}>{step}</span>
+          </span>
+        ))}
+      </div>
+
+      {/* The exception, hung from Save by a dashed line, in Save's own
+          column on a wide frame so the line drops from its middle. */}
+      <div className="grid grid-cols-1 @lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr]">
+        <div className="flex flex-col items-center gap-3 @lg:col-start-9 @lg:-mt-8">
+          <span aria-hidden="true" className="h-8 border-l-2 border-dashed border-border-strong" />
+          <span className={`${flowBox} w-full max-w-60 flex-col gap-1 border-dashed`}>
+            Approval pending
+            <span className="text-xs font-normal text-text-tertiary">Conflicts of interest only</span>
+          </span>
+          <span className="flex flex-col items-center gap-2">
+            <Tag tone="pass" className="whitespace-nowrap">Approved</Tag>
+            <Tag tone="danger" className="whitespace-nowrap">Not approved</Tag>
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
