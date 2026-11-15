@@ -12,7 +12,7 @@ import { ArrowRight } from "@/design-system/components/Icon";
  */
 function Cover({ study }: { study: CaseStudy }) {
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken">
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken @5xl:h-full">
       {study.cover ? (
         <Image
           src={study.cover.src}
@@ -77,8 +77,19 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   const linked = !isDraft || process.env.NODE_ENV === "development";
 
   const body = (
-    <div className="grid grid-cols-1 @5xl:grid-cols-[2fr_3fr] @5xl:items-center">
-      <div className="px-6 pt-6 sm:px-4 sm:pt-4 @5xl:py-4 @5xl:pr-0 @5xl:pl-4">
+    <div className="grid grid-cols-1 @5xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] @5xl:items-center">
+      {/* Side by side, the cover holds 16px from the card's top, bottom and
+          left whatever the record's length. It used to sit centered at 4:3,
+          so a study whose title ran to three lines made a taller card and
+          the cover floated in it with more room above and below than its
+          neighbor had (Alejandro, November 2026). Now the cell stretches
+          to the row and the cover fills it: 4:3 is still its least height,
+          so a short record never squashes it, and a long one crops a little
+          off the cover's sides rather than adding margin. The tracks are
+          minmax(0, …) because a stretched 4:3 box otherwise reports its
+          height times 4/3 as its least width, and the taller card's cover
+          column grew wider than its neighbor's. */}
+      <div className="px-6 pt-6 sm:px-4 sm:pt-4 @5xl:self-stretch @5xl:py-4 @5xl:pr-0 @5xl:pl-4">
         <Cover study={study} />
       </div>
 
