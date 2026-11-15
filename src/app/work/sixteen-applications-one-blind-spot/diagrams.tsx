@@ -281,7 +281,12 @@ function MockCard({ app, requestable = false }: { app: MockApp; requestable?: bo
         requestable ? "border-dashed border-border-default bg-transparent" : "border-border-subtle bg-surface-raised"
       }`}
     >
-      <span className="flex items-start gap-3">
+      {/* Room for a two-line name, always (Alejandro, November 2026). A name
+          that fit on one line pulled its card's description up, so Vendor
+          Risk's sat a line higher than Audit Workpapers' beside it, and the
+          row read as ragged. 60px is two lines of name and the platform
+          under them, measured at the frame's fixed 840 design width. */}
+      <span className="flex min-h-[3.75rem] items-start gap-3">
         {/* The application's mark, in its platform's fill, so the platform
             reads at a glance as it does in the ecosystem figure. */}
         <span
@@ -303,12 +308,15 @@ function MockCard({ app, requestable = false }: { app: MockApp; requestable?: bo
         </span>
       </span>
       <span className="mt-3 text-xs leading-relaxed text-text-secondary">{app.purpose}</span>
+      {/* The status sits with the actions, at the foot of the card, so a
+          row's chips line up however long each description runs; above the
+          footer they followed the text and stepped down card by card. */}
       {!requestable && (
-        <span className="mt-3">
+        <span className="mt-auto pt-3">
           <StatusChip maintenance={app.maintenance} />
         </span>
       )}
-      <span className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-4">
+      <span className={`${requestable ? "mt-auto" : ""} flex flex-wrap items-center gap-x-4 gap-y-2 pt-4`}>
         <span
           className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm px-3 py-1.5 text-xs font-medium ${
             requestable ? "border border-border-default text-text-secondary" : "bg-interactive text-interactive-on"
