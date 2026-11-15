@@ -1,8 +1,10 @@
-import { useId } from "react";
+import { useId, type ComponentType } from "react";
+import { MARK_DEEP_PATH, MARK_LIGHT_PATH, MARK_VIEWBOX } from "./Logo";
 
 /**
- * Organization marks for the résumé: the employers beside each company's name,
- * and the university beside the degree. Named for organizations rather than
+ * Organization marks for the résumé (the employers beside each company's name,
+ * and the university beside the degree) and for the work index, where each
+ * case study's card names who the work was for (Alejandro, November 2026). Named for organizations rather than
  * employers once the university joined them (Alejandro, November 2026); the
  * Figma set is "org-logo" for the same reason. Traced by hand from each
  * organization's own logo rather than taken from any internal brand library,
@@ -215,3 +217,47 @@ export function M7Logo({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/**
+ * MagnoCreative as an organization, for work done under its own name: the
+ * same mark as the header, set on a white tile so it sits in a row of
+ * employer tiles at the same size and weight. White in both themes, like
+ * M7's, with the same hairline on the light page. The mark keeps its two
+ * tokens, which hold 4.62:1 against white.
+ */
+export function MagnoCreativeLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
+      <rect width="40" height="40" rx="8" fill="#FFFFFF" />
+      <svg x="7" y="7" width="26" height="26" viewBox={MARK_VIEWBOX}>
+        <path fill="var(--mark-light)" d={MARK_LIGHT_PATH} />
+        <path fill="var(--mark-deep)" d={MARK_DEEP_PATH} />
+      </svg>
+      <rect
+        x="0.5"
+        y="0.5"
+        width="39"
+        height="39"
+        rx="7.5"
+        fill="none"
+        style={{ stroke: "light-dark(var(--border-subtle), transparent)" }}
+        strokeWidth={1}
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
+
+/** Every organization mark by key, so the résumé, the PDF and the work index
+ *  look marks up in one place rather than each keeping its own list. */
+export type OrgLogo = "jpmc" | "usaa" | "hcl" | "uiw" | "swbc" | "m7" | "magnocreative";
+
+export const ORG_LOGOS: Record<OrgLogo, ComponentType<{ className?: string }>> = {
+  jpmc: JpmcLogo,
+  usaa: UsaaLogo,
+  hcl: HclLogo,
+  uiw: UiwLogo,
+  swbc: SwbcLogo,
+  m7: M7Logo,
+  magnocreative: MagnoCreativeLogo,
+};

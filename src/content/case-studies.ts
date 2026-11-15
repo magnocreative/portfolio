@@ -11,6 +11,7 @@
  */
 
 import type { StaticImageData } from "next/image";
+import type { OrgLogo } from "@/design-system/brand/OrgLogos";
 // Static imports, so Next reads each cover's real size at build time and
 // reserves its box before the bytes arrive.
 import systemCover from "@/assets/covers/a-system-you-can-inspect.png";
@@ -24,6 +25,9 @@ export type CaseStudy = {
   standfirst: string;
   disciplines: string[];
   employer: string;
+  /** The organization's mark, shown beside its name on the card. The same
+   *  traced tiles the résumé uses; MagnoCreative for work under its own name. */
+  logo: OrgLogo;
   period: string;
   /** Draft entries render marked and unlinked until the writing is done. */
   status: "published" | "draft";
@@ -58,6 +62,7 @@ export const caseStudies: CaseStudy[] = [
       "Every design system I’ve owned lives behind an employer’s login. So I built one in the open, in code and in Figma, from what those systems taught me, and wrote down what every decision cost.",
     disciplines: ["Design systems", "Front-end engineering", "Documentation"],
     employer: "MagnoCreative",
+    logo: "magnocreative",
     period: "2026",
     status: "published",
     // Made in the Figma Site file (Thumbnail covers), from the library's own
@@ -81,6 +86,7 @@ export const caseStudies: CaseStudy[] = [
       "Eighty-two people said they didn’t need better applications; they needed to see the system. I argued for building the hub in React instead of Salesforce, and won. I argued for fewer applications, and lost.",
     disciplines: ["Enterprise UX", "Research", "Stakeholder alignment"],
     employer: "USAA",
+    logo: "usaa",
     period: "2022",
     status: "published",
     // The hero's own art on the dotted ground, rendered from the page

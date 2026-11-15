@@ -4,7 +4,7 @@ import { Button } from "@/design-system/components/Button";
 import { SectionHead } from "@/design-system/components/SectionHead";
 import { Card } from "@/design-system/components/Card";
 import { PageHeader } from "@/design-system/components/PageHeader";
-import { HclLogo, JpmcLogo, M7Logo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
+import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import { HistoryRow } from "@/design-system/components/HistoryRow";
 import {
   BriefcaseIcon,
@@ -40,7 +40,7 @@ const SKILL_ICONS: Record<string, typeof ComponentsIcon> = {
   Tools: WrenchIcon,
 };
 
-const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo, swbc: SwbcLogo, m7: M7Logo };
+const LOGOS = ORG_LOGOS;
 
 export const metadata: Metadata = {
   title: "Résumé",

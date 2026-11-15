@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%, stacking when the card is under 64rem wide. The record reads in scan order: the number with the facts (employer, discipline, period) on the same row, the title (the decision), the standfirst (the argument, never truncated), then the action. From 640 the action is a quiet uppercase label over a rule; on a phone it is a full-width primary button, since a phone has no hover to say the card is a link. Below 640 the card runs to the screen's edges like the résumé cards. Each image is a visual made for this site, never a screen.",
+          "One row of the work index: a raised card, the image at 40% held 16px from the top, bottom and left edge, and the record at 60%, stacking when the card is under 64rem wide. The record reads in scan order: the number with the facts (the employer's mark and name, discipline, period) on the same row, the title (the decision), the standfirst (the argument, never truncated), then the action. From 640 the action is a quiet uppercase label over a rule; on a phone it is a full-width primary button, since a phone has no hover to say the card is a link. Below 640 the card runs to the screen's edges like the résumé cards. Each image is a visual made for this site, never a screen.",
       },
     },
   },
@@ -41,7 +41,7 @@ export const Published: Story = {
 export const Draft: Story = {
   args: {
     index: 1,
-    study: caseStudies[1],
+    study: { ...caseStudies[1], status: "draft" },
   },
   parameters: {
     docs: {
@@ -57,7 +57,7 @@ export const LongTitle: Story = {
   args: {
     index: 11,
     study: {
-      ...caseStudies[2],
+      ...caseStudies[1],
       title: "Sixteen applications across three platforms, and no way for anyone to know when any of them would break",
       status: "published",
     },
@@ -116,7 +116,7 @@ export const Phone: Story = {
 
 export const PhoneDraft: Story = {
   name: "Phone, draft",
-  args: { index: 1, study: caseStudies[1] },
+  args: { index: 1, study: { ...caseStudies[1], status: "draft" } },
   globals: { viewport: { value: "phone", isRotated: false } },
   parameters: {
     layout: "fullscreen",

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import type { ComponentType, SVGProps } from "react";
 import * as Icons from "@/design-system/components/Icon";
 import { Logo } from "@/design-system/brand/Logo";
-import { HclLogo, JpmcLogo, M7Logo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
+import { HclLogo, JpmcLogo, M7Logo, MagnoCreativeLogo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
 
 /**
  * Every icon in Icon.tsx, READ from the module, never listed by hand.
@@ -179,7 +179,7 @@ export const Logos: Story = {
     docs: {
       description: {
         story:
-          "Not icons, but drawn the same way and kept beside them. The MagnoCreative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear only on the résumé; USAA's, SWBC's and the university's tiles invert in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
+          "Not icons, but drawn the same way and kept beside them. The MagnoCreative mark paints two tokens, --mark-deep and --mark-light, the same in both themes. The employer logos and the university's mark were traced for this site and appear on the résumé and, for the employers, beside each case study on the work index; the MagnoCreative tile sets the mark on a white tile for work under its own name, so it sits in that row at the same weight; USAA's, SWBC's and the university's tiles invert in the dark theme so it does not sink into the ground. Switch the theme in the toolbar to check both.",
       },
     },
   },
@@ -187,6 +187,7 @@ export const Logos: Story = {
     <ul className="grid max-w-[50rem] grid-cols-2 gap-3 sm:grid-cols-4">
       {[
         ["MagnoCreative", <Logo key="m" className="h-10 w-auto" />],
+        ["MagnoCreative tile", <MagnoCreativeLogo key="mt" className="h-10 w-10" />],
         ["USAA", <UsaaLogo key="u" className="h-10 w-10" />],
         ["JPMorganChase", <JpmcLogo key="j" className="h-10 w-10" />],
         ["HCL", <HclLogo key="h" className="h-10 w-10" />],

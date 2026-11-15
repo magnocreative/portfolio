@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CaseStudy } from "@/content/case-studies";
 import { Tag } from "@/design-system/components/Tag";
 import { ArrowRight } from "@/design-system/components/Icon";
+import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 
 
 /**
@@ -75,6 +76,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
   // place while it is written (its page answers not found once deployed; see
   // isHiddenDraft in content/case-studies).
   const linked = !isDraft || process.env.NODE_ENV === "development";
+  const Logo = ORG_LOGOS[study.logo];
 
   const body = (
     <div className="grid grid-cols-1 @5xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] @5xl:items-center">
@@ -106,11 +108,22 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
           separators are half strength so the facts, not the dots, carry the
           row. */}
       <div className="flex flex-col px-6 pt-7 pb-8 sm:px-8 sm:pb-10 @5xl:p-12">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
           <span className="font-label text-xs text-text-tertiary">{String(index + 1).padStart(2, "0")}</span>
-          {/* Employer, discipline, when: one line to read. */}
+          {/* Employer, discipline, when: one line to read. The employer
+              leads with its mark, the same traced tile as on the résumé, at
+              20px so it sits on the line rather than above it. A logo is
+              recognized faster than a name is read; the name stays beside it
+              because at this size the tile's lettering isn't legible, and
+              the mark is hidden from screen readers so the name is heard
+              once (Alejandro, November 2026). Beside the facts, never on
+              the cover: the cover is art made for the site, and a company
+              mark on it would make it read as that company's material. */}
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-label text-xs text-text-tertiary">
-            <span>{study.employer}</span>
+            <span className="inline-flex items-center gap-2">
+              <Logo className="h-5 w-5 shrink-0" />
+              {study.employer}
+            </span>
             <span aria-hidden="true" className="opacity-50">·</span>
             <span>{study.disciplines[0]}</span>
             <span aria-hidden="true" className="opacity-50">·</span>

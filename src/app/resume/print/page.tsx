@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Logo } from "@/design-system/brand/Logo";
-import { HclLogo, JpmcLogo, M7Logo, SwbcLogo, UiwLogo, UsaaLogo } from "@/design-system/brand/OrgLogos";
+import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import { caseStudies } from "@/content/case-studies";
 import {
   BriefcaseIcon,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 const LAYOUTS = ["classic", "rail", "sidebar"] as const;
 type Layout = (typeof LAYOUTS)[number];
 
-const LOGOS = { jpmc: JpmcLogo, usaa: UsaaLogo, hcl: HclLogo, uiw: UiwLogo, swbc: SwbcLogo, m7: M7Logo };
+const LOGOS = ORG_LOGOS;
 /** The title on its own line and what he works on below it (Alejandro,
  *  November 2026): the title is the thing a recruiter scans for. */
 const [role, focus] = (() => {

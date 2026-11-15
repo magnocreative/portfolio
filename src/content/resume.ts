@@ -5,7 +5,8 @@
  * with the dev server running.
  */
 
-export type OrgLogo = "jpmc" | "usaa" | "hcl" | "uiw" | "swbc" | "m7";
+import type { OrgLogo } from "@/design-system/brand/OrgLogos";
+export type { OrgLogo };
 
 export type Employer = {
   employer: string;
