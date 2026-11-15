@@ -10,6 +10,7 @@ import {
   type TokenKind,
 } from "@/design-system/utils/contrast";
 import { Tag, type TagTone } from "@/design-system/components/Tag";
+import { DataTable } from "@/design-system/components/DataTable";
 
 export type AuditRow = {
   token: string;
@@ -89,123 +90,75 @@ export function ContrastAudit({
     };
   }, [rows, kind]);
 
+  const shown = measured ?? rows.map((r) => ({ ...r, hex: "", ratio: 0, verdict: "AA" as Level }));
+
+  // The frame, the headings and the scrolling live in DataTable, shared with
+  // the tiers table on the same page. The table scrolls rather than stacks:
+  // these are figures read down a column, so the columns have to survive.
+  // Found the hard way at 390px, after five audits at 1440 where it never
+  // scrolled: the scroller has to be a named tab stop (see DataTable).
   return (
-    // The table is wider than a phone, so this scrolls sideways. A div that
-    // scrolls and holds nothing focusable is unreachable by keyboard: there is
-    // no way into it and no way to arrow across. tabIndex makes it a stop, and
-    // a stop in the tab order has to say what it is, hence role and label.
-    //
-    // Found by auditing at 390px. Five clean audits had run before this, all
-    // at 1440, where the table fits and never scrolls. The bug was not hiding;
-    // nobody had looked at the width where it exists.
-    //
-    // `relative` is load-bearing. The Swatch header is `sr-only`, which is
-    // position: absolute, and an absolute box is clipped by a scroller only
-    // when the scroller is its containing block. Without it the hidden label
-    // escaped this div at x 600 and widened the whole document, so phones
-    // laid the page out at 600px and zoomed it out to fit: the page sat in
-    // the left two thirds of the screen with an empty strip beside it.
-    //
-    // The outline holds the table together as one object, and the width stops
-    // at the measure, where the paragraph above it stops, so a ratio and its
-    // grade stay near the token they belong to. At full width in Storybook
-    // they sat 600px from it (Alejandro, November 2026). Inside, only the
-    // lines between rows: a table read across, row by row, gains nothing from
-    // vertical rules but noise. No fill: every ratio here is measured against
-    // the page surface, so the rows sit on the page surface. A raised card
-    // under them would show one surface and report another.
-    <div
-      className="relative max-w-measure overflow-x-auto rounded-sm border border-border-subtle"
-      tabIndex={0}
-      role="region"
-      aria-label={label}
-    >
-      {/* Fixed columns, the same in every table on the page. Sized by their
-          content, the browser gave each table its own grid, so the Value and
-          Ratio columns of the two /system tables sat 40px apart, one above the
-          other (Alejandro, November 2026). The widths hold the longest of
-          each: a hex, a ratio, NON-TEXT AA; the role takes what is left,
-          446px at the measure, room for every note on one line but the
-          longest. 43rem is the narrowest that keeps them: on a phone the
-          table scrolls inside its outline rather than wrap. */}
-      <table className="w-full min-w-[43rem] table-fixed border-collapse text-left">
-        <colgroup>
-          <col className="w-[4.25rem]" />
-          <col />
-          <col className="w-28" />
-          <col className="w-24" />
-          <col className="w-40" />
-        </colgroup>
-        <thead>
-          <tr className="border-b border-border-subtle bg-surface-sunken">
-            {/* Headers are Label/Current, SemiBold at the label tracking, so
-                the column names read as headings above the rows rather than
-                as one more line of metadata (Alejandro, November 2026). */}
-            {/* The swatch column is visual, but a header cell with no
-                accessible name is a real failure: a screen reader announces
-                the column as unlabelled. Its name is present and hidden, not
-                absent. Result is shown: the grade is what a reader scans the
-                table for, and an unnamed column left them to guess what AAA
-                and Decorative were grading (Alejandro, November 2026). */}
-            {[
-              { label: "Swatch", visible: false },
-              { label: "Role", visible: true },
-              { label: "Value", visible: true },
-              { label: "Ratio", visible: true },
-              { label: "Result", visible: true },
-            ].map((h, i) => (
-              <th
-                key={h.label}
-                scope="col"
-                className={`py-3 pr-4 font-label text-xs font-semibold uppercase tracking-[0.11em] text-text-tertiary first:pl-5 last:pr-5 ${
-                  i >= 3 ? "text-right" : ""
-                }`}
+    <DataTable
+      label={label}
+      layout="scroll"
+      // Fixed columns, the same in every table on the page. Sized by their
+      // content, the browser gave each table its own grid, so the Value and
+      // Ratio columns of the two /system tables sat 40px apart, one above the
+      // other (Alejandro, November 2026). The widths hold the longest of
+      // each: a hex, a ratio, NON-TEXT AA; the role takes what is left,
+      // 446px at the measure, room for every note on one line but the
+      // longest. 43rem is the narrowest that keeps them: on a phone the
+      // table scrolls inside its outline rather than wrap.
+      minWidth="min-w-[43rem]"
+      columns={[
+        // The swatch column is visual, but a header cell with no accessible
+        // name is a real failure: a screen reader announces the column as
+        // unlabelled. Its name is present and hidden, not absent. Result is
+        // shown: the grade is what a reader scans the table for (Alejandro,
+        // November 2026).
+        { label: "Swatch", visible: false, width: "w-[4.25rem]" },
+        { label: "Role" },
+        { label: "Value", width: "w-28" },
+        { label: "Ratio", width: "w-24", align: "right" },
+        { label: "Result", width: "w-40", align: "right" },
+      ]}
+      rows={shown.map((m) => ({
+        key: m.token,
+        cells: [
+          <span
+            key="swatch"
+            className="block h-8 w-8 rounded-sm border border-border-default"
+            style={{ background: `var(${m.token})` }}
+          />,
+          <div key="role">
+            <div className="font-label text-xs text-text-primary">{m.token}</div>
+            <div className="mt-0.5 text-xs text-text-tertiary">{m.note}</div>
+          </div>,
+          <span key="value" className="font-label text-xs text-text-tertiary">
+            {m.hex || "—"}
+          </span>,
+          // A surface measured against itself is 1.00:1 by definition.
+          // Printing that invites the reader to treat it as a result.
+          <span key="ratio" className="font-label text-xs text-text-primary">
+            {!measured ? "—" : m.token === "--surface-page" ? "—" : `${m.ratio.toFixed(2)}:1`}
+          </span>,
+          // nowrap: a chip never breaks across two lines. At 390, before the
+          // columns were fixed, "NON-TEXT AA" did.
+          <span key="result" className="whitespace-nowrap">
+            {measured && (
+              // The unboxed tones carry the chip's own padding, so every
+              // verdict's text ends on the same right edge down the column.
+              <Tag
+                tone={verdictTone[m.verdict]}
+                className={verdictTone[m.verdict] === "pass" ? "" : "px-2.5 py-0.5"}
               >
-                <span className={h.visible ? undefined : "sr-only"}>{h.label}</span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {(measured ?? rows.map((r) => ({ ...r, hex: "", ratio: 0, verdict: "AA" as Level }))).map((m) => (
-            <tr key={m.token} className="border-b border-border-subtle last:border-b-0">
-              <td className="py-3.5 pr-4 pl-5">
-                <span
-                  className="block h-8 w-8 rounded-sm border border-border-default"
-                  style={{ background: `var(${m.token})` }}
-                />
-              </td>
-              <td className="py-3.5 pr-4">
-                <div className="font-label text-xs text-text-primary">{m.token}</div>
-                <div className="mt-0.5 text-xs text-text-tertiary">{m.note}</div>
-              </td>
-              <td className="py-3.5 pr-4 font-label text-xs text-text-tertiary">{m.hex || "—"}</td>
-              <td className="py-3.5 pr-4 text-right font-label text-xs text-text-primary">
-                {/* A surface measured against itself is 1.00:1 by definition.
-                    Printing that invites the reader to treat it as a result. */}
-                {!measured ? "—" : m.token === "--surface-page" ? "—" : `${m.ratio.toFixed(2)}:1`}
-              </td>
-              {/* nowrap: a chip never breaks across two lines. At 390, before
-                  the columns were fixed, "NON-TEXT AA" did. */}
-              <td className="py-3.5 pr-5 text-right whitespace-nowrap">
-                {measured && (
-                  // The unboxed tones carry the chip's own padding, so every
-                  // verdict's text ends on the same right edge down the column.
-                  <Tag
-                    tone={verdictTone[m.verdict]}
-                    className={verdictTone[m.verdict] === "pass" ? "" : "px-2.5 py-0.5"}
-                  >
-                    {m.verdict}
-                  </Tag>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {!measured && (
-        <p className="border-t border-border-subtle px-5 py-3 font-label text-xs text-text-tertiary">Measuring…</p>
-      )}
-    </div>
+                {m.verdict}
+              </Tag>
+            )}
+          </span>,
+        ],
+      }))}
+      footer={!measured && <p className="font-label text-xs text-text-tertiary">Measuring…</p>}
+    />
   );
 }

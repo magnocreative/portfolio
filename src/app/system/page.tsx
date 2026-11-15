@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/design-system/primitives/Container";
+import { DataTable } from "@/design-system/components/DataTable";
 import { ContrastAudit, type AuditRow } from "@/design-system/components/ContrastAudit";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { FeaturePanel } from "@/design-system/components/FeaturePanel";
@@ -54,24 +55,65 @@ const contents = [
   { id: "source", label: "Read the source" },
 ];
 
-const tiers = [
+/* The three tiers, told by following one real color through them: the
+   primary button's blue (Alejandro, November 2026). The rows used to describe
+   each tier in the abstract, with "Raw OKLCH ramps" left unexplained and a
+   fourth column with no heading. The example column is what makes it a
+   story: a value, then the role that names it, then the component that asks
+   for the role and never for the value. */
+const swatch = (
+  <span
+    aria-hidden="true"
+    className="mt-0.5 inline-block h-4 w-4 shrink-0 rounded-[4px] border border-border-default bg-interactive"
+  />
+);
+const tierRows = [
   {
+    key: "primitives",
     n: "01",
     name: "Primitives",
-    holds: "Raw OKLCH ramps. No meaning attached.",
-    who: "Semantic tier only",
+    holds:
+      "Raw colors, with no meaning attached. Written in OKLCH, a color format where equal steps in lightness look equal to the eye, so every ramp darkens evenly.",
+    example: (
+      <span className="flex items-start gap-2">
+        {swatch}
+        <span>
+          <span className="block text-text-primary">--p-blue-600</span>
+          <span className="block">#4e729a</span>
+        </span>
+      </span>
+    ),
+    who: "Only the roles",
   },
   {
+    key: "roles",
     n: "02",
-    name: "Semantic",
-    holds: "Roles: surface-raised, text-secondary, interactive-hover",
-    who: "Components",
+    name: "Roles",
+    holds:
+      "What a color is for: a raised surface, secondary text, a filled control. A role carries its value for each theme, so a component never asks which theme it is in.",
+    example: (
+      <span className="flex items-start gap-2">
+        {swatch}
+        <span>
+          <span className="block text-text-primary">--interactive-default</span>
+          <span className="block">points to --p-blue-600</span>
+        </span>
+      </span>
+    ),
+    who: "Every component",
   },
   {
+    key: "component",
     n: "03",
     name: "Component",
-    holds: "Per-component overrides aliasing the semantic tier",
-    who: "That one component",
+    holds: "A value one component needs that no role gives it, declared beside that component.",
+    example: (
+      <span>
+        None. The primary button asks for <span className="whitespace-nowrap">--interactive-default</span>{" "}
+        directly.
+      </span>
+    ),
+    who: "Only that component",
   },
 ];
 
@@ -159,30 +201,57 @@ export default function SystemPage() {
               />
               {/* Three tiers */}
             <section id="tiers" className="mt-24" aria-labelledby="tiers-heading">
-            <SectionHead id="tiers-heading">Three tiers, in dependency order</SectionHead>
+            <SectionHead id="tiers-heading">Three tiers between a color and the screen</SectionHead>
 
             <TextBlock className="mt-8">
-              The order is the whole point. A component that reaches past the semantic tier into a raw value is a
-              component that will not follow a retheme, and will not be found until someone notices the wrong gray in
-              a screenshot months later.
+              Every color on this site passes through three tiers on its way to the screen. A raw value becomes a
+              role, and a component only ever asks for the role. That is why a retheme changes the roles once,
+              instead of hunting through components for a stray gray. Follow the primary button&rsquo;s blue down
+              the third column.
             </TextBlock>
 
-            <div className="mt-10">
-              {tiers.map((t) => (
-                <div
-                  key={t.n}
-                  className="grid grid-cols-1 gap-x-6 gap-y-2 border-b border-border-subtle py-6 lg:grid-cols-[3rem_10rem_1fr_16rem]"
-                >
-                  <div className="font-label text-xs text-text-tertiary">{t.n}</div>
-                  <div className="font-display text-xl text-text-primary">{t.name}</div>
-                  <div className="text-base text-text-secondary">{t.holds}</div>
-                  <div className="font-label text-xs text-text-tertiary lg:text-right">
-                    <span className="lg:hidden">Referenced by: </span>
+            {/* A table, because the rows are records and the columns are
+                what each record holds, and a column needs a heading to say
+                so. Stacked when there is no room: these are sentences, and
+                prose read through a sideways scroll is read through a
+                letterbox. */}
+            <DataTable
+              className="mt-10"
+              label="The three tiers"
+              layout="stack"
+              align="top"
+              columns={[
+                { label: "Tier", width: "w-40" },
+                { label: "What it holds" },
+                { label: "The button’s blue", width: "w-52" },
+                { label: "Who may use it", width: "w-40" },
+              ]}
+              rows={tierRows.map((t) => ({
+                key: t.key,
+                cells: [
+                  <div key="tier">
+                    <div className="font-label text-xs text-text-tertiary">{t.n}</div>
+                    <div className="mt-1 font-display text-lg text-text-primary">{t.name}</div>
+                  </div>,
+                  <p key="holds" className="text-sm leading-[1.6] text-text-secondary">
+                    {t.holds}
+                  </p>,
+                  <div key="example" className="font-label text-xs leading-[1.6] text-text-tertiary">
+                    {t.example}
+                  </div>,
+                  <p key="who" className="text-sm leading-[1.6] text-text-secondary">
                     {t.who}
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </p>,
+                ],
+              }))}
+            />
+
+            {/* The empty third tier, said plainly, because it is the result:
+                no component has needed a value the roles don't give it. */}
+            <TextBlock className="mt-8">
+              The third tier is empty, and that is the result I wanted: no component has needed a value the roles
+              don&rsquo;t already give it.
+            </TextBlock>
             </section>
 
               {/* Live audit */}
