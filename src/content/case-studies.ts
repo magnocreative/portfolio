@@ -16,6 +16,7 @@ import type { OrgLogo } from "@/design-system/brand/OrgLogos";
 // reserves its box before the bytes arrive.
 import systemCover from "@/assets/covers/a-system-you-can-inspect.png";
 import sixteenCover from "@/assets/covers/sixteen-applications-one-blind-spot.png";
+import quarterCover from "@/assets/covers/a-quarter-of-the-fields-gone.png";
 
 export type CaseStudy = {
   slug: string;
@@ -95,6 +96,28 @@ export const caseStudies: CaseStudy[] = [
     cover: {
       src: sixteenCover,
       alt: "Sixteen square tiles in four rows: two rows tinted blue, one row in solid gray outline, one row in dashed outline. A dashed line runs down from them to a single white card with a green status dot, labeled One front door.",
+    },
+  },
+  // Third, and the GRC study's counterpart: there the argument for custom
+  // was won, here out of the box was the rule and the argument for going
+  // further was lost. From Alejandro's account (November 2026). The
+  // application stays unnamed, as the index promises.
+  {
+    slug: "a-quarter-of-the-fields-gone",
+    title: "A quarter of the fields gone, and the users who missed the old system told us which ones",
+    standfirst:
+      "Eighteen auditors were moving off a Salesforce application they had used for years, and the rebuild had to stay out of the box. The users who resisted the change told us which fields to cut. I argued for custom record pages, and lost.",
+    disciplines: ["Enterprise UX", "Platform constraints", "Research"],
+    employer: "USAA",
+    logo: "usaa",
+    period: "2021 to 2022",
+    status: "published",
+    // The hero's own art on the dotted ground, rendered from the page
+    // (./diagrams HeroSubject): eight fields, two of them cut, above three
+    // short groups. Made for this site; nothing from USAA.
+    cover: {
+      src: quarterCover,
+      alt: "A tall card of eight field rows labeled Salesforce Classic, two of them in dashed outline. A dashed line runs down from it to three small cards side by side, labeled Lightning, out of the box, each with a blue heading bar and two rows.",
     },
   },
 ];
