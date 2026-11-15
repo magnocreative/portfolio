@@ -26,9 +26,16 @@ export const site = "https://magnocreative.com";
 
 export const lede = [
   "Ten years in design, with an engineering background to match. I design the internal tools people use all day to do difficult work, own the design system our CRM teams build on, and prototype in code to prove a design works before engineering commits to it.",
-  "I work in the double diamond: understand the problem, then design the solution. Agentic tools make delivery faster, and with that comes the temptation to skip discovery. I don’t. Understanding the problem first is what lets engineering move fast and get it right, because fast work only pays off if it still holds up long after it ships.",
+  "I work in the double diamond, and agentic tools have made its second half faster than it has ever been: an idea becomes a working prototype in days rather than weeks. That speed makes the first half matter more, not less. When building is cheap, the expensive mistake is building the wrong thing, so I start with the problem and let what we learn there decide what the tools build.",
 ];
 
+
+/* The case studies the PDF lists under Selected work, in order, by slug. A
+   choice rather than every published study: the system study for the code and
+   the reusable library, GRC for the research and the argument with product
+   and engineering (Alejandro, November 2026). Two keep the section to a few
+   lines, so the JPMorganChase experience still fits its page. */
+export const selectedWork = ["a-system-you-can-inspect", "sixteen-applications-one-blind-spot"];
 
 /** The PDF's file name, also the path it is served from in /public. */
 export const pdfFile = "Alejandro-Magno-Fernandini-Resume.pdf";
@@ -79,8 +86,8 @@ export const experience: Employer[] = [
         bullets: [
           "Designed across governance, risk and compliance, audit, and enterprise reporting: internal platforms where the users are specialists and the cost of a bad interface is measured in rework and missed controls.",
           "Surveyed 82 people across a compliance organization running on sixteen interconnected applications, and found the problem was not the applications. Nobody could tell when any of them was down or in maintenance.",
-          "Designed the consolidated status view that replaced checking sixteen systems by hand. Shipped to several hundred staff and still in use, with a feedback channel inside it so what got built next came from the people using it.",
-          "Recommended a common design language across all sixteen applications. When platform leadership chose to keep each system’s defaults, redesigned the approach to deliver value without requiring sixteen teams to migrate.",
+          "Led the design of the hub that gave all sixteen applications one front door, replacing checking each system by hand. Argued for building it in React rather than out of the box in Salesforce, and won. Shipped to about 400 people and, at last report, still in use.",
+          "Recommended consolidating overlapping applications into a single experience. When it was deferred to the backlog, designed the hub to carry what consolidation would have: what each application is for, who it serves and when it is available.",
         ],
       },
     ],

@@ -23,6 +23,7 @@ import {
   name,
   relocation,
   site,
+  selectedWork,
   skills,
   subtitle,
 } from "@/content/resume";
@@ -104,6 +105,7 @@ const css = `
 .sheet .org{break-inside:avoid}
 .sheet .org+.org{margin-top:11.2pt}
 .sheet .role{margin-top:6.9pt}
+.sheet .role+.role{margin-top:12pt}
 .sheet .rolehead{display:flex;justify-content:space-between;align-items:baseline;gap:10.3pt;break-after:avoid}
 .sheet .title{font-size:8.9pt;font-weight:500;color:var(--text-primary)}
 .sheet ul{list-style:none;margin-top:4.3pt;display:flex;flex-direction:column;gap:3.9pt}
@@ -254,8 +256,9 @@ function Lede() {
 function Work({ brief = false }: { brief?: boolean }) {
   return (
     <>
-      {caseStudies
-        .filter((s) => s.status === "published")
+      {selectedWork
+        .map((slug) => caseStudies.find((s) => s.slug === slug && s.status === "published"))
+        .filter((s) => s !== undefined)
         .map((s) => (
           <p key={s.slug}>
             <b>{s.title}.</b>
@@ -367,7 +370,7 @@ function Background() {
   );
 }
 
-const hasWork = caseStudies.some((s) => s.status === "published");
+const hasWork = caseStudies.some((s) => s.status === "published" && selectedWork.includes(s.slug));
 
 export default async function ResumePrint({
   searchParams,
