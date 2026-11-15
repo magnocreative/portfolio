@@ -22,6 +22,7 @@ import { Children, isValidElement, type ReactNode } from "react";
 export function TextBlock({
   heading,
   headingAs: Heading = "h3",
+  headingId,
   action,
   className = "",
   children,
@@ -30,6 +31,8 @@ export function TextBlock({
   heading?: ReactNode;
   /** The heading level. h3 under a SectionHead, which is the h2. */
   headingAs?: "h2" | "h3" | "h4";
+  /** For a section that points at the heading with `aria-labelledby`. */
+  headingId?: string;
   /** Optional. Usually a Button, 32px under the body. */
   action?: ReactNode;
   className?: string;
@@ -44,7 +47,7 @@ export function TextBlock({
   return (
     <div className={`max-w-measure ${className}`}>
       {heading && (
-        <Heading className="font-display text-xl leading-[1.25] tracking-[-0.012em] text-text-primary">
+        <Heading id={headingId} className="font-display text-xl leading-[1.25] tracking-[-0.012em] text-text-primary">
           {heading}
         </Heading>
       )}

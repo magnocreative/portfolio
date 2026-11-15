@@ -2,7 +2,7 @@
  * The case study index.
  *
  * Titles are the DECISION, not the project name. "Sixteen applications, and
- * no way to know when they'd break" tells a reader what the work was about;
+ * no way to know when any of them would go down" tells a reader what the work was about;
  * "GRC Connect" tells them nothing and asks them to click to find out.
  *
  * A note on what's named here: employers are real, because that's normal and
@@ -14,6 +14,7 @@ import type { StaticImageData } from "next/image";
 // Static imports, so Next reads each cover's real size at build time and
 // reserves its box before the bytes arrive.
 import systemCover from "@/assets/covers/a-system-you-can-inspect.png";
+import sixteenCover from "@/assets/covers/sixteen-applications-one-blind-spot.png";
 
 export type CaseStudy = {
   slug: string;
@@ -67,6 +68,29 @@ export const caseStudies: CaseStudy[] = [
       alt: "A blue swatch labeled blue/600, joined by a dotted line to a chip labeled interactive/default, and on to a button reading Read the system. The ground is split on a slant, light on the left and dark on the right, and the blue is the same on both sides.",
     },
   },
+  // Second, and the first written in the two halves (What changed, How I got
+  // there). Published November 2026 from Alejandro's account. The old
+  // standfirst ended on "leadership said no, and they were right", about the
+  // one-design-language idea; his account turned that around. He won the
+  // argument that mattered to users (build in React, not out of the box) and
+  // lost the bigger one (fewer applications), so the standfirst names both.
+  {
+    slug: "sixteen-applications-one-blind-spot",
+    title: "Sixteen applications, and no way to know when any of them would go down",
+    standfirst:
+      "Eighty-two people said they didn’t need better applications; they needed to see the system. I argued for building the hub in React instead of Salesforce, and won. I argued for fewer applications, and lost.",
+    disciplines: ["Enterprise UX", "Research", "Stakeholder alignment"],
+    employer: "USAA",
+    period: "2022",
+    status: "published",
+    // The hero's own art on the dotted ground, rendered from the page
+    // (./diagrams HeroSubject): sixteen tiles by platform above one front
+    // door. Made for this site; nothing from USAA.
+    cover: {
+      src: sixteenCover,
+      alt: "Sixteen square tiles in four rows: two rows tinted blue, one row in solid gray outline, one row in dashed outline. A dashed line runs down from them to a single white card with a green status dot, labeled One front door.",
+    },
+  },
   // PLACEHOLDER. The title, standfirst and period below are written to the
   // right shape, not from the real account — replace all three once the draft
   // is voice-checked. Everything here stays on the safe side of the rule
@@ -99,22 +123,6 @@ export const caseStudies: CaseStudy[] = [
     disciplines: ["Platform design", "Documentation", "Adoption"],
     employer: "JPMorganChase",
     period: "2025",
-    status: "draft",
-  },
-  {
-    slug: "sixteen-applications-one-blind-spot",
-    title: "Sixteen applications, and no way to know when they'd break",
-    // The old version of this ended on the rejection: "Leadership said no, and
-    // they were right." Honest, but it made the case study about being
-    // gracefully overruled. The actual arc is better and was sitting one
-    // question away: he asked for the expensive fix, was told no, built the
-    // thing people had actually asked for, and it is still running years
-    // later. Ending on a verifiable fact beats ending on a good attitude.
-    standfirst:
-      "Eighty-two people told me they didn't want better applications. They wanted to know when the ones they had would be down. I recommended one design language across all sixteen; leadership said no, and they were right. What shipped instead is still in use.",
-    disciplines: ["Enterprise UX", "Research", "Consolidation"],
-    employer: "USAA",
-    period: "2021",
     status: "draft",
   },
 ];

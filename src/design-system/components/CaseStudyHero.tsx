@@ -117,3 +117,20 @@ export function CaseStudyHero({
     </section>
   );
 }
+
+/**
+ * The default ground for a case study hero: a faint dotted canvas, the part
+ * that fades and the part that fills a wide screen. Moved here from the first
+ * study once the second needed it too.
+ */
+export function DottedGround() {
+  return (
+    <div
+      className="h-full w-full"
+      style={{
+        backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
+        backgroundSize: "28px 28px",
+      }}
+    />
+  );
+}

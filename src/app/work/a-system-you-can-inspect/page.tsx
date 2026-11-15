@@ -16,7 +16,7 @@ import {
 } from "@/design-system/components/Icon";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { SectionHead } from "@/design-system/components/SectionHead";
-import { CaseStudyHero } from "@/design-system/components/CaseStudyHero";
+import { CaseStudyHero, DottedGround } from "@/design-system/components/CaseStudyHero";
 import { RevealAfter } from "@/design-system/components/RevealAfter";
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { FactsPanel } from "@/design-system/components/FactsPanel";
@@ -94,20 +94,6 @@ function TokenChain() {
         Read the system
       </Button>
     </div>
-  );
-}
-
-/* The ground under it: a faint dotted canvas, the part that fades and the
-   part that fills a wide screen. */
-function DottedGround() {
-  return (
-    <div
-      className="h-full w-full"
-      style={{
-        backgroundImage: "radial-gradient(var(--border-default) 1.2px, transparent 1.6px)",
-        backgroundSize: "28px 28px",
-      }}
-    />
   );
 }
 
