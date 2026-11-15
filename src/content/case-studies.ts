@@ -91,38 +91,4 @@ export const caseStudies: CaseStudy[] = [
       alt: "Sixteen square tiles in four rows: two rows tinted blue, one row in solid gray outline, one row in dashed outline. A dashed line runs down from them to a single white card with a green status dot, labeled One front door.",
     },
   },
-  // PLACEHOLDER. The title, standfirst and period below are written to the
-  // right shape, not from the real account — replace all three once the draft
-  // is voice-checked. Everything here stays on the safe side of the rule
-  // above: no platform name, no capability names, no vendor named.
-  {
-    slug: "self-serve-instead-of-a-request-queue",
-    title: "Replacing a request queue with a portal people can use themselves",
-    standfirst:
-      "Four lines of business, each asking for platform changes a different way. I built the prototype in grayscale first, so the people reviewing it argued about structure instead of color.",
-    disciplines: ["Prototyping", "Discovery", "Documentation"],
-    employer: "JPMorganChase",
-    period: "2025 to now",
-    status: "draft",
-  },
-  {
-    slug: "design-system-through-a-migration",
-    title: "The system behind sixteen CRM surfaces",
-    standfirst:
-      "I inherited a design system built on a vendor's platform. Then the vendor moved on without us. This is the case I made for building our own, and what it cost to make it.",
-    disciplines: ["Design systems", "Platform strategy", "Governance"],
-    employer: "JPMorganChase",
-    period: "2024 to now",
-    status: "draft",
-  },
-  {
-    slug: "adoption-without-a-designer-in-the-room",
-    title: "Getting teams to adopt a pattern without me in the room",
-    standfirst:
-      "Adoption kept depending on a designer being available. So I stopped designing screens and designed how a team finds, understands and commits to a pattern on its own.",
-    disciplines: ["Platform design", "Documentation", "Adoption"],
-    employer: "JPMorganChase",
-    period: "2025",
-    status: "draft",
-  },
 ];
