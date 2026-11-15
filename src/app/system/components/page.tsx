@@ -424,9 +424,17 @@ export default function ComponentsPage() {
                   the résumé cards."
                 />
 
-                <Stage>
+                {/* No stage. Every other specimen sits on one, a neutral
+                    ground so nothing is flattered by a background chosen to
+                    suit it. A work entry is already a raised card: on the
+                    stage it was a card inside a card, two white frames 36px
+                    apart, a container that appears nowhere on the site
+                    (Alejandro, November 2026). It sits on the page instead,
+                    as it does on /work, and on a phone it runs to the
+                    screen's edges as it does there. */}
+                <div className="mt-8">
                   <WorkEntry study={caseStudies[1]} index={1} />
-                </Stage>
+                </div>
 
                 <Note className="mt-6">
                   This is the fourth shape the index has had. A four-column text row came first and
