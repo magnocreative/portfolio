@@ -718,7 +718,8 @@ export function BuildComparison() {
    labeled with its tier, so the board reads as a kit rather than a
    screenshot. Most of it became the hub; the feedback form moved to a later
    release. Light only, like the recreated screens: it is a picture of a
-   board. The real Button is drawn as a specimen, so the board can't drift
+   board. On a phone all six atoms show, Type and Icons side by side, and
+   the components trim to Banner, Card and Feedback. The real Button is drawn as a specimen, so the board can't drift
    from it. */
 
 type Tier = "Atom" | "Component";
@@ -726,7 +727,7 @@ type Tier = "Atom" | "Component";
 function Tile({
   tier,
   name,
-  span = "@3xl:col-span-2",
+  span = "col-span-2 @md:col-span-1 @3xl:col-span-2",
   wideOnly = false,
   children,
 }: {
@@ -790,8 +791,8 @@ function ColorAtom() {
 
 function TypeAtom() {
   return (
-    <div className="flex items-end gap-4">
-      <span className="font-display text-5xl leading-none text-text-primary">Aa</span>
+    <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
+      <span className="font-display text-4xl leading-none text-text-primary @md:text-5xl">Aa</span>
       <span className="flex flex-col gap-1 pb-0.5">
         <span className="text-base font-semibold leading-tight text-text-primary">Heading</span>
         <span className="text-sm leading-tight text-text-secondary">Body copy</span>
@@ -826,7 +827,7 @@ function StatusAtom() {
 function IconAtom() {
   const icons: (keyof typeof GLYPHS)[] = ["search", "bell", "lock", "doc", "alert", "arrow"];
   return (
-    <div className="grid grid-cols-6 gap-2">
+    <div className="grid grid-cols-3 gap-2 @md:grid-cols-6">
       {icons.map((g) => (
         <span key={g} className="flex aspect-square items-center justify-center rounded-md bg-surface-sunken text-text-secondary">
           <Glyph d={g} className="h-5 w-5" />
@@ -1036,21 +1037,21 @@ export function MoodBoard() {
       aria-label="A mood board, recreated with invented content and broken down from atoms to components. Atoms: a color set (action blue, up green, notice amber, down red, ink, ground), a type specimen, three buttons, status chips (up, maintenance, down, in progress, draft), a row of icons, and inputs (a search field, checkboxes, a toggle). Components: a maintenance banner and an announcement, an application card with its status, a ring chart of applications up, in maintenance and down, a list of what is coming up, three steps of a request, success and error toasts, and a short feedback form."
       className="@container h-full w-full"
     >
-      <div data-scheme="light" className="grid grid-cols-1 gap-3 bg-surface-sunken p-3 sm:p-6 @md:grid-cols-2 @3xl:grid-cols-6">
+      <div data-scheme="light" className="grid grid-flow-dense grid-cols-2 gap-3 bg-surface-sunken p-3 sm:p-6 @md:grid-flow-row @3xl:grid-cols-6">
         <Tile tier="Atom" name="Color"><ColorAtom /></Tile>
-        <Tile tier="Atom" name="Type" wideOnly><TypeAtom /></Tile>
+        <Tile tier="Atom" name="Type" span="col-span-1 @3xl:col-span-2"><TypeAtom /></Tile>
         <Tile tier="Atom" name="Buttons"><ButtonAtom /></Tile>
         <Tile tier="Atom" name="Status"><StatusAtom /></Tile>
-        <Tile tier="Atom" name="Icons" wideOnly><IconAtom /></Tile>
-        <Tile tier="Atom" name="Inputs" wideOnly><InputAtom /></Tile>
-        <Tile tier="Component" name="Banner" span="@md:col-span-2 @3xl:col-span-4"><BannerComponent /></Tile>
+        <Tile tier="Atom" name="Icons" span="col-span-1 @3xl:col-span-2"><IconAtom /></Tile>
+        <Tile tier="Atom" name="Inputs"><InputAtom /></Tile>
+        <Tile tier="Component" name="Banner" span="col-span-2 @3xl:col-span-4"><BannerComponent /></Tile>
         <Tile tier="Component" name="Toasts" wideOnly><ToastComponent /></Tile>
         <Tile tier="Component" name="Card"><CardComponent /></Tile>
         <Tile tier="Component" name="Summary" wideOnly><SummaryComponent /></Tile>
         <Tile tier="Component" name="Coming up" wideOnly><UpcomingComponent /></Tile>
         <Tile tier="Component" name="Steps" wideOnly><StepsComponent /></Tile>
         <Tile tier="Component" name="Feedback"><FeedbackComponent /></Tile>
-        <Tile tier="Component" name="Tabs" wideOnly span="@md:col-span-2 @3xl:col-span-2">
+        <Tile tier="Component" name="Tabs" wideOnly span="col-span-2">
           <span className="flex gap-4 border-b border-border-subtle text-xs text-text-secondary">
             <span className="border-b-2 border-interactive pb-1.5 font-medium text-text-primary">All</span>
             <span className="pb-1.5">Salesforce</span>
