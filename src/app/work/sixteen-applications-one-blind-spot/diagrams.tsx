@@ -1,5 +1,7 @@
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { RecreatedScreen } from "@/design-system/components/RecreatedScreen";
+import { Button } from "@/design-system/components/Button";
+import type { ReactNode } from "react";
 
 /* The evidence for this study, drawn live rather than exported, the way the
    first study draws its token chain. Every one is a schematic made for this
@@ -700,5 +702,364 @@ export function BuildComparison() {
         alt: "The hub as built, recreated with invented content: a maintenance banner, platform filters, and application cards that each say what the application is for, its status, and how to launch it or read its docs.",
       }}
     />
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The mood board: the case for building the hub custom, made with pictures
+   rather than a memo. Recreated (Alejandro, November 2026) from the board on
+   his old portfolio, which collected other designers' published shots, so
+   nothing of theirs is reproduced here: no product, logo, brand or face.
+
+   Broken down the way a board is read, from the smallest parts up: atoms
+   (color, type, buttons, status, icons, inputs), then components built from
+   them (a maintenance banner, a card with its status, a summary at a
+   glance, what is coming up, steps, toasts, a feedback form). Every tile is
+   labeled with its tier, so the board reads as a kit rather than a
+   screenshot. Most of it became the hub; the feedback form moved to a later
+   release. Light only, like the recreated screens: it is a picture of a
+   board. The real Button is drawn as a specimen, so the board can't drift
+   from it. */
+
+type Tier = "Atom" | "Component";
+
+function Tile({
+  tier,
+  name,
+  span = "@3xl:col-span-2",
+  wideOnly = false,
+  children,
+}: {
+  tier: Tier;
+  name: string;
+  span?: string;
+  wideOnly?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={`${wideOnly ? "hidden @md:flex" : "flex"} flex-col gap-3 rounded-lg border border-border-subtle bg-surface-raised p-4 ${span}`}
+    >
+      <span className="font-label text-[10px] uppercase tracking-[0.12em]">
+        <span className="text-text-tertiary">{tier}</span>
+        <span className="text-border-strong"> · </span>
+        <span className="text-text-secondary">{name}</span>
+      </span>
+      {children}
+    </div>
+  );
+}
+
+const statusChip = {
+  up: "bg-[color-mix(in_oklab,var(--status-success)_14%,var(--surface-raised))] text-[color-mix(in_oklab,var(--status-success)_85%,var(--text-primary))]",
+  warn: "bg-[color-mix(in_oklab,var(--status-warning)_16%,var(--surface-raised))] text-[color-mix(in_oklab,var(--status-warning)_80%,var(--text-primary))]",
+  down: "bg-[color-mix(in_oklab,var(--status-danger)_12%,var(--surface-raised))] text-text-danger",
+  info: "bg-[color-mix(in_oklab,var(--interactive-default)_14%,var(--surface-raised))] text-text-accent",
+  neutral: "bg-surface-sunken text-text-secondary",
+};
+
+function Chip({ tone, children }: { tone: keyof typeof statusChip; children: ReactNode }) {
+  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${statusChip[tone]}`}>{children}</span>;
+}
+
+function Dot({ tone }: { tone: "up" | "warn" | "down" }) {
+  const c = { up: "bg-status-success", warn: "bg-status-warning", down: "bg-status-danger" }[tone];
+  return <span className={`h-1.5 w-1.5 rounded-full ${c}`} />;
+}
+
+function ColorAtom() {
+  const swatches = [
+    { c: "bg-interactive", n: "Action" },
+    { c: "bg-status-success", n: "Up" },
+    { c: "bg-status-warning", n: "Notice" },
+    { c: "bg-status-danger", n: "Down" },
+    { c: "bg-text-primary", n: "Ink" },
+    { c: "bg-surface-sunken border border-border-subtle", n: "Ground" },
+  ];
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      {swatches.map((s) => (
+        <span key={s.n} className="flex flex-col gap-1">
+          <span className={`h-9 rounded-md ${s.c}`} />
+          <span className="text-[10px] text-text-tertiary">{s.n}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function TypeAtom() {
+  return (
+    <div className="flex items-end gap-4">
+      <span className="font-display text-5xl leading-none text-text-primary">Aa</span>
+      <span className="flex flex-col gap-1 pb-0.5">
+        <span className="text-base font-semibold leading-tight text-text-primary">Heading</span>
+        <span className="text-sm leading-tight text-text-secondary">Body copy</span>
+        <span className="font-label text-[10px] uppercase tracking-[0.12em] text-text-tertiary">Label</span>
+      </span>
+    </div>
+  );
+}
+
+function ButtonAtom() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button specimen variant="primary" fillOnPhone={false}>Launch</Button>
+      <Button specimen variant="secondary" fillOnPhone={false}>Docs</Button>
+      <Button specimen variant="tertiary" fillOnPhone={false}>Request access</Button>
+    </div>
+  );
+}
+
+function StatusAtom() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Chip tone="up"><Dot tone="up" />Up</Chip>
+      <Chip tone="warn"><Dot tone="warn" />Maintenance</Chip>
+      <Chip tone="down"><Dot tone="down" />Down</Chip>
+      <Chip tone="info">In progress</Chip>
+      <Chip tone="neutral">Draft</Chip>
+    </div>
+  );
+}
+
+function IconAtom() {
+  const icons: (keyof typeof GLYPHS)[] = ["search", "bell", "lock", "doc", "alert", "arrow"];
+  return (
+    <div className="grid grid-cols-6 gap-2">
+      {icons.map((g) => (
+        <span key={g} className="flex aspect-square items-center justify-center rounded-md bg-surface-sunken text-text-secondary">
+          <Glyph d={g} className="h-5 w-5" />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function InputAtom() {
+  return (
+    <div className="flex flex-col gap-3">
+      <span className="flex items-center gap-2 rounded-sm border border-border-default px-3 py-1.5 text-xs text-text-tertiary">
+        <Glyph d="search" className="h-3.5 w-3.5" />
+        Search applications
+      </span>
+      <span className="flex items-center gap-4 text-xs text-text-secondary">
+        <span className="flex items-center gap-1.5">
+          <span className="flex h-4 w-4 items-center justify-center rounded-[3px] bg-interactive text-[10px] text-interactive-on">✓</span>
+          Salesforce
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-4 w-4 rounded-[3px] border border-border-strong" />
+          ServiceNow
+        </span>
+      </span>
+      <span className="flex items-center gap-2 text-xs text-text-secondary">
+        <span className="flex h-5 w-9 shrink-0 items-center rounded-full bg-interactive p-0.5">
+          <span className="ml-auto h-4 w-4 rounded-full bg-surface-raised" />
+        </span>
+        Maintenance alerts
+      </span>
+    </div>
+  );
+}
+
+function BannerComponent() {
+  return (
+    <div className="flex flex-col gap-2">
+    <div className="flex items-center gap-3 rounded-md border border-[color-mix(in_oklab,var(--status-warning)_40%,var(--surface-raised))] bg-[color-mix(in_oklab,var(--status-warning)_10%,var(--surface-raised))] px-3 py-2.5 text-xs">
+      <span className="text-[color-mix(in_oklab,var(--status-warning)_80%,var(--text-primary))]">
+        <Glyph d="alert" className="h-4 w-4" />
+      </span>
+      <span className="text-text-primary">
+        <b className="font-semibold">Issue Tracker</b> is down for maintenance Saturday, 2 to 4 AM.
+      </span>
+      <span className="ml-auto whitespace-nowrap font-medium text-text-accent">Details</span>
+    </div>
+    <div className="flex items-center gap-3 rounded-md border border-[color-mix(in_oklab,var(--interactive-default)_30%,var(--surface-raised))] bg-[color-mix(in_oklab,var(--interactive-default)_8%,var(--surface-raised))] px-3 py-2.5 text-xs">
+      <span className="text-text-accent">
+        <Glyph d="bell" className="h-4 w-4" />
+      </span>
+      <span className="text-text-primary">
+        <b className="font-semibold">Exam Management</b> is now open to every team.
+      </span>
+      <span className="ml-auto whitespace-nowrap font-medium text-text-accent">Open</span>
+    </div>
+    </div>
+  );
+}
+
+function CardComponent() {
+  return (
+    <div className="flex flex-col gap-2.5 rounded-md border border-border-subtle p-3">
+      <span className="flex items-start justify-between">
+        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-surface-sunken text-text-tertiary">
+          <Glyph d="doc" />
+        </span>
+        <Chip tone="up"><Dot tone="up" />Up</Chip>
+      </span>
+      <span className="flex flex-col">
+        <span className="text-sm font-semibold text-text-primary">Policy Library</span>
+        <span className="text-xs text-text-tertiary">Find and attest to policies</span>
+      </span>
+      <span className="flex items-center gap-2">
+        <Button specimen variant="primary" fillOnPhone={false}>Launch</Button>
+        <span className="text-xs font-medium text-text-accent">Docs</span>
+      </span>
+    </div>
+  );
+}
+
+function SummaryComponent() {
+  const parts = [
+    { label: "Up", value: 13, tone: "text-status-success" },
+    { label: "Maintenance", value: 2, tone: "text-status-warning" },
+    { label: "Down", value: 1, tone: "text-status-danger" },
+  ];
+  const total = parts.reduce((a, p) => a + p.value, 0);
+  const r = 26;
+  const c = 2 * Math.PI * r;
+  let offset = 0;
+  return (
+    <div className="flex items-center gap-4">
+      <span className="relative shrink-0">
+        <svg viewBox="0 0 72 72" className="h-20 w-20 -rotate-90">
+          {parts.map((p) => {
+            const len = (p.value / total) * c;
+            const el = (
+              <circle key={p.label} cx="36" cy="36" r={r} fill="none" strokeWidth="10" stroke="currentColor" className={p.tone} strokeDasharray={`${len} ${c - len}`} strokeDashoffset={-offset} />
+            );
+            offset += len;
+            return el;
+          })}
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-text-primary">{total}</span>
+      </span>
+      <span className="flex flex-col gap-1.5">
+        {parts.map((p) => (
+          <span key={p.label} className="flex items-center gap-2 text-xs text-text-secondary">
+            <span className={`h-2 w-2 rounded-full bg-current ${p.tone}`} />
+            <b className="font-semibold text-text-primary">{p.value}</b> {p.label}
+          </span>
+        ))}
+      </span>
+    </div>
+  );
+}
+
+function UpcomingComponent() {
+  const rows = [
+    ["Sat", "14", "Issue Tracker maintenance", "2:00 to 4:00 AM"],
+    ["Tue", "17", "Release notes published", "9:00 AM"],
+  ];
+  return (
+    <div className="flex flex-col gap-2">
+      {rows.map(([d, n, t, h]) => (
+        <span key={t} className="flex items-center gap-3">
+          <span className="flex w-9 flex-col items-center rounded-md bg-[color-mix(in_oklab,var(--interactive-default)_12%,var(--surface-raised))] py-1 leading-tight">
+            <span className="text-[10px] text-text-secondary">{d}</span>
+            <span className="text-sm font-semibold text-text-accent">{n}</span>
+          </span>
+          <span className="flex flex-col text-xs">
+            <span className="font-medium text-text-primary">{t}</span>
+            <span className="text-text-tertiary">{h}</span>
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function StepsComponent() {
+  const steps = [
+    ["Choose application", "done"],
+    ["Describe the issue", "done"],
+    ["Review and send", "current"],
+  ] as const;
+  return (
+    <div className="flex flex-col gap-2">
+      {steps.map(([label, state]) => (
+        <span key={label} className="flex items-center gap-2.5 text-xs">
+          <span
+            className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${
+              state === "done" ? "bg-interactive text-interactive-on" : "border-2 border-interactive bg-surface-raised"
+            }`}
+          >
+            {state === "done" ? "✓" : ""}
+          </span>
+          <span className={state === "current" ? "font-medium text-text-primary" : "text-text-secondary"}>{label}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ToastComponent() {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="flex items-center gap-2 rounded-md bg-[color-mix(in_oklab,var(--status-success)_12%,var(--surface-raised))] px-3 py-2 text-xs text-text-primary">
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-status-success text-[9px] text-surface-raised">✓</span>
+        Incident report sent
+      </span>
+      <span className="flex items-center gap-2 rounded-md bg-[color-mix(in_oklab,var(--status-danger)_10%,var(--surface-raised))] px-3 py-2 text-xs text-text-primary">
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-status-danger text-[9px] text-surface-raised">!</span>
+        Something went wrong. Try again.
+      </span>
+    </div>
+  );
+}
+
+function FeedbackComponent() {
+  return (
+    <div className="flex flex-col gap-2.5">
+      <span className="text-xs text-text-secondary">How useful was this page?</span>
+      <span className="flex gap-1.5">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <span
+            key={n}
+            className={`flex h-7 w-7 items-center justify-center rounded-full text-xs ${
+              n === 4 ? "bg-interactive text-interactive-on" : "bg-surface-sunken text-text-secondary"
+            }`}
+          >
+            {n}
+          </span>
+        ))}
+      </span>
+      <span className="h-10 rounded-sm border border-border-default px-2 py-1.5 text-[11px] text-text-tertiary">Anything to add?</span>
+    </div>
+  );
+}
+
+export function MoodBoard() {
+  return (
+    <div
+      role="img"
+      aria-label="A mood board, recreated with invented content and broken down from atoms to components. Atoms: a color set (action blue, up green, notice amber, down red, ink, ground), a type specimen, three buttons, status chips (up, maintenance, down, in progress, draft), a row of icons, and inputs (a search field, checkboxes, a toggle). Components: a maintenance banner and an announcement, an application card with its status, a ring chart of applications up, in maintenance and down, a list of what is coming up, three steps of a request, success and error toasts, and a short feedback form."
+      className="@container h-full w-full"
+    >
+      <div data-scheme="light" className="grid grid-cols-1 gap-3 bg-surface-sunken p-3 sm:p-6 @md:grid-cols-2 @3xl:grid-cols-6">
+        <Tile tier="Atom" name="Color"><ColorAtom /></Tile>
+        <Tile tier="Atom" name="Type" wideOnly><TypeAtom /></Tile>
+        <Tile tier="Atom" name="Buttons"><ButtonAtom /></Tile>
+        <Tile tier="Atom" name="Status"><StatusAtom /></Tile>
+        <Tile tier="Atom" name="Icons" wideOnly><IconAtom /></Tile>
+        <Tile tier="Atom" name="Inputs" wideOnly><InputAtom /></Tile>
+        <Tile tier="Component" name="Banner" span="@md:col-span-2 @3xl:col-span-4"><BannerComponent /></Tile>
+        <Tile tier="Component" name="Toasts" wideOnly><ToastComponent /></Tile>
+        <Tile tier="Component" name="Card"><CardComponent /></Tile>
+        <Tile tier="Component" name="Summary" wideOnly><SummaryComponent /></Tile>
+        <Tile tier="Component" name="Coming up" wideOnly><UpcomingComponent /></Tile>
+        <Tile tier="Component" name="Steps" wideOnly><StepsComponent /></Tile>
+        <Tile tier="Component" name="Feedback"><FeedbackComponent /></Tile>
+        <Tile tier="Component" name="Tabs" wideOnly span="@md:col-span-2 @3xl:col-span-2">
+          <span className="flex gap-4 border-b border-border-subtle text-xs text-text-secondary">
+            <span className="border-b-2 border-interactive pb-1.5 font-medium text-text-primary">All</span>
+            <span className="pb-1.5">Salesforce</span>
+            <span className="pb-1.5">ServiceNow</span>
+            <span className="pb-1.5">React</span>
+          </span>
+          <span className="text-[11px] text-text-tertiary">Showing 16 applications</span>
+        </Tile>
+      </div>
+    </div>
   );
 }

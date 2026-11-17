@@ -9,7 +9,7 @@ import { Figure } from "@/design-system/components/Figure";
 import { StatGrid } from "@/design-system/components/StatGrid";
 import { Tag } from "@/design-system/components/Tag";
 import { CalendarIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
-import { BuildComparison, Ecosystem, HeroSubject, HubMock } from "./diagrams";
+import { BuildComparison, Ecosystem, HeroSubject, HubMock, MoodBoard } from "./diagrams";
 
 export const metadata: Metadata = {
   title: "Sixteen applications, and no way to know when any of them would go down",
@@ -175,13 +175,22 @@ export default function SixteenApplications() {
           id="decision"
           heading="The decision"
           after={
-            <Figure
-              ratio="3/2"
-              recreated
-              caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for and whether it’s up. Drag to compare."
-            >
-              <BuildComparison />
-            </Figure>
+            <>
+              <Figure
+                ratio="auto"
+                recreated
+                caption="The mood board I made the case with, broken down from atoms to components: color, type, buttons, status and inputs, then the banner, card, summary, steps and feedback form built from them. Each was pinned for something the research asked for, and most of it became the hub."
+              >
+                <MoodBoard />
+              </Figure>
+              <Figure
+                ratio="3/2"
+                recreated
+                caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for and whether it’s up. Drag to compare."
+              >
+                <BuildComparison />
+              </Figure>
+            </>
           }
         >
           <p>
