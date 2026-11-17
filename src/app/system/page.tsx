@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Container } from "@/design-system/primitives/Container";
-import { DataTable } from "@/design-system/components/DataTable";
 import { ContrastAudit } from "@/design-system/components/ContrastAudit";
 import { decisions, interactiveRoles, textRoles } from "@/content/system";
 import { StorybookPanel } from "./StorybookPanel";
+import { TokenFlow } from "./TokenFlow";
+import { AtomicLadder } from "./AtomicLadder";
 import { SectionNav } from "@/design-system/components/SectionNav";
 import { Button } from "@/design-system/components/Button";
 import { ArrowRight, StorybookIcon } from "@/design-system/components/Icon";
@@ -20,73 +21,16 @@ export const metadata: Metadata = {
 
 const contents = [
   { id: "tiers", label: "Three tiers" },
+  { id: "atomic", label: "Atoms to pages" },
   { id: "contrast", label: "Contrast, measured" },
   { id: "decisions", label: "Decisions" },
   { id: "components", label: "Components" },
   { id: "source", label: "Read the source" },
 ];
 
-/* The three tiers, told by following one real color through them: the
-   primary button's blue (Alejandro, November 2026). The rows used to describe
-   each tier in the abstract, with "Raw OKLCH ramps" left unexplained and a
-   fourth column with no heading. The example column is what makes it a
-   story: a value, then the role that names it, then the component that asks
-   for the role and never for the value. */
-const swatch = (
-  <span
-    aria-hidden="true"
-    className="mt-0.5 inline-block h-4 w-4 shrink-0 rounded-[4px] border border-border-default bg-interactive"
-  />
-);
-const tierRows = [
-  {
-    key: "primitives",
-    n: "01",
-    name: "Primitives",
-    holds:
-      "Raw colors, with no meaning attached. Written in OKLCH, a color format where equal steps in lightness look equal to the eye, so every ramp darkens evenly.",
-    example: (
-      <span className="flex items-start gap-2">
-        {swatch}
-        <span>
-          <span className="block text-text-primary">--p-blue-600</span>
-          <span className="block">#4e729a</span>
-        </span>
-      </span>
-    ),
-    who: "Only the roles",
-  },
-  {
-    key: "roles",
-    n: "02",
-    name: "Roles",
-    holds:
-      "What a color is for: a raised surface, secondary text, a filled control. A role carries its value for each theme, so a component never asks which theme it is in.",
-    example: (
-      <span className="flex items-start gap-2">
-        {swatch}
-        <span>
-          <span className="block text-text-primary">--interactive-default</span>
-          <span className="block">points to --p-blue-600</span>
-        </span>
-      </span>
-    ),
-    who: "Every component",
-  },
-  {
-    key: "component",
-    n: "03",
-    name: "Component",
-    holds: "A value one component needs that no role gives it, declared beside that component.",
-    example: (
-      <span>
-        None. The primary button asks for <span className="whitespace-nowrap">--interactive-default</span>{" "}
-        directly.
-      </span>
-    ),
-    who: "Only that component",
-  },
-];
+/* The three tiers are drawn by TokenFlow: three real colors followed from
+   the primitive, through the semantic role, to the component (Alejandro,
+   November 2026). It replaced a table that followed one color in words. */
 
 export default function SystemPage() {
   return (
@@ -137,53 +81,70 @@ export default function SystemPage() {
             <SectionHead id="tiers-heading">Three tiers between a color and the screen</SectionHead>
 
             <TextBlock className="mt-8">
-              Every color on this site passes through three tiers on its way to the screen. A raw value becomes a
-              role, and a component only ever asks for the role. That is why a retheme changes the roles once,
-              instead of hunting through components for a stray gray. Follow the primary button&rsquo;s blue down
-              the third column.
+              Every color on this site starts as a raw value, takes on a purpose, and only then reaches a
+              component. A component never asks for the raw value. It asks for the purpose, so a redesign
+              changes the purpose once instead of hunting through every component for a stray gray.
             </TextBlock>
 
-            {/* A table, because the rows are records and the columns are
-                what each record holds, and a column needs a heading to say
-                so. Stacked when there is no room: these are sentences, and
-                prose read through a sideways scroll is read through a
-                letterbox. */}
-            <DataTable
-              className="mt-10"
-              label="The three tiers"
-              layout="stack"
-              align="top"
-              columns={[
-                { label: "Tier", width: "w-40" },
-                { label: "What it holds" },
-                { label: "The button’s blue", width: "w-52" },
-                { label: "Who may use it", width: "w-40" },
-              ]}
-              rows={tierRows.map((t) => ({
-                key: t.key,
-                cells: [
-                  <div key="tier">
-                    <div className="font-label text-xs text-text-tertiary">{t.n}</div>
-                    <div className="mt-1 font-display text-lg text-text-primary">{t.name}</div>
-                  </div>,
-                  <p key="holds" className="text-sm leading-[1.6] text-text-secondary">
-                    {t.holds}
-                  </p>,
-                  <div key="example" className="font-label text-xs leading-[1.6] text-text-tertiary">
-                    {t.example}
-                  </div>,
-                  <p key="who" className="text-sm leading-[1.6] text-text-secondary">
-                    {t.who}
-                  </p>,
-                ],
-              }))}
-            />
+            <div className="mt-10">
+              <TokenFlow />
+            </div>
 
-            {/* The empty third tier, said plainly, because it is the result:
-                no component has needed a value the roles don't give it. */}
+            {/* The component tier of tokens, said plainly, because its being
+                empty is the result: no component has needed a value the
+                semantics don't give it. */}
             <TextBlock className="mt-8">
-              The third tier is empty, and that is the result I wanted: no component has needed a value the roles
-              don&rsquo;t already give it.
+              Switch your theme and the text and surface rows light a different primitive, while the button&rsquo;s
+              blue stays where it is and the components never change. There is room for one more kind of token: a
+              value declared beside a single component, for something no semantic role covers. So far no component
+              has needed one, and that is the result I wanted.
+            </TextBlock>
+            </section>
+
+              {/* Atomic design */}
+            <section id="atomic" className="mt-24" aria-labelledby="atomic-heading">
+            <SectionHead id="atomic-heading">From atoms to pages</SectionHead>
+            <TextBlock className="mt-8">
+              <p>
+                When I first learned design systems, the frame that made them click was{" "}
+                <a
+                  href="https://atomicdesign.bradfrost.com/"
+                  className="text-text-accent underline decoration-1 underline-offset-[3px] hover:decoration-2"
+                >
+                  atomic design
+                </a>
+                , Brad Frost&rsquo;s way of describing an interface as parts that build on one another, from
+                the smallest pieces up to the pages people actually use.
+              </p>
+            </TextBlock>
+            {/* His words, attributed: Alejandro's choice of quote (November
+                2026), from Atomic Design, chapter 2, verified word for word at
+                the source. It defines the method, so the intro above no longer
+                lists the five stages; the graphic below shows them. */}
+            <figure className="mt-10 max-w-measure border-l border-border-rule pl-6">
+              <blockquote className="font-display text-xl leading-[1.45] text-text-primary">
+                <p>
+                  &ldquo;Atomic design is a methodology composed of five distinct stages working together to create
+                  interface design systems in a more deliberate and hierarchical manner.&rdquo;
+                </p>
+              </blockquote>
+              <figcaption className="mt-3 font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                Brad Frost,{" "}
+                <cite className="not-italic">
+                  <a href="https://atomicdesign.bradfrost.com/chapter-2/" className="text-text-accent hover:underline">
+                    Atomic Design
+                  </a>
+                </cite>
+                , 2016
+              </figcaption>
+            </figure>
+            <div className="mt-10">
+              <AtomicLadder />
+            </div>
+            <TextBlock className="mt-8">
+              This site keeps the vocabulary rather than the folders. Its components are not filed as atoms or
+              molecules, because the same card can be a whole section in one place and a small part in another.
+              The names are for talking about how the pieces fit, not for sorting them.
             </TextBlock>
             </section>
 
