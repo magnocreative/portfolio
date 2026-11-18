@@ -101,9 +101,16 @@ const css = `
 .sheet .lede{display:flex;flex-direction:column;gap:5.2pt;font-size:8.3pt;line-height:1.6}
 .sheet .orghead{display:flex;align-items:center;gap:6.9pt;break-after:avoid}
 .sheet .logo{width:17.2pt;height:17.2pt;flex:none}
+/* With the location under the name, the logo spans the two lines: 18.2pt runs
+   from the name's cap line to the location's baseline, and centering lands it
+   there (Alejandro, November 2026). */
+.l-rail .orghead .logo{width:18.2pt;height:18.2pt}
 .sheet .orgname{font-size:10.8pt;font-weight:600;letter-spacing:-.01em;line-height:1.2;color:var(--text-primary)}
 .sheet .org{break-inside:avoid}
 .sheet .org+.org{margin-top:11.2pt}
+/* More air between employers than between roles (12pt), so each employer
+   reads as its own block (Alejandro, November 2026). */
+.l-rail .org+.org{margin-top:20.6pt}
 .sheet .role{margin-top:6.9pt}
 .sheet .role+.role{margin-top:12pt}
 .sheet .rolehead{display:flex;justify-content:space-between;align-items:baseline;gap:10.3pt;break-after:avoid}
