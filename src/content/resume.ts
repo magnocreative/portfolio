@@ -127,7 +127,7 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Tools",
-    items: ["Figma", "FigJam", "VS Code", "Storybook", "Salesforce Lightning Design System", "Jira", "Adobe Creative Suite"],
+    items: ["Figma", "FigJam", "VS Code", "Claude Code", "Storybook", "Salesforce Lightning Design System", "Jira", "Adobe Creative Suite"],
   },
 ];
 

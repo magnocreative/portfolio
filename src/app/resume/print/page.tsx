@@ -131,7 +131,7 @@ const css = `
 .l-classic .sec>.label{display:flex;align-items:center;gap:8.6pt;margin-bottom:8.6pt}
 .l-classic .sec>.label::after{content:"";flex:1;border-top:.75pt solid var(--border-subtle)}
 .l-classic .orghead,.l-classic .edu{margin-left:-24.1pt}
-.l-classic .orgloc{margin-left:auto}
+.l-classic .orgloc{display:block;margin-top:.9pt}
 .l-classic .rolehead{padding-bottom:3.4pt;border-bottom:.75pt solid var(--border-subtle)}
 .l-classic .skills{display:grid;grid-template-columns:101.5pt 1fr;row-gap:5.2pt;column-gap:10.3pt}
 .l-classic .skills dt{font-weight:500;color:var(--text-primary)}
@@ -158,7 +158,9 @@ const css = `
 .l-rail .sec{display:grid;grid-template-columns:80.5pt 1fr;column-gap:13.8pt;margin-top:13.8pt}
 .l-rail .sec>.label{padding-top:1.7pt}
 .l-rail .sec.profile{margin-top:12pt}
-.l-rail .orgloc{margin-left:auto}
+/* The location sits under the employer's name, so the right edge carries
+   only dates and reads as one timeline (Alejandro, November 2026). */
+.l-rail .orgloc{display:block;margin-top:.9pt}
 .l-rail .rolehead{padding-bottom:2.6pt;border-bottom:.75pt solid var(--border-subtle)}
 .l-rail .sec+.sec{padding-top:12pt;border-top:.75pt solid var(--border-subtle)}
 .l-rail .skills{display:grid;grid-template-columns:94.6pt 1fr;row-gap:5.2pt;column-gap:10.3pt}
@@ -451,7 +453,7 @@ export default async function ResumePrint({
           </Section>
         )}
         <Section label="Experience">
-          <Experience />
+          <Experience locationUnder />
         </Section>
         <Section label="Skills">
           <Skills />

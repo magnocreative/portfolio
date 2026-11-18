@@ -139,7 +139,7 @@ export default function SystemCaseStudy() {
             { key: "Role", value: "Designer and engineer, solo", icon: RoleIcon },
             { key: "Period", value: "2026", icon: CalendarIcon },
             { key: "Scope", value: "Tokens, components, Figma library, documentation", icon: ScopeIcon },
-            { key: "Stack", value: "Next.js, Tailwind CSS, Figma variables", icon: CodeIcon },
+            { key: "Stack", value: "Next.js, Tailwind CSS, Figma variables, Claude Code", icon: CodeIcon },
           ]}
         />
       }
@@ -245,6 +245,11 @@ export default function SystemCaseStudy() {
             Designer and engineer, solo. I designed the tokens, components and documentation, built them in
             code and in Figma, and wrote every page that explains them. No engineer or designer reviewed the
             work, which is why the structure itself has to enforce the rules.
+          </p>
+          <p>
+            I built it with Claude Code, an AI coding agent, in a version-controlled repository. I set the
+            direction, made the design decisions and reviewed every change; the agent wrote much of the code
+            with me.
           </p>
         </CaseStudyBeat>
       </CaseStudyPart>
