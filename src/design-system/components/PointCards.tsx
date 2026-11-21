@@ -96,7 +96,9 @@ export function PointCards({
             {/* Text in a paragraph; anything else (a list of chips) in a
                 block, since a paragraph cannot hold a list. */}
             {typeof body === "string" ? (
-              <p className="mt-2 text-base leading-[1.65] text-text-secondary">{body}</p>
+              /* text-wrap: pretty, so a last word never sits alone on its line,
+                 as in figure captions (Alejandro, November 2026) */
+              <p className="mt-2 text-base leading-[1.65] text-pretty text-text-secondary">{body}</p>
             ) : (
               <div className="mt-4">{body}</div>
             )}

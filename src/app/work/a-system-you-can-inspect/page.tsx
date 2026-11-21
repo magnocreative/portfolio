@@ -26,6 +26,7 @@ import navigationTop from "@/assets/evidence/navigation-top.png";
 import buttonSheetLight from "@/assets/evidence/button-sheet-light.png";
 import buttonSheetDark from "@/assets/evidence/button-sheet-dark.png";
 import figmaTextVariables from "@/assets/evidence/figma-text-variables.png";
+import { Logo } from "@/design-system/brand/Logo";
 import { CodeBlock } from "@/design-system/components/CodeBlock";
 import { ContrastAudit } from "@/design-system/components/ContrastAudit";
 import { textRoles } from "@/content/system";
@@ -35,6 +36,7 @@ import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
 import { systemCounts } from "@/content/system-counts";
 import { PointCards } from "@/design-system/components/PointCards";
+import { LogoRoughs, LogoSketches } from "./logo";
 
 export const metadata: Metadata = {
   title: "A system you can inspect",
@@ -77,6 +79,7 @@ const contents = [
     id: "how",
     label: "How I got there",
     children: [
+      { id: "mark", label: "It starts with the mark" },
       { id: "constraint", label: "The constraint" },
       { id: "decision", label: "The decision" },
       { id: "argument", label: "The argument I lost" },
@@ -140,7 +143,7 @@ export default function SystemCaseStudy() {
           status={<Tag tone="live">Live on this site</Tag>}
           /* The counterpart to the GRC study's disclosure: nothing here is
              recreated (Alejandro, November 2026) */
-          note="Every picture here is this site or its Figma library, and the contrast table runs live in your browser."
+          note="Every picture here is this site, its Figma library or my own sketches, and the contrast table runs live in your browser."
           org={
             <>
               <MagnoLogo mono className="-my-1 h-8 w-8 shrink-0" />
@@ -269,6 +272,131 @@ export default function SystemCaseStudy() {
       </CaseStudyPart>
 
       <CaseStudyPart id="how" eyebrow="Part two" title="How I got there" className="mt-28">
+        {/* Where the system starts (Alejandro, November 2026: tell how the
+            logo was made). His own sketches and roughs, from his earlier
+            portfolio; the story is his account. It ends where the decision
+            picks up: the mark's two blues are the first tokens. */}
+        <CaseStudyBeat
+          id="mark"
+          heading="It starts with the mark"
+          after={
+            <>
+              <Figure
+                ratio="auto"
+                bare
+                caption="Nine of the first sketches: my initials, tried as blocks, scripts and triangles. Select any sketch to see it larger."
+              >
+                <LogoSketches />
+              </Figure>
+              <Figure
+                ratio="auto"
+                bare
+                caption="The digital roughs, in the order I made them: mountains, then an M of two peaks, then pencil tips, then the two blue peaks that became the mark."
+              >
+                <LogoRoughs />
+              </Figure>
+            {/* The end of the mark's story and the start of the system's
+                (Alejandro, November 2026: give the mark a prominent presence,
+                annotated, then the tokens after). The mark large and drawn
+                live from the site's artwork, each peak labeled with its token
+                and value; under it, each token on to the role it fills and,
+                for the deep peak, the button it paints. Page code, so it may
+                show the primitives by name. */}
+            <Figure
+              ratio="auto"
+              caption="The final mark, and its two peaks as tokens: the deep one is the blue of every button, link and focus ring on this site."
+            >
+              <div
+                role="img"
+                aria-label="The final MagnoCreative mark, two blue mountains forming an M, shown large. The deep peak, on the left, is the token blue/600, hex 4E729A; the light peak, on the right, is blue/400, hex 80A2C4. Into the system: blue/600 fills the role interactive/default, the color of a button; blue/400 fills mark/light."
+                className="flex flex-col gap-8 p-6 sm:p-10"
+              >
+                {/* The mark, annotated: a leader from each side to its peak */}
+                <span className="grid grid-cols-2 items-center gap-x-4 gap-y-6 sm:grid-cols-[1fr_auto_1fr] sm:gap-x-0">
+                  <span className="col-span-2 flex justify-center sm:order-2 sm:col-span-1">
+                    <Logo className="h-36 w-auto sm:h-44" title="" />
+                  </span>
+                  {(
+                    [
+                      ["--p-blue-600", "Deep peak", "blue/600", "#4E729A", "left"],
+                      ["--p-blue-400", "Light peak", "blue/400", "#80A2C4", "right"],
+                    ] as const
+                  ).map(([v, peak, name, hex, side]) => (
+                    <span
+                      key={name}
+                      className={`flex items-center gap-3 ${
+                        side === "left" ? "sm:order-1 sm:flex-row-reverse sm:text-right" : "sm:order-3"
+                      }`}
+                    >
+                      <span aria-hidden="true" className="hidden h-px flex-1 bg-border-strong sm:block" />
+                      <span aria-hidden="true" className="hidden h-2 w-2 shrink-0 rounded-full bg-border-strong sm:block" />
+                      <span className={`flex flex-col gap-1.5 ${side === "left" ? "sm:items-end" : ""}`}>
+                        <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">{peak}</span>
+                        <span className={`flex items-center gap-2 ${side === "left" ? "sm:flex-row-reverse" : ""}`}>
+                          <span className="h-6 w-6 shrink-0 rounded-sm" style={{ background: `var(${v})` }} />
+                          <span className="text-sm font-medium text-text-primary">{name}</span>
+                        </span>
+                        <span className="font-label text-xs text-text-tertiary">{hex}</span>
+                      </span>
+                    </span>
+                  ))}
+                </span>
+
+                {/* Then into the system: each token on to the role it fills */}
+                <span className="flex flex-col gap-3 border-t border-border-subtle pt-6">
+                  <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
+                    Into the system
+                  </span>
+                  {(
+                    [
+                      ["--p-blue-600", "blue/600", "interactive/default", true],
+                      ["--p-blue-400", "blue/400", "mark/light", false],
+                    ] as const
+                  ).map(([v, name, role, button]) => (
+                    <span key={name} className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                      <span className="h-5 w-5 shrink-0 rounded-sm" style={{ background: `var(${v})` }} />
+                      <span className="text-sm font-medium text-text-primary">{name}</span>
+                      <ArrowRight className="h-4 w-4 shrink-0 text-text-tertiary" />
+                      <span className="rounded-sm border border-border-subtle bg-surface-raised px-2.5 py-1 text-sm text-text-primary">
+                        {role}
+                      </span>
+                      {/* The button sample from a tablet up; on a phone the row
+                          would wrap it onto a line of its own */}
+                      {button && (
+                        <span className="hidden items-center gap-3 sm:flex">
+                          <ArrowRight className="h-4 w-4 shrink-0 text-text-tertiary" />
+                          <Button specimen variant="primary" fillOnPhone={false}>
+                            Button
+                          </Button>
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            </Figure>
+            </>
+          }
+        >
+          <p>
+            Before the system had a token, it had a mark. I drew it for myself, and I started where
+            most personal marks start: with my initials. A page of AF monograms tried every way to join
+            the two letters, and none of them said anything about who I am.
+          </p>
+          <p>
+            So I turned to my middle name, Magno, which I almost never use. That is what made it feel
+            right for a mark of my own. Magno means great, and mountains fit it, as they fit where I am
+            from, the Pacific Northwest. In the digital roughs the mountains became two peaks forming an
+            M, and each peak became a pencil tip, for the creative work, with the tip reading as snow.
+          </p>
+          <p>
+            The final mark is two blue peaks, and those two blues are where the system starts. The deep
+            peak is blue 600, the color of every button, link and focus ring on this site, and the
+            lighter peak is blue 400. The mark sits in the system as two tokens, not as an image beside
+            it.
+          </p>
+        </CaseStudyBeat>
+
         <CaseStudyBeat
           id="constraint"
           heading="The constraint"
@@ -291,7 +419,7 @@ export default function SystemCaseStudy() {
                 {
                   icon: HandoffIcon,
                   title: "Both sides of the handoff",
-                  body: "I designed it and I built it. With no engineer or designer to catch a shortcut, the structure itself had to enforce the rules.",
+                  body: "I designed it and directed the build, with an AI coding agent. With no engineer or designer to review it, the structure itself had to enforce the rules.",
                 },
               ]}
             />

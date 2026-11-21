@@ -75,7 +75,7 @@ export function Figure({
           controls (Alejandro, November 2026: the tag and Reset together
           crowded the right of the caption) */}
       <div
-        className={`relative w-full ${bare ? "" : "overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken"} ${children ? "col-span-full" : ""}`}
+        className={`relative w-full ${bare ? "" : "overflow-hidden rounded-sm border border-border-default bg-surface-inset"} ${children ? "col-span-full" : ""}`}
         style={{ aspectRatio: ratio }}
       >
         {children ? (

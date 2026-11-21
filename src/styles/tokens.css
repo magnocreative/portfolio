@@ -147,6 +147,12 @@
      slate-1000 rather than up. Hand-authored because the ramp bottoms out at
      the page itself. */
   --surface-sunken: light-dark(var(--p-paper-50), oklch(13.8% 0.038 254));
+  /* The ground of a figure: a picture, a diagram or a live table set into the
+     page. Sunken was a step too close to the page in light (95.6% on 97.2%),
+     and framed figures faded into it (Alejandro, November 2026), so light
+     takes one more step, paper-100. Tertiary labels inside still read 5.17:1.
+     Dark keeps sunken's value, where the frame already held. */
+  --surface-inset: light-dark(var(--p-paper-100), oklch(13.8% 0.038 254));
   --surface-inverse: light-dark(var(--p-paper-950), var(--p-slate-100));
 
   /* Text, ordered by emphasis. Dark-mode body text stops at slate-100 rather
@@ -375,6 +381,7 @@
   --color-surface-page: var(--surface-page);
   --color-surface-raised: var(--surface-raised);
   --color-surface-sunken: var(--surface-sunken);
+  --color-surface-inset: var(--surface-inset);
   --color-surface-inverse: var(--surface-inverse);
 
   --color-text-primary: var(--text-primary);

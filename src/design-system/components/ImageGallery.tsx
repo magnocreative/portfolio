@@ -121,7 +121,7 @@ export function ImageGallery({
               <span
                 data-scheme="light"
                 className={[
-                  "relative block w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-raised",
+                  "relative block w-full overflow-hidden rounded-sm border border-border-default bg-surface-raised",
                   // Hover and keyboard focus say "this opens": a 2px edge in
                   // the interactive blue, and the thumbnail lifts 4px onto a
                   // soft shadow (Alejandro, November 2026). A 1px tint of the
