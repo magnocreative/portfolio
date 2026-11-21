@@ -37,7 +37,7 @@ export default function Work() {
           type="subhero"
           eyebrow="Work"
           title="Each of these is a decision, not a project."
-          lede="The screens I design belong to the companies that paid for them, so you will not find them here. What you will find is the story behind each one: the call I made, what it cost, and what happened next. The products stay unnamed; the employers and the outcomes do not."
+          lede="The screens I design belong to the companies that paid for them, so every screen here is recreated with invented content. What you will find is the story behind each one: the call I made, what it cost, and what happened next."
         />
       </Container>
 

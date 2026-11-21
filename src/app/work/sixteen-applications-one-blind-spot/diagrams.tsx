@@ -236,7 +236,7 @@ export function HubMock() {
       aria-label="The hub's home, recreated with invented content, in a browser window. A dark bar with Home, Feedback, notifications and an avatar. Three banners across the top announce maintenance, issues and updates, each with Read More. A welcome column holds application roles, resources and newsletter announcements. Then recently viewed applications, the applications the person can open, each with a line on what it is for, View Details and Launch, and, in gray with Request Access, the ones they would have to request."
       className="h-full w-full p-3 sm:p-6"
     >
-      <RecreatedScreen address="hub.example/home" tab="Hub" width={1100}>
+      <RecreatedScreen address="grcconnect.example/home" tab="GRC Connect" width={1100}>
         <div style={REAL_SKIN} className="bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
           <RealHome />
         </div>
@@ -358,17 +358,17 @@ export function BuildComparison() {
       }}
       after={{
         node: (
-          /* The accurate home, the same one as in From sketch to screen,
-             drawn at the same width as the list so the two line up under
-             the divider (Alejandro, November 2026) */
-          <RecreatedScreen address="hub.example/home" tab="Hub" width={1100}>
+          /* The refined high fidelity dashboard, the same one as in the
+             gallery, drawn at the list's width so the two line up
+             (Alejandro, November 2026) */
+          <RecreatedScreen address="grcconnect.example/dashboard" tab="GRC Connect" width={1100}>
             <div style={REAL_SKIN} className="min-h-[800px] bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
-              <RealHome />
+              <RedesignDashboard />
             </div>
           </RecreatedScreen>
         ),
-        label: "What we built",
-        alt: "The hub as built, recreated with invented content: maintenance, issue and update banners across the top, a welcome column with resources, recently viewed applications, then the applications the person can open, each with a line on what it is for, View Details and Launch.",
+        label: "Custom build",
+        alt: "The custom build, in its refined high fidelity form, recreated with invented content: search in the bar, one status line for issues, maintenance and updates, and the person's applications as cards that each say what the application is for, with status on the affected ones and Launch, each card opening its details, then the applications they could request.",
       }}
     />
   );
@@ -863,7 +863,7 @@ function WireTopBar({ active = "Home" }: { active?: string }) {
   return (
     <div className="flex items-center gap-3 px-6 py-3" style={{ background: ink }}>
       <span className="h-4 w-4 rounded-[2px] bg-surface-raised" />
-      <span className="font-label text-sm font-semibold uppercase tracking-[0.14em] text-surface-raised">Hub</span>
+      <span className="font-label text-sm font-semibold uppercase tracking-[0.14em] text-surface-raised">GRC Connect</span>
       <span className="ml-auto flex items-center gap-6 text-xs font-medium text-surface-raised">
         {["Home", "Feedback"].map((t) => (
           <span key={t} className={t === active ? "border-b-2 border-surface-raised pb-0.5" : "pb-0.5 opacity-70"}>
@@ -989,7 +989,7 @@ function WireHomeSide() {
   return (
     <div className="flex">
       <div className="flex w-44 shrink-0 flex-col items-center gap-3 px-4 py-5 text-surface-raised" style={{ background: ink }}>
-        <span className="font-label text-xs font-semibold uppercase tracking-[0.14em]">Hub</span>
+        <span className="font-label text-xs font-semibold uppercase tracking-[0.14em]">GRC Connect</span>
         <span className="mt-3">
           <WireAvatar size="h-14 w-14" />
         </span>
@@ -1483,7 +1483,9 @@ function RealBar({ active = "Home" }: { active?: string }) {
           <span className="rounded-[1px] bg-[var(--hub-on-bar)] opacity-60" />
           <span className="rounded-[1px] bg-[var(--hub-on-bar)]" />
         </span>
-        <span className="text-[15px] font-semibold uppercase tracking-[0.08em]">Hub</span>
+        <span className="text-[15px] uppercase tracking-[0.08em]">
+          <b className="font-bold">GRC</b> Connect
+        </span>
       </span>
       <span className="ml-auto flex items-center gap-7 self-stretch text-[12px]">
         {["Home", "Feedback"].map((n) => (
@@ -1685,414 +1687,48 @@ function RealHome() {
   );
 }
 
-/* One application's details, in a modal over the dimmed home */
-function RealDetails() {
-  const item = (k: string, v: ReactNode) => (
-    <span className="flex flex-col gap-0.5">
-      <span className="text-[11px] font-semibold text-text-primary">{k}</span>
-      <span className="text-[11px] text-text-secondary">{v}</span>
-    </span>
-  );
-  return (
-    <div className="relative">
-      <RealHome />
-      <div className="absolute inset-0 flex justify-center bg-[oklch(20%_0.02_256/0.62)] pt-14">
-        <div className="h-fit w-[560px] rounded-[3px] bg-surface-raised shadow-[0_18px_48px_oklch(0%_0_0/0.3)]">
-          <div className="flex items-center justify-between px-5 pt-4 pb-3">
-            <span className="text-[16px] font-medium text-text-primary">Policy Library (PL)</span>
-            <span className="text-text-primary">
-              <RIcon i="close" className="h-4 w-4" />
-            </span>
-          </div>
-          <div className="flex flex-col gap-2.5 bg-[var(--real-off)] px-5 py-3 text-[11px]">
-            <span className="flex items-start gap-3">
-              <Pill tone="plain">Maintenance</Pill>
-              <span className="flex flex-col">
-                <span className="text-text-primary">10-30-22 (6:00 PM to 8:00 PM)</span>
-                <span className="text-text-secondary">System will be down for changes during evening times (US CST).</span>
-              </span>
-            </span>
-            <span className="flex items-start gap-3">
-              <Pill tone="green">Update</Pill>
-              <span className="flex flex-col">
-                <span className="text-text-primary">New Search Filters</span>
-                <span className="text-text-secondary">Search now filters policies by business area.</span>
-              </span>
-            </span>
-          </div>
-          <div className="grid grid-cols-[180px_1fr] gap-x-6 px-5 pt-4 pb-8">
-            <span className="flex flex-col gap-3">
-              {item("Your Access", "Editor, Compliance Analyst")}
-              {item("Application Owner", "Riley Morgan (Technology)")}
-              {item("Business Owner", "Sam Ortiz (Policy Office)")}
-              {item("Application Category", "Governance")}
-            </span>
-            {item(
-              "Application Description",
-              <span className="flex flex-col gap-2">
-                <span>
-                  Centralized location to find, cite and attest to the current policies and standards across the
-                  organization. Every policy shows its owner, its last review and the controls that rely on it.
-                </span>
-                <span>{LOREM}</span>
-              </span>,
-            )}
-          </div>
-          <div className="flex items-center gap-2 px-5 pb-4">
-            <span className={`rounded-[3px] border border-[var(--real-action)] px-3 py-1.5 text-[11px] ${link}`}>Documentation</span>
-            <span className={`grid h-[27px] w-8 place-items-center rounded-[3px] border border-[var(--real-action)] ${link}`}>
-              <RIcon i="more" />
-            </span>
-            <span className="ml-auto rounded-[3px] bg-[var(--real-action)] px-4 py-1.5 text-[11px] font-semibold text-white">Launch App</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* Above the page's title, where a breadcrumb sits, so where you came from
-   reads before where you are (Alejandro, November 2026; the real set had it
-   under the title). */
-function BackLink({ to }: { to: string }) {
-  return (
-    <span className={`flex items-center gap-0.5 text-[11px] ${link}`}>
-      <RIcon i="left" className="-ml-1 h-3 w-3" />
-      Go back to {to}
-    </span>
-  );
-}
-
-function Check({ on = false }: { on?: boolean }) {
-  return (
-    <span className={`grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[2px] border ${on ? "border-text-primary" : "border-[var(--real-line)]"}`}>
-      {on && (
-        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2.5 6.2 5 8.5l4.5-5" />
-        </svg>
-      )}
-    </span>
-  );
-}
-
-/* Notifications: search and filter by application; alerts grouped by kind */
-function RealNotifications() {
-  const groups: [string, "plain" | "red" | "green", [string, string][]][] = [
-    ["Maintenance (3)", "plain", [["IT: 10-29-22 (2:00 AM to 4:00 AM)", LOREM_SHORT], ["PL: 10-30-22 (6:00 PM to 8:00 PM)", LOREM_SHORT], ["CT: 11-01-22 (9:00 PM to 11:00 PM)", LOREM_SHORT]]],
-    ["Issues (2)", "red", [["RA: Scores are slow to load", LOREM_SHORT], ["IR: Attachments fail to upload", LOREM_SHORT]]],
-    ["Updates (2)", "green", [["PL: Search filters by business area", LOREM_SHORT], ["CT: Export results to a spreadsheet", LOREM_SHORT]]],
-  ];
-  return (
-    <>
-      <RealBar />
-      <div className="flex flex-col gap-1.5 px-24 pt-6 pb-10">
-        <BackLink to="Home" />
-        <span className="text-[17px] font-medium text-text-primary">Notifications</span>
-        <div className="mt-4 flex items-start gap-4">
-          <span className="flex w-[220px] shrink-0 flex-col gap-2.5">
-            <span className="flex items-center gap-2 rounded-[3px] border border-[var(--real-line)] px-2.5 py-1.5 text-[11px] text-text-tertiary">
-              <Glyph d="search" className="h-3.5 w-3.5" />
-              Search Notifications
-            </span>
-            <span className={`flex flex-col gap-2 rounded-[3px] border border-[var(--real-line)] bg-surface-raised p-3 text-[11px] ${cardShadow}`}>
-              <span className="font-semibold text-text-primary">Filter Notifications</span>
-              <span className="flex items-center gap-2 text-text-primary">
-                <Check on />
-                Show All
-              </span>
-              <span className="border-t border-[var(--real-line)]" />
-              {HOME_MINE.map(([n]) => (
-                <span key={n} className="flex items-center gap-2 pl-2 text-text-secondary">
-                  <Check />
-                  {n}
-                </span>
-              ))}
-              <span className="mt-1 rounded-[3px] bg-[var(--real-off)] py-1.5 text-center font-semibold text-text-secondary">Make Selection to Apply Filter</span>
-            </span>
-          </span>
-          <span className="flex min-w-0 flex-1 flex-col">
-            <span className="flex text-[11px]">
-              <span className={`rounded-t-[3px] border-x border-t-2 border-[var(--real-line)] border-t-[var(--real-action)] bg-surface-raised px-3 py-1.5 ${link}`}>Active (7)</span>
-              <span className="border-b border-[var(--real-line)] px-3 py-1.5 text-text-primary">Past Updates (22)</span>
-              <span className="flex-1 border-b border-[var(--real-line)]" />
-            </span>
-            <span className={`flex flex-col border-x border-b border-[var(--real-line)] bg-surface-raised text-[11px] ${cardShadow}`}>
-              <span className={`px-3 py-2 ${link}`}>Expand All | Close All</span>
-              {groups.map(([g, tone, rows]) => (
-                <span key={g} className="flex flex-col">
-                  <span className="flex items-center gap-2 border-t border-[var(--real-line)] bg-[var(--real-off)] px-3 py-1.5">
-                    <span className="text-text-primary">
-                      <RIcon i="up" />
-                    </span>
-                    <Pill tone={tone}>{g}</Pill>
-                  </span>
-                  {rows.map(([h, t]) => (
-                    <span key={h} className="flex flex-col gap-0.5 border-t border-[var(--real-line)] px-3 py-2">
-                      <span className="font-semibold text-text-primary">{h}</span>
-                      <span className="text-text-secondary">{t}</span>
-                    </span>
-                  ))}
-                </span>
-              ))}
-            </span>
-          </span>
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* The feedback log: what a person has sent, and where it stands */
-function RealFeedbackLog() {
-  return (
-    <>
-      <RealBar active="Feedback" />
-      <div className="flex flex-col gap-0.5 px-24 pt-6 pb-10">
-        <span className="flex items-end">
-          <span className="flex flex-col gap-1.5">
-            <BackLink to="Home" />
-            <span className="text-[17px] font-medium text-text-primary">Feedback Log</span>
-          </span>
-          <span className="ml-auto flex items-center gap-4 text-[11px]">
-            <span className={`flex items-center gap-1.5 ${link}`}>
-              <svg viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M10 3.5v9m-4-4 4 4 4-4M4 16.5h12" />
-              </svg>
-              Download Data
-            </span>
-            <span className={`rounded-[3px] border border-[var(--real-action)] px-4 py-1.5 font-semibold ${link}`}>Add New</span>
-          </span>
-        </span>
-        <span className={`mt-4 flex flex-col rounded-[3px] border border-[var(--real-line)] bg-surface-raised text-[11px] ${cardShadow}`}>
-          <span className="px-3 py-2 text-text-secondary">2 item(s) · Updated 5 minutes ago</span>
-          <span className="grid grid-cols-[2.5rem_8rem_1fr_14rem] items-center border-y border-[var(--real-line)] bg-[var(--real-off)] px-3 py-2 font-semibold text-text-primary">
-            <Check />
-            <span>ID</span>
-            <span>Date Created</span>
-            <span>Status</span>
-          </span>
-          {[
-            ["0001", "4 hours ago", "Acknowledged"],
-            ["0002", "10-26-2022", "Draft"],
-          ].map(([id, d, st]) => (
-            <span key={id} className="grid grid-cols-[2.5rem_8rem_1fr_14rem] items-center border-b border-[var(--real-line)] px-3 py-2.5 text-text-primary last:border-b-0">
-              <Check />
-              <span>{id}</span>
-              <span>{d}</span>
-              <span className={st === "Acknowledged" ? `flex items-center gap-1.5 ${link}` : ""}>
-                {st}
-                {st === "Acknowledged" && <RIcon i="comment" className="h-4 w-4" />}
-              </span>
-            </span>
-          ))}
-        </span>
-      </div>
-    </>
-  );
-}
-
-const STEPS = ["General Questions", "Application Satisfaction", "Tool Usage", "Additional Comments"];
-
-function Radio({ on = false }: { on?: boolean }) {
-  return (
-    <span className="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-full border border-text-secondary">
-      {on && <span className="h-2 w-2 rounded-full bg-text-primary" />}
-    </span>
-  );
-}
-
-function FormShell({ current, errors = false, children }: { current: number; errors?: boolean; children: ReactNode }) {
-  const errorDot = (
-    <RIcon i="error" className="h-4 w-4" />
-  );
-  return (
-    <>
-      <RealBar active="Feedback" />
-      <div className="flex flex-col gap-1.5 px-24 pt-6 pb-10">
-        <BackLink to="Feedback Log" />
-        <span className="text-[17px] font-medium text-text-primary">User Feedback Form</span>
-        <div className="mt-4 flex items-start gap-4">
-          <span className={`flex w-[230px] shrink-0 flex-col gap-3 rounded-[3px] border border-[var(--real-line)] bg-surface-raised p-3 text-[11px] ${cardShadow}`}>
-            <span className="text-text-secondary">Please complete the following sections:</span>
-            <span className="flex flex-col rounded-[3px] border border-[var(--real-line)]">
-              {STEPS.map((st, i) => (
-                <span
-                  key={st}
-                  className={`flex items-center gap-2 border-l-[3px] px-2.5 py-2 ${i > 0 ? "border-t border-t-[var(--real-line)]" : ""} ${
-                    i === current ? "border-l-[var(--real-action)] bg-[var(--real-off)] text-text-primary" : `border-l-transparent ${link}`
-                  }`}
-                >
-                  {i + 1}) {st}
-                  {errors && i < 2 && <span className="ml-auto">{errorDot}</span>}
-                </span>
-              ))}
-            </span>
-            <span className="grid grid-cols-2 gap-2">
-              <span className={`flex items-center justify-center gap-0.5 rounded-[3px] border border-[var(--real-action)] py-1.5 ${link}`}>
-                <RIcon i="left" className="h-3 w-3" />
-                Previous
-              </span>
-              <span
-                className={`flex items-center justify-center gap-0.5 rounded-[3px] py-1.5 font-semibold ${
-                  errors ? "bg-[var(--real-off)] text-text-tertiary" : "bg-[var(--real-action)] text-white"
-                }`}
-              >
-                Next
-                <RIcon i="right" className="h-3 w-3" />
-              </span>
-            </span>
-            <span className={`rounded-[3px] border border-[var(--real-action)] py-1.5 text-center ${link}`}>Save for Later</span>
-            {errors && (
-              <>
-                <span className="flex items-center gap-2 rounded-[3px] bg-[color-mix(in_oklab,var(--real-red)_14%,white)] px-2.5 py-2 text-text-primary">
-                  {errorDot}
-                  <span>
-                    To continue, <span className={`underline ${link}`}>fix four errors</span>
-                  </span>
-                </span>
-                <span className="rounded-[3px] bg-[var(--real-action)] py-1.5 text-center font-semibold text-white">Submit</span>
-              </>
-            )}
-          </span>
-          <span className={`flex min-w-0 flex-1 flex-col gap-3.5 rounded-[3px] border border-[var(--real-line)] bg-surface-raised p-4 text-[11px] text-text-primary ${cardShadow}`}>
-            {children}
-          </span>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function RealFormToolUsage() {
-  const cols = ["Very dissatisfied", "Dissatisfied", "Neither satisfied nor dissatisfied", "Satisfied", "Very satisfied"];
-  return (
-    <FormShell current={2}>
-      <span className="text-[14px] font-medium">Tool Usage</span>
-      <span className="flex flex-col gap-2">
-        <span className="font-semibold">How often do you use the selected application?</span>
-        {["Less than once a month", "Once a month", "More than once a month", "Once a week", "Several times a week"].map((o) => (
-          <span key={o} className="flex items-center gap-2 text-text-secondary">
-            <Radio on={o === "Once a week"} />
-            {o}
-          </span>
-        ))}
-      </span>
-      <span className="flex flex-col gap-2">
-        <span className="font-semibold">How often has the selected application been unavailable to you?</span>
-        {["Once a month", "Once a week", "More than once a week", "Never, it has always been available when I need it"].map((o, i) => (
-          <span key={o} className="flex items-center gap-2 text-text-secondary">
-            <Radio on={i === 3} />
-            {o}
-          </span>
-        ))}
-      </span>
-      <span className="flex flex-col gap-2">
-        <span className="font-semibold">How satisfied are you with the following tool readiness activities?</span>
-        <span className="grid grid-cols-[9rem_repeat(5,1fr)] items-center gap-y-2.5 text-text-secondary">
-          <span />
-          {cols.map((c) => (
-            <span key={c} className="px-1 text-center text-[10px] leading-tight">
-              {c}
-            </span>
-          ))}
-          {["Training provided", "Tool demos", "Communications", "No training required"].map((r, ri) => (
-            <span key={r} className="contents">
-              <span>{r}</span>
-              {cols.map((c, ci) => (
-                <span key={c} className="flex justify-center">
-                  <Radio on={ri < 3 && ci === [3, 4, 3][ri]} />
-                </span>
-              ))}
-            </span>
-          ))}
-        </span>
-      </span>
-    </FormShell>
-  );
-}
-
-function RealFormErrors() {
-  const required = (
-    <span className="flex items-center gap-1.5 text-[var(--real-red)]">
-      <RIcon i="error" />
-      Response is required
-    </span>
-  );
-  const select = (label: string) => (
-    <span className="flex flex-col gap-1.5">
-      <span className="font-semibold">{label}</span>
-      <span className="flex w-52 items-center justify-between rounded-[3px] border-2 border-[var(--real-red)] px-2 py-1 text-text-tertiary">
-        <span />
-        <span className="flex items-center self-stretch border-l border-[var(--real-line)] pl-1.5 text-text-primary">
-          <RIcon i="down" />
-        </span>
-      </span>
-      {required}
-    </span>
-  );
-  return (
-    <FormShell current={0} errors>
-      <span className="text-[14px] font-medium">General Questions</span>
-      {select("Select your role")}
-      {select("Select an application")}
-      <span className="flex flex-col gap-1.5">
-        <span className="font-semibold">How well does the selected application help you do your role?</span>
-        <span className="text-text-secondary">Scale: 1 = Not well at all, 5 = Extremely well</span>
-        <span className="flex gap-2">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <span key={n} className="grid h-7 w-14 place-items-center rounded-[3px] border-2 border-[var(--real-red)]">
-              {n}
-            </span>
-          ))}
-        </span>
-        {required}
-      </span>
-    </FormShell>
-  );
-}
-
 const HIFI: { label: string; alt: string; address: string; tab: string; screen: ReactNode }[] = [
   {
-    label: "Home",
-    address: "hub.example/home",
-    tab: "Hub",
-    alt: "The home: a dark bar with Home, Feedback, notifications and an avatar; three alert banners stacked across the top for maintenance, issues and updates, each with Read More; a welcome column with application roles, resources and newsletter announcements; then recently viewed applications, the applications the person can open, and, in gray with Request Access, the ones they would request. Every card has View Details and Launch.",
-    screen: <RealHome />,
+    label: "Dashboard",
+    address: "grcconnect.example/dashboard",
+    tab: "GRC Connect",
+    alt: "The dashboard, in its refined form: search in the bar, one status line for issues, maintenance and updates, a plain welcome column with recently viewed and help, the person's applications as cards that open their details, with Launch and status on the affected ones, and applications available to request, each with Request access.",
+    screen: <RedesignDashboard />,
   },
   {
     label: "Application details",
-    address: "hub.example/home/policy-library",
-    tab: "Hub",
-    alt: "One application's details in a modal over the dimmed home: a maintenance window and an update, the person's access, both owners, the category and a description, with Documentation, a more menu and Launch App.",
-    screen: <RealDetails />,
+    address: "grcconnect.example/apps/policy-library",
+    tab: "GRC Connect",
+    alt: "One application's details over the dimmed dashboard: its platform and category, a maintenance window and an update as tags, what it is for, access, category and both owners, with Documentation, Past updates and Launch.",
+    screen: <RefinedDetails />,
   },
   {
     label: "Notifications",
-    address: "hub.example/notifications",
-    tab: "Hub",
-    alt: "Notifications: a search and a filter by application, with Make Selection to Apply Filter; on the right, Active and Past Updates tabs, Expand All and Close All, and alerts grouped under maintenance, issues and updates.",
-    screen: <RealNotifications />,
+    address: "grcconnect.example/notifications",
+    tab: "GRC Connect",
+    alt: "Notifications: a search and application checkboxes that filter as they are checked; Active and Past updates tabs; alerts grouped into issues, maintenance and updates, each row with the application, when, a line on what is happening and View.",
+    screen: <RefinedNotifications />,
   },
   {
     label: "Feedback log",
-    address: "hub.example/feedback",
-    tab: "Hub",
-    alt: "The feedback log: two items with an ID, the date created and a status, one acknowledged and one a draft, with Download Data and Add New.",
-    screen: <RealFeedbackLog />,
+    address: "grcconnect.example/feedback",
+    tab: "GRC Connect",
+    alt: "Your feedback: four items with an ID, when they were sent, what they were about and a status (1 reply, In review, Done, Draft), with Download and Share feedback.",
+    screen: <RefinedFeedbackLog />,
   },
   {
     label: "Feedback form",
-    address: "hub.example/feedback/new",
-    tab: "Hub",
-    alt: "The feedback form on its third of four sections, Tool usage: how often the person uses the application, how often it has been unavailable, and a grid rating training, demos and communications from very dissatisfied to very satisfied.",
-    screen: <RealFormToolUsage />,
+    address: "grcconnect.example/feedback/new",
+    tab: "GRC Connect",
+    alt: "Share feedback on its third of four steps, Tool usage: progress across the top, two questions side by side, and a grid rating training, demos and communications, with Previous, Save for later and Next.",
+    screen: <RefinedFormToolUsage />,
   },
   {
     label: "Feedback form, errors",
-    address: "hub.example/feedback/new",
-    tab: "Hub",
-    alt: "The feedback form with its errors showing: the first two sections marked, Next unavailable, a note to fix four errors, and on the right two selects and a one to five scale outlined in red, each marked Response is required.",
-    screen: <RealFormErrors />,
+    address: "grcconnect.example/feedback/new",
+    tab: "GRC Connect",
+    alt: "Share feedback after Next was pressed with answers missing: a summary, Answer 3 questions to continue, linking to each, and the two selects and the one to five scale outlined in red, each marked Choose one to continue.",
+    screen: <RefinedFormErrors />,
   },
 ];
 
@@ -2113,5 +1749,986 @@ export function HiFiGallery() {
         ),
       }))}
     />
+  );
+}
+
+/* --------------------------------------------------------------------------
+   What I'd do now: a redesign, not what shipped (Alejandro, November 2026:
+   review the shipped screens as a lead designer, give GRC Connect a homepage
+   that explains the whole experience, and show it under What I'd do
+   differently). Same product look and invented content as the shipped
+   recreations, so the difference reads as design, not as styling.
+
+   The dashboard changes answer the review: one layer of containers (the
+   cards), recently viewed as a short list, one status line in place of
+   three banners with the status on the affected cards, Launch as the one
+   button on a card, search in the bar, and applications to request drawn
+   as available rather than disabled, each with its own Request access. */
+
+const CONNECT_APPS: { name: string; purpose: string; platform: string; status?: { tone: "warn" | "down"; text: string } }[] = [
+  { name: "Policy Library", purpose: "Find, cite and attest to the current policies and standards.", platform: "Salesforce" },
+  { name: "Issue Tracker", purpose: "Log control issues and track each one to closure.", platform: "ServiceNow", status: { tone: "warn", text: "Maintenance Sat, 2 to 4 AM" } },
+  { name: "Risk Assessments", purpose: "Score and review risk by business area and owner.", platform: "Salesforce", status: { tone: "down", text: "Slow to load scores" } },
+  { name: "Control Testing", purpose: "Plan control tests and record results and sign-offs.", platform: "Salesforce" },
+  { name: "Incident Reporting", purpose: "Report an incident and follow it to resolution.", platform: "ServiceNow" },
+  { name: "Regulatory Updates", purpose: "Track new rules and who in the business they affect.", platform: "React" },
+];
+
+const CONNECT_REQUEST: { name: string; purpose: string; platform: string }[] = [
+  { name: "Audit Workpapers", purpose: "Prepare, review and sign off audit evidence.", platform: "Salesforce" },
+  { name: "Vendor Risk", purpose: "Assess third parties before and after onboarding.", platform: "React" },
+  { name: "Exam Management", purpose: "Coordinate regulator exams and their requests.", platform: "React" },
+];
+
+function ConnectBar({ active, search = true }: { active: string; search?: boolean }) {
+  return (
+    <div className="flex items-center gap-7 bg-[var(--hub-bar)] px-6 py-2.5 text-[var(--hub-on-bar)]">
+      <span className="flex items-center gap-2">
+        <span className="grid h-5 w-5 grid-cols-2 gap-[2px] rounded-[4px] bg-[color-mix(in_oklab,var(--hub-on-bar)_18%,transparent)] p-[3px]">
+          <span className="rounded-[1px] bg-[var(--hub-on-bar)]" />
+          <span className="rounded-[1px] bg-[var(--hub-on-bar)] opacity-60" />
+          <span className="rounded-[1px] bg-[var(--hub-on-bar)] opacity-60" />
+          <span className="rounded-[1px] bg-[var(--hub-on-bar)]" />
+        </span>
+        <span className="text-[15px] uppercase tracking-[0.08em]">
+          <b className="font-bold">GRC</b> Connect
+        </span>
+      </span>
+      <span className="flex items-center gap-6 self-stretch text-[12px]">
+        {["Home", "Dashboard", "Notifications", "Feedback"].map((n) => (
+          <span
+            key={n}
+            className={`-my-2.5 flex items-center border-b-2 ${
+              n === active ? "border-[var(--hub-on-bar)] font-semibold" : "border-transparent text-[var(--hub-on-bar-muted)]"
+            }`}
+          >
+            {n}
+          </span>
+        ))}
+      </span>
+      {search ? (
+        <span className="ml-auto flex w-72 items-center gap-2 rounded-[4px] bg-[color-mix(in_oklab,var(--hub-on-bar)_12%,transparent)] px-3 py-1.5 text-[12px] text-[var(--hub-on-bar-muted)]">
+          <Glyph d="search" className="h-3.5 w-3.5" />
+          Search applications and docs
+        </span>
+      ) : (
+        <span className="ml-auto" />
+      )}
+      <span className="relative">
+        <Glyph d="bell" className="h-5 w-5" />
+        <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full border border-[var(--hub-bar)] bg-[var(--real-red)]" />
+      </span>
+      <Avatar />
+    </div>
+  );
+}
+
+const dot = (tone: "warn" | "down" | "info" | "up") =>
+  ({
+    warn: "bg-[oklch(70%_0.15_75)]",
+    down: "bg-[var(--real-red)]",
+    info: "bg-[var(--real-action)]",
+    up: "bg-[var(--real-green)]",
+  })[tone];
+
+function StatusLine() {
+  return (
+    <div className="flex items-center gap-5 border-b border-[var(--real-line)] bg-surface-raised px-16 py-2.5 text-[12px] text-text-primary">
+      <span className="font-semibold">Today</span>
+      {(
+        [
+          ["down", "1 issue"],
+          ["warn", "2 maintenance windows"],
+          ["info", "2 updates"],
+        ] as const
+      ).map(([t, l]) => (
+        <span key={l} className="flex items-center gap-1.5">
+          <span className={`h-2 w-2 rounded-full ${dot(t)}`} />
+          {l}
+        </span>
+      ))}
+      <span className={`ml-auto flex items-center gap-0.5 ${link}`}>
+        See all notifications
+        <RIcon i="right" className="h-3 w-3" />
+      </span>
+    </div>
+  );
+}
+
+function StatusTag({ tone, children }: { tone: "warn" | "down"; children: ReactNode }) {
+  const t =
+    tone === "down"
+      ? "bg-[color-mix(in_oklab,var(--real-red)_12%,white)] text-[oklch(46%_0.17_25)]"
+      : "bg-[oklch(95%_0.05_80)] text-[oklch(42%_0.1_70)]";
+  return (
+    <span className={`inline-flex w-fit items-center gap-1.5 rounded-full px-2 py-0.5 text-[10.5px] font-medium ${t}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${dot(tone)}`} />
+      {children}
+    </span>
+  );
+}
+
+/* The whole card opens the application's details, so the only action
+   drawn on it is the one that leaves: Launch, or Request access (Alejandro,
+   November 2026: View details as a link competed with Launch). A chevron at
+   the top right says the card opens; one card is drawn as if under the
+   pointer, so the picture shows the behavior too. */
+function ConnectCard({
+  name,
+  purpose,
+  platform,
+  status,
+  request = false,
+  hovered = false,
+}: (typeof CONNECT_APPS)[number] & { request?: boolean; hovered?: boolean }) {
+  return (
+    <span
+      className={`flex flex-col gap-2 rounded-[6px] border bg-surface-raised p-4 ${
+        hovered
+          ? "border-[color-mix(in_oklab,var(--real-action)_55%,white)] shadow-[0_6px_16px_color-mix(in_oklab,var(--shadow-ink)_14%,transparent)]"
+          : `border-[var(--real-line)] ${cardShadow}`
+      }`}
+    >
+      <span className="flex items-start gap-2">
+        <span className="flex flex-col">
+          <span className={`text-[13px] font-semibold ${hovered ? "text-[var(--real-link)] underline underline-offset-2" : "text-text-primary"}`}>
+            {name}
+          </span>
+          <span className="text-[10.5px] text-text-tertiary">{platform}</span>
+        </span>
+        <span className={`ml-auto ${hovered ? "text-[var(--real-link)]" : "text-text-tertiary"}`}>
+          {request ? <Glyph d="lock" className="h-4 w-4" /> : <RIcon i="right" className="h-4 w-4" />}
+        </span>
+      </span>
+      <span className="min-h-[2.6rem] text-[11.5px] leading-snug text-text-secondary">{purpose}</span>
+      {status ? <StatusTag tone={status.tone}>{status.text}</StatusTag> : <span className="h-[19px]" />}
+      <span className="mt-1 flex items-center text-[11.5px]">
+        {request ? (
+          <span className={`rounded-[4px] bg-[color-mix(in_oklab,var(--real-action)_8%,white)] px-3 py-1.5 font-semibold ${link}`}>Request access</span>
+        ) : (
+          /* Secondary, not filled: six filled buttons on one screen were
+             louder than the cards they sit in. A tint alone, no border
+             (Alejandro, November 2026) */
+          <span className="flex items-center gap-1 rounded-[4px] bg-[color-mix(in_oklab,var(--real-action)_8%,white)] px-3 py-1.5 font-semibold text-[var(--real-link)]">
+            Launch
+            <Glyph d="arrow" className="h-3 w-3" />
+          </span>
+        )}
+      </span>
+    </span>
+  );
+}
+
+function SectionTitle({ title, count, note }: { title: string; count: number; note?: string }) {
+  return (
+    <span className="flex flex-col gap-0.5">
+      <span className="flex items-baseline gap-2">
+        <span className="text-[16px] font-semibold text-text-primary">{title}</span>
+        <span className="text-[12px] text-text-tertiary">{count}</span>
+      </span>
+      {note && <span className="text-[11.5px] text-text-secondary">{note}</span>}
+    </span>
+  );
+}
+
+function RedesignDashboard() {
+  return (
+    <>
+      <ConnectBar active="Dashboard" />
+      <StatusLine />
+      <div className="flex gap-8 px-16 pt-7 pb-10">
+        {/* No box: the column is text on the page */}
+        <span className="flex w-[180px] shrink-0 flex-col gap-6 text-[11.5px]">
+          <span className="flex flex-col">
+            <span className="text-[16px] font-semibold text-text-primary">Welcome back, Jordan</span>
+            <span className="text-text-secondary">Compliance analyst</span>
+          </span>
+          <span className="flex flex-col gap-2">
+            <span className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-tertiary">Recently viewed</span>
+            {[
+              ["Control Testing", "Today"],
+              ["Policy Library", "Yesterday"],
+              ["Risk Assessments", "2 days ago"],
+            ].map(([n, w]) => (
+              <span key={n} className="flex flex-col">
+                <span className={link}>{n}</span>
+                <span className="text-[10.5px] text-text-tertiary">{w}</span>
+              </span>
+            ))}
+          </span>
+          <span className="flex flex-col gap-2">
+            <span className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-tertiary">Help</span>
+            {["How GRC Connect works", "Who owns what", "Release notes"].map((l) => (
+              <span key={l} className={link}>
+                {l}
+              </span>
+            ))}
+          </span>
+        </span>
+
+        <span className="flex min-w-0 flex-1 flex-col gap-4">
+          <SectionTitle title="Your applications" count={6} />
+          <span className="grid grid-cols-3 gap-3">
+            {CONNECT_APPS.map((a, i) => (
+              <ConnectCard key={a.name} {...a} hovered={i === 3} />
+            ))}
+          </span>
+          <span className="mt-4">
+            <SectionTitle title="Available to request" count={10} note="Read what each one is for, then ask for access. Requests go to the application's owner." />
+          </span>
+          <span className="grid grid-cols-3 gap-3">
+            {CONNECT_REQUEST.map((a) => (
+              <ConnectCard key={a.name} {...a} request />
+            ))}
+          </span>
+          <span className={`flex items-center gap-0.5 text-[11.5px] ${link}`}>
+            Browse all 10
+            <RIcon i="right" className="h-3 w-3" />
+          </span>
+        </span>
+      </div>
+    </>
+  );
+}
+
+const AREAS: { area: string; apps: string[] }[] = [
+  { area: "Policy and governance", apps: ["Policy Library", "Attestations", "Policy Exceptions", "Compliance Training"] },
+  { area: "Risk and controls", apps: ["Risk Assessments", "Control Testing", "Control Library", "Vendor Risk"] },
+  { area: "Issues and change", apps: ["Issue Tracker", "Incident Reporting", "Change Requests", "Quality Reviews"] },
+  { area: "Audit and regulatory", apps: ["Audit Workpapers", "Exam Management", "Regulatory Updates", "Compliance Monitoring"] },
+];
+
+/* The homepage: what GRC Connect is, before what it holds */
+function ConnectHome() {
+  const h2 = "text-[18px] font-semibold text-text-primary";
+  return (
+    <>
+      <ConnectBar active="Home" />
+      {/* Purpose, and the way in */}
+      <div className="grid grid-cols-[1.25fr_1fr] items-center gap-12 border-b border-[var(--real-line)] bg-surface-raised px-16 py-12">
+        <span className="flex flex-col gap-4">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--real-link)]">Governance, Risk and Compliance</span>
+          <span className="text-[30px] leading-tight font-semibold tracking-[-0.01em] text-text-primary">
+            Every GRC application, in one place.
+          </span>
+          <span className="text-[14px] leading-relaxed text-text-secondary">
+            GRC Connect shows the sixteen applications our organization runs on: what each one is for, whether it is up,
+            and how to get access. Start here when you are new, and come back whenever something changes.
+          </span>
+          <span className="mt-2 flex items-center gap-5 text-[12.5px]">
+            <span className="flex items-center gap-1 rounded-[4px] bg-[var(--real-action)] px-4 py-2 font-semibold text-white">
+              Go to your dashboard
+              <RIcon i="right" className="h-3.5 w-3.5" />
+            </span>
+            <span className={link}>How access works</span>
+          </span>
+        </span>
+        {/* Status right now, the reason most people come back */}
+        <span className={`flex flex-col gap-3 rounded-[8px] border border-[var(--real-line)] bg-surface-page p-5 ${cardShadow}`}>
+          <span className="flex items-baseline justify-between">
+            <span className="text-[13px] font-semibold text-text-primary">Right now</span>
+            <span className="text-[11px] text-text-tertiary">Updated 2 minutes ago</span>
+          </span>
+          <span className="flex items-end gap-2">
+            <span className="text-[34px] leading-none font-semibold text-text-primary">13</span>
+            <span className="pb-1 text-[12px] text-text-secondary">of 16 applications up</span>
+          </span>
+          <span className="flex h-2 overflow-hidden rounded-full">
+            <span className="bg-[var(--real-green)]" style={{ width: `${(13 / 16) * 100}%` }} />
+            <span className="bg-[oklch(70%_0.15_75)]" style={{ width: `${(2 / 16) * 100}%` }} />
+            <span className="bg-[var(--real-red)]" style={{ width: `${(1 / 16) * 100}%` }} />
+          </span>
+          {[
+            ["down", "Risk Assessments", "Slow to load scores"],
+            ["warn", "Issue Tracker", "Maintenance Sat, 2 to 4 AM"],
+            ["warn", "Policy Library", "Maintenance Sun, 6 to 8 PM"],
+          ].map(([t, n, d]) => (
+            <span key={n} className="flex items-center gap-2 border-t border-[var(--real-line)] pt-2.5 text-[11.5px]">
+              <span className={`h-2 w-2 shrink-0 rounded-full ${dot(t as "warn" | "down")}`} />
+              <span className="font-semibold text-text-primary">{n}</span>
+              <span className="text-text-secondary">{d}</span>
+            </span>
+          ))}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-10 px-16 py-10">
+        {/* What it does */}
+        <span className="grid grid-cols-3 gap-8">
+          {[
+            ["doc", "Every application, explained", "What each one is for, who owns it and where its documentation lives, before you open it."],
+            ["bell", "Status before you need it", "Maintenance, issues and updates are announced here, so nobody finds out by trying to log in."],
+            ["lock", "Access without guessing", "See what you can open and what you can request, and send the request to the right owner."],
+          ].map(([g, t, d]) => (
+            <span key={t} className="flex flex-col gap-2">
+              <span className="grid h-9 w-9 place-items-center rounded-[8px] bg-[color-mix(in_oklab,var(--real-action)_10%,white)] text-[var(--real-link)]">
+                <Glyph d={g as "doc" | "bell" | "lock"} className="h-[18px] w-[18px]" />
+              </span>
+              <span className="text-[13.5px] font-semibold text-text-primary">{t}</span>
+              <span className="text-[12px] leading-relaxed text-text-secondary">{d}</span>
+            </span>
+          ))}
+        </span>
+
+        {/* The sixteen, by area */}
+        <span className="flex flex-col gap-4">
+          <span className="flex items-baseline justify-between">
+            <span className={h2}>The sixteen applications, by area</span>
+            <span className={`text-[12px] ${link}`}>See them all on your dashboard</span>
+          </span>
+          <span className="grid grid-cols-4 gap-3">
+            {AREAS.map((a) => (
+              <span key={a.area} className={`flex flex-col gap-2 rounded-[6px] border border-[var(--real-line)] bg-surface-raised p-4 ${cardShadow}`}>
+                <span className="text-[12.5px] font-semibold text-text-primary">{a.area}</span>
+                {a.apps.map((n) => (
+                  <span key={n} className={`text-[11.5px] ${link}`}>
+                    {n}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </span>
+        </span>
+
+        {/* How access works */}
+        <span className="flex flex-col gap-4">
+          <span className={h2}>How access works</span>
+          <span className="grid grid-cols-3 gap-3">
+            {[
+              ["1", "Find the application", "Search or browse by area. Each one says what it is for."],
+              ["2", "Request access", "Your request goes to the application's owner, with your role attached."],
+              ["3", "Launch from your dashboard", "Once approved, it moves to Your applications, with its status."],
+            ].map(([n, t, d]) => (
+              <span key={n} className="flex items-start gap-3">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-[var(--real-action)] text-[12px] font-semibold text-[var(--real-link)]">
+                  {n}
+                </span>
+                <span className="flex flex-col gap-0.5">
+                  <span className="text-[12.5px] font-semibold text-text-primary">{t}</span>
+                  <span className="text-[11.5px] leading-snug text-text-secondary">{d}</span>
+                </span>
+              </span>
+            ))}
+          </span>
+        </span>
+      </div>
+
+      <div className="flex items-center gap-6 border-t border-[var(--real-line)] bg-surface-raised px-16 py-4 text-[11.5px] text-text-secondary">
+        <span>New to GRC?</span>
+        {["Read the ecosystem guide", "Who owns what", "Contact the GRC team"].map((l) => (
+          <span key={l} className={link}>
+            {l}
+          </span>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function ConnectScreen({ address, children }: { address: string; children: ReactNode }) {
+  return (
+    <RecreatedScreen address={address} tab="GRC Connect" width={1100}>
+      <div style={REAL_SKIN} className="bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
+        {children}
+      </div>
+    </RecreatedScreen>
+  );
+}
+
+export function ConnectHomeMock() {
+  return (
+    <div
+      role="img"
+      aria-label="A redesign: the GRC Connect homepage, recreated with invented content. A headline, Every GRC application, in one place, with a line on what GRC Connect is for, a Go to your dashboard button and a How access works link. Beside it, a Right now panel: 13 of 16 applications up, with one issue and two maintenance windows listed. Below, three things it does (every application explained, status before you need it, access without guessing), the sixteen applications in four areas, and three steps for getting access."
+      className="h-full w-full p-3 sm:p-6"
+    >
+      <ConnectScreen address="grcconnect.example">
+        <ConnectHome />
+      </ConnectScreen>
+    </div>
+  );
+}
+
+/* The next iteration, past the refined high fidelity (Alejandro, November
+   2026: make the redesign more improved). It moves from a catalog to a
+   workspace: start from the task, not the application; lead with what
+   affects this person (an issue in an app they use, maintenance this week,
+   an access request still waiting); list their applications as compact rows
+   with status inline; and keep the ten they could request behind one link,
+   since they are browsed rarely and the old grid buried the person's own. */
+
+const MARKS: Record<string, string> = {
+  "Policy Library": "PL",
+  "Issue Tracker": "IT",
+  "Risk Assessments": "RA",
+  "Control Testing": "CT",
+  "Incident Reporting": "IR",
+  "Regulatory Updates": "RU",
+};
+
+function AttentionCard({ tone, title, body, action }: { tone: "warn" | "down" | "info"; title: string; body: string; action: string }) {
+  const edge = { down: "border-l-[var(--real-red)]", warn: "border-l-[oklch(70%_0.15_75)]", info: "border-l-[var(--real-action)]" }[tone];
+  return (
+    <span className={`flex flex-col gap-1.5 rounded-[6px] border border-l-4 border-[var(--real-line)] ${edge} bg-surface-raised p-4 ${cardShadow}`}>
+      <span className="flex items-center gap-2 text-[12.5px] font-semibold text-text-primary">
+        <span className={`h-2 w-2 rounded-full ${dot(tone)}`} />
+        {title}
+      </span>
+      <span className="text-[11.5px] leading-snug text-text-secondary">{body}</span>
+      <span className={`mt-auto flex items-center gap-0.5 pt-1 text-[11.5px] font-semibold ${link}`}>
+        {action}
+        <RIcon i="right" className="h-3 w-3" />
+      </span>
+    </span>
+  );
+}
+
+function NextDashboard() {
+  const rows: { name: string; purpose: string; when: string; status?: { tone: "warn" | "down"; text: string }; pinned?: boolean }[] = [
+    { name: "Control Testing", purpose: "Plan control tests and record results.", when: "Opened today", pinned: true },
+    { name: "Policy Library", purpose: "Find, cite and attest to policies.", when: "Yesterday", pinned: true },
+    { name: "Risk Assessments", purpose: "Score and review risk by business area.", when: "2 days ago", status: { tone: "down", text: "Slow to load" } },
+    { name: "Issue Tracker", purpose: "Log control issues and track them to closure.", when: "Last week", status: { tone: "warn", text: "Down Sat, 2 to 4 AM" } },
+    { name: "Incident Reporting", purpose: "Report an incident and follow it to resolution.", when: "Oct 12" },
+    { name: "Regulatory Updates", purpose: "Track new rules and who they affect.", when: "Oct 3" },
+  ];
+  const label = "text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-tertiary";
+  return (
+    <>
+      {/* The task search on the page replaces the one in the bar here */}
+      <ConnectBar active="Dashboard" search={false} />
+      <div className="flex flex-col gap-7 px-16 pt-8 pb-10">
+        {/* Start from the task */}
+        <span className="flex flex-col gap-3">
+          <span className="text-[22px] font-semibold text-text-primary">Good morning, Jordan</span>
+          <span className="flex items-center gap-2.5 rounded-[8px] border-2 border-[color-mix(in_oklab,var(--real-action)_55%,white)] bg-surface-raised px-4 py-3 text-[13px] text-text-tertiary shadow-[0_0_0_4px_color-mix(in_oklab,var(--real-action)_10%,transparent)]">
+            <Glyph d="search" className="h-4 w-4 text-text-secondary" />
+            What do you need to do? Try “report an incident” or “find a policy”
+          </span>
+          <span className="flex flex-wrap gap-2 text-[11.5px]">
+            {["Report an incident", "Find a policy", "Request access", "Check a control test"].map((t) => (
+              <span key={t} className={`rounded-full border border-[var(--real-line)] bg-surface-raised px-3 py-1 ${link}`}>
+                {t}
+              </span>
+            ))}
+          </span>
+        </span>
+
+        {/* What affects this person, first */}
+        <span className="flex flex-col gap-3">
+          <span className={label}>Needs your attention</span>
+          <span className="grid grid-cols-3 gap-3">
+            <AttentionCard tone="down" title="Risk Assessments is slow" body="Scores are slow to load. You used it 2 days ago; the team expects a fix today." action="Follow the fix" />
+            <AttentionCard tone="warn" title="Issue Tracker, Saturday" body="Down 2 to 4 AM for an upgrade. Save drafts before Friday evening." action="Add to calendar" />
+            <AttentionCard tone="info" title="Vendor Risk access" body="Your request is with Sam Ortiz, the owner, since Tuesday." action="View request" />
+          </span>
+        </span>
+
+        <span className="grid grid-cols-[1fr_250px] gap-8">
+          {/* Their applications, as rows: scannable, status inline */}
+          <span className="flex flex-col gap-3">
+            <span className="flex items-baseline justify-between">
+              <span className={label}>Your applications · 6</span>
+              <span className={`text-[11.5px] ${link}`}>Edit pinned</span>
+            </span>
+            <span className={`flex flex-col ${panel}`}>
+              {rows.map((r, i) => (
+                <span key={r.name} className={`flex items-center gap-3.5 px-4 py-3 ${i > 0 ? "border-t border-[var(--real-line)]" : ""}`}>
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[6px] bg-[color-mix(in_oklab,var(--real-action)_10%,white)] text-[10.5px] font-semibold text-[var(--real-link)]">
+                    {MARKS[r.name]}
+                  </span>
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    <span className="flex items-center gap-2 text-[12.5px] font-semibold text-text-primary">
+                      {r.name}
+                      {r.pinned && (
+                        <svg viewBox="0 0 20 20" className="h-3 w-3 text-[oklch(70%_0.15_75)]" fill="currentColor" aria-hidden="true">
+                          <path d="M10 2.8l2.1 4.4 4.8.6-3.5 3.3.9 4.8L10 13.6l-4.3 2.3.9-4.8-3.5-3.3 4.8-.6z" />
+                        </svg>
+                      )}
+                    </span>
+                    <span className="truncate text-[11.5px] text-text-secondary">{r.purpose}</span>
+                  </span>
+                  <span className="w-36 shrink-0">{r.status && <StatusTag tone={r.status.tone}>{r.status.text}</StatusTag>}</span>
+                  <span className="w-20 shrink-0 text-right text-[11px] text-text-tertiary">{r.when}</span>
+                  <span className={`${secondaryBtn} text-[11.5px]`}>
+                    Launch
+                    <Glyph d="arrow" className="h-3 w-3" />
+                  </span>
+                </span>
+              ))}
+            </span>
+          </span>
+
+          {/* Ahead, and beyond their own */}
+          <span className="flex flex-col gap-6 text-[11.5px]">
+            <span className="flex flex-col gap-3">
+              <span className={label}>This week</span>
+              {[
+                ["Sat", "2", "Issue Tracker maintenance", "2 to 4 AM"],
+                ["Sun", "3", "Policy Library maintenance", "6 to 8 PM"],
+                ["Tue", "5", "Release notes published", "9:00 AM"],
+              ].map(([d, n, t, w]) => (
+                <span key={t} className="flex items-center gap-3">
+                  <span className="flex w-9 shrink-0 flex-col items-center rounded-[6px] bg-surface-raised py-1 leading-tight shadow-[0_0_0_1px_var(--real-line)]">
+                    <span className="text-[9.5px] text-text-tertiary">{d}</span>
+                    <span className="text-[13px] font-semibold text-text-primary">{n}</span>
+                  </span>
+                  <span className="flex flex-col">
+                    <span className="font-semibold text-text-primary">{t}</span>
+                    <span className="text-text-tertiary">{w}</span>
+                  </span>
+                </span>
+              ))}
+            </span>
+            <span className={`flex flex-col gap-2 p-4 ${panel}`}>
+              <span className="font-semibold text-text-primary">10 more applications</span>
+              <span className="leading-snug text-text-secondary">Audit, vendor risk, exams and more. See what each is for and request access.</span>
+              <span className={`flex items-center gap-0.5 font-semibold ${link}`}>
+                Explore applications
+                <RIcon i="right" className="h-3 w-3" />
+              </span>
+            </span>
+            <span className="flex flex-col gap-1.5">
+              <span className={label}>Help</span>
+              {["How GRC Connect works", "Who owns what"].map((l) => (
+                <span key={l} className={link}>
+                  {l}
+                </span>
+              ))}
+            </span>
+          </span>
+        </span>
+      </div>
+    </>
+  );
+}
+
+export function DashboardRedesign() {
+  return (
+    <CompareSlider
+      label="Compare the dashboard in high fidelity with the next iteration"
+      before={{
+        node: (
+          <ConnectScreen address="grcconnect.example/dashboard">
+            <div className="min-h-[800px]">
+              <RedesignDashboard />
+            </div>
+          </ConnectScreen>
+        ),
+        label: "High fidelity",
+        alt: "The dashboard in high fidelity: search in the bar, one status line, a plain welcome column, the person's applications as cards that open their details, each with Launch, and applications available to request.",
+      }}
+      after={{
+        node: (
+          <ConnectScreen address="grcconnect.example/dashboard">
+            <div className="min-h-[800px]">
+              <NextDashboard />
+            </div>
+          </ConnectScreen>
+        ),
+        label: "Next iteration",
+        alt: "The next iteration: a greeting with a task search and suggested tasks; Needs your attention, three cards for an issue in an app the person uses, maintenance this week and a pending access request; their applications as compact rows with pinned ones first, status inline, when last opened and Launch; and a side column with this week's events, a link to explore ten more applications, and help.",
+      }}
+    />
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The rest of the refined set, in the same language as the refined
+   dashboard (Alejandro, November 2026: make the other high fidelity screens
+   consistent with it). One bar with search, sentence case, rounded cards as
+   the only containers, secondary buttons in the cards and one primary
+   action per screen, and the review's fixes: no more menu, a filter that
+   applies as you check, a reply you can see, and errors that wait until
+   someone tries to move on. */
+
+const secondaryBtn =
+  "inline-flex items-center gap-1 rounded-[4px] bg-[color-mix(in_oklab,var(--real-action)_8%,white)] px-3 py-1.5 font-semibold text-[var(--real-link)]";
+const primaryBtn = "inline-flex items-center gap-1 rounded-[4px] bg-[var(--real-action)] px-4 py-1.5 font-semibold text-white";
+const panel = `rounded-[6px] border border-[var(--real-line)] bg-surface-raised ${cardShadow}`;
+
+function PageHead({ back, title, actions }: { back?: string; title: string; actions?: ReactNode }) {
+  return (
+    <span className="flex items-end">
+      <span className="flex flex-col gap-1.5">
+        {back && (
+          <span className={`flex items-center gap-0.5 text-[11.5px] ${link}`}>
+            <RIcon i="left" className="-ml-1 h-3 w-3" />
+            {back}
+          </span>
+        )}
+        <span className="text-[20px] font-semibold text-text-primary">{title}</span>
+      </span>
+      {actions && <span className="ml-auto flex items-center gap-4 text-[11.5px]">{actions}</span>}
+    </span>
+  );
+}
+
+function CheckOn({ on = false }: { on?: boolean }) {
+  return (
+    <span
+      className={`grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[3px] border ${
+        on ? "border-[var(--real-action)] bg-[var(--real-action)] text-white" : "border-[var(--real-line)] bg-surface-raised"
+      }`}
+    >
+      {on && (
+        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2.5 6.2 5 8.5l4.5-5" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
+function RadioOn({ on = false, error = false }: { on?: boolean; error?: boolean }) {
+  return (
+    <span
+      className={`grid h-3.5 w-3.5 shrink-0 place-items-center rounded-full border ${
+        on ? "border-[var(--real-action)]" : error ? "border-[var(--real-red)]" : "border-text-tertiary"
+      }`}
+    >
+      {on && <span className="h-2 w-2 rounded-full bg-[var(--real-action)]" />}
+    </span>
+  );
+}
+
+/* Details, over the refined dashboard */
+function RefinedDetails() {
+  const item = (k: string, v: string) => (
+    <span className="flex flex-col gap-0.5">
+      <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-text-tertiary">{k}</span>
+      <span className="text-[12px] text-text-primary">{v}</span>
+    </span>
+  );
+  return (
+    <div className="relative">
+      <RedesignDashboard />
+      <div className="absolute inset-0 flex justify-center bg-[oklch(20%_0.02_256/0.5)] pt-16">
+        <div className="h-fit w-[540px] overflow-hidden rounded-[10px] bg-surface-raised shadow-[0_18px_48px_oklch(0%_0_0/0.28)]">
+          <div className="flex items-start gap-3 px-6 pt-5">
+            <span className="flex flex-col">
+              <span className="text-[17px] font-semibold text-text-primary">Policy Library</span>
+              <span className="text-[11px] text-text-tertiary">Salesforce · Governance</span>
+            </span>
+            <span className="ml-auto grid h-7 w-7 place-items-center rounded-full text-text-secondary">
+              <RIcon i="close" className="h-4 w-4" />
+            </span>
+          </div>
+          <div className="flex flex-col gap-2 px-6 pt-4">
+            <span className="flex items-center gap-2.5 text-[11.5px] text-text-secondary">
+              <StatusTag tone="warn">Maintenance</StatusTag>
+              Sunday, 6 to 8 PM. Down for scheduled changes.
+            </span>
+            <span className="flex items-center gap-2.5 text-[11.5px] text-text-secondary">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--real-action)_10%,white)] px-2 py-0.5 text-[10.5px] font-medium text-[var(--real-link)]">
+                <span className={`h-1.5 w-1.5 rounded-full ${dot("info")}`} />
+                Update
+              </span>
+              New search filters: find a policy by business area.
+            </span>
+          </div>
+          <div className="px-6 pt-5 text-[12.5px] leading-relaxed text-text-secondary">
+            The current policies and standards in one place, to find, cite and attest to. Every policy shows its
+            owner, its last review and the controls that rely on it.
+          </div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-3 px-6 pt-5 pb-6">
+            {item("Your access", "Editor")}
+            {item("Category", "Governance")}
+            {item("Application owner", "Riley Morgan, Technology")}
+            {item("Business owner", "Sam Ortiz, Policy Office")}
+          </div>
+          <div className="flex items-center gap-4 border-t border-[var(--real-line)] bg-surface-page px-6 py-3.5 text-[12px]">
+            <span className={`flex items-center gap-1 ${link}`}>
+              <Glyph d="doc" className="h-3.5 w-3.5" />
+              Documentation
+            </span>
+            <span className={link}>Past updates</span>
+            <span className={`ml-auto ${primaryBtn}`}>
+              Launch
+              <Glyph d="arrow" className="h-3 w-3" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RefinedNotifications() {
+  const groups: { kind: string; tone: "warn" | "down" | "info"; rows: [string, string, string][] }[] = [
+    { kind: "Issues", tone: "down", rows: [["Risk Assessments", "Since 9:40 AM", "Scores are slow to load. The team is working on it."]] },
+    {
+      kind: "Maintenance",
+      tone: "warn",
+      rows: [
+        ["Issue Tracker", "Sat, 2 to 4 AM", "Down for a platform upgrade. Save drafts before Friday evening."],
+        ["Policy Library", "Sun, 6 to 8 PM", "Down for scheduled changes."],
+      ],
+    },
+    {
+      kind: "Updates",
+      tone: "info",
+      rows: [
+        ["Policy Library", "Yesterday", "Search now filters by business area."],
+        ["Control Testing", "Oct 18", "Results export to a spreadsheet."],
+      ],
+    },
+  ];
+  return (
+    <>
+      <ConnectBar active="Notifications" />
+      <div className="flex flex-col gap-5 px-16 pt-6 pb-10">
+        <PageHead back="Dashboard" title="Notifications" />
+        <div className="flex items-start gap-6">
+          <span className="flex w-[210px] shrink-0 flex-col gap-3 text-[11.5px]">
+            <span className="flex items-center gap-2 rounded-[4px] border border-[var(--real-line)] bg-surface-raised px-3 py-1.5 text-text-tertiary">
+              <Glyph d="search" className="h-3.5 w-3.5" />
+              Search notifications
+            </span>
+            <span className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-tertiary">Applications</span>
+            {[
+              ["All applications", true],
+              ["Policy Library", true],
+              ["Issue Tracker", true],
+              ["Risk Assessments", true],
+              ["Control Testing", true],
+              ["Incident Reporting", false],
+              ["Regulatory Updates", true],
+            ].map(([n, on], i) => (
+              <span key={n as string} className={`flex items-center gap-2 text-text-primary ${i === 0 ? "font-semibold" : "pl-1"}`}>
+                <CheckOn on={on as boolean} />
+                {n as string}
+              </span>
+            ))}
+          </span>
+          <span className="flex min-w-0 flex-1 flex-col gap-4">
+            <span className="flex gap-6 border-b border-[var(--real-line)] text-[12px] text-text-secondary">
+              <span className="-mb-px border-b-2 border-[var(--real-action)] pb-2 font-semibold text-text-primary">Active · 5</span>
+              <span className="pb-2">Past updates · 22</span>
+            </span>
+            {groups.map((g) => (
+              <span key={g.kind} className="flex flex-col gap-2">
+                <span className="flex items-center gap-2 text-[12px] font-semibold text-text-primary">
+                  <span className={`h-2 w-2 rounded-full ${dot(g.tone)}`} />
+                  {g.kind}
+                  <span className="font-normal text-text-tertiary">{g.rows.length}</span>
+                </span>
+                <span className={`flex flex-col ${panel}`}>
+                  {g.rows.map(([app, when, text], i) => (
+                    <span key={app + when} className={`flex items-start gap-3 px-4 py-3 ${i > 0 ? "border-t border-[var(--real-line)]" : ""}`}>
+                      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                        <span className="text-[12px] text-text-primary">
+                          <b className="font-semibold">{app}</b>
+                          <span className="text-text-tertiary"> · {when}</span>
+                        </span>
+                        <span className="text-[11.5px] text-text-secondary">{text}</span>
+                      </span>
+                      <span className={`text-[11.5px] ${link}`}>View</span>
+                    </span>
+                  ))}
+                </span>
+              </span>
+            ))}
+          </span>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function RefinedFeedbackLog() {
+  return (
+    <>
+      <ConnectBar active="Feedback" />
+      <div className="flex flex-col gap-5 px-16 pt-6 pb-10">
+        <PageHead
+          back="Dashboard"
+          title="Your feedback"
+          actions={
+            <>
+              <span className={`flex items-center gap-1.5 ${link}`}>
+                <svg viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 3.5v9m-4-4 4 4 4-4M4 16.5h12" />
+                </svg>
+                Download
+              </span>
+              <span className={primaryBtn}>Share feedback</span>
+            </>
+          }
+        />
+        <span className={`flex flex-col overflow-hidden text-[12px] ${panel}`}>
+          <span className="grid grid-cols-[6rem_9rem_1fr_10rem] gap-4 border-b border-[var(--real-line)] bg-surface-page px-5 py-2.5 text-[10.5px] font-semibold uppercase tracking-[0.06em] text-text-tertiary">
+            <span>ID</span>
+            <span>Sent</span>
+            <span>About</span>
+            <span>Status</span>
+          </span>
+          {[
+            ["0004", "4 hours ago", "Search should include docs, not only applications.", "reply"],
+            ["0003", "Oct 18, 2022", "The maintenance banner was easy to miss on a small screen.", "review"],
+            ["0002", "Oct 11, 2022", "Add the owner to every application card.", "done"],
+            ["0001", "Oct 3, 2022", "Request access should say who approves it.", "draft"],
+          ].map(([id, d, t, st], i) => (
+            <span key={id} className={`grid grid-cols-[6rem_9rem_1fr_10rem] items-center gap-4 px-5 py-3 ${i > 0 ? "border-t border-[var(--real-line)]" : ""}`}>
+              <span className="text-text-tertiary">{id}</span>
+              <span className="text-text-secondary">{d}</span>
+              <span className="text-text-primary">{t}</span>
+              <span>
+                {st === "reply" ? (
+                  <span className={`flex items-center gap-1.5 ${link}`}>
+                    <RIcon i="comment" className="h-4 w-4" />1 reply
+                  </span>
+                ) : st === "review" ? (
+                  <StatusTag tone="warn">In review</StatusTag>
+                ) : st === "done" ? (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--real-green)_14%,white)] px-2 py-0.5 text-[10.5px] font-medium text-[oklch(42%_0.12_150)]">
+                    <span className={`h-1.5 w-1.5 rounded-full ${dot("up")}`} />
+                    Done
+                  </span>
+                ) : (
+                  <span className="text-text-tertiary">Draft</span>
+                )}
+              </span>
+            </span>
+          ))}
+        </span>
+      </div>
+    </>
+  );
+}
+
+const FORM_STEPS = ["General questions", "Application satisfaction", "Tool usage", "Additional comments"];
+
+function RefinedForm({ current, errors = false, children }: { current: number; errors?: boolean; children: ReactNode }) {
+  return (
+    <>
+      <ConnectBar active="Feedback" />
+      <div className="flex flex-col gap-5 px-16 pt-6 pb-10">
+        <PageHead back="Your feedback" title="Share feedback" />
+        {/* Steps across the top: where you are and what is left */}
+        <span className="grid grid-cols-4 gap-2 text-[11.5px]">
+          {FORM_STEPS.map((st, i) => {
+            const done = i < current;
+            const here = i === current;
+            return (
+              <span key={st} className="flex flex-col gap-1.5">
+                <span className={`h-1 rounded-full ${done || here ? "bg-[var(--real-action)]" : "bg-[var(--real-line)]"}`} />
+                <span className={`flex items-center gap-1.5 ${here ? "font-semibold text-text-primary" : done ? link : "text-text-tertiary"}`}>
+                  {i + 1}. {st}
+                </span>
+              </span>
+            );
+          })}
+        </span>
+        <span className={`flex flex-col gap-5 p-6 text-[12px] text-text-primary ${panel}`}>
+          {errors && (
+            <span className="flex items-start gap-2.5 rounded-[6px] border border-[color-mix(in_oklab,var(--real-red)_40%,white)] bg-[color-mix(in_oklab,var(--real-red)_8%,white)] px-4 py-3">
+              <RIcon i="error" className="mt-px h-4 w-4" />
+              <span className="flex flex-col gap-0.5">
+                <span className="font-semibold">Answer 3 questions to continue</span>
+                <span className={`${link} underline underline-offset-2`}>Your role · Application · How well it helps</span>
+              </span>
+            </span>
+          )}
+          {children}
+        </span>
+        <span className="flex items-center gap-4 text-[12px]">
+          {current > 0 && <span className={secondaryBtn}>Previous</span>}
+          <span className={link}>Save for later</span>
+          <span className={`ml-auto ${primaryBtn}`}>
+            {current === FORM_STEPS.length - 1 ? "Submit" : "Next"}
+            <RIcon i="right" className="h-3 w-3" />
+          </span>
+        </span>
+      </div>
+    </>
+  );
+}
+
+function RefinedFormToolUsage() {
+  const q = (title: string, opts: string[], on: number) => (
+    <span className="flex flex-col gap-2">
+      <span className="font-semibold">{title}</span>
+      {opts.map((o, i) => (
+        <span key={o} className="flex items-center gap-2 text-text-secondary">
+          <RadioOn on={i === on} />
+          {o}
+        </span>
+      ))}
+    </span>
+  );
+  const cols = ["Very dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very satisfied"];
+  return (
+    <RefinedForm current={2}>
+      <span className="text-[15px] font-semibold">Tool usage</span>
+      <span className="grid grid-cols-2 gap-6">
+        {q("How often do you use this application?", ["Less than once a month", "Once a month", "Once a week", "Several times a week"], 2)}
+        {q("How often has it been unavailable when you needed it?", ["Once a month", "Once a week", "More than once a week", "Never"], 3)}
+      </span>
+      <span className="flex flex-col gap-2">
+        <span className="font-semibold">How satisfied are you with how the team prepared you?</span>
+        <span className="grid grid-cols-[10rem_repeat(5,1fr)] items-center gap-y-2.5 text-text-secondary">
+          <span />
+          {cols.map((c) => (
+            <span key={c} className="text-center text-[10.5px]">
+              {c}
+            </span>
+          ))}
+          {["Training", "Tool demos", "Communications"].map((r, ri) => (
+            <span key={r} className="contents">
+              <span>{r}</span>
+              {cols.map((c, ci) => (
+                <span key={c} className="flex justify-center">
+                  <RadioOn on={ci === [3, 4, 3][ri]} />
+                </span>
+              ))}
+            </span>
+          ))}
+        </span>
+      </span>
+    </RefinedForm>
+  );
+}
+
+function RefinedFormErrors() {
+  const required = (
+    <span className="flex items-center gap-1.5 text-[11px] text-[oklch(48%_0.18_25)]">
+      <RIcon i="error" className="h-3.5 w-3.5" />
+      Choose one to continue
+    </span>
+  );
+  const select = (label: string) => (
+    <span className="flex flex-col gap-1.5">
+      <span className="font-semibold">{label}</span>
+      <span className="flex w-64 items-center justify-between rounded-[4px] border-2 border-[var(--real-red)] bg-surface-raised px-3 py-1.5 text-text-tertiary">
+        Select
+        <RIcon i="down" />
+      </span>
+      {required}
+    </span>
+  );
+  return (
+    <RefinedForm current={0} errors>
+      <span className="text-[15px] font-semibold">General questions</span>
+      <span className="grid grid-cols-2 gap-6">
+        {select("Your role")}
+        {select("Application")}
+      </span>
+      <span className="flex flex-col gap-2">
+        <span className="font-semibold">How well does this application help you do your role?</span>
+        <span className="flex gap-2">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <span key={n} className="grid h-8 w-12 place-items-center rounded-[4px] border-2 border-[var(--real-red)] bg-surface-raised">
+              {n}
+            </span>
+          ))}
+        </span>
+        <span className="flex w-[17.6rem] justify-between text-[10.5px] text-text-tertiary">
+          <span>Not well at all</span>
+          <span>Extremely well</span>
+        </span>
+        {required}
+      </span>
+    </RefinedForm>
   );
 }

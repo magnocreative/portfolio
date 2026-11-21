@@ -9,7 +9,18 @@ import { Figure } from "@/design-system/components/Figure";
 import { StatGrid } from "@/design-system/components/StatGrid";
 import { Tag } from "@/design-system/components/Tag";
 import { CalendarIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
-import { BuildComparison, Ecosystem, HeroSubject, HiFiGallery, HubMock, MoodBoard, SketchSheet, WireframeMock } from "./diagrams";
+import {
+  BuildComparison,
+  ConnectHomeMock,
+  DashboardRedesign,
+  Ecosystem,
+  HeroSubject,
+  HiFiGallery,
+  HubMock,
+  MoodBoard,
+  SketchSheet,
+  WireframeMock,
+} from "./diagrams";
 
 export const metadata: Metadata = {
   title: "Sixteen applications, and no way to know when any of them would go down",
@@ -23,9 +34,9 @@ export const metadata: Metadata = {
    follows. The evidence sits in the beat it proves, not in a gallery.
 
    Named: the employer (USAA) and the organization (Governance, Risk and
-   Compliance), as the résumé does. Not named: the hub's own product name, any
-   of the sixteen applications, or anyone on the team. The work index promises
-   that the products stay unnamed, and this keeps the promise. Every figure is
+   Compliance), as the résumé does, and the hub itself, GRC Connect
+   (Alejandro's call, November 2026; his earlier portfolio named it too).
+   Not named: any of the sixteen applications, or anyone on the team. Every figure is
    a schematic drawn for this site (./diagrams), never a USAA screen. The one
    exception is his own sketches in From sketch to screen, with the product's
    name taken out (November 2026).
@@ -67,7 +78,7 @@ export default function SixteenApplications() {
     <CaseStudyLayout
       breadcrumb={[{ label: "Work", href: "/work" }, { label: "Sixteen applications" }]}
       title="Sixteen applications, and no way to know when any of them would go down."
-      lede="A compliance organization ran its work across sixteen applications on three platforms, and nothing tied them together. I led the design of the hub that did: one front door showing every application, what it’s for and whether it’s up."
+      lede="A compliance organization ran its work across sixteen applications on three platforms, and nothing tied them together. I led the design of GRC Connect, the hub that did: one front door showing every application, what it’s for and whether it’s up."
       art={<DottedGround />}
       subject={<HeroSubject />}
       contents={contents}
@@ -128,7 +139,7 @@ export default function SixteenApplications() {
           }
         >
           <p>
-            The hub gave all sixteen applications one front door: every application, what it&rsquo;s
+            GRC Connect gave all sixteen applications one front door: every application, what it&rsquo;s
             for and whether it&rsquo;s up, with alerts and notifications for maintenance and outages.
             It launched to about 400 people, from occasional users to power users, new hires to people
             who&rsquo;d been there for years, and was still in use the last time I heard from the team.
@@ -189,7 +200,7 @@ export default function SixteenApplications() {
               <Figure
                 ratio="3/2"
                 recreated
-                caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for, what is down or changing, and which ones you can open. Drag to compare."
+                caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the custom build, shown in its refined high fidelity, says what each application is for, what is down or changing, and which ones you can open. Drag to compare."
               >
                 <BuildComparison />
               </Figure>
@@ -238,7 +249,7 @@ export default function SixteenApplications() {
                 ratio="auto"
                 bare
                 recreated
-                caption="High fidelity, on the internal brand library. Maintenance, issues and updates became banners across the top of every page, with a notifications page to filter them; every application opens its details before it launches; and the feedback log and form were designed for a later release, still in iteration when I left."
+                caption="High fidelity, shown in the refined form I describe under What I’d do differently: one bar with search, status in one line and on the cards it affects, cards as the only containers, one primary action per screen, and a form that waits to show errors until someone tries to move on. The home as shipped is under The result; the feedback log and form were designed for a later release, still in iteration when I left."
               >
                 <HiFiGallery />
               </Figure>
@@ -276,7 +287,28 @@ export default function SixteenApplications() {
           </p>
         </CaseStudyBeat>
 
-        <CaseStudyBeat id="differently" heading="What I’d do differently">
+        <CaseStudyBeat
+          id="differently"
+          heading="What I’d do differently"
+          after={
+            <>
+              <Figure
+                ratio="auto"
+                recreated
+                caption="A redesign, not what shipped: a homepage for GRC Connect that explains the whole experience before anyone opens an application. What it is for, the status right now, the sixteen applications by area and how access works, with the dashboard one click away."
+              >
+                <ConnectHomeMock />
+              </Figure>
+              <Figure
+                ratio="3/2"
+                recreated
+                caption="The dashboard in high fidelity, and the next iteration I would take it to: from a catalog to a workspace. It starts from the task, leads with what affects this person (an issue in an application they use, maintenance this week, an access request still waiting), lists their applications as compact rows with status inline, and keeps the ten they could request behind one link. Drag to compare."
+              >
+                <DashboardRedesign />
+              </Figure>
+            </>
+          }
+        >
           <p>
             I&rsquo;d ship the explanation with the hub, not after it. The hub showed people that
             sixteen applications existed and what each was for, but not how to use them. A user guide,
@@ -284,8 +316,18 @@ export default function SixteenApplications() {
             directions.
           </p>
           <p>
-            That was where newer users got stuck first, and it&rsquo;s the part I&rsquo;d build next
-            to the hub from day one.
+            That was where newer users got stuck first, so I would start GRC Connect on a homepage of
+            its own: what it is, the sixteen applications by area, how status works and how to get
+            access, with the dashboard one click away.
+          </p>
+          <p>
+            Reviewing the shipped dashboard now, as a lead designer, I would also simplify it. It placed
+            cards inside boxed sections inside a boxed page, so I would let the cards be the only
+            containers and turn recently viewed into a short list. Three alert bars greeted people on
+            every visit, so I would summarize them in one line and mark the affected cards instead. And
+            the applications people could not yet open looked disabled while still offering Launch, so
+            each would get its own Request access and a real description, since those are the ones
+            people are deciding about.
           </p>
         </CaseStudyBeat>
       </CaseStudyPart>

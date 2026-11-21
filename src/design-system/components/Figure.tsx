@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
+import { InfoIcon } from "./Icon";
 import type { ReactNode } from "react";
 
 /**
@@ -58,7 +59,7 @@ export function Figure({
   className?: string;
   /** Live content in place of the image, filling the frame. */
   children?: ReactNode;
-  /** Adds "Recreated with invented content." after the caption. */
+  /** Adds a "Recreated with invented content" tag under the caption. */
   recreated?: boolean;
   /**
    * No frame: drops the edge and the ground behind live content that brings
@@ -95,7 +96,15 @@ export function Figure({
         className={`mt-4 max-w-[40rem] text-sm text-text-secondary ${children ? "sm:col-start-1 sm:row-start-2" : ""}`}
       >
         {caption}
-        {recreated && <span className="text-text-tertiary"> Recreated with invented content.</span>}
+        {/* Its own line, as a labeled tag with an icon, so it reads as a note
+            about the picture rather than the caption's last sentence
+            (Alejandro, November 2026: it blended into the text) */}
+        {recreated && (
+          <span className="mt-2.5 flex w-fit items-center gap-1.5 rounded-[var(--radius-pill)] border border-border-default bg-surface-raised px-2.5 py-1 font-label text-xs font-medium text-text-primary">
+            <InfoIcon className="h-3.5 w-3.5 shrink-0 text-text-accent" />
+            Recreated with invented content
+          </span>
+        )}
       </figcaption>
     </figure>
   );

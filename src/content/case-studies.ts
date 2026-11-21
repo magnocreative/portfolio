@@ -6,8 +6,10 @@
  * "GRC Connect" tells them nothing and asks them to click to find out.
  *
  * A note on what's named here: employers are real, because that's normal and
- * verifiable. Internal system names, product names and screens are not, and
- * never will be — that line is where confidentiality actually sits.
+ * verifiable. Screens are never shown, only recreated with invented content.
+ * Internal product names stay out unless Alejandro decides one is safe to
+ * name: GRC Connect, a former employer's internal tool his earlier portfolio
+ * already named (November 2026), is the one exception so far.
  */
 
 import type { StaticImageData } from "next/image";
@@ -101,7 +103,7 @@ export const caseStudies: CaseStudy[] = [
   // Third, and the GRC study's counterpart: there the argument for custom
   // was won, here out of the box was the rule and the argument for going
   // further was lost. From Alejandro's account (November 2026). The
-  // application stays unnamed, as the index promises.
+  // application stays unnamed.
   {
     slug: "a-quarter-of-the-fields-gone",
     title: "A quarter of the fields gone, and the users who missed the old system told us which ones",
