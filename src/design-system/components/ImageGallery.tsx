@@ -48,8 +48,12 @@ export function ImageGallery({
   label: string;
   /** The thumbnails' shared ratio, width over height. */
   ratio?: string;
-  /** Columns on a wide frame. A narrow frame swipes through them instead. */
-  columns?: 3 | 4;
+  /**
+   * Columns on a wide frame. A narrow frame swipes through them instead. Two
+   * for screens finer than a sketch, so their detail reads at thumbnail size
+   * (Alejandro, November 2026: the audit study's roughs and high fidelity).
+   */
+  columns?: 2 | 3 | 4;
   /**
    * Fill the wide grid down each column instead of across each row, in this
    * many rows. The order stays the same everywhere else (the carousel, the
@@ -91,7 +95,7 @@ export function ImageGallery({
   const step = (by: number) => setOpen((i) => (i === null ? i : (i + by + items.length) % items.length));
   const item = open === null ? null : items[open];
   const wide = [
-    columns === 3 ? "@2xl:grid-cols-3" : "@2xl:grid-cols-4",
+    { 2: "@2xl:grid-cols-2", 3: "@2xl:grid-cols-3", 4: "@2xl:grid-cols-4" }[columns],
     rows ? `@2xl:grid-flow-col ${{ 2: "@2xl:grid-rows-2", 3: "@2xl:grid-rows-3", 4: "@2xl:grid-rows-4" }[rows]}` : "",
   ].join(" ");
 

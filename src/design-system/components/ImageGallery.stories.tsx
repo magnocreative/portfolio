@@ -41,6 +41,8 @@ export const FourColumns: Story = {};
 
 export const ThreeColumns: Story = { args: { columns: 3 } };
 
+export const TwoColumns: Story = { args: { columns: 2 } };
+
 export const Narrow: Story = {
   render: (args) => (
     <div className="max-w-[22rem]">

@@ -11,10 +11,18 @@ import { PointCards } from "@/design-system/components/PointCards";
 import { Tag } from "@/design-system/components/Tag";
 import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import { CalendarIcon, CodeIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
-import { HeroSubject, HomeMock, RecordComparison, RecordFlow } from "./diagrams";
+import {
+  HeroSubject,
+  HiFiGallery,
+  HomeMock,
+  RecordComparison,
+  RecordFlow,
+  SketchSheet,
+  WireframeMock,
+} from "./diagrams";
 
 export const metadata: Metadata = {
-  title: "A quarter of the fields gone, and the users who missed the old system told us which ones",
+  title: "A quarter of the fields gone, picked by the users who resisted",
   description:
     "About 150 auditors were moving off a Salesforce application they had used for years, and the rebuild had to stay out of the box. The users who resisted the change told us which fields to cut. I argued for custom record pages, and lost.",
 };
@@ -59,6 +67,7 @@ const contents = [
     children: [
       { id: "constraint", label: "The constraint" },
       { id: "decision", label: "The decision" },
+      { id: "progression", label: "From sketch to screen" },
       { id: "argument", label: "The argument I lost" },
       { id: "differently", label: "What I’d do differently" },
     ],
@@ -74,7 +83,7 @@ export default function AQuarterOfTheFields() {
   return (
     <CaseStudyLayout
       breadcrumb={[{ label: "Work", href: "/work" }, { label: "A quarter of the fields" }]}
-      title="A quarter of the fields gone, and the users who missed the old system told us which ones."
+      title="A quarter of the fields gone, picked by the users who resisted."
       lede="USAA’s auditors kept their professional records in a Salesforce Classic application that was being retired: their training, their background experience, and their conflict of interest disclosures. I designed its move to Lightning, under one rule: nothing custom."
       art={<DottedGround />}
       subject={<HeroSubject />}
@@ -85,7 +94,7 @@ export default function AQuarterOfTheFields() {
           status={<Tag tone="pass">Shipped</Tag>}
           /* Whose work and what kind, said up front, so no reader takes
              internal work for a public product (Alejandro, November 2026) */
-          note="Every screen here is recreated with invented content."
+          note="Every screen here is recreated with invented content. The sketches are my originals."
           org={
             <>
               <UsaaLogo mono className="-my-1 h-8 w-8 shrink-0" />
@@ -133,7 +142,8 @@ export default function AQuarterOfTheFields() {
               />
               <Figure
                 ratio="4/3"
-                caption="One training record, before and after. The fields nobody used are gone, the rest sit in sections in the order an auditor fills them in, and a path shows where the record stands, from draft to complete, beside the sections still to fill. Drag to compare."
+                bare
+                caption="One training record, before and after: the unused fields gone, the rest in sections in the order an auditor fills them in, with a path from draft to complete. Drag to compare."
               >
                 <RecordComparison />
               </Figure>
@@ -227,13 +237,14 @@ export default function AQuarterOfTheFields() {
             <>
               <Figure
                 ratio="auto"
-                caption="The homepage in three columns, one record type each: training, résumé and conflicts of interest. Each column is a stock chart over a stock list, in a layout App Builder offered as it came."
+                bare
+                caption="The homepage in three columns, one record type each. Every column is a stock chart over a stock list, in a layout App Builder offered as it came."
               >
                 <HomeMock />
               </Figure>
               <Figure
                 ratio="auto"
-                caption="One path for every record type, built from the platform’s stock list view and record page. Conflict of interest changes are the one exception: they wait for approval before they count. Simplified from my user flow."
+                caption="My user flow, recreated without the sign-in steps: one path for every record type. Only conflict of interest changes wait for approval."
               >
                 <RecordFlow />
               </Figure>
@@ -264,6 +275,48 @@ export default function AQuarterOfTheFields() {
             progress toward goals, sat outside what App Builder could do, and it stayed outside. What it
             bought was a design engineering could ship as drawn, on components Salesforce maintains, keeps
             accessible and updates.
+          </p>
+        </CaseStudyBeat>
+
+        <CaseStudyBeat
+          id="progression"
+          heading="From sketch to screen"
+          after={
+            <>
+              <Figure
+                ratio="auto"
+                bare
+                caption="My first sketches: the homepage three ways, the list view and the record page. Select one to see it larger; the product’s name is removed."
+              >
+                <SketchSheet />
+              </Figure>
+              <Figure
+                ratio="auto"
+                bare
+                caption="Grayscale roughs, each layout tested in App Builder as I went, from the homepage to a record waiting for its certificate."
+              >
+                <WireframeMock />
+              </Figure>
+              <Figure
+                ratio="auto"
+                bare
+                caption="High fidelity in the platform’s stock components, with the path, the sections still to fill and the certificate upload."
+              >
+                <HiFiGallery />
+              </Figure>
+            </>
+          }
+        >
+          <p>
+            I started on paper. Six sketches tried the homepage three ways, then the list view and the
+            record page, each drawn against the layouts and components App Builder offered.
+          </p>
+          <p>
+            From there I made grayscale roughs, so feedback stayed on structure rather than color, and
+            tested each layout in App Builder in the development sandbox as I went, so nothing reached
+            users that engineering could not build. High fidelity came last, in the platform&rsquo;s
+            stock components, with the path, the list of sections still to fill and the certificate
+            upload carried through.
           </p>
         </CaseStudyBeat>
 

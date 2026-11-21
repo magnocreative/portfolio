@@ -109,7 +109,7 @@ export const caseStudies: CaseStudy[] = [
   // application stays unnamed.
   {
     slug: "a-quarter-of-the-fields-gone",
-    title: "A quarter of the fields gone, and the users who missed the old system told us which ones",
+    title: "A quarter of the fields gone, picked by the users who resisted",
     standfirst:
       "About 150 auditors were moving off a Salesforce application they had used for years, and the rebuild had to stay out of the box. The users who resisted the change told us which fields to cut. I argued for custom record pages, and lost.",
     disciplines: ["Enterprise UX", "Platform constraints", "Research"],
