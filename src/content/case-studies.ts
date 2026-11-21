@@ -62,7 +62,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "a-system-you-can-inspect",
     title: "A system you can inspect, because the ones at work can’t be shown",
     standfirst:
-      "Every design system I’ve owned lives behind an employer’s login. So I built one in the open, in code and in Figma, from what those systems taught me, and wrote down what every decision cost.",
+      "Every design system I have owned lives behind an employer’s login. So I built one in the open, in code and in Figma, from what those systems taught me, and wrote down what every decision cost.",
     disciplines: ["Design systems", "Front-end engineering", "Documentation"],
     employer: "MagnoCreative",
     logo: "magnocreative",

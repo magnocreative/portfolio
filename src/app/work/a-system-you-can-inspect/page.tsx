@@ -39,7 +39,7 @@ import { PointCards } from "@/design-system/components/PointCards";
 export const metadata: Metadata = {
   title: "A system you can inspect",
   description:
-    "Every design system I've owned lives behind an employer's login. So I built one in the open, in code and in Figma, and documented every decision with what it cost.",
+    "Every design system I have owned lives behind an employer's login. So I built one in the open, in code and in Figma, and documented every decision with what it cost.",
 };
 
 /* The first case study, moved onto the two halves the storytelling guide
@@ -128,7 +128,7 @@ export default function SystemCaseStudy() {
     <CaseStudyLayout
       breadcrumb={[{ label: "Work", href: "/work" }, { label: "A system you can inspect" }]}
       title="A system you can inspect, because the ones at work can’t be shown."
-      lede="Every design system I’ve owned or maintained lives behind an employer’s login. A reviewer can’t open it, and a screenshot of it isn’t mine to share. So I built the MagnoCreative design system in the open, in code and in Figma, from what those systems taught me. The site you’re reading runs on it."
+      lede="Every design system I have owned or maintained lives behind an employer’s login. A reviewer is unable to open it, and a screenshot of it is not mine to share. So I built the MagnoCreative design system in the open, in code and in Figma, from what those systems taught me. The site you are reading runs on it."
       art={<DottedGround />}
       subject={<TokenChain />}
       contents={contents}
@@ -138,6 +138,9 @@ export default function SystemCaseStudy() {
         <FactsPanel
           className="mt-8 max-w-measure xl:mt-0"
           status={<Tag tone="live">Live on this site</Tag>}
+          /* The counterpart to the GRC study's disclosure: nothing here is
+             recreated (Alejandro, November 2026) */
+          note="Every picture here is this site or its Figma library, and the contrast table runs live in your browser."
           org={
             <>
               <MagnoLogo mono className="-my-1 h-8 w-8 shrink-0" />
@@ -166,25 +169,24 @@ export default function SystemCaseStudy() {
               {/* The thesis, set apart once. It is the claim every later
                   beat has to earn. */}
               <p className="max-w-measure border-l border-border-rule pl-6 text-xl leading-[1.5] text-text-primary">
-                A design system isn&rsquo;t a component library. It&rsquo;s the documented reasoning behind
-                every decision the interface makes: how each part behaves, what it can and can&rsquo;t do,
-                and why. When design and engineering share that reasoning, what ships matches what was
+                A design system is not a component library. It is the documented reasoning behind every
+                decision the interface makes: how each part behaves, what it can and cannot do, and why. When design and engineering share that reasoning, what ships matches what was
                 designed, costs less to change, and lasts.
               </p>
               <TextBlock>
-                When they don&rsquo;t share it, the difference gets paid for later: as rework, as one-off
-                fixes, and as technical debt nobody budgeted for. That cost is the whole case for a design
-                system, and it&rsquo;s the one case I can&rsquo;t show you from my own work. Everything
-                I&rsquo;ve built there is internal, and it stays there.
+                When they do not share it, the difference gets paid for later: as rework, as one-off fixes,
+                and as technical debt nobody budgeted for. That cost is the whole case for a design system,
+                and it is the one case I am unable to show you from my own work. Everything I have built
+                there is internal, and it stays there.
               </TextBlock>
             </>
           }
         >
           <p>
             Most designers meet a design system as a component library: a set of parts that keeps a
-            brand consistent. That is the smallest thing it does. I&rsquo;ve worked beside designers who
-            could place every component and couldn&rsquo;t say how any of them behaved, what they
-            couldn&rsquo;t do, or why they were built the way they were. That gap is where delivery goes
+            brand consistent. That is the smallest thing it does. I have worked beside designers who
+            could place every component and could not say how any of them behaved, what they could not
+            do, or why they were built the way they were. That gap is where delivery goes
             wrong.
           </p>
         </CaseStudyBeat>
@@ -219,23 +221,23 @@ export default function SystemCaseStudy() {
                 <p>
                   At work, the same approach is shaping a self-service portal for four lines of business:
                   one place where teams learn what the platform can do and request changes themselves,
-                  instead of asking for them through the CRM. It goes live in February 2027, and I&rsquo;ve
+                  instead of asking for them through the CRM. It goes live in February 2027, and I have
                   asked the product owners to plan how its impact will be measured from the first day. That
                   case study will follow, with the numbers.
                 </p>
               </TextBlock>
-              <Figure caption="The navigation moved from a side rail to the top bar with one setting, NAV_LAYOUT. The rail is retired, not deleted, and comes back the same way. Drag to compare.">
+              <Figure caption="The navigation moved from a side rail to the top bar with one setting, NAV_LAYOUT. Drag to compare.">
                 <CompareSlider
-                  label="Compare the home page with the side rail and with the top bar"
+                  label="Compare the homepage with the side rail and with the top bar"
                   before={{
                     src: navigationRail,
                     label: "Rail",
-                    alt: "The home page with the navigation in a rail down the left side: Work, Design system, About and Résumé, each with an icon.",
+                    alt: "The homepage with the navigation in a rail down the left side: Work, Design system, About and Résumé, each with an icon.",
                   }}
                   after={{
                     src: navigationTop,
                     label: "Top bar",
-                    alt: "The same home page with the four links in the top bar beside the theme control, and the content across the full width.",
+                    alt: "The same homepage with the four links in the top bar beside the theme control, and the content across the full width.",
                   }}
                 />
               </Figure>
@@ -248,16 +250,15 @@ export default function SystemCaseStudy() {
               November 2026: they read as an inventory, and they were written
               down by hand, so they drifted whenever the libraries moved. */}
           <p>
-            The site you are reading runs on it: {systemCounts.tokens} tokens in one file and{" "}
-            {systemCounts.components} components, mirrored in a Figma library that uses the same names.
+            Today it is {systemCounts.tokens} tokens in one file and {systemCounts.components} components,
+            mirrored in a Figma library that uses the same names.
           </p>
         </CaseStudyBeat>
 
         <CaseStudyBeat id="role" heading="My role">
           <p>
             Designer and engineer, solo. I designed the tokens, components and documentation, built them in
-            code and in Figma, and wrote every page that explains them. No engineer or designer reviewed the
-            work, which is why the structure itself has to enforce the rules.
+            code and in Figma, and wrote every page that explains them.
           </p>
           <p>
             I built it with Claude Code, an AI coding agent, in a version-controlled repository. I set the
@@ -280,12 +281,12 @@ export default function SystemCaseStudy() {
                 {
                   icon: BriefcaseOffIcon,
                   title: "No employer material",
-                  body: "No screens, component names or tokens from any system I’ve worked on. What those systems taught me is here. Nothing of theirs is.",
+                  body: "No screens, component names or tokens from any system I have worked on. What those systems taught me is here. Nothing of theirs is.",
                 },
                 {
                   icon: BrowserCheckIcon,
                   title: "It runs a real site",
-                  body: "A Figma-only library never meets a browser, a phone or a screen reader. This one runs the site you’re reading, so every decision gets tested.",
+                  body: "A Figma-only library never meets a browser, a phone or a screen reader. This one ships to all three, so every decision gets tested.",
                 },
                 {
                   icon: HandoffIcon,
@@ -311,15 +312,15 @@ export default function SystemCaseStudy() {
               <div className="flex max-w-measure flex-col gap-14 border-l border-border-subtle pl-6 sm:pl-8">
               <TextBlock heading="The reasoning is the system" headingAs="h4">
                 <p>
-                  Every component ships with the reasoning behind it: how it behaves, what it can&rsquo;t
-                  do, and what choosing it cost. The components page shows each one live beside that
+                  Every component ships with the reasoning behind it: how it behaves, what it cannot do,
+                  and what choosing it cost. The components page shows each one live beside that
                   reasoning, and the Figma library carries the same notes on a spec sheet for every
                   component.
                 </p>
                 <p>
-                  Tabs are a good example. They&rsquo;re built properly, with the full keyboard pattern, and
-                  this page doesn&rsquo;t use them. Hidden content isn&rsquo;t scanned, searched or printed,
-                  and a reviewer skimming a case study shouldn&rsquo;t have to click to find the argument.
+                  Tabs are a good example. They are built properly, with the full keyboard pattern, and
+                  this page does not use them. Hidden content is not scanned, searched or printed, and a
+                  reviewer skimming a case study should not have to click to find the argument.
                   Knowing when not to use a component is part of the component.
                 </p>
                 <p>
@@ -329,7 +330,7 @@ export default function SystemCaseStudy() {
               </TextBlock>
               {/* Live rather than a still split: the claim is that one mode
                   switches the whole sheet, so the reader switches it. */}
-              <Figure caption="Thirty variants and the reasoning behind them on one sheet, drawn from the component itself. One variable mode switches the sheet and every button on it between themes. Drag to compare.">
+              <Figure caption="Thirty variants and their reasoning on one sheet, drawn from the component. One variable mode switches the whole sheet between themes. Drag to compare.">
                 <CompareSlider
                   label="Compare the Button sheet in the light and dark themes"
                   before={{
@@ -356,7 +357,7 @@ export default function SystemCaseStudy() {
                   every page and every component followed on both sides.
                 </p>
                 <p>
-                  The cost is discipline. A component can&rsquo;t borrow a raw color because it would be
+                  The cost is discipline. A component cannot borrow a raw color because it would be
                   quicker, even when it would be.
                 </p>
               </TextBlock>
@@ -370,7 +371,7 @@ export default function SystemCaseStudy() {
                   ground so it reads as a figure on the light page too. */}
               <Figure
                 ratio="auto"
-                caption="The darkest text, softened in one place. The role is defined once in code and once in Figma, under the same name and pointing at the same raw value, so one change carries to both. The code is read from the token file when the site is built."
+                caption="The darkest text, softened in one place: one role in code and one variable in Figma, under the same name and pointing at the same value. The code is read from the token file."
               >
                 <div className="flex flex-col gap-3 p-5 sm:p-8">
                   <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
@@ -397,7 +398,7 @@ export default function SystemCaseStudy() {
               </Figure>
               <TextBlock heading="It changes on purpose, and it’s measured" headingAs="h4">
                 <p>
-                  A system that can&rsquo;t change becomes the thing people work around, so changes here are
+                  A system that cannot change becomes the thing people work around, so changes here are
                   deliberate and reversible.
                 </p>
                 <p>
@@ -407,7 +408,7 @@ export default function SystemCaseStudy() {
                   your device between light and dark and the figures move with it.
                 </p>
                 <p>
-                  The cost is that measurement isn&rsquo;t enough on its own. Twice the numbers passed on
+                  The cost is that measurement is not enough on its own. Twice the numbers passed on
                   type that was clearly too faint, so every change still gets looked at, not just checked.
                 </p>
               </TextBlock>
@@ -421,7 +422,7 @@ export default function SystemCaseStudy() {
                   the surface every ratio here is measured against. */}
               <Figure
                 ratio="auto"
-                caption="Every text color, measured in your browser against the page it sits on, the same table the design system page publishes. Nothing here is a picture."
+                caption="Every text color, measured in your browser against the page it sits on, as the design system page publishes it."
               >
                 <div className="flex flex-col gap-3 p-5 sm:p-8">
                   <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
@@ -476,21 +477,21 @@ export default function SystemCaseStudy() {
             was mostly reading, which wants width, not chrome.
           </p>
           <p>
-            The rail lost. I retired it rather than deleting it, so it&rsquo;s one setting from coming back,
+            The rail lost. I retired it rather than deleting it, so it is one setting from coming back,
             in code and in Figma.
           </p>
         </CaseStudyBeat>
 
         <CaseStudyBeat id="differently" heading="What I’d do differently">
           <p>
-            I&rsquo;d generate the documentation from the components on the first day. For months I wrote
+            I would generate the documentation from the components on the first day. For months I wrote
             the Figma notes by hand, and they drifted: some still named a typeface the site no longer used,
             and one gave the old spacing on the same day I changed it. The spec sheets are now built from
             the components themselves, so bringing them up to date is one step instead of a rewrite.
           </p>
           <p>
             Documentation that depends on someone remembering to update it is a second source of truth, and
-            the second one is always the one that&rsquo;s wrong.
+            the second one is always the one that is wrong.
           </p>
         </CaseStudyBeat>
       </CaseStudyPart>
