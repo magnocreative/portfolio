@@ -2,7 +2,7 @@
  * The case study index.
  *
  * Titles are the DECISION, not the project name. "Sixteen applications, and
- * no way to know when any of them would go down" tells a reader what the work was about;
+ * no warning before any went down" tells a reader what the work was about;
  * "GRC Connect" tells them nothing and asks them to click to find out.
  *
  * A note on what's named here: employers are real, because that's normal and
@@ -84,7 +84,7 @@ export const caseStudies: CaseStudy[] = [
   // lost the bigger one (fewer applications), so the standfirst names both.
   {
     slug: "sixteen-applications-one-blind-spot",
-    title: "Sixteen applications, and no way to know when any of them would go down",
+    title: "Sixteen applications, and no warning before any went down",
     standfirst:
       "Eighty-two people said they didn’t need better applications; they needed to see the system. I argued for building the hub in React instead of Salesforce, and won. I argued for fewer applications, and lost.",
     disciplines: ["Enterprise UX", "Research", "Stakeholder alignment"],
@@ -93,11 +93,12 @@ export const caseStudies: CaseStudy[] = [
     period: "2022",
     status: "published",
     // The hero's own art on the dotted ground, rendered from the page
-    // (./diagrams HeroSubject): sixteen tiles by platform above one front
-    // door. Made for this site; nothing from USAA.
+    // (./diagrams HeroSubject): sixteen tiles, three marked with an issue or
+    // maintenance, above one front door that shows them in one line. Made
+    // for this site; nothing from USAA.
     cover: {
       src: sixteenCover,
-      alt: "Sixteen square tiles in four rows: two rows tinted blue, one row in solid gray outline, one row in dashed outline. A dashed line runs down from them to a single white card with a green status dot, labeled One front door.",
+      alt: "Sixteen square tiles in four rows, three of them marked: one with a red warning triangle, two with amber clocks. A dashed line runs down to a single card labeled One front door, GRC Connect, showing 1 issue and 2 maintenance in one line.",
     },
   },
   // Third, and the GRC study's counterpart: there the argument for custom

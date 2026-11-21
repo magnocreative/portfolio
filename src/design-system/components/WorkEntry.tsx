@@ -145,7 +145,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
             hears one link named by the title, not the whole card read aloud.
             The ring is drawn on the card (has-focus-visible below), not around
             the title's text. */}
-        <h3 className="mt-5 max-w-[28ch] sm:mt-6 font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
+        <h3 className="mt-5 max-w-[36ch] sm:mt-6 font-display text-2xl leading-[1.2] tracking-[-0.015em] text-text-primary text-balance transition-colors duration-[160ms] group-hover:text-text-accent">
           {linked ? (
             <Link
               href={`/work/${study.slug}`}

@@ -26,7 +26,7 @@ import {
 } from "./diagrams";
 
 export const metadata: Metadata = {
-  title: "Sixteen applications, and no way to know when any of them would go down",
+  title: "Sixteen applications, and no warning before any went down",
   description:
     "Eighty-two people said they did not need better applications; they needed to see the system. I argued for building the hub in React instead of Salesforce, and won. I argued for fewer applications, and lost.",
 };
@@ -83,7 +83,7 @@ export default function SixteenApplications() {
   return (
     <CaseStudyLayout
       breadcrumb={[{ label: "Work", href: "/work" }, { label: "Sixteen applications" }]}
-      title="Sixteen applications, and no way to know when any of them would go down."
+      title="Sixteen applications, and no warning before any went down."
       lede="A compliance organization ran its work across sixteen applications on three platforms, and nothing tied them together. I led the design of GRC Connect, the hub that did: one front door showing every application, what it is for and whether it is up."
       art={<DottedGround />}
       subject={<HeroSubject />}

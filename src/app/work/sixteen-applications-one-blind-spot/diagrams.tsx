@@ -70,23 +70,26 @@ const PLATFORMS: { key: Platform; label: string; count: number; apps: string[] }
 
 const label = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
 
-/* A gray bar standing in for a line of text. */
-function Bar({ w, strong = false }: { w: string; strong?: boolean }) {
-  return (
-    <span
-      className={`block h-1.5 rounded-full ${strong ? "bg-border-strong" : "bg-border-default"}`}
-      style={{ width: w }}
-    />
-  );
-}
-
 /* --------------------------------------------------------------------------
-   Hero subject: sixteen tiles above one front door. Upright, to fit the
-   hero's 16.125rem column, in the token chain's language: a tier label, the
-   thing, a dashed link, the next thing. */
+   Hero subject: sixteen applications above one front door, and the problem
+   between them (Alejandro, November 2026: the cover should show the study).
+   One neutral tile each, since the platform split is the constraint's
+   detail, not the cover's; three carry the study's status marks, one issue
+   and two maintenance windows, scattered where nobody would see them. The
+   front door gathers the same marks in one line, as the dashboard's status
+   line does. No dashed tiles: in this study dashed means not built. Upright,
+   to fit the hero's 16.125rem column; also rendered as the work index cover. */
+
+const HERO_MARKS: Record<number, "down" | "warn"> = { 2: "warn", 5: "down", 12: "warn" };
+
+/* The status marks draw in the hub's own colors; here they take the site's */
+const HERO_MARK_COLORS = {
+  "--real-red": "var(--status-danger)",
+  "--real-action": "var(--interactive-default)",
+  "--real-green": "var(--status-success)",
+} as CSSProperties;
 
 export function HeroSubject() {
-  const tiles = PLATFORMS.flatMap((p) => Array.from({ length: p.count }, () => p.key));
   const link = (
     <span className="flex flex-col items-center" aria-hidden="true">
       <span className="h-12 border-l-2 border-dashed border-border-strong" />
@@ -94,22 +97,38 @@ export function HeroSubject() {
     </span>
   );
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4" style={HERO_MARK_COLORS}>
       <span className={label}>Sixteen applications</span>
       <div className="grid grid-cols-4 gap-2.5">
-        {tiles.map((p, i) => (
-          <span key={i} className={`h-11 w-11 rounded-md border-2 ${PLATFORM_TILE[p]}`} />
+        {Array.from({ length: 16 }, (_, i) => (
+          <span
+            key={i}
+            className="grid h-11 w-11 place-items-center rounded-md border-2 border-border-strong bg-surface-raised"
+          >
+            {HERO_MARKS[i] && <StatusIcon tone={HERO_MARKS[i]} className="h-5 w-5" />}
+          </span>
         ))}
       </div>
       {link}
       <span className={label}>One front door</span>
-      <span className="flex w-56 flex-col gap-2.5 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)]">
-        <span className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-status-success" />
-          <Bar w="7rem" strong />
+      <span className="flex w-60 flex-col gap-3 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)]">
+        <span className="flex items-center gap-2 text-sm font-semibold text-text-primary">
+          <span className="grid h-5 w-5 grid-cols-2 gap-[2px] rounded-[4px] bg-interactive p-[3px]" aria-hidden="true">
+            <span className="rounded-[1px] bg-interactive-on" />
+            <span className="rounded-[1px] bg-interactive-on opacity-60" />
+            <span className="rounded-[1px] bg-interactive-on opacity-60" />
+            <span className="rounded-[1px] bg-interactive-on" />
+          </span>
+          GRC Connect
         </span>
-        <Bar w="100%" />
-        <Bar w="80%" />
+        <span className="flex items-center gap-3 text-xs whitespace-nowrap text-text-secondary">
+          <span className="flex items-center gap-1.5">
+            <StatusIcon tone="down" />1 issue
+          </span>
+          <span className="flex items-center gap-1.5">
+            <StatusIcon tone="warn" />2 maintenance
+          </span>
+        </span>
       </span>
     </div>
   );
