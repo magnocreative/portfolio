@@ -894,10 +894,16 @@ function TypeAtom() {
 
 function ButtonAtom() {
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <Button specimen variant="primary" fillOnPhone={false}>Launch</Button>
-      <Button specimen variant="secondary" fillOnPhone={false}>Docs</Button>
-      <Button specimen variant="tertiary" fillOnPhone={false}>Request access</Button>
+    /* Launch and Docs on one row, the text action under them with its text
+       on the same left edge as Launch's box (Alejandro, November 2026) */
+    <div className="flex flex-col items-start gap-1.5">
+      <span className="flex flex-wrap items-center gap-2">
+        <Button specimen variant="primary" fillOnPhone={false}>Launch</Button>
+        <Button specimen variant="secondary" fillOnPhone={false}>Docs</Button>
+      </span>
+      <Button specimen variant="tertiary" fillOnPhone={false} className="-ml-5">
+        Request access
+      </Button>
     </div>
   );
 }
@@ -1133,7 +1139,7 @@ export function MoodBoard() {
       <div
         data-scheme="light"
         style={MOOD_SKIN}
-        className="grid grid-flow-dense grid-cols-2 gap-3 bg-surface-sunken p-3 text-text-primary sm:p-6 @md:grid-flow-row @3xl:grid-cols-6 [&_.font-label]:[font-family:inherit]"
+        className="grid grid-flow-dense grid-cols-2 gap-3 bg-surface-sunken p-3 text-text-primary sm:p-6 @md:grid-flow-row @3xl:grid-cols-6 [&_.font-label]:[font-family:inherit] [&_.font-sans]:[font-family:inherit]"
       >
         <Tile tier="Atom" name="Color"><ColorAtom /></Tile>
         <Tile tier="Atom" name="Type" span="col-span-1 @3xl:col-span-2"><TypeAtom /></Tile>
