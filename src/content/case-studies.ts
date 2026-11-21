@@ -68,12 +68,14 @@ export const caseStudies: CaseStudy[] = [
     logo: "magnocreative",
     period: "2026",
     status: "published",
-    // Made in the Figma Site file (Thumbnail covers), from the library's own
-    // variables and Button: one color through its three tiers, with the
-    // ground split light and dark on a slant. The blue holds on both sides.
+    // Rendered from the site's own Logo and tokens (Alejandro, November
+    // 2026): the mark leads, its two peaks named as tokens, and the deep one
+    // carried across a light-to-dark slant to the button it paints, whose
+    // role and reach sit in rows that mirror the swatches. Captured once per
+    // theme and joined along the slant.
     cover: {
       src: systemCover,
-      alt: "A blue swatch labeled blue/600, joined by a dotted line to a chip labeled interactive/default, and on to a button reading Read the system. The ground is split on a slant, light on the left and dark on the right, and the blue is the same on both sides.",
+      alt: "The MagnoCreative mark, two blue mountain peaks forming an M, with its two blues named below: blue/600, the deep peak, and blue/400, the light peak. A dotted line carries the deep blue across a slanted split from a light ground to a dark one, to a larger button reading Read the system; under it, mirroring the swatches, the role interactive/default and every button, link and focus ring.",
     },
   },
   // Second, and the first written in the two halves (What changed, How I got

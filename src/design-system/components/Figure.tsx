@@ -24,6 +24,12 @@ import type { ReactNode } from "react";
  * Captions break with text-wrap: pretty, so a last word never sits alone on
  * its line.
  *
+ * Below 640 a framed figure bleeds to the screen's edges, like the facts
+ * panel and the point cards: a phone has no width to spare for a frame
+ * inside the page's margins (Alejandro, November 2026). It is widened by
+ * both margins as well as pulled left, or it stops short of the right edge.
+ * The caption keeps the margins.
+ *
  * `children` replaces the image with something live in the same frame, such
  * as a CompareSlider. It fills the frame, so it gets the same ratio, edge and
  * caption as a still. A live figure also gets an actions cell at the right of
@@ -75,7 +81,7 @@ export function Figure({
           controls (Alejandro, November 2026: the tag and Reset together
           crowded the right of the caption) */}
       <div
-        className={`relative w-full ${bare ? "" : "overflow-hidden rounded-sm border border-border-default bg-surface-inset"} ${children ? "col-span-full" : ""}`}
+        className={`relative w-full ${bare ? "" : "overflow-hidden rounded-sm border border-border-default bg-surface-inset max-sm:-mx-6 max-sm:w-[calc(100%+3rem)] max-sm:rounded-none max-sm:border-x-0"} ${children ? "col-span-full" : ""}`}
         style={{ aspectRatio: ratio }}
       >
         {children ? (

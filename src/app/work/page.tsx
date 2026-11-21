@@ -60,8 +60,8 @@ export default function Work() {
 
           {/* Cards 16px apart, as on the résumé: the border separates them. */}
           <div className="mt-10 flex flex-col gap-4">
-            {caseStudies.map((study, i) => (
-              <WorkEntry key={study.slug} study={study} index={i} />
+            {caseStudies.map((study) => (
+              <WorkEntry key={study.slug} study={study} />
             ))}
           </div>
         </section>

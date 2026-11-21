@@ -404,7 +404,7 @@ export default function ComponentsPage() {
                     as it does on /work, and on a phone it runs to the
                     screen's edges as it does there. */}
                 <div className="mt-8">
-                  <WorkEntry study={caseStudies[1]} index={1} />
+                  <WorkEntry study={caseStudies[1]} />
                 </div>
 
                 <Note className="mt-6">

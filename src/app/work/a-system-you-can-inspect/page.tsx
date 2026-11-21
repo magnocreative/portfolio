@@ -88,29 +88,36 @@ const contents = [
   },
 ];
 
-/* The hero's art, rendered live rather than exported: one color through its
-   three tiers, the same story as the cover, stood upright so it fits beside
-   the title. It is the system drawing itself, so it follows the theme. The
+/* The hero's art, rendered live rather than exported: the mark, then one
+   color through its three tiers, the same story as the cover, stood upright
+   so it fits beside the title. It is the system drawing itself, so it follows the theme. The
    swatch reads the primitive directly, which no component may do; that is the
    point of showing it, and why this lives in the page and not the library. */
 function TokenChain() {
   const tier = "font-label text-xs font-medium uppercase tracking-[0.14em] text-text-tertiary";
   const link = (
     <span className="flex flex-col items-center gap-0" aria-hidden="true">
-      <span className="h-12 border-l-2 border-dashed border-border-strong" />
+      <span className="h-7 border-l-2 border-dashed border-border-strong" />
       <span className="-mt-1 h-2.5 w-2.5 rounded-full bg-border-strong" />
     </span>
   );
+  /* Four stages since the mark joined, so each is a little smaller and
+     closer than the three were, to fit the hero's height */
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-3">
+      {/* Where the chain starts: the mark, whose deep peak is the primitive
+          below (Alejandro, November 2026, with the cover) */}
+      <span className={tier}>Mark</span>
+      <Logo className="h-16 w-auto" title="" />
+      {link}
       <span className={tier}>Primitive</span>
-      <span className="h-28 w-28 rounded-lg" style={{ background: "var(--p-blue-600)" }} />
-      <span className="font-display text-xl text-text-primary">blue/600</span>
+      <span className="h-20 w-20 rounded-lg" style={{ background: "var(--p-blue-600)" }} />
+      <span className="font-display text-lg text-text-primary">blue/600</span>
       {link}
       <span className={tier}>Role</span>
-      <span className="flex items-center gap-3 rounded-md border border-border-subtle bg-surface-raised px-5 py-3.5">
-        <span className="h-4 w-4 rounded-full bg-interactive" />
-        <span className="text-lg text-text-primary">interactive/default</span>
+      <span className="flex items-center gap-3 rounded-md border border-border-subtle bg-surface-raised px-4 py-2.5">
+        <span className="h-3.5 w-3.5 rounded-full bg-interactive" />
+        <span className="text-base text-text-primary">interactive/default</span>
       </span>
       {link}
       <span className={tier}>Component</span>
@@ -296,83 +303,89 @@ export default function SystemCaseStudy() {
                 <LogoRoughs />
               </Figure>
             {/* The end of the mark's story and the start of the system's
-                (Alejandro, November 2026: give the mark a prominent presence,
-                annotated, then the tokens after). The mark large and drawn
-                live from the site's artwork, each peak labeled with its token
-                and value; under it, each token on to the role it fills and,
-                for the deep peak, the button it paints. Page code, so it may
-                show the primitives by name. */}
+                (Alejandro, November 2026). The mark large and drawn live,
+                each peak labeled with its token on a quiet dashed leader, the
+                site's connector (the hero chains use the same dash and dot).
+                Under each label, that peak's chain runs down into the
+                system, so the two halves mirror: the deep peak reaches every
+                control, the light peak belongs to the mark alone. Page code,
+                so it may show the primitives by name. */}
             <Figure
               ratio="auto"
-              caption="The final mark, and its two peaks as tokens: the deep one is the blue of every button, link and focus ring on this site."
+              caption="The final mark, and its two peaks as tokens: the deep one paints every button, link and focus ring, and the light one stays with the mark."
             >
               <div
                 role="img"
-                aria-label="The final MagnoCreative mark, two blue mountains forming an M, shown large. The deep peak, on the left, is the token blue/600, hex 4E729A; the light peak, on the right, is blue/400, hex 80A2C4. Into the system: blue/600 fills the role interactive/default, the color of a button; blue/400 fills mark/light."
-                className="flex flex-col gap-8 p-6 sm:p-10"
+                aria-label="The final MagnoCreative mark, two blue mountains forming an M, shown large. The deep peak, on the left, is the token blue/600, hex 4E729A; it fills the role interactive/default, which paints every button, link and focus ring. The light peak, on the right, is blue/400, hex 80A2C4; it fills mark/light, used only by the mark itself."
+                className="grid grid-cols-1 gap-x-0 gap-y-10 px-6 py-8 sm:grid-cols-[1fr_auto_1fr] sm:gap-y-8 sm:p-10"
               >
-                {/* The mark, annotated: a leader from each side to its peak */}
-                <span className="grid grid-cols-2 items-center gap-x-4 gap-y-6 sm:grid-cols-[1fr_auto_1fr] sm:gap-x-0">
-                  <span className="col-span-2 flex justify-center sm:order-2 sm:col-span-1">
-                    <Logo className="h-36 w-auto sm:h-44" title="" />
-                  </span>
-                  {(
-                    [
-                      ["--p-blue-600", "Deep peak", "blue/600", "#4E729A", "left"],
-                      ["--p-blue-400", "Light peak", "blue/400", "#80A2C4", "right"],
-                    ] as const
-                  ).map(([v, peak, name, hex, side]) => (
+                <span className="flex justify-center sm:col-start-2 sm:row-start-1">
+                  <Logo className="h-36 w-auto sm:h-44" title="" />
+                </span>
+                {(
+                  [
+                    ["--p-blue-600", "Deep peak", "blue/600", "#4E729A", "interactive/default", "left"],
+                    ["--p-blue-400", "Light peak", "blue/400", "#80A2C4", "mark/light", "right"],
+                  ] as const
+                ).map(([v, peak, name, hex, role, side]) => {
+                  const left = side === "left";
+                  /* Centered under the mark on a phone; from sm, the left chain
+                     hugs the left edge and the right one mirrors it */
+                  const end = left ? "sm:items-start sm:text-left" : "sm:items-end sm:text-right";
+                  const self = left ? "self-center sm:self-start" : "self-center sm:self-end";
+                  /* The site's connector: a short dashed run and a dot */
+                  const down = (
+                    <span aria-hidden="true" className={`flex flex-col items-center ${self} ${left ? "sm:ml-[11.5px]" : "sm:mr-[11.5px]"}`}>
+                      <span className="h-5 border-l border-dashed border-border-strong" />
+                      <span className="-mt-0.5 h-1.5 w-1.5 rounded-full bg-border-strong" />
+                    </span>
+                  );
+                  return (
                     <span
                       key={name}
-                      className={`flex items-center gap-3 ${
-                        side === "left" ? "sm:order-1 sm:flex-row-reverse sm:text-right" : "sm:order-3"
-                      }`}
+                      className={`flex flex-col items-center gap-2 text-center sm:row-start-1 ${left ? "sm:col-start-1" : "sm:col-start-3"} ${end}`}
                     >
-                      <span aria-hidden="true" className="hidden h-px flex-1 bg-border-strong sm:block" />
-                      <span aria-hidden="true" className="hidden h-2 w-2 shrink-0 rounded-full bg-border-strong sm:block" />
-                      <span className={`flex flex-col gap-1.5 ${side === "left" ? "sm:items-end" : ""}`}>
-                        <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">{peak}</span>
-                        <span className={`flex items-center gap-2 ${side === "left" ? "sm:flex-row-reverse" : ""}`}>
-                          <span className="h-6 w-6 shrink-0 rounded-sm" style={{ background: `var(${v})` }} />
-                          <span className="text-sm font-medium text-text-primary">{name}</span>
+                      {/* The label, with its leader to the peak, in the same dash,
+                    weight and gray as the chain's connectors below */}
+                      <span className={`flex items-center justify-center gap-3 self-stretch sm:justify-start ${left ? "" : "sm:flex-row-reverse"}`}>
+                        {/* One line on a phone, label over value beside the mark */}
+                        <span className={`flex flex-row items-baseline gap-x-2 sm:flex-col sm:gap-1 ${end}`}>
+                          <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">{peak}</span>
+                          <span aria-hidden="true" className="font-label text-xs text-text-tertiary opacity-50 sm:hidden">
+                            ·
+                          </span>
+                          <span className="font-label text-xs text-text-tertiary">{hex}</span>
                         </span>
-                        <span className="font-label text-xs text-text-tertiary">{hex}</span>
+                        <span aria-hidden="true" className={`hidden flex-1 items-center sm:flex ${left ? "" : "flex-row-reverse"}`}>
+                          <span className="flex-1 border-t border-dashed border-border-strong" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-border-strong" />
+                        </span>
                       </span>
-                    </span>
-                  ))}
-                </span>
-
-                {/* Then into the system: each token on to the role it fills */}
-                <span className="flex flex-col gap-3 border-t border-border-subtle pt-6">
-                  <span className="font-label text-xs uppercase tracking-[0.11em] text-text-tertiary">
-                    Into the system
-                  </span>
-                  {(
-                    [
-                      ["--p-blue-600", "blue/600", "interactive/default", true],
-                      ["--p-blue-400", "blue/400", "mark/light", false],
-                    ] as const
-                  ).map(([v, name, role, button]) => (
-                    <span key={name} className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                      <span className="h-5 w-5 shrink-0 rounded-sm" style={{ background: `var(${v})` }} />
-                      <span className="text-sm font-medium text-text-primary">{name}</span>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-text-tertiary" />
-                      <span className="rounded-sm border border-border-subtle bg-surface-raised px-2.5 py-1 text-sm text-text-primary">
+                      {/* Then down into the system */}
+                      <span className={`mt-1 flex items-center gap-2.5 sm:mt-3 ${self} ${left ? "" : "sm:flex-row-reverse"}`}>
+                        <span className="h-6 w-6 shrink-0 rounded-sm" style={{ background: `var(${v})` }} />
+                        <span className="text-sm font-medium text-text-primary">{name}</span>
+                      </span>
+                      {down}
+                      <span className={`w-fit rounded-sm border border-border-subtle bg-surface-raised px-2.5 py-1 text-sm text-text-primary ${self}`}>
                         {role}
                       </span>
-                      {/* The button sample from a tablet up; on a phone the row
-                          would wrap it onto a line of its own */}
-                      {button && (
-                        <span className="hidden items-center gap-3 sm:flex">
-                          <ArrowRight className="h-4 w-4 shrink-0 text-text-tertiary" />
+                      {down}
+                      <span className={self}>
+                        {left ? (
                           <Button specimen variant="primary" fillOnPhone={false}>
                             Button
                           </Button>
-                        </span>
-                      )}
+                        ) : (
+                          <Logo className="h-9 w-auto" title="" />
+                        )}
+                      </span>
+                      <span className="text-xs text-text-tertiary">
+                        {left ? "Every button, link and focus ring" : "The mark, wherever it appears"}
+                      </span>
                     </span>
-                  ))}
-                </span>
+                  );
+                })}
               </div>
             </Figure>
             </>

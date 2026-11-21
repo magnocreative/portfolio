@@ -76,7 +76,7 @@ function Cover({ study }: { study: CaseStudy }) {
  * Drafts are marked, never dimmed. Fading them would make the most important
  * content on the page the least legible thing on it.
  */
-export function WorkEntry({ study, index }: { study: CaseStudy; index: number }) {
+export function WorkEntry({ study }: { study: CaseStudy }) {
   const isDraft = study.status === "draft";
   // A draft is not a link in production: nobody should click into a page that
   // has not been written. Locally it links through, so a study can be read in
@@ -102,11 +102,12 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
         <Cover study={study} />
       </div>
 
-      {/* The top row answers who, what and when before the title: the index
-          at the left and the facts at the right, wrapping under the index
-          when a phone has no room for both on one line. The footer holds
-          only the action, at the left where the eye returns after the
-          standfirst (Alejandro, November 2026).
+      {/* The top row answers who, what and when before the title, flush left
+          on the title's edge. It used to open with the card's number (01, 02),
+          with the facts at the right; the number said nothing a reader needed,
+          and the facts read better where the eye starts (Alejandro, November
+          2026). The footer holds only the action, at the left where the eye
+          returns after the standfirst.
 
           Spacing: the facts are metadata, so they get more air above the
           title (24px, 20 on a phone) than the title gets above the
@@ -115,8 +116,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
           separators are half strength so the facts, not the dots, carry the
           row. */}
       <div className="flex flex-col px-6 pt-7 pb-8 sm:px-8 sm:pb-10 @min-[54rem]:p-8 @5xl:p-12">
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-          <span className="font-label text-xs text-text-tertiary">{String(index + 1).padStart(2, "0")}</span>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           {/* Employer, discipline, when: one line to read. The employer
               leads with its mark, alone and in the line's own gray (the
               Mono org-logo, 32px with the mark about 23px tall): the 24px

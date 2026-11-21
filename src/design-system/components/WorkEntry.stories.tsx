@@ -11,12 +11,9 @@ const meta = {
     docs: {
       description: {
         component:
-          "One case study on the work index: a card with the cover and the record (number, organization, title, standfirst, action). Side by side from 54rem of card width, stacked below. Covers are made for the site, never employer screens.\n\nFigma: Work entry.",
+          "One case study on the work index: a card with the cover and the record (organization, title, standfirst, action). Side by side from 54rem of card width, stacked below. Covers are made for the site, never employer screens.\n\nFigma: Work entry.",
       },
     },
-  },
-  argTypes: {
-    index: { control: { type: "number", min: 0, max: 20 } },
   },
 } satisfies Meta<typeof WorkEntry>;
 
@@ -25,7 +22,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Published: Story = {
   args: {
-    index: 0,
     study: { ...caseStudies[0], status: "published" },
   },
   parameters: {
@@ -40,7 +36,6 @@ export const Published: Story = {
 
 export const Draft: Story = {
   args: {
-    index: 1,
     study: { ...caseStudies[1], status: "draft" },
   },
   parameters: {
@@ -55,7 +50,6 @@ export const Draft: Story = {
 
 export const LongTitle: Story = {
   args: {
-    index: 11,
     study: {
       ...caseStudies[1],
       title: "Sixteen applications across three platforms, and no way for anyone to know when any of them would break",
@@ -73,7 +67,7 @@ export const LongTitle: Story = {
 };
 
 export const TheIndex: Story = {
-  args: { index: 0, study: caseStudies[0] },
+  args: { study: caseStudies[0] },
   parameters: {
     layout: "fullscreen",
     docs: {
@@ -87,8 +81,8 @@ export const TheIndex: Story = {
     <div style={{ padding: "2rem", maxWidth: "84rem", margin: "0 auto" }}>
       <SectionHead count={caseStudies.length}>Case studies</SectionHead>
       <div style={{ marginTop: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {caseStudies.map((study, i) => (
-          <WorkEntry key={study.slug} study={study} index={i} />
+        {caseStudies.map((study) => (
+          <WorkEntry key={study.slug} study={study} />
         ))}
       </div>
     </div>
@@ -97,7 +91,6 @@ export const TheIndex: Story = {
 
 export const Phone: Story = {
   args: {
-    index: 0,
     study: { ...caseStudies[0], status: "published" },
   },
   globals: { viewport: { value: "phone", isRotated: false } },
@@ -116,7 +109,7 @@ export const Phone: Story = {
 
 export const PhoneDraft: Story = {
   name: "Phone, draft",
-  args: { index: 1, study: { ...caseStudies[1], status: "draft" } },
+  args: { study: { ...caseStudies[1], status: "draft" } },
   globals: { viewport: { value: "phone", isRotated: false } },
   parameters: {
     layout: "fullscreen",

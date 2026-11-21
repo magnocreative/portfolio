@@ -80,8 +80,8 @@ export default function Home() {
             <SectionHead id="work-heading" count={caseStudies.length}>Case studies</SectionHead>
 
             <div className="mt-10 flex flex-col gap-4">
-              {caseStudies.map((study, i) => (
-                <WorkEntry key={study.slug} study={study} index={i} />
+              {caseStudies.map((study) => (
+                <WorkEntry key={study.slug} study={study} />
               ))}
             </div>
           </section>
