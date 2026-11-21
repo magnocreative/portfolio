@@ -19,13 +19,15 @@ import {
   HubMock,
   MoodBoard,
   SketchSheet,
+  TwoFixes,
+  UserMap,
   WireframeMock,
 } from "./diagrams";
 
 export const metadata: Metadata = {
   title: "Sixteen applications, and no way to know when any of them would go down",
   description:
-    "Eighty-two people said they didn't need better applications; they needed to see the system. I argued for building the hub in React instead of Salesforce, and won. I argued for fewer applications, and lost.",
+    "Eighty-two people said they did not need better applications; they needed to see the system. I argued for building the hub in React instead of Salesforce, and won. I argued for fewer applications, and lost.",
 };
 
 /* The first study written in the two halves the storytelling guide settled on
@@ -61,6 +63,7 @@ const contents = [
     id: "how",
     label: "How I got there",
     children: [
+      { id: "people", label: "Who it was for" },
       { id: "constraint", label: "The constraint" },
       { id: "decision", label: "The decision" },
       { id: "progression", label: "From sketch to screen" },
@@ -78,7 +81,7 @@ export default function SixteenApplications() {
     <CaseStudyLayout
       breadcrumb={[{ label: "Work", href: "/work" }, { label: "Sixteen applications" }]}
       title="Sixteen applications, and no way to know when any of them would go down."
-      lede="A compliance organization ran its work across sixteen applications on three platforms, and nothing tied them together. I led the design of GRC Connect, the hub that did: one front door showing every application, what it’s for and whether it’s up."
+      lede="A compliance organization ran its work across sixteen applications on three platforms, and nothing tied them together. I led the design of GRC Connect, the hub that did: one front door showing every application, what it is for and whether it is up."
       art={<DottedGround />}
       subject={<HeroSubject />}
       contents={contents}
@@ -120,7 +123,7 @@ export default function SixteenApplications() {
             went down for maintenance, the people who depended on it found out by trying to open it.
           </p>
           <p>
-            We surveyed 82 of them. They weren&rsquo;t asking for better applications. They were
+            We surveyed 82 of them. They were not asking for better applications. They were
             asking to see the system.
           </p>
         </CaseStudyBeat>
@@ -131,18 +134,19 @@ export default function SixteenApplications() {
           after={
             <Figure
               ratio="auto"
+              bare
               recreated
-              caption="Every application says what it’s for, maintenance, issues and updates are announced across the top before anyone runs into them, and the applications you can open sit apart from the ones you’d have to request, a split users asked for in sketch testing."
+              caption="The dashboard: what each application is for, status at a glance, and what you can open set apart from what you can request. Shown in its refined high fidelity."
             >
               <HubMock />
             </Figure>
           }
         >
           <p>
-            GRC Connect gave all sixteen applications one front door: every application, what it&rsquo;s
-            for and whether it&rsquo;s up, with alerts and notifications for maintenance and outages.
+            GRC Connect gave all sixteen applications one front door: every application, what it is
+            for and whether it is up, with alerts and notifications for maintenance and outages.
             It launched to about 400 people, from occasional users to power users, new hires to people
-            who&rsquo;d been there for years, and was still in use the last time I heard from the team.
+            who had been there for years, and was still in use the last time I heard from the team.
           </p>
           <p>
             New users got the big picture for the first time. One wrote: &ldquo;Love the big picture
@@ -164,10 +168,36 @@ export default function SixteenApplications() {
 
       <CaseStudyPart id="how" eyebrow="Part two" title="How I got there" className="mt-28">
         <CaseStudyBeat
+          id="people"
+          heading="Who it was for"
+          after={
+            <Figure
+              ratio="auto"
+              caption="Three groups from the survey and interviews, mapped by applications used and time in GRC. Application owners sit off the map: they publish to everyone else."
+            >
+              <UserMap />
+            </Figure>
+          }
+        >
+          <p>
+            We surveyed 82 people and interviewed about a dozen, chosen across roles and experience.
+            Four groups came through. Power users moved across a wide range of applications every day.
+            Focused users lived in one or two and mostly needed to know when theirs was down. New hires
+            were still learning what GRC covered and which application did what. And the owners of each
+            application needed one place to tell everyone else about maintenance and changes.
+          </p>
+          <p>
+            The hub had to work for all four on the same screen, so every choice that followed answers
+            to at least one of them: status for the first two, purpose and access for new hires, and one
+            channel out for the owners.
+          </p>
+        </CaseStudyBeat>
+
+        <CaseStudyBeat
           id="constraint"
           heading="The constraint"
           after={
-            <Figure ratio="auto" recreated caption="Sixteen applications on three platforms, and no shared front door. Building the hub inside one of them meant reaching the other two from the outside. The split between platforms is approximate.">
+            <Figure ratio="auto" recreated caption="Sixteen applications on three platforms, with no shared front door. The split is approximate.">
               <Ecosystem />
             </Figure>
           }
@@ -178,9 +208,9 @@ export default function SixteenApplications() {
             engineers, so it was also the path of least resistance. Product was split.
           </p>
           <p>
-            But out of the box couldn&rsquo;t reach the ServiceNow and React applications in any
+            But out of the box could not reach the ServiceNow and React applications in any
             useful way, and the hub had to make a heavy load of information easy to take in, which
-            Salesforce&rsquo;s defaults weren&rsquo;t built for. Our design team sat in technology, so
+            Salesforce&rsquo;s defaults were not built for. Our design team sat in technology, so
             making that case meant arguing inside our own organization.
           </p>
         </CaseStudyBeat>
@@ -193,14 +223,15 @@ export default function SixteenApplications() {
               <Figure
                 ratio="auto"
                 recreated
-                caption="The mood board I made the case with, broken down from atoms to components: color, type, buttons, status and inputs, then the banner, card, summary, steps and feedback form built from them. Each was pinned for something the research asked for, and most of it became the hub."
+                caption="The mood board I made the case with, from atoms to components. Most of it became the hub."
               >
                 <MoodBoard />
               </Figure>
               <Figure
                 ratio="3/2"
+                bare
                 recreated
-                caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the custom build, shown in its refined high fidelity, says what each application is for, what is down or changing, and which ones you can open. Drag to compare."
+                caption="The same sixteen, two builds. Out of the box gave names, owners and dates; the custom build says what each is for and whether it is up. Drag to compare."
               >
                 <BuildComparison />
               </Figure>
@@ -233,7 +264,7 @@ export default function SixteenApplications() {
               <Figure
                 ratio="auto"
                 bare
-                caption="My first sketches, four takes each on the home page, an application’s details and notifications. Testing them settled the card, one per application, and added a line users asked for between the applications they could open and the ones they had to request. Select any sketch to see it larger; the product’s name is taken out."
+                caption="My first sketches: four takes each on the homepage, an application’s details and notifications. Select one to see it larger; the product’s name is removed."
               >
                 <SketchSheet />
               </Figure>
@@ -241,7 +272,7 @@ export default function SixteenApplications() {
                 ratio="auto"
                 bare
                 recreated
-                caption="The grayscale roughs that followed, from the first home with its side navigation to the one users preferred, with a header across the top and the applications a person can open set apart from the ones they would request. The details, notifications and feedback screens came next; feedback moved to a later release."
+                caption="Grayscale roughs, from a side navigation to the header users preferred, with what you can open set apart from what you can request."
               >
                 <WireframeMock />
               </Figure>
@@ -249,7 +280,7 @@ export default function SixteenApplications() {
                 ratio="auto"
                 bare
                 recreated
-                caption="High fidelity, shown in the refined form I describe under What I’d do differently: one bar with search, status in one line and on the cards it affects, cards as the only containers, one primary action per screen, and a form that waits to show errors until someone tries to move on. The home as shipped is under The result; the feedback log and form were designed for a later release, still in iteration when I left."
+                caption="High fidelity, in the refined form described under What I’d do differently. The feedback screens were for a later release, still in iteration when I left."
               >
                 <HiFiGallery />
               </Figure>
@@ -257,7 +288,7 @@ export default function SixteenApplications() {
           }
         >
           <p>
-            I started on paper. Twelve sketches tried four ways each to lay out the home page, open
+            I started on paper. Twelve sketches tried four ways each to lay out the homepage, open
             one application&rsquo;s details and read notifications. Users understood the card idea
             right away: one card per application, with what it is for and a way in. They also asked
             for something I had not drawn, a clear line between the applications they could open
@@ -271,19 +302,32 @@ export default function SixteenApplications() {
           </p>
         </CaseStudyBeat>
 
-        <CaseStudyBeat id="argument" heading="The argument I lost">
+        <CaseStudyBeat
+          id="argument"
+          heading="The argument I lost"
+          after={
+            <Figure
+              ratio="auto"
+              caption="Two fixes for the same sixteen. Consolidation went to the backlog; the hub shipped, one card per application, so it shrinks as they merge."
+            >
+              <TwoFixes />
+            </Figure>
+          }
+        >
           <p>
-            We chose interview participants to cover both ends: power users, and newer people still
-            learning the GRC space. Some worked inside one or two applications. Others moved across a
-            wide range of them every day, and for those people the number of applications was the
-            problem.
-          </p>
-          <p>
-            So I proposed the long-term fix: rebuild the applications into a single experience,
+            For the power users, the people moving across many applications every day, the number of
+            applications was itself the problem. So I proposed the long-term fix: rebuild the applications into a single experience,
             consolidating where they overlapped, so the hub would eventually have less to explain. It
             was turned down for now and put in the backlog. I designed the hub to carry what
-            consolidation would have: what each application is for, who it&rsquo;s for and when
-            it&rsquo;s available, in one place.
+            consolidation would have: what each application is for, who it is for and when it is
+            available, in one place.
+          </p>
+          <p>
+            I also built it so the argument could still be won later. Everything in the hub is drawn per
+            application: a card, its purpose, its owner, its status. Nothing depends on there being
+            sixteen. When applications merge, their cards merge with them, and the hub gets simpler
+            instead of needing a redesign. If consolidation ever leaves the backlog, the front door is
+            already the shape it would need.
           </p>
         </CaseStudyBeat>
 
@@ -294,15 +338,17 @@ export default function SixteenApplications() {
             <>
               <Figure
                 ratio="auto"
+                bare
                 recreated
-                caption="A redesign, not what shipped: a homepage for GRC Connect that explains the whole experience before anyone opens an application. What it is for, the status right now, the sixteen applications by area and how access works, with the dashboard one click away."
+                caption="A redesign, not what shipped: a homepage that explains GRC Connect before anyone opens an application."
               >
                 <ConnectHomeMock />
               </Figure>
               <Figure
                 ratio="3/2"
+                bare
                 recreated
-                caption="The dashboard in high fidelity, and the next iteration I would take it to: from a catalog to a workspace. It starts from the task, leads with what affects this person (an issue in an application they use, maintenance this week, an access request still waiting), lists their applications as compact rows with status inline, and keeps the ten they could request behind one link. Drag to compare."
+                caption="The dashboard in high fidelity, and the next iteration: from a catalog to a workspace that starts from the task and leads with what affects you. Drag to compare."
               >
                 <DashboardRedesign />
               </Figure>
@@ -310,7 +356,7 @@ export default function SixteenApplications() {
           }
         >
           <p>
-            I&rsquo;d ship the explanation with the hub, not after it. The hub showed people that
+            I would ship the explanation with the hub, not after it. The hub showed people that
             sixteen applications existed and what each was for, but not how to use them. A user guide,
             and a step-by-step view of what each application can do, would have turned the map into
             directions.
@@ -321,13 +367,19 @@ export default function SixteenApplications() {
             access, with the dashboard one click away.
           </p>
           <p>
-            Reviewing the shipped dashboard now, as a lead designer, I would also simplify it. It placed
-            cards inside boxed sections inside a boxed page, so I would let the cards be the only
-            containers and turn recently viewed into a short list. Three alert bars greeted people on
-            every visit, so I would summarize them in one line and mark the affected cards instead. And
-            the applications people could not yet open looked disabled while still offering Launch, so
-            each would get its own Request access and a real description, since those are the ones
-            people are deciding about.
+            Reviewing the shipped dashboard now, as a lead designer, I would also simplify it. It
+            placed cards inside boxed sections inside a boxed page; I would let the cards be the only
+            containers. Three alert bars greeted people on every visit; I would summarize them in one
+            line and mark the affected cards. Applications people could not yet open looked disabled
+            while still offering Launch; each would get its own Request access and a real description,
+            since those are the ones people are deciding about.
+          </p>
+          <p>
+            Past that, I would take the dashboard from a catalog to a workspace. It would start from
+            the task, with a search that asks what you need to do, and lead with what affects this
+            person: an issue in an application they use, maintenance this week, an access request still
+            waiting. Their applications would become compact rows with status inline, and the ones they
+            could request would sit behind one link.
           </p>
         </CaseStudyBeat>
       </CaseStudyPart>

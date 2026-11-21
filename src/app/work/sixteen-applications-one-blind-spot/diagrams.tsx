@@ -161,7 +161,8 @@ export function Ecosystem() {
    fidelity screen for screen: every application name, person, date and
    line of copy is made up, and the palette is invented, not USAA's brand.
    The screens themselves live with the high fidelity gallery further down
-   (RealHome and the rest); HubMock and the compare slider reuse the home.
+   (RedesignDashboard and the rest); HubMock and the compares reuse the
+   dashboard.
 
    A picture, not an interface: every frame is role="img" and inert, and
    nothing in it is a link or a button, only drawn to look like one. */
@@ -226,19 +227,19 @@ const HUB_SKIN = {
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 } as CSSProperties;
 
-/* The result: the accurate home, the same one as in From sketch to screen
-   and the compare slider, so the hub is drawn one way throughout the study
-   (Alejandro, November 2026). */
+/* The result: the dashboard in its refined high fidelity, the same one as
+   in the gallery and the compare (Alejandro, November 2026). */
 export function HubMock() {
   return (
     <div
       role="img"
-      aria-label="The hub's home, recreated with invented content, in a browser window. A dark bar with Home, Feedback, notifications and an avatar. Three banners across the top announce maintenance, issues and updates, each with Read More. A welcome column holds application roles, resources and newsletter announcements. Then recently viewed applications, the applications the person can open, each with a line on what it is for, View Details and Launch, and, in gray with Request Access, the ones they would have to request."
-      className="h-full w-full p-3 sm:p-6"
+      aria-label="The GRC Connect dashboard, in its refined high fidelity, recreated with invented content, in a browser window: search in the bar, one status line for an issue, two maintenance windows and two updates, a welcome column with recently viewed and help, the person's six applications as cards that say what each is for, with status on the affected ones and Launch, and the applications available to request, each with Request access."
+      className="h-full w-full"
     >
-      <RecreatedScreen address="grcconnect.example/home" tab="GRC Connect" width={1100}>
+      {/* No backdrop or padding: the browser window is its own frame (Alejandro, November 2026) */}
+      <RecreatedScreen address="grcconnect.example/dashboard" tab="GRC Connect" width={1100}>
         <div style={REAL_SKIN} className="bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
-          <RealHome />
+          <RedesignDashboard />
         </div>
       </RecreatedScreen>
     </div>
@@ -429,12 +430,8 @@ const statusChip = {
 };
 
 function Chip({ tone, children }: { tone: keyof typeof statusChip; children: ReactNode }) {
-  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${statusChip[tone]}`}>{children}</span>;
-}
-
-function Dot({ tone }: { tone: "up" | "warn" | "down" }) {
-  const c = { up: "bg-status-success", warn: "bg-status-warning", down: "bg-status-danger" }[tone];
-  return <span className={`h-1.5 w-1.5 rounded-full ${c}`} />;
+  /* Squared to 4px and marked by shape, like the tags in the hub */
+  return <span className={`inline-flex w-fit items-center gap-1 rounded-[4px] py-0.5 pr-2 pl-1.5 text-[11px] font-medium ${statusChip[tone]}`}>{children}</span>;
 }
 
 function ColorAtom() {
@@ -490,11 +487,11 @@ function ButtonAtom() {
 function StatusAtom() {
   return (
     <div className="flex flex-wrap gap-2">
-      <Chip tone="up"><Dot tone="up" />Up</Chip>
-      <Chip tone="warn"><Dot tone="warn" />Maintenance</Chip>
-      <Chip tone="down"><Dot tone="down" />Down</Chip>
-      <Chip tone="info">In progress</Chip>
-      <Chip tone="neutral">Draft</Chip>
+      <Chip tone="up"><StatusIcon tone="up" className="h-3 w-3" />Up</Chip>
+      <Chip tone="warn"><StatusIcon tone="warn" className="h-3 w-3" />Maintenance</Chip>
+      <Chip tone="down"><StatusIcon tone="down" className="h-3 w-3" />Down</Chip>
+      <Chip tone="info"><StatusIcon tone="info" className="h-3 w-3" />In progress</Chip>
+      <Chip tone="neutral"><span className="pl-0.5">Draft</span></Chip>
     </div>
   );
 }
@@ -504,7 +501,7 @@ function IconAtom() {
   return (
     <div className="grid grid-cols-3 gap-2 @md:grid-cols-6">
       {icons.map((g) => (
-        <span key={g} className="flex aspect-square items-center justify-center rounded-md bg-surface-sunken text-text-secondary">
+        <span key={g} className="flex aspect-square items-center justify-center rounded-[8px] bg-surface-sunken text-text-secondary">
           <Glyph d={g} className="h-5 w-5" />
         </span>
       ))}
@@ -539,47 +536,53 @@ function InputAtom() {
   );
 }
 
+/* The same notice as in the hub's details: no border, the status mark, one
+   short line */
 function BannerComponent() {
+  /* One line where there is room; on a phone the line wraps rather than cut off */
+  const row = "flex items-start gap-2.5 rounded-[8px] px-3 py-2.5 text-xs @xl:items-center @xl:whitespace-nowrap";
   return (
     <div className="flex flex-col gap-2">
-    <div className="flex items-center gap-3 rounded-md border border-[color-mix(in_oklab,var(--status-warning)_40%,var(--surface-raised))] bg-[color-mix(in_oklab,var(--status-warning)_10%,var(--surface-raised))] px-3 py-2.5 text-xs">
-      <span className="text-[color-mix(in_oklab,var(--status-warning)_80%,var(--text-primary))]">
-        <Glyph d="alert" className="h-4 w-4" />
-      </span>
-      <span className="text-text-primary">
-        <b className="font-semibold">Issue Tracker</b> is down for maintenance Saturday, 2 to 4 AM.
-      </span>
-      <span className="ml-auto whitespace-nowrap font-medium text-text-accent">Details</span>
-    </div>
-    <div className="flex items-center gap-3 rounded-md border border-[color-mix(in_oklab,var(--interactive-default)_30%,var(--surface-raised))] bg-[color-mix(in_oklab,var(--interactive-default)_8%,var(--surface-raised))] px-3 py-2.5 text-xs">
-      <span className="text-text-accent">
-        <Glyph d="bell" className="h-4 w-4" />
-      </span>
-      <span className="text-text-primary">
-        <b className="font-semibold">Exam Management</b> is now open to every team.
-      </span>
-      <span className="ml-auto whitespace-nowrap font-medium text-text-accent">Open</span>
-    </div>
+      <div className={`${row} bg-[color-mix(in_oklab,var(--status-warning)_16%,var(--surface-raised))] text-[oklch(36%_0.08_70)]`}>
+        <StatusIcon tone="warn" className="h-4 w-4" />
+        <span>
+          <b className="font-semibold">Maintenance</b> · Issue Tracker down Saturday, 2 to 4 AM
+        </span>
+        <span className="ml-auto font-semibold text-text-accent">Details</span>
+      </div>
+      <div className={`${row} bg-[color-mix(in_oklab,var(--interactive-default)_10%,var(--surface-raised))] text-[oklch(32%_0.08_256)]`}>
+        <StatusIcon tone="info" className="h-4 w-4" />
+        <span>
+          <b className="font-semibold">New</b> · Exam Management is open to every team
+        </span>
+        <span className="ml-auto font-semibold text-text-accent">Open</span>
+      </div>
     </div>
   );
 }
 
+/* The hub's card: the whole card opens the details (the chevron), status
+   under the name, and the one action that leaves, Launch, as a tint */
 function CardComponent() {
   return (
-    <div className="flex flex-col gap-2.5 rounded-md border border-border-subtle p-3">
-      <span className="flex items-start justify-between">
-        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-surface-sunken text-text-tertiary">
-          <Glyph d="doc" />
+    <div className={`flex flex-col gap-2 rounded-[8px] border border-[var(--real-line)] bg-surface-raised p-3 ${cardShadow}`}>
+      <span className="flex items-start gap-2">
+        <span className="flex flex-col">
+          <span className="text-sm font-semibold text-text-primary">Issue Tracker</span>
+          <span className="text-[11px] text-text-tertiary">ServiceNow</span>
         </span>
-        <Chip tone="up"><Dot tone="up" />Up</Chip>
+        <span className="ml-auto text-text-tertiary">
+          <Glyph d="chevron" className="h-4 w-4 -rotate-90" />
+        </span>
       </span>
-      <span className="flex flex-col">
-        <span className="text-sm font-semibold text-text-primary">Policy Library</span>
-        <span className="text-xs text-text-tertiary">Find and attest to policies</span>
-      </span>
-      <span className="flex items-center gap-2">
-        <Button specimen variant="primary" fillOnPhone={false}>Launch</Button>
-        <span className="text-xs font-medium text-text-accent">Docs</span>
+      <Chip tone="warn">
+        <StatusIcon tone="warn" className="h-3 w-3" />
+        Maintenance Sat, 2 to 4 AM
+      </Chip>
+      <span className="text-xs text-text-secondary">Log control issues and track each one to closure.</span>
+      <span className="flex w-fit items-center gap-1 rounded-[4px] bg-[color-mix(in_oklab,var(--interactive-default)_10%,var(--surface-raised))] px-3 py-1.5 text-xs font-semibold text-text-accent">
+        Launch
+        <Glyph d="arrow" className="h-3 w-3" />
       </span>
     </div>
   );
@@ -587,10 +590,10 @@ function CardComponent() {
 
 function SummaryComponent() {
   const parts = [
-    { label: "Up", value: 13, tone: "text-status-success" },
-    { label: "Maintenance", value: 2, tone: "text-status-warning" },
-    { label: "Down", value: 1, tone: "text-status-danger" },
-  ];
+    { label: "Up", value: 13, tone: "text-status-success", mark: "up" },
+    { label: "Maintenance", value: 2, tone: "text-status-warning", mark: "warn" },
+    { label: "Down", value: 1, tone: "text-status-danger", mark: "down" },
+  ] as const;
   const total = parts.reduce((a, p) => a + p.value, 0);
   const r = 26;
   const c = 2 * Math.PI * r;
@@ -613,7 +616,7 @@ function SummaryComponent() {
       <span className="flex flex-col gap-1.5">
         {parts.map((p) => (
           <span key={p.label} className="flex items-center gap-2 text-xs text-text-secondary">
-            <span className={`h-2 w-2 rounded-full bg-current ${p.tone}`} />
+            <StatusIcon tone={p.mark} />
             <b className="font-semibold text-text-primary">{p.value}</b> {p.label}
           </span>
         ))}
@@ -631,7 +634,7 @@ function UpcomingComponent() {
     <div className="flex flex-col gap-2">
       {rows.map(([d, n, t, h]) => (
         <span key={t} className="flex items-center gap-3">
-          <span className="flex w-9 flex-col items-center rounded-md bg-[color-mix(in_oklab,var(--interactive-default)_12%,var(--surface-raised))] py-1 leading-tight">
+          <span className="flex w-9 flex-col items-center rounded-[6px] bg-[color-mix(in_oklab,var(--interactive-default)_12%,var(--surface-raised))] py-1 leading-tight">
             <span className="text-[10px] text-text-secondary">{d}</span>
             <span className="text-sm font-semibold text-text-accent">{n}</span>
           </span>
@@ -669,16 +672,20 @@ function StepsComponent() {
   );
 }
 
+/* One line each, with the mark large enough to read at a glance
+   (Alejandro, November 2026) */
 function ToastComponent() {
+  /* The text takes the dark of its own color, like the notice in the hub */
+  const row = "flex items-center gap-2.5 rounded-[8px] px-3 py-2.5 text-xs font-medium whitespace-nowrap";
   return (
     <div className="flex flex-col gap-2">
-      <span className="flex items-center gap-2 rounded-md bg-[color-mix(in_oklab,var(--status-success)_12%,var(--surface-raised))] px-3 py-2 text-xs text-text-primary">
-        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-status-success text-[9px] text-surface-raised">✓</span>
+      <span className={`${row} bg-[color-mix(in_oklab,var(--status-success)_14%,var(--surface-raised))] text-text-success`}>
+        <StatusIcon tone="up" className="h-5 w-5" />
         Incident report sent
       </span>
-      <span className="flex items-center gap-2 rounded-md bg-[color-mix(in_oklab,var(--status-danger)_10%,var(--surface-raised))] px-3 py-2 text-xs text-text-primary">
-        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-status-danger text-[9px] text-surface-raised">!</span>
-        Something went wrong. Try again.
+      <span className={`${row} bg-[color-mix(in_oklab,var(--status-danger)_12%,var(--surface-raised))] text-text-danger`}>
+        <StatusIcon tone="down" className="h-5 w-5" />
+        Not sent. Try again.
       </span>
     </div>
   );
@@ -1473,220 +1480,6 @@ function Avatar({ size = "h-7 w-7" }: { size?: string }) {
   );
 }
 
-function RealBar({ active = "Home" }: { active?: string }) {
-  return (
-    <div className="flex items-center gap-6 bg-[var(--hub-bar)] px-6 py-2.5 text-[var(--hub-on-bar)]">
-      <span className="flex items-center gap-2">
-        <span className="grid h-5 w-5 grid-cols-2 gap-[2px] rounded-[4px] bg-[color-mix(in_oklab,var(--hub-on-bar)_18%,transparent)] p-[3px]">
-          <span className="rounded-[1px] bg-[var(--hub-on-bar)]" />
-          <span className="rounded-[1px] bg-[var(--hub-on-bar)] opacity-60" />
-          <span className="rounded-[1px] bg-[var(--hub-on-bar)] opacity-60" />
-          <span className="rounded-[1px] bg-[var(--hub-on-bar)]" />
-        </span>
-        <span className="text-[15px] uppercase tracking-[0.08em]">
-          <b className="font-bold">GRC</b> Connect
-        </span>
-      </span>
-      <span className="ml-auto flex items-center gap-7 self-stretch text-[12px]">
-        {["Home", "Feedback"].map((n) => (
-          <span
-            key={n}
-            className={`-my-2.5 flex items-center border-b-2 ${
-              n === active ? "border-[var(--hub-on-bar)] font-semibold" : "border-transparent text-[var(--hub-on-bar-muted)]"
-            }`}
-          >
-            {n}
-          </span>
-        ))}
-      </span>
-      <span className="relative">
-        <Glyph d="bell" className="h-5 w-5" />
-        <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full border border-[var(--hub-bar)] bg-[var(--real-red)]" />
-      </span>
-      <Avatar />
-    </div>
-  );
-}
-
-function Pill({ children, tone }: { children: ReactNode; tone: "plain" | "red" | "green" }) {
-  const t =
-    tone === "red"
-      ? "bg-[var(--real-red)] text-white"
-      : tone === "green"
-        ? "bg-[var(--real-green)] text-white"
-        : "border border-[var(--real-line)] bg-surface-raised text-text-primary";
-  return <span className={`inline-flex shrink-0 rounded-full px-2.5 py-[3px] text-[10px] font-semibold ${t}`}>{children}</span>;
-}
-
-/* The three alerts, stacked across the top, each with Read More and a close */
-function Banners() {
-  const rows: [ReactNode, "plain" | "red" | "green", ReactNode][] = [
-    [
-      "Maintenance (3)",
-      "plain",
-      <>
-        <b className="font-semibold">IT:</b> 10-29-22 (2:00 AM to 4:00 AM), <b className="font-semibold">PL:</b> 10-30-22 (6:00 PM to 8:00 PM)
-      </>,
-    ],
-    [
-      "Issues (2)",
-      "red",
-      <>
-        <b className="font-semibold">RA:</b> Scores are slow to load. <b className="font-semibold">IR:</b> Attachments fail to upload on…
-      </>,
-    ],
-    [
-      "Updates (2)",
-      "green",
-      <>
-        <b className="font-semibold">PL:</b> Search now filters by business area. <b className="font-semibold">CT:</b> Export results to a…
-      </>,
-    ],
-  ];
-  return (
-    <div className="flex flex-col">
-      {rows.map(([label, tone, text], i) => (
-        <span key={i} className="flex items-center gap-3 border-b border-[var(--real-line)] bg-[var(--real-off)] px-5 py-1.5 text-[11px] text-text-primary">
-          <Pill tone={tone}>{label}</Pill>
-          <span className="truncate">{text}</span>
-          <span className={`shrink-0 ${link}`}>Read More</span>
-          <span className="ml-auto text-text-primary">
-            <RIcon i="close" />
-          </span>
-        </span>
-      ))}
-    </div>
-  );
-}
-
-const HOME_MINE: [string, string][] = [
-  ["Policy Library (PL)", "Centralized location to find, cite and attest to the current policies and standards."],
-  ["Issue Tracker (IT)", "Logs control issues and tracks each one through remediation to closure."],
-  ["Risk Assessments (RA)", "Scores and reviews operational risk by business area and control owner."],
-  ["Control Testing (CT)", "Plans control tests and records results, exceptions and sign-offs."],
-  ["Incident Reporting (IR)", "Reports an incident and follows its status from intake to resolution."],
-  ["Regulatory Updates (RU)", "Tracks new and amended rules, and who in the business they affect."],
-];
-
-const HOME_OTHER = [
-  "Audit Workpapers (AW)",
-  "Vendor Risk (VR)",
-  "Compliance Training (CTR)",
-  "Exam Management (EM)",
-  "Quality Reviews (QR)",
-  "Change Requests (CR)",
-];
-
-function AppTile({ name, text, other = false }: { name: string; text: string; other?: boolean }) {
-  return (
-    <span className={`flex flex-col rounded-[3px] border border-[var(--real-line)] ${other ? "bg-[var(--real-off)]" : "bg-surface-raised"} ${cardShadow}`}>
-      <span className="flex items-start gap-2 px-2.5 pt-2.5">
-        <span className="text-[11px] leading-snug font-semibold text-text-primary">{name}</span>
-        <span className="ml-auto -mr-1 text-text-secondary">
-          <RIcon i="kebab" />
-        </span>
-      </span>
-      <span className="mt-1.5 min-h-[3.4rem] px-2.5 text-[10.5px] leading-snug text-text-secondary">{text}</span>
-      <span className={`mt-2 grid grid-cols-2 border-t border-[var(--real-line)] py-1.5 text-center text-[10.5px] ${other ? "text-text-primary" : link}`}>
-        <span>View Details</span>
-        <span>Launch</span>
-      </span>
-    </span>
-  );
-}
-
-function Panel({ title, sub, action, off = false, children }: { title: string; sub?: string; action?: ReactNode; off?: boolean; children: ReactNode }) {
-  return (
-    <span className={`flex flex-col gap-3 rounded-[3px] border border-[var(--real-line)] p-3.5 ${off ? "bg-[var(--real-off)]" : "bg-surface-raised"} ${cardShadow}`}>
-      <span className="flex items-center">
-        <span className="text-[15px] font-medium text-text-primary">
-          {title}
-          {sub && <span className="font-normal"> {sub}</span>}
-        </span>
-        {action && <span className="ml-auto">{action}</span>}
-      </span>
-      {children}
-    </span>
-  );
-}
-
-function RealHome() {
-  return (
-    <>
-      <RealBar />
-      <Banners />
-      <div className="flex items-start gap-3 px-16 pt-5 pb-8">
-        {/* Welcome, roles, resources, newsletter */}
-        <span className={`flex w-[210px] shrink-0 flex-col rounded-[3px] border border-[var(--real-line)] bg-surface-raised text-[11px] ${cardShadow}`}>
-          <span className="flex flex-col gap-2.5 px-4 pt-4 pb-3">
-            <Avatar size="h-14 w-14" />
-            <span className="text-[15px] font-medium text-text-primary">Welcome, Jordan!</span>
-          </span>
-          {[
-            ["Application Roles", <span key="r" className="text-text-secondary">Risk and Compliance starts here, connecting people, processes, and platforms.</span>],
-            [
-              "Resources",
-              <span key="s" className="flex flex-col gap-1">
-                {["Ecosystem Wiki", "Who Owns What"].map((l) => (
-                  <span key={l} className={`flex justify-between ${link}`}>
-                    {l}
-                    <RIcon i="right" className="h-3 w-3" />
-                  </span>
-                ))}
-              </span>,
-            ],
-            [
-              "Newsletter Announcements",
-              <span key="n" className="flex flex-col gap-1">
-                {["October Release Notes", "Quarterly Controls Review"].map((l) => (
-                  <span key={l} className={`flex justify-between ${link}`}>
-                    {l}
-                    <RIcon i="right" className="h-3 w-3" />
-                  </span>
-                ))}
-              </span>,
-            ],
-          ].map(([h, body]) => (
-            <span key={h as string} className="flex flex-col gap-1.5 border-t border-[var(--real-line)] px-4 py-3">
-              <span className="font-semibold text-text-primary">{h}</span>
-              {body}
-            </span>
-          ))}
-        </span>
-
-        <span className="flex min-w-0 flex-1 flex-col gap-3">
-          <Panel title="Recently Viewed Applications">
-            <span className="grid grid-cols-3 gap-2.5">
-              {HOME_MINE.slice(0, 2).map(([n, t]) => (
-                <AppTile key={n} name={n} text={t} />
-              ))}
-            </span>
-          </Panel>
-          <Panel title="GRC Applications" sub="(My Access)">
-            <span className="grid grid-cols-3 gap-2.5">
-              {HOME_MINE.map(([n, t]) => (
-                <AppTile key={n} name={n} text={t} />
-              ))}
-            </span>
-          </Panel>
-          <Panel
-            title="Other GRC Applications"
-            sub="(Requires Access)"
-            off
-            action={<span className="rounded-[3px] bg-[var(--real-action)] px-3 py-1 text-[10.5px] font-semibold text-white">Request Access</span>}
-          >
-            <span className="grid grid-cols-3 gap-2.5">
-              {HOME_OTHER.map((n) => (
-                <AppTile key={n} name={n} text={LOREM} other />
-              ))}
-            </span>
-          </Panel>
-        </span>
-      </div>
-    </>
-  );
-}
-
 const HIFI: { label: string; alt: string; address: string; tab: string; screen: ReactNode }[] = [
   {
     label: "Dashboard",
@@ -1699,7 +1492,7 @@ const HIFI: { label: string; alt: string; address: string; tab: string; screen: 
     label: "Application details",
     address: "grcconnect.example/apps/policy-library",
     tab: "GRC Connect",
-    alt: "One application's details over the dimmed dashboard: its platform and category, a maintenance window and an update as tags, what it is for, access, category and both owners, with Documentation, Past updates and Launch.",
+    alt: "One application's details in a drawer beside the dashboard, its card still outlined: platform and category, a maintenance window, what it is for, access, category and both owners, recent updates with a link to past ones, with Launch and Documentation under the title.",
     screen: <RefinedDetails />,
   },
   {
@@ -1782,7 +1575,7 @@ const CONNECT_REQUEST: { name: string; purpose: string; platform: string }[] = [
 
 function ConnectBar({ active, search = true }: { active: string; search?: boolean }) {
   return (
-    <div className="flex items-center gap-7 bg-[var(--hub-bar)] px-6 py-2.5 text-[var(--hub-on-bar)]">
+    <div className="flex items-center gap-7 bg-[var(--hub-bar)] px-16 py-2.5 text-[var(--hub-on-bar)]">
       <span className="flex items-center gap-2">
         <span className="grid h-5 w-5 grid-cols-2 gap-[2px] rounded-[4px] bg-[color-mix(in_oklab,var(--hub-on-bar)_18%,transparent)] p-[3px]">
           <span className="rounded-[1px] bg-[var(--hub-on-bar)]" />
@@ -1823,13 +1616,41 @@ function ConnectBar({ active, search = true }: { active: string; search?: boolea
   );
 }
 
-const dot = (tone: "warn" | "down" | "info" | "up") =>
-  ({
-    warn: "bg-[oklch(70%_0.15_75)]",
-    down: "bg-[var(--real-red)]",
-    info: "bg-[var(--real-action)]",
-    up: "bg-[var(--real-green)]",
-  })[tone];
+const AMBER = "oklch(70% 0.15 75)";
+
+/* Status by shape as well as color (Alejandro, November 2026): red and amber
+   are hard to tell apart for many people with color blindness, so each
+   status has its own mark. An issue is a warning triangle, maintenance a
+   clock (it is a scheduled window), an update an info circle, done a check. */
+function StatusIcon({ tone, className = "h-3.5 w-3.5" }: { tone: "warn" | "down" | "info" | "up"; className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={`shrink-0 ${className}`} aria-hidden="true">
+      {tone === "down" ? (
+        <>
+          <path d="M8 1.6c.4 0 .7.2.9.5l6 10.6c.4.7-.1 1.6-.9 1.6H2c-.8 0-1.3-.9-.9-1.6l6-10.6c.2-.3.5-.5.9-.5Z" fill="var(--real-red)" />
+          <path d="M8 5.6v3.6" stroke="white" strokeWidth={1.6} strokeLinecap="round" />
+          <circle cx="8" cy="11.4" r=".95" fill="white" />
+        </>
+      ) : tone === "warn" ? (
+        <>
+          <circle cx="8" cy="8" r="7" fill={AMBER} />
+          <path d="M8 4.4V8l2.4 1.6" stroke="white" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </>
+      ) : tone === "info" ? (
+        <>
+          <circle cx="8" cy="8" r="7" fill="var(--real-action)" />
+          <path d="M8 7.2v4" stroke="white" strokeWidth={1.6} strokeLinecap="round" />
+          <circle cx="8" cy="4.9" r=".95" fill="white" />
+        </>
+      ) : (
+        <>
+          <circle cx="8" cy="8" r="7" fill="var(--real-green)" />
+          <path d="m5 8.2 2 2 4-4.4" stroke="white" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </>
+      )}
+    </svg>
+  );
+}
 
 function StatusLine() {
   return (
@@ -1843,7 +1664,7 @@ function StatusLine() {
         ] as const
       ).map(([t, l]) => (
         <span key={l} className="flex items-center gap-1.5">
-          <span className={`h-2 w-2 rounded-full ${dot(t)}`} />
+          <StatusIcon tone={t} />
           {l}
         </span>
       ))}
@@ -1855,14 +1676,16 @@ function StatusLine() {
   );
 }
 
+/* Squared to 4px, a smaller step of the 6px notice and cards, so tags and
+   notices read as one family (Alejandro, November 2026) */
 function StatusTag({ tone, children }: { tone: "warn" | "down"; children: ReactNode }) {
   const t =
     tone === "down"
       ? "bg-[color-mix(in_oklab,var(--real-red)_12%,white)] text-[oklch(46%_0.17_25)]"
       : "bg-[oklch(95%_0.05_80)] text-[oklch(42%_0.1_70)]";
   return (
-    <span className={`inline-flex w-fit items-center gap-1.5 rounded-full px-2 py-0.5 text-[10.5px] font-medium ${t}`}>
-      <span className={`h-1.5 w-1.5 rounded-full ${dot(tone)}`} />
+    <span className={`inline-flex w-fit items-center gap-1 rounded-[4px] py-0.5 pr-2 pl-1.5 text-[10.5px] font-medium ${t}`}>
+      <StatusIcon tone={tone} className="h-3 w-3" />
       {children}
     </span>
   );
@@ -1880,13 +1703,17 @@ function ConnectCard({
   status,
   request = false,
   hovered = false,
-}: (typeof CONNECT_APPS)[number] & { request?: boolean; hovered?: boolean }) {
+  selected = false,
+}: (typeof CONNECT_APPS)[number] & { request?: boolean; hovered?: boolean; selected?: boolean }) {
   return (
     <span
-      className={`flex flex-col gap-2 rounded-[6px] border bg-surface-raised p-4 ${
-        hovered
-          ? "border-[color-mix(in_oklab,var(--real-action)_55%,white)] shadow-[0_6px_16px_color-mix(in_oklab,var(--shadow-ink)_14%,transparent)]"
-          : `border-[var(--real-line)] ${cardShadow}`
+      className={`flex flex-col gap-2 rounded-[8px] border bg-surface-raised p-4 ${
+        selected
+          ? /* Open in the drawer: the card keeps a clear outline beside it */
+            "border-[var(--real-action)] shadow-[0_0_0_1px_var(--real-action)]"
+          : hovered
+            ? "border-[color-mix(in_oklab,var(--real-action)_55%,white)] shadow-[0_6px_16px_color-mix(in_oklab,var(--shadow-ink)_14%,transparent)]"
+            : `border-[var(--real-line)] ${cardShadow}`
       }`}
     >
       <span className="flex items-start gap-2">
@@ -1900,9 +1727,11 @@ function ConnectCard({
           {request ? <Glyph d="lock" className="h-4 w-4" /> : <RIcon i="right" className="h-4 w-4" />}
         </span>
       </span>
-      <span className="min-h-[2.6rem] text-[11.5px] leading-snug text-text-secondary">{purpose}</span>
-      {status ? <StatusTag tone={status.tone}>{status.text}</StatusTag> : <span className="h-[19px]" />}
-      <span className="mt-1 flex items-center text-[11.5px]">
+      {/* Status under the name, read before the purpose; no slot held when
+          there is none, since Launch is pinned to the bottom */}
+      {status && <StatusTag tone={status.tone}>{status.text}</StatusTag>}
+      <span className="text-[11.5px] leading-snug text-text-secondary">{purpose}</span>
+      <span className="mt-auto flex items-center pt-3 text-[11.5px]">
         {request ? (
           <span className={`rounded-[4px] bg-[color-mix(in_oklab,var(--real-action)_8%,white)] px-3 py-1.5 font-semibold ${link}`}>Request access</span>
         ) : (
@@ -1931,11 +1760,13 @@ function SectionTitle({ title, count, note }: { title: string; count: number; no
   );
 }
 
-function RedesignDashboard() {
+function RedesignDashboard({ selected, drawer }: { selected?: number; drawer?: ReactNode } = {}) {
   return (
     <>
       <ConnectBar active="Dashboard" />
-      <StatusLine />
+      {/* The drawer opens under the bar, over the page, so the bar stays usable */}
+      <div className="relative">
+        <StatusLine />
       <div className="flex gap-8 px-16 pt-7 pb-10">
         {/* No box: the column is text on the page */}
         <span className="flex w-[180px] shrink-0 flex-col gap-6 text-[11.5px]">
@@ -1970,7 +1801,7 @@ function RedesignDashboard() {
           <SectionTitle title="Your applications" count={6} />
           <span className="grid grid-cols-3 gap-3">
             {CONNECT_APPS.map((a, i) => (
-              <ConnectCard key={a.name} {...a} hovered={i === 3} />
+              <ConnectCard key={a.name} {...a} hovered={selected === undefined && i === 3} selected={i === selected} />
             ))}
           </span>
           <span className="mt-4">
@@ -1986,6 +1817,8 @@ function RedesignDashboard() {
             <RIcon i="right" className="h-3 w-3" />
           </span>
         </span>
+      </div>
+        {drawer}
       </div>
     </>
   );
@@ -2005,15 +1838,17 @@ function ConnectHome() {
     <>
       <ConnectBar active="Home" />
       {/* Purpose, and the way in */}
-      <div className="grid grid-cols-[1.25fr_1fr] items-center gap-12 border-b border-[var(--real-line)] bg-surface-raised px-16 py-12">
+      {/* No rule under the hero: the three ways in below back up its promise,
+          so space separates them, not a line (Alejandro, November 2026) */}
+      <div className="grid grid-cols-[1.25fr_1fr] items-center gap-12 bg-surface-raised px-16 pt-12 pb-4">
         <span className="flex flex-col gap-4">
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--real-link)]">Governance, Risk and Compliance</span>
-          <span className="text-[30px] leading-tight font-semibold tracking-[-0.01em] text-text-primary">
+          <span className="text-[30px] leading-tight font-semibold tracking-[-0.01em] text-balance text-text-primary">
             Every GRC application, in one place.
           </span>
-          <span className="text-[14px] leading-relaxed text-text-secondary">
-            GRC Connect shows the sixteen applications our organization runs on: what each one is for, whether it is up,
-            and how to get access. Start here when you are new, and come back whenever something changes.
+          <span className="text-[14px] leading-relaxed text-pretty text-text-secondary">
+            What each of the sixteen is for, whether it is up and how to get access. Start here when you are new, and
+            come back whenever something changes.
           </span>
           <span className="mt-2 flex items-center gap-5 text-[12.5px]">
             <span className="flex items-center gap-1 rounded-[4px] bg-[var(--real-action)] px-4 py-2 font-semibold text-white">
@@ -2044,7 +1879,7 @@ function ConnectHome() {
             ["warn", "Policy Library", "Maintenance Sun, 6 to 8 PM"],
           ].map(([t, n, d]) => (
             <span key={n} className="flex items-center gap-2 border-t border-[var(--real-line)] pt-2.5 text-[11.5px]">
-              <span className={`h-2 w-2 shrink-0 rounded-full ${dot(t as "warn" | "down")}`} />
+              <StatusIcon tone={t as "warn" | "down"} />
               <span className="font-semibold text-text-primary">{n}</span>
               <span className="text-text-secondary">{d}</span>
             </span>
@@ -2052,20 +1887,30 @@ function ConnectHome() {
         </span>
       </div>
 
-      <div className="flex flex-col gap-10 px-16 py-10">
-        {/* What it does */}
+      <div className="flex flex-col gap-12 px-16 pt-6 pb-10">
+        {/* What it does, as three ways in. The hero already says it in a
+            sentence, so each one here earns its place with somewhere to go.
+            Open columns, no box: containers are kept for objects (the status
+            card, the areas), so the page does not turn into boxes
+            (Alejandro, November 2026). The same three columns as the steps. */}
         <span className="grid grid-cols-3 gap-8">
           {[
-            ["doc", "Every application, explained", "What each one is for, who owns it and where its documentation lives, before you open it."],
-            ["bell", "Status before you need it", "Maintenance, issues and updates are announced here, so nobody finds out by trying to log in."],
-            ["lock", "Access without guessing", "See what you can open and what you can request, and send the request to the right owner."],
-          ].map(([g, t, d]) => (
-            <span key={t} className="flex flex-col gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-[8px] bg-[color-mix(in_oklab,var(--real-action)_10%,white)] text-[var(--real-link)]">
+            ["doc", "Every application, explained", "What each one is for, who owns it and where its docs live.", "Browse by area"],
+            ["bell", "Status before you need it", "Maintenance and issues, announced before you try to log in.", "See notifications"],
+            ["lock", "Access without guessing", "See what you can open, and ask the right owner for the rest.", "How access works"],
+          ].map(([g, t, d, a]) => (
+            <span key={t} className="flex items-start gap-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[8px] bg-[color-mix(in_oklab,var(--real-action)_10%,white)] text-[var(--real-link)]">
                 <Glyph d={g as "doc" | "bell" | "lock"} className="h-[18px] w-[18px]" />
               </span>
-              <span className="text-[13.5px] font-semibold text-text-primary">{t}</span>
-              <span className="text-[12px] leading-relaxed text-text-secondary">{d}</span>
+              <span className="flex flex-col gap-1">
+                <span className="text-[13px] font-semibold text-text-primary">{t}</span>
+                <span className="text-[11.5px] leading-snug text-pretty text-text-secondary">{d}</span>
+                <span className={`mt-1 flex items-center gap-0.5 text-[11.5px] ${link}`}>
+                  {a}
+                  <RIcon i="right" className="h-3 w-3" />
+                </span>
+              </span>
             </span>
           ))}
         </span>
@@ -2078,7 +1923,7 @@ function ConnectHome() {
           </span>
           <span className="grid grid-cols-4 gap-3">
             {AREAS.map((a) => (
-              <span key={a.area} className={`flex flex-col gap-2 rounded-[6px] border border-[var(--real-line)] bg-surface-raised p-4 ${cardShadow}`}>
+              <span key={a.area} className={`flex flex-col gap-2 rounded-[8px] border border-[var(--real-line)] bg-surface-raised p-4 ${cardShadow}`}>
                 <span className="text-[12.5px] font-semibold text-text-primary">{a.area}</span>
                 {a.apps.map((n) => (
                   <span key={n} className={`text-[11.5px] ${link}`}>
@@ -2093,18 +1938,24 @@ function ConnectHome() {
         {/* How access works */}
         <span className="flex flex-col gap-4">
           <span className={h2}>How access works</span>
-          <span className="grid grid-cols-3 gap-3">
+          {/* The same grid as the three ways in above: the number sits where
+              their icons sit and the text starts on the same line, so the
+              columns run straight down the page (Alejandro, November 2026).
+              The numbers carry the order, so no connecting line. Each
+              number on the same tinted square as the icons above;
+              one line under each title, no orphans. */}
+          <span className="grid grid-cols-3 gap-8">
             {[
-              ["1", "Find the application", "Search or browse by area. Each one says what it is for."],
-              ["2", "Request access", "Your request goes to the application's owner, with your role attached."],
-              ["3", "Launch from your dashboard", "Once approved, it moves to Your applications, with its status."],
+              ["1", "Find the application", "Search, or browse the sixteen by area."],
+              ["2", "Request access", "It goes to the owner, with your role attached."],
+              ["3", "Launch from your dashboard", "Once approved, it joins Your applications."],
             ].map(([n, t, d]) => (
               <span key={n} className="flex items-start gap-3">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-[var(--real-action)] text-[12px] font-semibold text-[var(--real-link)]">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[8px] bg-[color-mix(in_oklab,var(--real-action)_10%,white)] text-[13px] font-semibold text-[var(--real-link)]">
                   {n}
                 </span>
-                <span className="flex flex-col gap-0.5">
-                  <span className="text-[12.5px] font-semibold text-text-primary">{t}</span>
+                <span className="flex flex-col gap-1">
+                  <span className="text-[13px] font-semibold text-text-primary">{t}</span>
                   <span className="text-[11.5px] leading-snug text-text-secondary">{d}</span>
                 </span>
               </span>
@@ -2139,9 +1990,10 @@ export function ConnectHomeMock() {
   return (
     <div
       role="img"
-      aria-label="A redesign: the GRC Connect homepage, recreated with invented content. A headline, Every GRC application, in one place, with a line on what GRC Connect is for, a Go to your dashboard button and a How access works link. Beside it, a Right now panel: 13 of 16 applications up, with one issue and two maintenance windows listed. Below, three things it does (every application explained, status before you need it, access without guessing), the sixteen applications in four areas, and three steps for getting access."
-      className="h-full w-full p-3 sm:p-6"
+      aria-label="A redesign: the GRC Connect homepage, recreated with invented content. A headline, Every GRC application, in one place, with a line on what GRC Connect is for, a Go to your dashboard button and a How access works link. Beside it, a Right now panel: 13 of 16 applications up, with one issue and two maintenance windows listed. Below, three ways in, each with a link (every application explained, status before you need it, access without guessing), the sixteen applications in four areas, and three numbered steps for getting access."
+      className="h-full w-full"
     >
+      {/* No backdrop or padding: the browser window is its own frame */}
       <ConnectScreen address="grcconnect.example">
         <ConnectHome />
       </ConnectScreen>
@@ -2169,9 +2021,9 @@ const MARKS: Record<string, string> = {
 function AttentionCard({ tone, title, body, action }: { tone: "warn" | "down" | "info"; title: string; body: string; action: string }) {
   const edge = { down: "border-l-[var(--real-red)]", warn: "border-l-[oklch(70%_0.15_75)]", info: "border-l-[var(--real-action)]" }[tone];
   return (
-    <span className={`flex flex-col gap-1.5 rounded-[6px] border border-l-4 border-[var(--real-line)] ${edge} bg-surface-raised p-4 ${cardShadow}`}>
+    <span className={`flex flex-col gap-1.5 rounded-[8px] border border-l-4 border-[var(--real-line)] ${edge} bg-surface-raised p-4 ${cardShadow}`}>
       <span className="flex items-center gap-2 text-[12.5px] font-semibold text-text-primary">
-        <span className={`h-2 w-2 rounded-full ${dot(tone)}`} />
+        <StatusIcon tone={tone} />
         {title}
       </span>
       <span className="text-[11.5px] leading-snug text-text-secondary">{body}</span>
@@ -2345,7 +2197,10 @@ export function DashboardRedesign() {
 const secondaryBtn =
   "inline-flex items-center gap-1 rounded-[4px] bg-[color-mix(in_oklab,var(--real-action)_8%,white)] px-3 py-1.5 font-semibold text-[var(--real-link)]";
 const primaryBtn = "inline-flex items-center gap-1 rounded-[4px] bg-[var(--real-action)] px-4 py-1.5 font-semibold text-white";
-const panel = `rounded-[6px] border border-[var(--real-line)] bg-surface-raised ${cardShadow}`;
+/* One radius per size, across the hub and the mood board (Alejandro,
+   November 2026): 8px for containers (cards, panels, notices, toasts), 6px
+   for small tiles (icons, dates), 4px for tags and buttons. */
+const panel = `rounded-[8px] border border-[var(--real-line)] bg-surface-raised ${cardShadow}`;
 
 function PageHead({ back, title, actions }: { back?: string; title: string; actions?: ReactNode }) {
   return (
@@ -2393,64 +2248,101 @@ function RadioOn({ on = false, error = false }: { on?: boolean; error?: boolean 
 }
 
 /* Details, over the refined dashboard */
+/* Details open in a drawer beside the grid, not a modal over it (Alejandro,
+   November 2026): people compare applications, so the grid, the status line
+   and the chosen card stay in view, and choosing another card swaps the
+   drawer's contents. A light scrim; Launch and Documentation under the title. */
 function RefinedDetails() {
   const item = (k: string, v: string) => (
     <span className="flex flex-col gap-0.5">
-      <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-text-tertiary">{k}</span>
+      <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-text-tertiary">
+        {k}
+      </span>
       <span className="text-[12px] text-text-primary">{v}</span>
     </span>
   );
+  const head =
+    "text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-tertiary";
   return (
-    <div className="relative">
-      <RedesignDashboard />
-      <div className="absolute inset-0 flex justify-center bg-[oklch(20%_0.02_256/0.5)] pt-16">
-        <div className="h-fit w-[540px] overflow-hidden rounded-[10px] bg-surface-raised shadow-[0_18px_48px_oklch(0%_0_0/0.28)]">
-          <div className="flex items-start gap-3 px-6 pt-5">
-            <span className="flex flex-col">
-              <span className="text-[17px] font-semibold text-text-primary">Policy Library</span>
-              <span className="text-[11px] text-text-tertiary">Salesforce · Governance</span>
-            </span>
-            <span className="ml-auto grid h-7 w-7 place-items-center rounded-full text-text-secondary">
-              <RIcon i="close" className="h-4 w-4" />
-            </span>
-          </div>
-          <div className="flex flex-col gap-2 px-6 pt-4">
-            <span className="flex items-center gap-2.5 text-[11.5px] text-text-secondary">
-              <StatusTag tone="warn">Maintenance</StatusTag>
-              Sunday, 6 to 8 PM. Down for scheduled changes.
-            </span>
-            <span className="flex items-center gap-2.5 text-[11.5px] text-text-secondary">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--real-action)_10%,white)] px-2 py-0.5 text-[10.5px] font-medium text-[var(--real-link)]">
-                <span className={`h-1.5 w-1.5 rounded-full ${dot("info")}`} />
-                Update
+    <RedesignDashboard
+      selected={0}
+      drawer={
+        <>
+          <div className="absolute inset-0 bg-[oklch(20%_0.02_256/0.12)]" />
+          <div className="absolute inset-y-0 right-0 flex w-[420px] flex-col border-l border-[var(--real-line)] bg-surface-raised shadow-[-12px_0_32px_oklch(0%_0_0/0.14)]">
+            <div className="flex items-start gap-3 px-6 pt-5 pb-3">
+              <span className="flex flex-col">
+                <span className="text-[17px] font-semibold text-text-primary">
+                  Policy Library
+                </span>
+                <span className="text-[11px] text-text-tertiary">
+                  Salesforce · Governance
+                </span>
               </span>
-              New search filters: find a policy by business area.
-            </span>
+              <span className="ml-auto grid h-7 w-7 place-items-center rounded-full text-text-secondary">
+                <RIcon i="close" className="h-4 w-4" />
+              </span>
+            </div>
+            {/* The actions sit under the title, where they are seen first */}
+            <div className="flex items-center gap-4 border-b border-[var(--real-line)] px-6 py-3 text-[12px]">
+              <span className={primaryBtn}>
+                Launch
+                <Glyph d="arrow" className="h-3 w-3" />
+              </span>
+              <span className={`flex items-center gap-1 ${link}`}>
+                <Glyph d="doc" className="h-3.5 w-3.5" />
+                Documentation
+              </span>
+            </div>
+            <div className="flex flex-1 flex-col gap-6 px-6 pt-5">
+              {/* One notice for the state, shown only when there is one */}
+              <span className="flex items-center gap-2 rounded-[8px] bg-[oklch(96%_0.045_85)] px-3 py-2.5 text-[11.5px] whitespace-nowrap text-[oklch(36%_0.08_70)]">
+                <StatusIcon tone="warn" className="h-4 w-4" />
+                <span>
+                  <b className="font-semibold">Maintenance</b> · Down Sunday, 6 to 8 PM
+                </span>
+              </span>
+              <span className="text-[12.5px] leading-relaxed text-text-secondary">
+                The current policies and standards in one place, to find, cite
+                and attest to. Every policy shows its owner, its last review and
+                the controls that rely on it.
+              </span>
+              <span className="grid grid-cols-2 gap-x-6 gap-y-3">
+                {item("Your access", "Editor")}
+                {item("Category", "Governance")}
+                {item("Application owner", "Riley Morgan, Technology")}
+                {item("Business owner", "Sam Ortiz, Policy Office")}
+              </span>
+              <span className="flex flex-col gap-2.5">
+                <span className="flex items-center">
+                  <span className={head}>Recent updates</span>
+                  <span className={`ml-auto text-[11px] ${link}`}>
+                    Past updates
+                  </span>
+                </span>
+                {[
+                  ["Yesterday", "Search now filters by business area."],
+                  [
+                    "Oct 9",
+                    "Attestations remind you a week before they are due.",
+                  ],
+                ].map(([w, t]) => (
+                  <span
+                    key={w}
+                    className="flex flex-col border-l-2 border-[color-mix(in_oklab,var(--real-action)_35%,white)] pl-3"
+                  >
+                    <span className="text-[10.5px] text-text-tertiary">
+                      {w}
+                    </span>
+                    <span className="text-[11.5px] text-text-primary">{t}</span>
+                  </span>
+                ))}
+              </span>
+            </div>
           </div>
-          <div className="px-6 pt-5 text-[12.5px] leading-relaxed text-text-secondary">
-            The current policies and standards in one place, to find, cite and attest to. Every policy shows its
-            owner, its last review and the controls that rely on it.
-          </div>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-3 px-6 pt-5 pb-6">
-            {item("Your access", "Editor")}
-            {item("Category", "Governance")}
-            {item("Application owner", "Riley Morgan, Technology")}
-            {item("Business owner", "Sam Ortiz, Policy Office")}
-          </div>
-          <div className="flex items-center gap-4 border-t border-[var(--real-line)] bg-surface-page px-6 py-3.5 text-[12px]">
-            <span className={`flex items-center gap-1 ${link}`}>
-              <Glyph d="doc" className="h-3.5 w-3.5" />
-              Documentation
-            </span>
-            <span className={link}>Past updates</span>
-            <span className={`ml-auto ${primaryBtn}`}>
-              Launch
-              <Glyph d="arrow" className="h-3 w-3" />
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    />
   );
 }
 
@@ -2495,7 +2387,7 @@ function RefinedNotifications() {
               ["Incident Reporting", false],
               ["Regulatory Updates", true],
             ].map(([n, on], i) => (
-              <span key={n as string} className={`flex items-center gap-2 text-text-primary ${i === 0 ? "font-semibold" : "pl-1"}`}>
+              <span key={n as string} className={`flex items-center gap-2 text-text-primary ${i === 0 ? "font-semibold" : ""}`}>
                 <CheckOn on={on as boolean} />
                 {n as string}
               </span>
@@ -2509,7 +2401,7 @@ function RefinedNotifications() {
             {groups.map((g) => (
               <span key={g.kind} className="flex flex-col gap-2">
                 <span className="flex items-center gap-2 text-[12px] font-semibold text-text-primary">
-                  <span className={`h-2 w-2 rounded-full ${dot(g.tone)}`} />
+                  <StatusIcon tone={g.tone} />
                   {g.kind}
                   <span className="font-normal text-text-tertiary">{g.rows.length}</span>
                 </span>
@@ -2581,8 +2473,8 @@ function RefinedFeedbackLog() {
                 ) : st === "review" ? (
                   <StatusTag tone="warn">In review</StatusTag>
                 ) : st === "done" ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--real-green)_14%,white)] px-2 py-0.5 text-[10.5px] font-medium text-[oklch(42%_0.12_150)]">
-                    <span className={`h-1.5 w-1.5 rounded-full ${dot("up")}`} />
+                  <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-[color-mix(in_oklab,var(--real-green)_14%,white)] px-2 py-0.5 text-[10.5px] font-medium text-[oklch(42%_0.12_150)]">
+                    <StatusIcon tone="up" className="h-3 w-3" />
                     Done
                   </span>
                 ) : (
@@ -2622,7 +2514,7 @@ function RefinedForm({ current, errors = false, children }: { current: number; e
         </span>
         <span className={`flex flex-col gap-5 p-6 text-[12px] text-text-primary ${panel}`}>
           {errors && (
-            <span className="flex items-start gap-2.5 rounded-[6px] border border-[color-mix(in_oklab,var(--real-red)_40%,white)] bg-[color-mix(in_oklab,var(--real-red)_8%,white)] px-4 py-3">
+            <span className="flex items-start gap-2.5 rounded-[8px] border border-[color-mix(in_oklab,var(--real-red)_40%,white)] bg-[color-mix(in_oklab,var(--real-red)_8%,white)] px-4 py-3">
               <RIcon i="error" className="mt-px h-4 w-4" />
               <span className="flex flex-col gap-0.5">
                 <span className="font-semibold">Answer 3 questions to continue</span>
@@ -2730,5 +2622,231 @@ function RefinedFormErrors() {
         {required}
       </span>
     </RefinedForm>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Who it was for (Alejandro, November 2026: a visual of who uses the tool
+   and how). Four groups from the survey and about a dozen interviews, never
+   named people and never photos: three placed on a map of how many
+   applications they work across and how long they have been in GRC, and
+   the application owners off the map, because they publish to everyone
+   rather than reading. Each card pairs what the group needed with what the
+   hub gave them. Follows the theme: it is a diagram, not a screen. */
+
+type Persona = { n: number; name: string; who: string; need: string; gets: string; x: string; y: string };
+
+const PERSONAS: Persona[] = [
+  {
+    n: 1,
+    name: "Power users",
+    who: "Tenured analysts who move across many applications every day.",
+    need: "See everything’s status at once and jump between applications.",
+    gets: "One status line, status on each card, recently viewed and search.",
+    x: "72%",
+    y: "26%",
+  },
+  {
+    n: 2,
+    name: "Focused users",
+    who: "Tenured, living in one or two applications.",
+    need: "Know before their application goes down, and find its docs.",
+    gets: "Maintenance on their own cards, and notifications filtered to their applications.",
+    x: "20%",
+    y: "26%",
+  },
+  {
+    n: 3,
+    name: "New hires",
+    who: "Still learning what GRC covers and which application does what.",
+    need: "The big picture: what each application is for, and how to get access.",
+    gets: "A purpose line on every card, and what they can open set apart from what they can request.",
+    x: "44%",
+    y: "76%",
+  },
+  {
+    n: 4,
+    name: "Application owners",
+    who: "The teams behind each of the sixteen.",
+    need: "One place to announce maintenance and changes to everyone.",
+    gets: "Alerts and notifications that reach every user, and a feedback channel back.",
+    x: "",
+    y: "",
+  },
+];
+
+function PersonaMark({ n, className = "" }: { n: number; className?: string }) {
+  return (
+    <span
+      className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-interactive bg-surface-raised font-display text-sm font-semibold text-text-accent ${className}`}
+    >
+      {n}
+    </span>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The argument I lost, as two fixes side by side (Alejandro, November 2026:
+   a visual for the beat). The one I proposed, merging the sixteen where they
+   overlapped into one experience, drawn dashed because it went to the
+   backlog; the one that was built, the hub over the sixteen as they are,
+   carrying what consolidation would have. The tiles are unnamed: the names
+   are in the ecosystem figure, and here only the count and platform matter. */
+const SIXTEEN = PLATFORMS.flatMap((p) => p.apps.map((app) => ({ app, key: p.key })));
+
+function SixteenTiles({ faded = false }: { faded?: boolean }) {
+  return (
+    <span className={`grid grid-cols-8 gap-1.5 ${faded ? "opacity-55" : ""}`}>
+      {SIXTEEN.map((t) => (
+        <span key={t.app} className={`h-5 rounded-[3px] border-2 ${PLATFORM_TILE[t.key]}`} />
+      ))}
+    </span>
+  );
+}
+
+function FixTag({ built, children }: { built: boolean; children: ReactNode }) {
+  return (
+    <span
+      className={`rounded-[4px] px-2 py-0.5 font-label text-[11px] font-medium ${
+        built ? "bg-interactive-subtle text-text-accent" : "border border-dashed border-border-strong text-text-secondary"
+      }`}
+    >
+      {children}
+    </span>
+  );
+}
+
+export function TwoFixes() {
+  const title = "text-sm font-semibold text-text-primary";
+  const note = "text-xs leading-relaxed text-text-secondary";
+  return (
+    <div
+      role="img"
+      aria-label="Two fixes for sixteen applications. Proposed, and put in the backlog: merge the sixteen where they overlapped into one experience, organized in four areas (policy and governance, risk and controls, issues and change, audit and regulatory), so there would be less to learn and less for a hub to explain. Built: GRC Connect over the sixteen as they are, saying what each one is for, who it is for and when it is available, in one place, with one card per application so it shrinks as they merge."
+      className="@container h-full w-full p-5 sm:p-8"
+    >
+      <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2">
+        {/* Proposed: dashed, because it was not built */}
+        <div className="flex flex-col gap-4 rounded-md border border-dashed border-border-strong p-5">
+          <span className="flex items-center justify-between gap-3">
+            <span className={label}>Proposed</span>
+            <FixTag built={false}>In the backlog</FixTag>
+          </span>
+          <span className={title}>Consolidate into one experience</span>
+          <SixteenTiles faded />
+          <span className="flex items-center gap-2 text-xs text-text-tertiary">
+            <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M8 2.5v11M3.5 9 8 13.5 12.5 9" />
+            </svg>
+            Merge where they overlap
+          </span>
+          <span className="flex flex-col gap-1.5 rounded-md border-2 border-dashed border-border-strong p-3">
+            <span className="text-xs font-semibold text-text-primary">One experience</span>
+            {AREAS.map((a) => (
+              <span key={a.area} className="rounded-[3px] bg-surface-sunken px-2 py-1 text-xs text-text-secondary">
+                {a.area}
+              </span>
+            ))}
+          </span>
+          <span className={note}>Fewer places to learn, and less for any hub to explain.</span>
+        </div>
+
+        {/* Built: the hub over the sixteen as they are */}
+        <div className="flex flex-col gap-4 rounded-md border border-border-subtle bg-surface-raised p-5">
+          <span className="flex items-center justify-between gap-3">
+            <span className={label}>Built</span>
+            <FixTag built>Shipped</FixTag>
+          </span>
+          <span className={title}>Explain the sixteen in one place</span>
+          <span className="flex flex-col gap-1.5 rounded-md border-2 border-interactive bg-interactive-subtle p-3">
+            <span className="text-xs font-semibold text-text-primary">GRC Connect</span>
+            {["What each one is for", "Who it is for", "When it is available"].map((l) => (
+              <span key={l} className="rounded-[3px] bg-surface-raised px-2 py-1 text-xs text-text-primary">
+                {l}
+              </span>
+            ))}
+          </span>
+          {/* The hub reaches every application; none of them change */}
+          <span className="grid grid-cols-8 gap-1.5" aria-hidden="true">
+            {Array.from({ length: 8 }, (_, i) => (
+              <span key={i} className="mx-auto h-4 border-l border-dashed border-border-strong" />
+            ))}
+          </span>
+          <SixteenTiles />
+          <span className={note}>The sixteen stay as they are. One card for each, so the hub shrinks as they merge.</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function UserMap() {
+  const axis = "font-label text-xs uppercase tracking-[0.11em] text-text-tertiary";
+  return (
+    <div
+      role="img"
+      aria-label="Who GRC Connect was for, mapped by how many applications people work across (one or two, to many) and how long they have been in GRC (new, to tenured). 1, power users: tenured, many applications; they needed everything's status at once and got one status line, status on each card, recently viewed and search. 2, focused users: tenured, one or two applications; they needed to know before theirs went down and got maintenance on their own cards and filtered notifications. 3, new hires: new, still learning which application does what; they needed the big picture and got a purpose line on every card and the split between what they can open and what they can request. 4, application owners, off the map because they publish rather than read: they needed one place to announce maintenance and changes, and got alerts that reach everyone and a feedback channel back."
+      className="@container h-full w-full p-5 sm:p-8"
+    >
+      {/* One grid for the map and the cards, so the cards start where the
+          map does, past the side axis */}
+      <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-6">
+        {/* The map */}
+        <span className={`${axis} flex items-center [writing-mode:vertical-rl] rotate-180`}>Time in GRC →</span>
+        {/* On a narrow frame the across-axis is named under the map */}
+        <div className="flex flex-col gap-2">
+          <div className="relative aspect-[4/3] rounded-md border border-border-subtle bg-surface-raised @xl:aspect-[16/7]">
+            {/* Quadrant rules */}
+            <span className="absolute inset-y-4 left-1/2 border-l border-dashed border-border-default" />
+            <span className="absolute inset-x-4 top-1/2 border-t border-dashed border-border-default" />
+            <span className={`${axis} absolute top-3 left-3`}>Tenured</span>
+            <span className={`${axis} absolute bottom-3 left-3`}>New</span>
+            {PERSONAS.filter((p) => p.x).map((p) => (
+              <span
+                key={p.n}
+                className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-2"
+                style={{ left: p.x, top: p.y }}
+              >
+                <PersonaMark n={p.n} />
+                <span className="text-xs font-semibold whitespace-nowrap text-text-primary @xl:text-sm">{p.name}</span>
+              </span>
+            ))}
+          </div>
+          <span className={`${axis} flex justify-between whitespace-nowrap`}>
+            <span>One or two</span>
+            <span className="hidden @xl:inline">Applications used →</span>
+            <span>Many</span>
+          </span>
+        </div>
+
+        {/* What each needed, and what the hub gave them */}
+        <div className="col-start-2 grid grid-cols-1 gap-3 @xl:grid-cols-2">
+          {PERSONAS.map((p) => (
+            <div
+              key={p.n}
+              className={`grid grid-cols-[1.75rem_1fr] content-start gap-x-2.5 gap-y-2.5 rounded-md border bg-surface-raised p-4 ${
+                p.x ? "border-border-subtle" : "border-dashed border-border-default"
+              }`}
+            >
+              {/* The mark sits beside the name; everything else hangs in
+                  one column under the name */}
+              <PersonaMark n={p.n} />
+              <span className="flex flex-col self-center">
+                <span className="text-sm font-semibold text-text-primary">{p.name}</span>
+              </span>
+              <span className="col-start-2 -mt-2 text-xs leading-relaxed text-text-secondary">{p.who}</span>
+              {/* Label beside its line on a wide frame, above it on a narrow one */}
+              <span className="col-start-2 grid grid-cols-1 gap-x-3 gap-y-0.5 text-xs leading-relaxed @md:grid-cols-[4.5rem_1fr] @md:gap-y-1.5">
+                <span className={axis}>Needed</span>
+                <span className="text-text-primary">{p.need}</span>
+                <span className={`${axis} mt-1.5 @md:mt-0`}>Got</span>
+                <span className="text-text-primary">{p.gets}</span>
+              </span>
+              {!p.x && <span className="col-start-2 text-xs text-text-tertiary">Off the map: they publish to everyone else.</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
