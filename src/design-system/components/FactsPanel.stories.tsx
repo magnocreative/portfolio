@@ -44,3 +44,17 @@ export const WithoutStatus: Story = {
     },
   },
 };
+
+export const WithNote: Story = {
+  args: {
+    status: <Tag tone="pass">Shipped</Tag>,
+    note: "Every screen here is recreated with invented content. The sketches are my originals.",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "A line about the whole study at the panel's foot, said once instead of on every figure.",
+      },
+    },
+  },
+};

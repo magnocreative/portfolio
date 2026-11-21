@@ -8,6 +8,7 @@ import { FactsPanel } from "@/design-system/components/FactsPanel";
 import { Figure } from "@/design-system/components/Figure";
 import { StatGrid } from "@/design-system/components/StatGrid";
 import { Tag } from "@/design-system/components/Tag";
+import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import { CalendarIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
 import {
   BuildComparison,
@@ -73,6 +74,8 @@ const contents = [
   },
 ];
 
+const UsaaLogo = ORG_LOGOS.usaa;
+
 export default function SixteenApplications() {
   // A draft is readable on localhost and answers not found once deployed.
   if (isHiddenDraft("sixteen-applications-one-blind-spot")) notFound();
@@ -89,9 +92,22 @@ export default function SixteenApplications() {
         <FactsPanel
           className="mt-8 max-w-measure xl:mt-0"
           status={<Tag tone="pass">Shipped</Tag>}
+          /* Whose work and what kind, said up front, so no reader takes
+             internal work for a public product (Alejandro, November 2026) */
+          note="Every screen here is recreated with invented content. The sketches are my originals."
+          org={
+            <>
+              <UsaaLogo mono className="-my-1 h-8 w-8 shrink-0" />
+              USAA
+              <span aria-hidden="true" className="opacity-50">
+                ·
+              </span>
+              Internal tool
+            </>
+          }
           items={[
             { key: "Role", value: "Lead designer, with one design partner", icon: RoleIcon },
-            { key: "Period", value: "2022, USAA", icon: CalendarIcon },
+            { key: "Period", value: "2022", icon: CalendarIcon },
             { key: "Scope", value: "Research, the hub, alerts, notifications", icon: ScopeIcon },
             { key: "Tools", value: "Sketch, InVision", icon: PenNibIcon },
           ]}
@@ -135,7 +151,6 @@ export default function SixteenApplications() {
             <Figure
               ratio="auto"
               bare
-              recreated
               caption="The dashboard: what each application is for, status at a glance, and what you can open set apart from what you can request. Shown in its refined high fidelity."
             >
               <HubMock />
@@ -173,7 +188,7 @@ export default function SixteenApplications() {
           after={
             <Figure
               ratio="auto"
-              caption="Three groups from the survey and interviews, mapped by applications used and time in GRC. Application owners sit off the map: they publish to everyone else."
+              caption="Three groups from the survey and interviews, placed approximately by applications used and time in GRC. Owners sit off the map: they publish to everyone else."
             >
               <UserMap />
             </Figure>
@@ -181,8 +196,8 @@ export default function SixteenApplications() {
         >
           <p>
             We surveyed 82 people and interviewed about a dozen, chosen across roles and experience.
-            Four groups came through. Power users moved across a wide range of applications every day.
-            Focused users lived in one or two and mostly needed to know when theirs was down. New hires
+            Four groups came through. Focused users lived in one or two applications and mostly needed
+            to know when theirs was down. Power users moved across a wide range of them every day. New hires
             were still learning what GRC covered and which application did what. And the owners of each
             application needed one place to tell everyone else about maintenance and changes.
           </p>
@@ -197,7 +212,7 @@ export default function SixteenApplications() {
           id="constraint"
           heading="The constraint"
           after={
-            <Figure ratio="auto" recreated caption="Sixteen applications on three platforms, with no shared front door. The split is approximate.">
+            <Figure ratio="auto" caption="Sixteen applications on three platforms, with no shared front door. The split is approximate.">
               <Ecosystem />
             </Figure>
           }
@@ -222,7 +237,6 @@ export default function SixteenApplications() {
             <>
               <Figure
                 ratio="auto"
-                recreated
                 caption="The mood board I made the case with, from atoms to components. Most of it became the hub."
               >
                 <MoodBoard />
@@ -230,7 +244,6 @@ export default function SixteenApplications() {
               <Figure
                 ratio="3/2"
                 bare
-                recreated
                 caption="The same sixteen, two builds. Out of the box gave names, owners and dates; the custom build says what each is for and whether it is up. Drag to compare."
               >
                 <BuildComparison />
@@ -271,7 +284,6 @@ export default function SixteenApplications() {
               <Figure
                 ratio="auto"
                 bare
-                recreated
                 caption="Grayscale roughs, from a side navigation to the header users preferred, with what you can open set apart from what you can request."
               >
                 <WireframeMock />
@@ -279,7 +291,6 @@ export default function SixteenApplications() {
               <Figure
                 ratio="auto"
                 bare
-                recreated
                 caption="High fidelity, in the refined form described under What I’d do differently. The feedback screens were for a later release, still in iteration when I left."
               >
                 <HiFiGallery />
@@ -339,7 +350,6 @@ export default function SixteenApplications() {
               <Figure
                 ratio="auto"
                 bare
-                recreated
                 caption="A redesign, not what shipped: a homepage that explains GRC Connect before anyone opens an application."
               >
                 <ConnectHomeMock />
@@ -347,7 +357,6 @@ export default function SixteenApplications() {
               <Figure
                 ratio="3/2"
                 bare
-                recreated
                 caption="The dashboard in high fidelity, and the next iteration: from a catalog to a workspace that starts from the task and leads with what affects you. Drag to compare."
               >
                 <DashboardRedesign />

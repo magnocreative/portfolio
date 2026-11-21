@@ -52,12 +52,16 @@ const HCL_PATHS = [
  * same mechanism as every color token, so it follows the toggle and the
  * system setting alike without a second image.
  */
-export function UsaaLogo({ className = "" }: { className?: string }) {
+export function UsaaLogo({ className = "", mono = false }: { className?: string; mono?: boolean }) {
   return (
     <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
-      <rect width="40" height="40" rx="8" style={{ fill: "light-dark(#012F5A, #FFFFFF)" }} />
+      {!mono && <rect width="40" height="40" rx="8" style={{ fill: "light-dark(#012F5A, #FFFFFF)" }} />}
       {USAA_PATHS.map((d) => (
-        <path key={d.slice(0, 12)} d={d} style={{ fill: "light-dark(#FFFFFF, #012F5A)" }} />
+        <path
+          key={d.slice(0, 12)}
+          d={d}
+          style={{ fill: mono ? "currentColor" : "light-dark(#FFFFFF, #012F5A)" }}
+        />
       ))}
     </svg>
   );
@@ -225,7 +229,16 @@ export function M7Logo({ className = "" }: { className?: string }) {
  * M7's, with the same hairline on the light page. The mark keeps its two
  * tokens, which hold 4.62:1 against white.
  */
-export function MagnoCreativeLogo({ className = "" }: { className?: string }) {
+export function MagnoCreativeLogo({ className = "", mono = false }: { className?: string; mono?: boolean }) {
+  if (mono)
+    return (
+      <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
+        <svg x="7" y="7" width="26" height="26" viewBox={MARK_VIEWBOX}>
+          <path fill="currentColor" d={MARK_LIGHT_PATH} />
+          <path fill="currentColor" d={MARK_DEEP_PATH} />
+        </svg>
+      </svg>
+    );
   return (
     <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" className={className}>
       <rect width="40" height="40" rx="8" fill="#FFFFFF" />
@@ -249,10 +262,17 @@ export function MagnoCreativeLogo({ className = "" }: { className?: string }) {
 }
 
 /** Every organization mark by key, so the résumé, the PDF and the work index
- *  look marks up in one place rather than each keeping its own list. */
+ *  look marks up in one place rather than each keeping its own list.
+ *
+ *  `mono` draws the mark alone, no tile, in the surrounding text color: the
+ *  Mono style of org-logo in Figma (fill text/tertiary beside a label). For a
+ *  mark that sits in a line of labels, like the work index's facts and a case
+ *  study's At a glance, where the 24px tile left the mark itself about 14px
+ *  and hard to read (Alejandro, November 2026). Drawn for USAA and
+ *  MagnoCreative, the two that label case studies; the others show their tile. */
 export type OrgLogo = "jpmc" | "usaa" | "hcl" | "uiw" | "swbc" | "m7" | "magnocreative";
 
-export const ORG_LOGOS: Record<OrgLogo, ComponentType<{ className?: string }>> = {
+export const ORG_LOGOS: Record<OrgLogo, ComponentType<{ className?: string; mono?: boolean }>> = {
   jpmc: JpmcLogo,
   usaa: UsaaLogo,
   hcl: HclLogo,

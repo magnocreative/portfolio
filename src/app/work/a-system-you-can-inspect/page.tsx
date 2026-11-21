@@ -20,6 +20,7 @@ import { CaseStudyBeat, CaseStudyPart } from "@/design-system/components/CaseStu
 import { TextBlock } from "@/design-system/components/TextBlock";
 import { FactsPanel } from "@/design-system/components/FactsPanel";
 import { Tag } from "@/design-system/components/Tag";
+import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import navigationRail from "@/assets/evidence/navigation-rail.png";
 import navigationTop from "@/assets/evidence/navigation-top.png";
 import buttonSheetLight from "@/assets/evidence/button-sheet-light.png";
@@ -117,6 +118,8 @@ function TokenChain() {
   );
 }
 
+const MagnoLogo = ORG_LOGOS.magnocreative;
+
 export default function SystemCaseStudy() {
   // A draft is readable on localhost and answers not found once deployed.
   if (isHiddenDraft("a-system-you-can-inspect")) notFound();
@@ -135,6 +138,16 @@ export default function SystemCaseStudy() {
         <FactsPanel
           className="mt-8 max-w-measure xl:mt-0"
           status={<Tag tone="live">Live on this site</Tag>}
+          org={
+            <>
+              <MagnoLogo mono className="-my-1 h-8 w-8 shrink-0" />
+              MagnoCreative
+              <span aria-hidden="true" className="opacity-50">
+                ·
+              </span>
+              Personal project
+            </>
+          }
           items={[
             { key: "Role", value: "Designer and engineer, solo", icon: RoleIcon },
             { key: "Period", value: "2026", icon: CalendarIcon },

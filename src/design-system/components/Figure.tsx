@@ -1,5 +1,4 @@
 import Image, { type StaticImageData } from "next/image";
-import { InfoIcon } from "./Icon";
 import type { ReactNode } from "react";
 
 /**
@@ -18,11 +17,12 @@ import type { ReactNode } from "react";
  * Every image here is made for the site. Never a screen or anything exported
  * from an employer's tools.
  *
- * `recreated` marks a figure that redraws a product with invented content
- * (RecreatedScreen, or a diagram whose names are made up). It adds one
- * standard note after the caption, the same words on every case study, so a
- * reader learns once what it means and no caption has to spend its claim on
- * saying it. The caption still makes the claim; the note only labels it.
+ * Whether the screens are recreated is said once per study, in the facts
+ * panel's note, not on each figure (Alejandro, November 2026). Each recreated
+ * figure's alt or aria-label still says so, for anyone who meets it alone.
+ *
+ * Captions break with text-wrap: pretty, so a last word never sits alone on
+ * its line.
  *
  * `children` replaces the image with something live in the same frame, such
  * as a CompareSlider. It fills the frame, so it gets the same ratio, edge and
@@ -41,7 +41,6 @@ export function Figure({
   sizes = "(min-width: 1024px) 56rem, 100vw",
   className = "",
   children,
-  recreated = false,
   bare = false,
 }: {
   /** Optional until the image is made. A static import reserves its box. */
@@ -59,8 +58,6 @@ export function Figure({
   className?: string;
   /** Live content in place of the image, filling the frame. */
   children?: ReactNode;
-  /** Adds a "Recreated with invented content" tag under the caption. */
-  recreated?: boolean;
   /**
    * No frame: drops the edge and the ground behind live content that brings
    * its own, such as an ImageGallery, whose thumbnails are already framed
@@ -71,8 +68,12 @@ export function Figure({
 }) {
   return (
     <figure
-      className={`max-w-measure ${children ? "grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6" : ""} ${className}`}
+      className={`max-w-measure ${children ? "grid grid-flow-row-dense grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6" : ""} ${className}`}
     >
+      {/* Above the picture, at its right edge: a label read before the
+          picture is, so the caption row holds only the claim and any
+          controls (Alejandro, November 2026: the tag and Reset together
+          crowded the right of the caption) */}
       <div
         className={`relative w-full ${bare ? "" : "overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken"} ${children ? "col-span-full" : ""}`}
         style={{ aspectRatio: ratio }}
@@ -91,20 +92,13 @@ export function Figure({
           </span>
         )}
       </div>
-      {children && <div data-figure-actions className="row-start-3 sm:col-start-2 sm:row-start-2" />}
+      {/* The content's own controls, like the slider's Reset, at the right of
+          the caption row (under the caption on a phone) */}
+      {children && <div data-figure-actions className="flex items-start max-sm:order-last sm:col-start-2" />}
       <figcaption
-        className={`mt-4 max-w-[40rem] text-sm text-text-secondary ${children ? "sm:col-start-1 sm:row-start-2" : ""}`}
+        className={`mt-4 max-w-[40rem] text-sm text-pretty text-text-secondary ${children ? "sm:col-start-1" : ""}`}
       >
         {caption}
-        {/* Its own line, as a labeled tag with an icon, so it reads as a note
-            about the picture rather than the caption's last sentence
-            (Alejandro, November 2026: it blended into the text) */}
-        {recreated && (
-          <span className="mt-2.5 flex w-fit items-center gap-1.5 rounded-[var(--radius-pill)] border border-border-default bg-surface-raised px-2.5 py-1 font-label text-xs font-medium text-text-primary">
-            <InfoIcon className="h-3.5 w-3.5 shrink-0 text-text-accent" />
-            Recreated with invented content
-          </span>
-        )}
       </figcaption>
     </figure>
   );

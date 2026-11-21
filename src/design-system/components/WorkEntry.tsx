@@ -118,9 +118,10 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
           <span className="font-label text-xs text-text-tertiary">{String(index + 1).padStart(2, "0")}</span>
           {/* Employer, discipline, when: one line to read. The employer
-              leads with its mark, the same traced tile as on the résumé, at
-              24px, the tile's smallest drawn size (Alejandro, November
-              2026); at 20 it read as a speck beside the name. A logo is
+              leads with its mark, alone and in the line's own gray (the
+              Mono org-logo, 32px with the mark about 23px tall): the 24px
+              tile left the mark itself about 14px (Alejandro, November
+              2026). A logo is
               recognized faster than a name is read; the name stays beside it
               because at this size the tile's lettering isn't legible, and
               the mark is hidden from screen readers so the name is heard
@@ -129,7 +130,7 @@ export function WorkEntry({ study, index }: { study: CaseStudy; index: number })
               mark on it would make it read as that company's material. */}
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-label text-xs text-text-tertiary">
             <span className="inline-flex items-center gap-2">
-              <Logo className="h-6 w-6 shrink-0" />
+              <Logo mono className="-my-1 h-8 w-8 shrink-0" />
               {study.employer}
             </span>
             <span aria-hidden="true" className="opacity-50">·</span>

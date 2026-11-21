@@ -2634,26 +2634,32 @@ function RefinedFormErrors() {
    rather than reading. Each card pairs what the group needed with what the
    hub gave them. Follows the theme: it is a diagram, not a screen. */
 
-type Persona = { n: number; name: string; who: string; need: string; gets: string; x: string; y: string };
+/* Placed by what Alejandro said about each group, at the precision the
+   interviews support, a quadrant and no finer: focused users tenured in one
+   or two applications, power users tenured across many, new hires new and
+   across the whole range (it varied by role), drawn as a span along the
+   bottom rather than a point (Alejandro, November 2026: accurate, not
+   aligned for looks). Owners are off the map, not dashed: the axes are about
+   using applications, and owners publish to all of them. Numbered in
+   reading order, so the cards follow the map. */
+type Persona = { n: number; name: string; who: string; need: string; gets: string; cell: "tl" | "tr" | "b" | null };
 
 const PERSONAS: Persona[] = [
   {
     n: 1,
-    name: "Power users",
-    who: "Tenured analysts who move across many applications every day.",
-    need: "See everything’s status at once and jump between applications.",
-    gets: "One status line, status on each card, recently viewed and search.",
-    x: "72%",
-    y: "26%",
-  },
-  {
-    n: 2,
     name: "Focused users",
     who: "Tenured, living in one or two applications.",
     need: "Know before their application goes down, and find its docs.",
     gets: "Maintenance on their own cards, and notifications filtered to their applications.",
-    x: "20%",
-    y: "26%",
+    cell: "tl",
+  },
+  {
+    n: 2,
+    name: "Power users",
+    who: "Tenured analysts who move across many applications every day.",
+    need: "See everything’s status at once and jump between applications.",
+    gets: "One status line, status on each card, recently viewed and search.",
+    cell: "tr",
   },
   {
     n: 3,
@@ -2661,8 +2667,7 @@ const PERSONAS: Persona[] = [
     who: "Still learning what GRC covers and which application does what.",
     need: "The big picture: what each application is for, and how to get access.",
     gets: "A purpose line on every card, and what they can open set apart from what they can request.",
-    x: "44%",
-    y: "76%",
+    cell: "b",
   },
   {
     n: 4,
@@ -2670,8 +2675,7 @@ const PERSONAS: Persona[] = [
     who: "The teams behind each of the sixteen.",
     need: "One place to announce maintenance and changes to everyone.",
     gets: "Alerts and notifications that reach every user, and a feedback channel back.",
-    x: "",
-    y: "",
+    cell: null,
   },
 ];
 
@@ -2782,67 +2786,87 @@ export function TwoFixes() {
 
 export function UserMap() {
   const axis = "font-label text-xs uppercase tracking-[0.11em] text-text-tertiary";
+  const at = (c: Persona["cell"]) => PERSONAS.find((p) => p.cell === c);
   return (
     <div
       role="img"
-      aria-label="Who GRC Connect was for, mapped by how many applications people work across (one or two, to many) and how long they have been in GRC (new, to tenured). 1, power users: tenured, many applications; they needed everything's status at once and got one status line, status on each card, recently viewed and search. 2, focused users: tenured, one or two applications; they needed to know before theirs went down and got maintenance on their own cards and filtered notifications. 3, new hires: new, still learning which application does what; they needed the big picture and got a purpose line on every card and the split between what they can open and what they can request. 4, application owners, off the map because they publish rather than read: they needed one place to announce maintenance and changes, and got alerts that reach everyone and a feedback channel back."
+      aria-label="Who GRC Connect was for, mapped by how many applications people work across (one or two, to many) and how long they have been in GRC (new, to tenured). 1, focused users: tenured, one or two applications; they needed to know before theirs went down and got maintenance on their own cards and filtered notifications. 2, power users: tenured, many applications; they needed everything's status at once and got one status line, status on each card, recently viewed and search. 3, new hires: new, across the whole range of applications, still learning which application does what; they needed the big picture and got a purpose line on every card and the split between what they can open and what they can request. 4, application owners, off the map because they publish rather than read: they needed one place to announce maintenance and changes, and got alerts that reach everyone and a feedback channel back."
       className="@container h-full w-full p-5 sm:p-8"
     >
       {/* One grid for the map and the cards, so the cards start where the
-          map does, past the side axis */}
+          map does, past the side axis, and split where the map splits */}
       <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-6">
-        {/* The map */}
+        {/* The map: four quadrants, each group centered in its own */}
         <span className={`${axis} flex items-center [writing-mode:vertical-rl] rotate-180`}>Time in GRC →</span>
-        {/* On a narrow frame the across-axis is named under the map */}
         <div className="flex flex-col gap-2">
-          <div className="relative aspect-[4/3] rounded-md border border-border-subtle bg-surface-raised @xl:aspect-[16/7]">
-            {/* Quadrant rules */}
-            <span className="absolute inset-y-4 left-1/2 border-l border-dashed border-border-default" />
-            <span className="absolute inset-x-4 top-1/2 border-t border-dashed border-border-default" />
-            <span className={`${axis} absolute top-3 left-3`}>Tenured</span>
-            <span className={`${axis} absolute bottom-3 left-3`}>New</span>
-            {PERSONAS.filter((p) => p.x).map((p) => (
-              <span
-                key={p.n}
-                className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-2"
-                style={{ left: p.x, top: p.y }}
-              >
-                <PersonaMark n={p.n} />
-                <span className="text-xs font-semibold whitespace-nowrap text-text-primary @xl:text-sm">{p.name}</span>
+          <div className="grid aspect-[4/3] grid-cols-2 grid-rows-2 overflow-hidden rounded-md border border-border-subtle bg-surface-raised @xl:aspect-[16/7]">
+            {(["tl", "tr"] as const).map((c) => {
+              const p = at(c)!;
+              return (
+                <span
+                  key={c}
+                  className={`relative grid place-items-center border-b border-dashed border-border-default ${c === "tl" ? "border-r" : ""}`}
+                >
+                  {c === "tl" && <span className={`${axis} absolute top-3 left-3`}>Tenured</span>}
+                  <span className="flex items-center gap-2">
+                    <PersonaMark n={p.n} />
+                    {/* Numbers only on a narrow map; the cards carry the names */}
+                    <span className="hidden text-sm font-semibold whitespace-nowrap text-text-primary @xl:inline">{p.name}</span>
+                  </span>
+                </span>
+              );
+            })}
+            {/* New hires: one span across the bottom, because how many
+                applications they used varied by role */}
+            <span className="relative col-span-2 grid place-items-center">
+              <span className="absolute inset-y-0 left-1/2 border-l border-dashed border-border-default" />
+              <span className={`${axis} absolute bottom-3 left-3`}>New</span>
+              <span className="absolute inset-x-[10%] top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-[color-mix(in_oklab,var(--interactive-default)_30%,transparent)]" />
+              <span className="relative flex items-center gap-2 rounded-full bg-surface-raised px-2">
+                <PersonaMark n={at("b")!.n} />
+                <span className="hidden text-sm font-semibold whitespace-nowrap text-text-primary @xl:inline">{at("b")!.name}</span>
               </span>
-            ))}
+            </span>
           </div>
-          <span className={`${axis} flex justify-between whitespace-nowrap`}>
-            <span>One or two</span>
-            <span className="hidden @xl:inline">Applications used →</span>
-            <span>Many</span>
+          <span className={`${axis} grid grid-cols-2 whitespace-nowrap`}>
+            <span className="flex justify-between">
+              <span>One or two</span>
+              <span className="hidden translate-x-1/2 @xl:inline">Applications used →</span>
+            </span>
+            <span className="text-right">Many</span>
           </span>
         </div>
 
-        {/* What each needed, and what the hub gave them */}
+        {/* What each needed, and what the hub gave them, in the map's 2 by 2 */}
+        {/* Each card spans two rows of a shared grid (subgrid), so two cards
+            side by side split at the same height: their dividers and their
+            Needed lines align across the row */}
         <div className="col-start-2 grid grid-cols-1 gap-3 @xl:grid-cols-2">
           {PERSONAS.map((p) => (
             <div
               key={p.n}
-              className={`grid grid-cols-[1.75rem_1fr] content-start gap-x-2.5 gap-y-2.5 rounded-md border bg-surface-raised p-4 ${
-                p.x ? "border-border-subtle" : "border-dashed border-border-default"
-              }`}
+              className="row-span-2 grid grid-rows-subgrid gap-y-3 rounded-md border border-border-subtle bg-surface-raised p-4"
             >
-              {/* The mark sits beside the name; everything else hangs in
-                  one column under the name */}
-              <PersonaMark n={p.n} />
-              <span className="flex flex-col self-center">
+              {/* Who: the mark beside the name, the line under the name */}
+              <span className="grid grid-cols-[1.75rem_1fr_auto] content-start items-center gap-x-2.5 gap-y-0.5">
+                <PersonaMark n={p.n} />
                 <span className="text-sm font-semibold text-text-primary">{p.name}</span>
+                {!p.cell ? (
+                  <span className="rounded-[4px] bg-surface-sunken px-1.5 py-0.5 font-label text-[11px] whitespace-nowrap text-text-secondary">
+                    Off the map
+                  </span>
+                ) : (
+                  <span />
+                )}
+                <span className="col-span-2 col-start-2 text-xs leading-relaxed text-text-secondary">{p.who}</span>
               </span>
-              <span className="col-start-2 -mt-2 text-xs leading-relaxed text-text-secondary">{p.who}</span>
-              {/* Label beside its line on a wide frame, above it on a narrow one */}
-              <span className="col-start-2 grid grid-cols-1 gap-x-3 gap-y-0.5 text-xs leading-relaxed @md:grid-cols-[4.5rem_1fr] @md:gap-y-1.5">
+              {/* What they needed and got, on one line each where there is room */}
+              <span className="ml-[2.375rem] grid content-start grid-cols-1 gap-x-3 gap-y-0.5 border-t border-border-subtle pt-3 text-xs leading-relaxed @md:grid-cols-[4rem_1fr] @md:gap-y-2">
                 <span className={axis}>Needed</span>
                 <span className="text-text-primary">{p.need}</span>
                 <span className={`${axis} mt-1.5 @md:mt-0`}>Got</span>
                 <span className="text-text-primary">{p.gets}</span>
               </span>
-              {!p.x && <span className="col-start-2 text-xs text-text-tertiary">Off the map: they publish to everyone else.</span>}
             </div>
           ))}
         </div>

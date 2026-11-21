@@ -1,4 +1,5 @@
 import type { ComponentType, CSSProperties, ReactNode, SVGProps } from "react";
+import { InfoIcon } from "./Icon";
 
 export type Fact = {
   /** Sentence case: "Role", "Period". */
@@ -32,6 +33,18 @@ export type Fact = {
  * a 120px label column a phone had 158px left for the value, and three of the
  * four wrapped.
  *
+ * With `org`, the header opens on whose work it was, with its mark, and what
+ * kind of work (Alejandro, November 2026: "USAA · Internal tool", so no
+ * reader takes internal work for a public product), and the status sits at
+ * the right, where a state is looked for. The panel's label is then a
+ * heading for screen readers only: the shape and place say what the panel
+ * is. Without `org`, the label shows at the left as before.
+ *
+ * `note` closes the panel with one line about the whole study, such as
+ * "Every screen here is recreated with invented content". Said once here,
+ * where the facts are, rather than on every figure (Alejandro, November
+ * 2026: eight tags in one study said the same thing eight times).
+ *
  * Each label carries an icon from the fact set in Icon.tsx. The icons are
  * labels, not decoration: one per kind of fact, the same on every study.
  * Labels and values are body size (16px) with 24px icons: this is content a
@@ -41,12 +54,18 @@ export type Fact = {
 export function FactsPanel({
   label = "At a glance",
   status,
+  org,
+  note,
   items,
   className = "",
 }: {
   label?: string;
   /** Usually a Tag. Leave out for a study with nothing live to point at. */
   status?: ReactNode;
+  /** At the header's right: whose work it was and what kind, with its mark. */
+  org?: ReactNode;
+  /** One line at the foot of the panel about the whole study. */
+  note?: ReactNode;
   items: Fact[];
   className?: string;
 }) {
@@ -55,10 +74,22 @@ export function FactsPanel({
     <section
       className={`@container rounded-sm border border-border-subtle bg-surface-raised max-sm:-mx-6 max-sm:rounded-none max-sm:border-x-0 ${className}`}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border-subtle px-6 py-4 sm:px-8">
-        <h2 className="font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-border-subtle px-6 py-4 sm:px-8">
+        {/* With an org, the header opens on whose work it was and what kind,
+            and the status sits at the right; the label stays as the
+            section's heading for screen readers (Alejandro, November 2026) */}
+        <h2
+          className={
+            org ? "sr-only" : "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary"
+          }
+        >
           {label}
         </h2>
+        {org && (
+          <span className="flex items-center gap-2 font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary">
+            {org}
+          </span>
+        )}
         {status}
       </div>
       <dl
@@ -85,6 +116,14 @@ export function FactsPanel({
           );
         })}
       </dl>
+      {note && (
+        <p className="flex items-start gap-2 border-t border-border-subtle px-6 py-4 text-sm text-text-secondary sm:px-8">
+          {/* 20px: the circle is drawn inside a 20 grid with room around it, so
+              at 16 it read about 12px beside 14px text */}
+          <InfoIcon className="h-5 w-5 shrink-0 text-text-accent" />
+          <span>{note}</span>
+        </p>
+      )}
     </section>
   );
 }

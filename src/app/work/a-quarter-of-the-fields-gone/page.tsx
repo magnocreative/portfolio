@@ -9,6 +9,7 @@ import { Figure } from "@/design-system/components/Figure";
 import { OutcomeStats } from "@/design-system/components/OutcomeStats";
 import { PointCards } from "@/design-system/components/PointCards";
 import { Tag } from "@/design-system/components/Tag";
+import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import { CalendarIcon, CodeIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
 import { HeroSubject, HomeMock, RecordComparison, RecordFlow } from "./diagrams";
 
@@ -64,6 +65,8 @@ const contents = [
   },
 ];
 
+const UsaaLogo = ORG_LOGOS.usaa;
+
 export default function AQuarterOfTheFields() {
   // A draft is readable on localhost and answers not found once deployed.
   if (isHiddenDraft("a-quarter-of-the-fields-gone")) notFound();
@@ -80,9 +83,22 @@ export default function AQuarterOfTheFields() {
         <FactsPanel
           className="mt-8 max-w-measure xl:mt-0"
           status={<Tag tone="pass">Shipped</Tag>}
+          /* Whose work and what kind, said up front, so no reader takes
+             internal work for a public product (Alejandro, November 2026) */
+          note="Every screen here is recreated with invented content."
+          org={
+            <>
+              <UsaaLogo mono className="-my-1 h-8 w-8 shrink-0" />
+              USAA
+              <span aria-hidden="true" className="opacity-50">
+                ·
+              </span>
+              Internal tool
+            </>
+          }
           items={[
             { key: "Role", value: "UX designer, on a team of four", icon: RoleIcon },
-            { key: "Period", value: "2021 to 2022, USAA", icon: CalendarIcon },
+            { key: "Period", value: "2021 to 2022", icon: CalendarIcon },
             { key: "Scope", value: "Interviews, homepage, list views, record pages", icon: ScopeIcon },
             { key: "Tools", value: "Sketch, InVision, Lightning App Builder", icon: PenNibIcon },
           ]}
@@ -117,7 +133,6 @@ export default function AQuarterOfTheFields() {
               />
               <Figure
                 ratio="4/3"
-                recreated
                 caption="One training record, before and after. The fields nobody used are gone, the rest sit in sections in the order an auditor fills them in, and a path shows where the record stands, from draft to complete, beside the sections still to fill. Drag to compare."
               >
                 <RecordComparison />
@@ -212,7 +227,6 @@ export default function AQuarterOfTheFields() {
             <>
               <Figure
                 ratio="auto"
-                recreated
                 caption="The homepage in three columns, one record type each: training, résumé and conflicts of interest. Each column is a stock chart over a stock list, in a layout App Builder offered as it came."
               >
                 <HomeMock />
