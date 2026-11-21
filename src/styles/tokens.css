@@ -338,6 +338,8 @@
   --shadow-ink: var(--p-slate-1000);
   /* A label pinned over an image: the compare slider's Before and After. */
   --shadow-chip: 0 4px 12px color-mix(in oklab, var(--shadow-ink) 18%, transparent);
+  /* Something that opens, lifted under the pointer: a gallery thumbnail. */
+  --shadow-lift: 0 8px 20px color-mix(in oklab, var(--shadow-ink) 14%, transparent);
   /* A message floating over the page: the toast. */
   --shadow-toast: 0 8px 24px color-mix(in oklab, var(--shadow-ink) 12%, transparent);
   /* A picture of a window set on the page: RecreatedScreen. */

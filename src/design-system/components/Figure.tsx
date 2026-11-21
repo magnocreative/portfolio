@@ -41,6 +41,7 @@ export function Figure({
   className = "",
   children,
   recreated = false,
+  bare = false,
 }: {
   /** Optional until the image is made. A static import reserves its box. */
   src?: StaticImageData | string;
@@ -59,13 +60,20 @@ export function Figure({
   children?: ReactNode;
   /** Adds "Recreated with invented content." after the caption. */
   recreated?: boolean;
+  /**
+   * No frame: drops the edge and the ground behind live content that brings
+   * its own, such as an ImageGallery, whose thumbnails are already framed
+   * (Alejandro, November 2026: the ground behind the grid was a frame
+   * around frames).
+   */
+  bare?: boolean;
 }) {
   return (
     <figure
       className={`max-w-measure ${children ? "grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6" : ""} ${className}`}
     >
       <div
-        className={`relative w-full overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken ${children ? "col-span-full" : ""}`}
+        className={`relative w-full ${bare ? "" : "overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken"} ${children ? "col-span-full" : ""}`}
         style={{ aspectRatio: ratio }}
       >
         {children ? (

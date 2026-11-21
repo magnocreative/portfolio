@@ -9,7 +9,7 @@ import { Figure } from "@/design-system/components/Figure";
 import { StatGrid } from "@/design-system/components/StatGrid";
 import { Tag } from "@/design-system/components/Tag";
 import { CalendarIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
-import { BuildComparison, Ecosystem, HeroSubject, HubMock, MoodBoard } from "./diagrams";
+import { BuildComparison, Ecosystem, HeroSubject, HiFiGallery, HubMock, MoodBoard, SketchSheet, WireframeMock } from "./diagrams";
 
 export const metadata: Metadata = {
   title: "Sixteen applications, and no way to know when any of them would go down",
@@ -26,7 +26,9 @@ export const metadata: Metadata = {
    Compliance), as the résumé does. Not named: the hub's own product name, any
    of the sixteen applications, or anyone on the team. The work index promises
    that the products stay unnamed, and this keeps the promise. Every figure is
-   a schematic drawn for this site (./diagrams), never a USAA screen.
+   a schematic drawn for this site (./diagrams), never a USAA screen. The one
+   exception is his own sketches in From sketch to screen, with the product's
+   name taken out (November 2026).
 
    Every fact is Alejandro's account (November 2026): the 82-person survey and
    its four numbers, about 400 users, the React argument and who backed it,
@@ -50,6 +52,7 @@ const contents = [
     children: [
       { id: "constraint", label: "The constraint" },
       { id: "decision", label: "The decision" },
+      { id: "progression", label: "From sketch to screen" },
       { id: "argument", label: "The argument I lost" },
       { id: "differently", label: "What I’d do differently" },
     ],
@@ -186,7 +189,7 @@ export default function SixteenApplications() {
               <Figure
                 ratio="3/2"
                 recreated
-                caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for and whether it’s up. Drag to compare."
+                caption="The same sixteen applications, two builds, as a person first sees them. Out of the box gave a list of names, owners and dates; the hub says what each application is for, what is down or changing, and which ones you can open. Drag to compare."
               >
                 <BuildComparison />
               </Figure>
@@ -208,6 +211,52 @@ export default function SixteenApplications() {
           <p>
             That cost us scope at launch and put the build on the smaller group of React engineers. It
             bought an interface new users could understand without being taught.
+          </p>
+        </CaseStudyBeat>
+
+        <CaseStudyBeat
+          id="progression"
+          heading="From sketch to screen"
+          after={
+            <>
+              <Figure
+                ratio="auto"
+                bare
+                caption="My first sketches, four takes each on the home page, an application’s details and notifications. Testing them settled the card, one per application, and added a line users asked for between the applications they could open and the ones they had to request. Select any sketch to see it larger; the product’s name is taken out."
+              >
+                <SketchSheet />
+              </Figure>
+              <Figure
+                ratio="auto"
+                bare
+                recreated
+                caption="The grayscale roughs that followed, from the first home with its side navigation to the one users preferred, with a header across the top and the applications a person can open set apart from the ones they would request. The details, notifications and feedback screens came next; feedback moved to a later release."
+              >
+                <WireframeMock />
+              </Figure>
+              <Figure
+                ratio="auto"
+                bare
+                recreated
+                caption="High fidelity, on the internal brand library. Maintenance, issues and updates became banners across the top of every page, with a notifications page to filter them; every application opens its details before it launches; and the feedback log and form were designed for a later release, still in iteration when I left."
+              >
+                <HiFiGallery />
+              </Figure>
+            </>
+          }
+        >
+          <p>
+            I started on paper. Twelve sketches tried four ways each to lay out the home page, open
+            one application&rsquo;s details and read notifications. Users understood the card idea
+            right away: one card per application, with what it is for and a way in. They also asked
+            for something I had not drawn, a clear line between the applications they could open
+            and the ones they would have to request.
+          </p>
+          <p>
+            From there I moved to digital roughs in grayscale, so feedback stayed on structure
+            rather than color, and kept testing layouts until users settled on one. High fidelity
+            came last, on the internal brand library, with status, maintenance and alerts carried
+            through.
           </p>
         </CaseStudyBeat>
 

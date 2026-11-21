@@ -175,8 +175,10 @@ export function CompareSlider({
      show through it (Alejandro, November 2026). In the control's colors they
      read as part of the control, clear 3:1 on either half in either theme,
      and the arrow in each says which way that side lies. */
+  // Smaller on a narrow frame, so the two labels never meet in the middle
+  // of a phone-width slider (Alejandro, November 2026)
   const tag =
-    "pointer-events-none absolute bottom-3 flex items-center gap-1.5 rounded-[var(--radius-pill)] border-2 border-interactive-on bg-interactive px-2.5 py-1 font-label text-xs font-semibold uppercase tracking-[0.11em] text-interactive-on shadow-[var(--shadow-chip)] sm:bottom-4";
+    "pointer-events-none absolute bottom-3 flex items-center gap-1.5 rounded-[var(--radius-pill)] border-2 border-interactive-on bg-interactive px-2 py-1 font-label text-[10px] font-semibold uppercase tracking-[0.06em] text-interactive-on shadow-[var(--shadow-chip)] sm:bottom-4 @md:px-2.5 @md:text-xs @md:tracking-[0.11em]";
 
   return (
     <div
