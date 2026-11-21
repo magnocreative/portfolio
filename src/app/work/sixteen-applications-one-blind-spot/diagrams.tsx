@@ -1127,7 +1127,14 @@ export function MoodBoard() {
       aria-label="A mood board, recreated with invented content and broken down from atoms to components. Atoms: a color set (action blue, up green, notice amber, down red, ink, ground), a type specimen, three buttons, status chips (up, maintenance, down, in progress, draft), a row of icons, and inputs (a search field, checkboxes, a toggle). Components: a maintenance banner and an announcement, an application card with its status, a ring chart of applications up, in maintenance and down, a list of what is coming up, three steps of a request, success and error toasts, and a short feedback form."
       className="@container h-full w-full"
     >
-      <div data-scheme="light" className="grid grid-flow-dense grid-cols-2 gap-3 bg-surface-sunken p-3 sm:p-6 @md:grid-flow-row @3xl:grid-cols-6">
+      {/* In the hub's own look, the same palette and system type as the
+          screens it became, so the board and the high fidelity read as one
+          product (Alejandro, November 2026) */}
+      <div
+        data-scheme="light"
+        style={MOOD_SKIN}
+        className="grid grid-flow-dense grid-cols-2 gap-3 bg-surface-sunken p-3 text-text-primary sm:p-6 @md:grid-flow-row @3xl:grid-cols-6 [&_.font-label]:[font-family:inherit]"
+      >
         <Tile tier="Atom" name="Color"><ColorAtom /></Tile>
         <Tile tier="Atom" name="Type" span="col-span-1 @3xl:col-span-2"><TypeAtom /></Tile>
         <Tile tier="Atom" name="Buttons"><ButtonAtom /></Tile>
@@ -1837,6 +1844,22 @@ const REAL_SKIN = {
   "--real-off": "oklch(93.8% 0.003 250)",
   "--real-line": "oklch(88% 0.006 250)",
   "--surface-page": "oklch(100% 0 0)",
+} as CSSProperties;
+
+/* The mood board in the same look: the hub's palette, with the status
+   colors taken from the real set's red, green and amber, deepened where
+   they carry text so it stays readable. */
+const MOOD_SKIN = {
+  ...REAL_SKIN,
+  "--surface-page": "oklch(97.4% 0.004 250)",
+  "--surface-sunken": "oklch(95.6% 0.006 250)",
+  "--interactive-default": "oklch(54% 0.17 256)",
+  "--interactive-on": "oklch(100% 0 0)",
+  "--status-success": "oklch(62% 0.16 150)",
+  "--status-warning": "oklch(70% 0.15 75)",
+  "--status-danger": "oklch(59% 0.2 25)",
+  "--text-success": "oklch(45% 0.13 150)",
+  "--text-danger": "oklch(48% 0.18 25)",
 } as CSSProperties;
 
 const cardShadow = "shadow-[0_1px_3px_color-mix(in_oklab,var(--shadow-ink)_14%,transparent)]";
