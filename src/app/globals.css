@@ -38,6 +38,19 @@
     box-sizing: border-box;
   }
 
+  /* No lone last word. Every paragraph, list item, caption and quote wraps
+     with text-wrap: pretty, so a paragraph never ends on one word alone on
+     its line (Alejandro, November 2026: "Each has a / cost."). Set once here
+     rather than on each component, so new text gets it without asking.
+     Headings keep text-balance where they set it. */
+  p,
+  li,
+  dd,
+  figcaption,
+  blockquote {
+    text-wrap: pretty;
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
