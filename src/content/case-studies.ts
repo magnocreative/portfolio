@@ -117,12 +117,12 @@ export const caseStudies: CaseStudy[] = [
     logo: "usaa",
     period: "2021 to 2022",
     status: "published",
-    // The hero's own art on the dotted ground, rendered from the page
-    // (./diagrams HeroSubject): eight fields, two of them cut, above three
-    // short groups. Made for this site; nothing from USAA.
+    // Lightning in front of Classic, the study's result in one picture,
+    // rendered from the page's own recreations (./diagrams CoverArt,
+    // Alejandro, November 2026). Invented content; nothing from USAA.
     cover: {
       src: quarterCover,
-      alt: "A tall card of eight field rows labeled Salesforce Classic, two of them in dashed outline. A dashed line runs down from it to three small cards side by side, labeled Lightning, out of the box, each with a blue heading bar and two rows.",
+      alt: "Two recreated screens of the same training record. Behind, Salesforce Classic: tabs in a gray band, the record number over Edit, Delete and Clone buttons, and labels right-aligned beside their values under section strips. In front, Lightning, out of the box: the app bar, the record's header with its icon and highlights, a path from Draft to Submitted, and the record's tabs.",
     },
   },
 ];

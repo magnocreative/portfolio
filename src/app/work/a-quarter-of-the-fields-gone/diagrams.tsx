@@ -1508,3 +1508,33 @@ export function RecordFlow() {
     </div>
   );
 }
+
+/* --------------------------------------------------------------------------
+   The cover, for the work index: Lightning in front of Classic, the study's
+   result in one picture, the new record replacing the old (Alejandro,
+   November 2026: chosen over a slant, which left an empty wedge at the
+   bottom). Rendered at 800 by 600 at twice the density and saved as
+   src/assets/covers/a-quarter-of-the-fields-gone.png; kept here so it can be
+   rendered again. Invented content throughout. */
+
+const COVER_LABEL = "font-label text-[11px] font-medium uppercase tracking-[0.14em] text-text-tertiary";
+
+export function CoverArt() {
+  return (
+    <div data-scheme="light" className="relative h-[600px] w-[800px] overflow-hidden bg-[oklch(96.5%_0.004_90)]">
+      <span className={`${COVER_LABEL} absolute top-[36px] left-[44px]`}>Salesforce Classic</span>
+      <div className="absolute top-[64px] left-[44px] h-[400px] w-[430px] overflow-hidden rounded-[10px] border border-border-default bg-white shadow-[0_10px_30px_oklch(0%_0_0/0.10)]">
+        <div className="w-[620px]" style={{ zoom: 1.2 }}>
+          <ClassicScreen />
+        </div>
+      </div>
+      <span className={`${COVER_LABEL} absolute top-[176px] right-[44px]`}>Lightning, out of the box</span>
+      <div className="absolute top-[204px] left-[300px] h-[360px] w-[456px] overflow-hidden rounded-[10px] border border-border-default shadow-[0_22px_56px_oklch(0%_0_0/0.20)]">
+        {/* From the app bar down: the search row above it is left out */}
+        <div className="-mt-[44px] w-[720px]">
+          <LightningScreen />
+        </div>
+      </div>
+    </div>
+  );
+}
