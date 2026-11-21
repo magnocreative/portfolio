@@ -1,7 +1,6 @@
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { RecreatedScreen } from "@/design-system/components/RecreatedScreen";
 import { Button } from "@/design-system/components/Button";
-import { ScaledFrame } from "@/design-system/components/ScaledFrame";
 import { ImageGallery, type GalleryItem } from "@/design-system/components/ImageGallery";
 import type { CSSProperties, ReactNode } from "react";
 import sketch1 from "@/assets/grc/sketch-1.png";
@@ -158,97 +157,14 @@ export function Ecosystem() {
 /* --------------------------------------------------------------------------
    The hub. */
 
-/* The hub at near-shipped fidelity, recreated for this site with invented
-   content: every application name, description, person, address and time
-   below is made up, and the colors are this system's, not USAA's brand.
+/* The hub, recreated with invented content to follow Alejandro's real high
+   fidelity screen for screen: every application name, person, date and
+   line of copy is made up, and the palette is invented, not USAA's brand.
+   The screens themselves live with the high fidelity gallery further down
+   (RealHome and the rest); HubMock and the compare slider reuse the home.
 
-   Fidelity is spent where it carries evidence. Each detail answers something
-   the research found: a status on every application and a banner for
-   maintenance (46% didn't know when systems were down), a purpose line and a
-   Docs link on every card (42% didn't know where documentation was), the
-   open and request-access split (asked for in sketch testing), recently
-   viewed with when (frequently visited applications), and search and
-   platform filters (keeping track of the whole ecosystem).
-
-   A picture, not an interface: the whole frame is role="img" and inert, and
+   A picture, not an interface: every frame is role="img" and inert, and
    nothing in it is a link or a button, only drawn to look like one. */
-
-type MockApp = {
-  name: string;
-  short: string;
-  purpose: string;
-  platform: "Salesforce" | "ServiceNow" | "React";
-  maintenance?: boolean;
-};
-
-const MY_APPS: MockApp[] = [
-  {
-    name: "Policy Library",
-    short: "PL",
-    purpose: "Find and cite the current policies and standards.",
-    platform: "Salesforce",
-  },
-  {
-    name: "Issue Tracker",
-    short: "IT",
-    purpose: "Log control issues and track them to closure.",
-    platform: "ServiceNow",
-    maintenance: true,
-  },
-  {
-    name: "Risk Assessments",
-    short: "RA",
-    purpose: "Score and review risk by business area.",
-    platform: "Salesforce",
-  },
-  {
-    name: "Control Testing",
-    short: "CT",
-    purpose: "Plan tests and record results for each control.",
-    platform: "Salesforce",
-  },
-  {
-    name: "Incident Reporting",
-    short: "IR",
-    purpose: "Report an incident and follow its status.",
-    platform: "ServiceNow",
-  },
-  {
-    name: "Regulatory Updates",
-    short: "RU",
-    purpose: "Track new rules and who they affect.",
-    platform: "React",
-  },
-];
-
-const REQUEST_APPS: MockApp[] = [
-  {
-    name: "Audit Workpapers",
-    short: "AW",
-    purpose: "Prepare and review audit evidence.",
-    platform: "Salesforce",
-  },
-  {
-    name: "Vendor Risk",
-    short: "VR",
-    purpose: "Assess third parties before onboarding.",
-    platform: "React",
-  },
-  {
-    name: "Compliance Training",
-    short: "TR",
-    purpose: "Assign and track required training.",
-    platform: "ServiceNow",
-  },
-];
-
-const PLATFORM_KEY: Record<MockApp["platform"], Platform> = {
-  Salesforce: "salesforce",
-  ServiceNow: "servicenow",
-  React: "react",
-};
-
-const mockLabel = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
 
 /* Small line icons for the mock, drawn on the same 20-unit grid and 1.5
    stroke as the site's own set. Local, because they belong to the picture. */
@@ -275,89 +191,6 @@ function Glyph({ d, className = "h-4 w-4" }: { d: keyof typeof GLYPHS; className
     >
       <path d={GLYPHS[d]} />
     </svg>
-  );
-}
-
-function StatusChip({ maintenance = false }: { maintenance?: boolean }) {
-  return maintenance ? (
-    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--status-warning)_45%,transparent)] bg-[color-mix(in_oklab,var(--status-warning)_12%,transparent)] px-2 py-0.5 font-label text-xs font-medium text-text-primary">
-      <span className="h-1.5 w-1.5 rounded-full bg-status-warning" />
-      Maintenance
-    </span>
-  ) : (
-    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color-mix(in_oklab,var(--status-success)_35%,transparent)] bg-[color-mix(in_oklab,var(--status-success)_8%,transparent)] px-2 py-0.5 font-label text-xs font-medium text-text-success">
-      <span className="h-1.5 w-1.5 rounded-full bg-status-success" />
-      Up
-    </span>
-  );
-}
-
-function MockCard({ app, requestable = false }: { app: MockApp; requestable?: boolean }) {
-  return (
-    <span
-      className={`flex h-full flex-col rounded-md border p-4 ${
-        requestable ? "border-dashed border-border-default bg-transparent" : "border-border-subtle bg-surface-raised"
-      }`}
-    >
-      {/* Room for a two-line name, always (Alejandro, November 2026). A name
-          that fit on one line pulled its card's description up, so Vendor
-          Risk's sat a line higher than Audit Workpapers' beside it, and the
-          row read as ragged. 60px is two lines of name and the platform
-          under them, measured at the frame's fixed 840 design width. */}
-      <span className="flex min-h-[3.75rem] items-start gap-3">
-        {/* The application's mark, in its platform's fill, so the platform
-            reads at a glance as it does in the ecosystem figure. */}
-        <span
-          className={`grid h-9 w-9 shrink-0 place-items-center rounded-md border-2 font-label text-xs font-semibold ${
-            requestable ? "text-text-tertiary" : "text-text-secondary"
-          } ${PLATFORM_TILE[PLATFORM_KEY[app.platform]]}`}
-        >
-          {app.short}
-        </span>
-        <span className="flex min-w-0 flex-col">
-          <span
-            className={`text-sm font-semibold leading-snug ${requestable ? "text-text-secondary" : "text-text-primary"}`}
-          >
-            {app.name}
-          </span>
-          <span className="mt-0.5 font-label text-xs uppercase tracking-[0.08em] text-text-tertiary">
-            {app.platform}
-          </span>
-        </span>
-      </span>
-      <span className="mt-3 text-xs leading-relaxed text-text-secondary">{app.purpose}</span>
-      {/* The status sits with the actions, at the foot of the card, so a
-          row's chips line up however long each description runs; above the
-          footer they followed the text and stepped down card by card. */}
-      {!requestable && (
-        <span className="mt-auto pt-3">
-          <StatusChip maintenance={app.maintenance} />
-        </span>
-      )}
-      <span className={`${requestable ? "mt-auto" : ""} flex flex-wrap items-center gap-x-4 gap-y-2 pt-4`}>
-        <span
-          className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm px-3 py-1.5 text-xs font-medium ${
-            requestable ? "border border-border-default text-text-secondary" : "bg-interactive text-interactive-on"
-          }`}
-        >
-          {requestable ? (
-            <>
-              <Glyph d="lock" className="h-3.5 w-3.5" />
-              Request access
-            </>
-          ) : (
-            <>
-              Launch
-              <Glyph d="arrow" className="h-3.5 w-3.5" />
-            </>
-          )}
-        </span>
-        <span className="inline-flex items-center gap-1 text-xs font-medium text-text-accent">
-          <Glyph d="doc" className="h-3.5 w-3.5" />
-          Docs
-        </span>
-      </span>
-    </span>
   );
 }
 
@@ -393,274 +226,20 @@ const HUB_SKIN = {
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 } as CSSProperties;
 
-function HubSkin({ children }: { children: ReactNode }) {
-  return (
-    <div style={HUB_SKIN} className="bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
-      {children}
-    </div>
-  );
-}
-
-/* The hub's header, shared by every recreated screen: the mark, the
-   navigation, search, notifications and the account menu. `open` shows
-   search or the menu open; `nav` and `active` set the links, so a screen
-   from a later release can carry the link it added. */
-function HubHeader({
-  open,
-  nav = ["Home", "Notifications", "Help"],
-  active = "Home",
-}: {
-  open?: "search" | "menu";
-  nav?: string[];
-  active?: string;
-}) {
-  return (
-    <>
-      {/* App header */}
-      <div className="flex items-center gap-5 bg-[var(--hub-bar)] px-4 py-2.5 text-[var(--hub-on-bar)] shadow-[0_1px_0_color-mix(in_oklab,var(--shadow-ink)_30%,transparent)] @md:px-5">
-        <span className="flex items-center gap-2">
-          <span className="grid h-6 w-6 grid-cols-2 gap-0.5 rounded-[5px] bg-[var(--hub-mark)] p-1">
-            <span className="rounded-[1px] bg-interactive-on" />
-            <span className="rounded-[1px] bg-interactive-on opacity-60" />
-            <span className="rounded-[1px] bg-interactive-on opacity-60" />
-            <span className="rounded-[1px] bg-interactive-on" />
-          </span>
-          <span className="text-sm font-semibold tracking-[-0.01em]">Hub</span>
-        </span>
-        <span className="hidden items-center gap-5 self-stretch text-xs text-[var(--hub-on-bar-muted)] @2xl:flex">
-          {nav.map((n) => (
-            <span
-                key={n}
-                className={`-mb-2.5 flex items-center self-stretch border-b-2 pb-0.5 ${
-                  n === active ? "border-[var(--hub-accent)] font-medium text-[var(--hub-on-bar)]" : "border-transparent"
-                }`}
-              >
-              {n}
-            </span>
-          ))}
-        </span>
-        <span className="ml-auto flex items-center gap-3">
-          {/* Search, filled in: what a person types, and what the hub
-          finds across all sixteen, applications and docs together. */}
-          <span className="relative hidden @xl:block">
-            <span
-              className={`flex w-64 items-center gap-2 rounded-md border px-3 py-1.5 text-xs ${
-                open === "search"
-                  ? "border-transparent bg-surface-raised ring-2 ring-[color-mix(in_oklab,var(--hub-accent)_60%,transparent)]"
-                  : "border-[color-mix(in_oklab,var(--hub-on-bar)_18%,transparent)] bg-[color-mix(in_oklab,var(--hub-on-bar)_10%,transparent)]"
-              }`}
-            >
-              <Glyph
-                d="search"
-                className={`h-3.5 w-3.5 ${open === "search" ? "text-text-tertiary" : "text-[var(--hub-on-bar-muted)]"}`}
-              />
-              {open === "search" ? (
-                <span className="text-text-primary">
-                  risk
-                  <span className="ml-px inline-block h-3.5 w-px translate-y-0.5 bg-text-primary" />
-                </span>
-              ) : (
-                <span className="text-[var(--hub-on-bar-muted)]">Search applications and docs</span>
-              )}
-            </span>
-            {open === "search" && (
-              <span className="absolute top-full right-0 z-10 mt-1.5 flex w-72 flex-col rounded-md border border-border-default bg-surface-raised py-2 text-xs shadow-[0_12px_32px_color-mix(in_oklab,var(--shadow-ink)_16%,transparent)]">
-                <span className={`px-3 pb-1 ${mockLabel}`}>Applications</span>
-                {[
-                  {
-                    name: "Risk Assessments",
-                    meta: "Salesforce",
-                    status: <StatusChip />,
-                  },
-                  {
-                    name: "Vendor Risk",
-                    meta: "React",
-                    status: (
-                      <span className="inline-flex items-center gap-1 text-text-tertiary">
-                        <Glyph d="lock" className="h-3 w-3" />
-                        Request access
-                      </span>
-                    ),
-                  },
-                ].map((r, i) => (
-                  <span
-                    key={r.name}
-                    className={`flex items-center justify-between gap-3 px-3 py-2 ${i === 0 ? "bg-interactive-subtle" : ""}`}
-                  >
-                    <span className="flex flex-col">
-                      {/* The typed letters marked in each match. */}
-                      <span className="text-text-secondary">
-                        {r.name.split(/(Risk)/).map((part, j) =>
-                          part === "Risk" ? (
-                            <b key={j} className="font-semibold text-text-primary">
-                              {part}
-                            </b>
-                          ) : (
-                            part
-                          ),
-                        )}
-                      </span>
-                      <span className="text-text-tertiary">{r.meta}</span>
-                    </span>
-                    {r.status}
-                  </span>
-                ))}
-                <span className="mx-3 my-1.5 border-t border-border-subtle" />
-                <span className={`px-3 pb-1 ${mockLabel}`}>Docs</span>
-                <span className="flex items-center gap-2 px-3 py-2 text-text-primary">
-                  <Glyph d="doc" className="h-3.5 w-3.5 text-text-tertiary" />
-                  How risk scores are calculated
-                </span>
-                <span className="mx-3 my-1.5 border-t border-border-subtle" />
-                <span className="px-3 pt-1 font-medium text-text-accent">See all 4 results</span>
-              </span>
-            )}
-          </span>
-          <span className="text-[var(--hub-on-bar-muted)] @xl:hidden">
-            <Glyph d="search" className="h-5 w-5" />
-          </span>
-          <span className="relative text-[var(--hub-on-bar-muted)]">
-            <Glyph d="bell" className="h-5 w-5" />
-            <span className="absolute -top-1.5 -right-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-status-danger px-1 font-label text-xs leading-none font-semibold text-text-inverse">
-              2
-            </span>
-          </span>
-          {/* The account menu, where Report an incident lives: one place
-          to raise a problem with any of the sixteen. */}
-          <span className="relative">
-            <span
-              className={`flex items-center gap-1 rounded-full py-0.5 pr-1.5 pl-0.5 ${
-                open === "menu" ? "bg-[color-mix(in_oklab,var(--hub-on-bar)_14%,transparent)]" : ""
-              }`}
-            >
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--hub-accent)] text-xs font-semibold text-[var(--hub-bar)]">
-                JR
-              </span>
-              <Glyph d="chevron" className="h-3.5 w-3.5 text-[var(--hub-on-bar-muted)]" />
-            </span>
-            {open === "menu" && (
-              <span className="absolute top-full right-0 z-10 mt-1.5 flex w-60 flex-col rounded-md border border-border-default bg-surface-raised py-2 text-xs shadow-[0_12px_32px_color-mix(in_oklab,var(--shadow-ink)_16%,transparent)]">
-                <span className="flex flex-col px-3 pt-1 pb-2">
-                  <span className="text-sm font-semibold text-text-primary">Jordan Reyes</span>
-                  <span className="text-text-tertiary">Compliance analyst</span>
-                </span>
-                <span className="mx-3 mb-1.5 border-t border-border-subtle" />
-                <span className="flex items-center gap-2 bg-interactive-subtle px-3 py-2 font-medium text-text-accent">
-                  <Glyph d="alert" className="h-3.5 w-3.5" />
-                  Report an incident
-                </span>
-                {["My access", "Notification settings", "Help"].map((item) => (
-                  <span key={item} className="px-3 py-2 pl-[2.375rem] text-text-secondary">
-                    {item}
-                  </span>
-                ))}
-                <span className="mx-3 my-1.5 border-t border-border-subtle" />
-                <span className="px-3 py-1 pl-[2.375rem] text-text-secondary">Sign out</span>
-              </span>
-            )}
-          </span>
-        </span>
-      </div>
-    </>
-  );
-}
-
-function HubScreen({ open }: { open?: "search" | "menu" }) {
-  return (
-    <HubSkin>
-            <HubHeader open={open} />
-
-            {/* The alert: maintenance announced before anyone runs into it */}
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-[color-mix(in_oklab,var(--status-warning)_35%,var(--surface-raised))] bg-[color-mix(in_oklab,var(--status-warning)_12%,var(--surface-raised))] px-4 py-2.5 text-xs @md:px-5">
-              <span className="text-[color-mix(in_oklab,var(--status-warning)_80%,var(--text-primary))]">
-                <Glyph d="alert" className="h-4 w-4" />
-              </span>
-              <span className="font-semibold text-text-primary">Scheduled maintenance</span>
-              <span className="text-text-secondary">Issue Tracker is down Saturday, 2 to 4 AM.</span>
-              <span className="font-medium text-text-accent underline decoration-1 underline-offset-2">Details</span>
-            </div>
-
-            <div className="flex gap-6 p-4 @md:p-6">
-              {/* Profile, recents and resources */}
-              <div className="hidden w-44 shrink-0 flex-col @2xl:flex">
-                <span className="text-sm font-semibold text-text-primary">Welcome back, Jordan</span>
-                <span className="mt-0.5 text-xs text-text-secondary">Compliance analyst</span>
-                <span className={`mt-6 ${mockLabel}`}>Recently viewed</span>
-                <span className="mt-2 flex flex-col gap-2.5">
-                  {[
-                    ["Control Testing", "Today"],
-                    ["Policy Library", "Yesterday"],
-                    ["Risk Assessments", "2 days ago"],
-                  ].map(([name, when]) => (
-                    <span key={name} className="flex flex-col">
-                      <span className="text-xs font-medium text-text-primary">{name}</span>
-                      <span className="text-xs text-text-tertiary">{when}</span>
-                    </span>
-                  ))}
-                </span>
-                <span className={`mt-6 ${mockLabel}`}>Resources</span>
-                <span className="mt-2 flex flex-col gap-2 text-xs font-medium text-text-accent">
-                  <span>Ecosystem wiki</span>
-                  <span>Release notes</span>
-                  <span>Who owns what</span>
-                </span>
-              </div>
-
-              <div className="flex min-w-0 flex-1 flex-col">
-                {/* Filters by platform */}
-                <span className="flex flex-wrap items-center gap-2">
-                  {["All", "Salesforce", "ServiceNow", "React"].map((f, i) => (
-                    <span
-                      key={f}
-                      className={`rounded-[var(--radius-pill)] border px-3 py-1 text-xs font-medium ${
-                        i === 0
-                          ? "border-border-interactive bg-interactive-subtle text-text-accent"
-                          : "border-border-default text-text-secondary"
-                      } ${i === 3 ? "hidden @md:inline" : ""}`}
-                    >
-                      {f}
-                    </span>
-                  ))}
-                </span>
-
-                <span className="mt-5 flex items-baseline gap-2">
-                  <span className="text-base font-semibold text-text-primary">Your applications</span>
-                  <span className="font-label text-xs text-text-tertiary">06</span>
-                </span>
-                <div className="mt-3 grid grid-cols-1 gap-3 @md:grid-cols-2 @3xl:grid-cols-3">
-                  {MY_APPS.map((app, i) => (
-                    <span key={app.name} className={i >= 4 ? "hidden @3xl:block" : i >= 2 ? "hidden @md:block" : ""}>
-                      <MockCard app={app} />
-                    </span>
-                  ))}
-                </div>
-
-                <span className="mt-6 flex items-baseline gap-2">
-                  <span className="text-base font-semibold text-text-primary">Request access</span>
-                  <span className="font-label text-xs text-text-tertiary">03</span>
-                </span>
-                <div className="mt-3 grid grid-cols-1 gap-3 @md:grid-cols-2 @3xl:grid-cols-3">
-                  {REQUEST_APPS.map((app, i) => (
-                    <span key={app.name} className={i >= 2 ? "hidden @3xl:block" : i >= 1 ? "hidden @md:block" : ""}>
-                      <MockCard app={app} requestable />
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-    </HubSkin>
-  );
-}
-
-export function HubMock({ open = "search" }: { open?: "search" | "menu" }) {
+/* The result: the accurate home, the same one as in From sketch to screen
+   and the compare slider, so the hub is drawn one way throughout the study
+   (Alejandro, November 2026). */
+export function HubMock() {
   return (
     <div
       role="img"
-      aria-label="The hub, recreated with invented content, in a browser window. In the header, search has the word risk typed in, and its results list two applications, Risk Assessments (up) and Vendor Risk (request access), and a doc on how risk scores are calculated. Beside it, notifications with two unread and the account menu, which holds Report an incident. A maintenance banner reads: Issue Tracker is down Saturday, 2 to 4 AM. Filters for all platforms, Salesforce, ServiceNow and React sit above the applications. Under Your applications, six cards, each with the application's mark, name, platform, one line on what it's for, a status (Up, or Maintenance for the one going down), a Launch button and a Docs link. Under Request access, three cards in dashed outline with a Request access button and a Docs link. On the left, a welcome, the user's role, recently viewed applications with when, and resources."
+      aria-label="The hub's home, recreated with invented content, in a browser window. A dark bar with Home, Feedback, notifications and an avatar. Three banners across the top announce maintenance, issues and updates, each with Read More. A welcome column holds application roles, resources and newsletter announcements. Then recently viewed applications, the applications the person can open, each with a line on what it is for, View Details and Launch, and, in gray with Request Access, the ones they would have to request."
       className="h-full w-full p-3 sm:p-6"
     >
-      <RecreatedScreen address="hub.example/home" tab="Home · Hub">
-        <HubScreen open={open} />
+      <RecreatedScreen address="hub.example/home" tab="Hub" width={1100}>
+        <div style={REAL_SKIN} className="bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
+          <RealHome />
+        </div>
       </RecreatedScreen>
     </div>
   );

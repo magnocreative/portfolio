@@ -121,7 +121,7 @@ export default function SixteenApplications() {
             <Figure
               ratio="auto"
               recreated
-              caption="Every application says what it’s for and whether it’s up, maintenance is announced before anyone runs into it, and the applications you can open sit apart from the ones you’d have to request, a split users asked for in sketch testing."
+              caption="Every application says what it’s for, maintenance, issues and updates are announced across the top before anyone runs into them, and the applications you can open sit apart from the ones you’d have to request, a split users asked for in sketch testing."
             >
               <HubMock />
             </Figure>
