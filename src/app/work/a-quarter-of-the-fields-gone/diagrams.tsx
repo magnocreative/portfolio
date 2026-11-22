@@ -24,26 +24,15 @@ import sketch6 from "@/assets/audit/sketch-6.png";
    the fields went, the rest were grouped so related content sits together,
    and the homepage used three columns with one record type each. */
 
-const label = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
 
 /* A gray bar standing in for a line of text. */
-function Bar({ w, strong = false, dashed = false }: { w: string; strong?: boolean; dashed?: boolean }) {
-  return (
-    <span
-      className={`block h-1.5 rounded-full ${
-        dashed ? "border border-dashed border-border-strong" : strong ? "bg-border-strong" : "bg-border-default"
-      }`}
-      style={{ width: w }}
-    />
-  );
+function Bar({ w, strong = false }: { w: string; strong?: boolean }) {
+  return <span className={`block h-1.5 rounded-full ${strong ? "bg-border-strong" : "bg-border-default"}`} style={{ width: w }} />;
 }
 
 /* --------------------------------------------------------------------------
-   Hero subject: the cover's two windows, upright to fit the hero's
-   16.125rem column (Alejandro, November 2026: the hero matches its
-   thumbnail). Classic behind, Lightning in front, each labeled. Defined at
-   the end of the file, with the cover, since both draw the recreated
-   screens. */
+   Hero subject: Classic's fields above Lightning's groups, upright to fit
+   the hero's 16.125rem column. Defined further down, with the cover. */
 
 /* --------------------------------------------------------------------------
    The record, before and after. The application held three kinds of record,
@@ -1359,30 +1348,85 @@ export function RecordFlow() {
 }
 
 /* --------------------------------------------------------------------------
-   The cover, for the work index: Lightning in front of Classic, the study's
-   result in one picture, the new record replacing the old (Alejandro,
-   November 2026: chosen over a slant, which left an empty wedge at the
-   bottom). Rendered at 800 by 600 at twice the density and saved as
-   src/assets/covers/a-quarter-of-the-fields-gone.png; kept here so it can be
-   rendered again. Invented content throughout. */
+   The hero and the cover (Alejandro, November 2026). The hero is the idea:
+   one long list of fields above three short groups, a diagram that follows
+   the theme. Eight rows become six, a quarter fewer. The two that go are
+   faded and carry a remove mark, a red circle with a minus, so the cut never
+   rests on color alone; not dashed, since dashed means not built. The cover
+   is the product: the Lightning record itself, edge to edge, rendered at 800
+   by 600 at twice the density and saved as
+   src/assets/covers/a-quarter-of-the-fields-gone.png. Invented content. */
 
-const COVER_LABEL = "font-label text-[11px] font-medium uppercase tracking-[0.14em] text-text-tertiary";
+const label = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
 
+const CLASSIC_ROWS: { label: string; value: string; cut?: boolean }[] = [
+  { label: "2.5rem", value: "90%" },
+  { label: "3rem", value: "70%" },
+  { label: "2rem", value: "100%", cut: true },
+  { label: "3.25rem", value: "60%" },
+  { label: "2.5rem", value: "80%" },
+  { label: "2.75rem", value: "75%", cut: true },
+  { label: "3rem", value: "95%" },
+  { label: "2.25rem", value: "70%" },
+];
+
+function ClassicList() {
+  return (
+    <span className="flex w-56 flex-col gap-3 rounded-lg border border-border-default bg-surface-sunken p-4">
+      {CLASSIC_ROWS.map((row, i) => (
+        <span key={i} className="relative flex items-center gap-3">
+          <span className={`shrink-0 ${row.cut ? "opacity-45" : ""}`} style={{ width: row.label }}>
+            <Bar w="100%" />
+          </span>
+          <span className={`flex-1 ${row.cut ? "opacity-45" : ""}`}>
+            <Bar w={row.value} strong={!row.cut} />
+          </span>
+          {/* The cut: a remove mark at the row's end, a shape as well as a color */}
+          {row.cut && (
+            <span aria-hidden="true" className="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-full bg-status-danger">
+              <span className="h-[2px] w-1.5 rounded-full bg-surface-raised" />
+            </span>
+          )}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function LightningGroups() {
+  return (
+    <span className="grid w-56 grid-cols-3 gap-2">
+      {[0, 1, 2].map((g) => (
+        <span
+          key={g}
+          className="flex flex-col gap-2.5 rounded-lg border border-border-subtle bg-surface-raised p-3 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)]"
+        >
+          <span className="block h-1.5 w-8 rounded-full bg-interactive" />
+          <Bar w="100%" strong />
+          <Bar w="75%" />
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function Link() {
+  return (
+    <span className="flex flex-col items-center" aria-hidden="true">
+      <span className="h-12 border-l-2 border-border-strong" />
+      <span className="-mt-1 h-2.5 w-2.5 rounded-full bg-border-strong" />
+    </span>
+  );
+}
+
+/* The cover: the Lightning record itself, edge to edge, in its high
+   fidelity (Alejandro, November 2026: like the GRC study's cover, the
+   product on the card and the idea in the hero) */
 export function CoverArt() {
   return (
-    <div data-scheme="light" className="relative h-[600px] w-[800px] overflow-hidden bg-[oklch(96.5%_0.004_90)]">
-      <span className={`${COVER_LABEL} absolute top-[36px] left-[44px]`}>Salesforce Classic</span>
-      <div className="absolute top-[64px] left-[44px] h-[400px] w-[430px] overflow-hidden rounded-[10px] border border-border-default bg-white shadow-[0_10px_30px_oklch(0%_0_0/0.10)]">
-        <div className="w-[620px]" style={{ zoom: 1.2 }}>
-          <ClassicScreen />
-        </div>
-      </div>
-      <span className={`${COVER_LABEL} absolute top-[176px] right-[44px]`}>Lightning, out of the box</span>
-      <div className="absolute top-[204px] left-[300px] h-[360px] w-[456px] overflow-hidden rounded-[10px] border border-border-default shadow-[0_22px_56px_oklch(0%_0_0/0.20)]">
-        {/* From the app bar down: the search row above it is left out */}
-        <div className="-mt-[44px] w-[720px]">
-          <LightningScreen />
-        </div>
+    <div data-scheme="light" className="relative h-[600px] w-[800px] overflow-hidden bg-white">
+      <div className="w-[1100px]" style={{ zoom: 800 / 1100 }}>
+        <LightningScreen />
       </div>
     </div>
   );
@@ -1390,19 +1434,12 @@ export function CoverArt() {
 
 export function HeroSubject() {
   return (
-    <div className="relative h-[23.5rem] w-[16.125rem]">
-      <span className={`${label} absolute top-0 left-0`}>Salesforce Classic</span>
-      <div className="absolute top-6 left-0 h-[10.5rem] w-[13.5rem] overflow-hidden rounded-[8px] border border-border-default bg-white shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_10%,transparent)]">
-        <div data-scheme="light" className="w-[620px]" style={{ zoom: 0.55 }}>
-          <ClassicScreen />
-        </div>
-      </div>
-      <span className={`${label} absolute top-[12.75rem] right-0`}>Lightning, out of the box</span>
-      <div className="absolute top-[14.25rem] right-0 h-[9.25rem] w-[13.5rem] overflow-hidden rounded-[8px] border border-border-default shadow-[0_14px_36px_color-mix(in_oklab,var(--shadow-ink)_18%,transparent)]">
-        <div className="-mt-[44px] w-[720px]" style={{ zoom: 0.48 }}>
-          <LightningScreen />
-        </div>
-      </div>
+    <div className="flex flex-col items-center gap-4">
+      <span className={label}>Salesforce Classic</span>
+      <ClassicList />
+      <Link />
+      <span className={label}>Lightning, out of the box</span>
+      <LightningGroups />
     </div>
   );
 }

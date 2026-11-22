@@ -94,9 +94,9 @@ export const caseStudies: CaseStudy[] = [
     logo: "usaa",
     period: "2022",
     status: "published",
-    // The hub itself, edge to edge, rendered from the page's own
-    // recreation (./diagrams CoverArt, Alejandro, November 2026). Invented
-    // content; nothing from USAA.
+    // The product on the card, the idea in the hero: the hub itself, edge
+    // to edge, rendered from the page's own recreation (./diagrams CoverArt,
+    // Alejandro, November 2026). Invented content; nothing from USAA.
     cover: {
       src: sixteenCover,
       alt: "The GRC Connect dashboard, recreated with invented content: a status line reading 1 issue, 2 maintenance windows and 2 updates, a welcome column, the person's applications as cards that say what each is for, one marked for maintenance and one slow to load, each with Launch, and below them the applications available to request.",
@@ -116,12 +116,13 @@ export const caseStudies: CaseStudy[] = [
     logo: "usaa",
     period: "2021 to 2022",
     status: "published",
-    // Lightning in front of Classic, the study's result in one picture,
-    // rendered from the page's own recreations (./diagrams CoverArt,
-    // Alejandro, November 2026). Invented content; nothing from USAA.
+    // The product on the card, the idea in the hero: the Lightning record
+    // itself, edge to edge, rendered from the page's own recreation
+    // (./diagrams CoverArt, Alejandro, November 2026). Invented content;
+    // nothing from USAA.
     cover: {
       src: quarterCover,
-      alt: "Two recreated screens of the same training record. Behind, Salesforce Classic: tabs in a gray band, the record number over Edit, Delete and Clone buttons, and labels right-aligned beside their values under section strips. In front, Lightning, out of the box: the app bar, the record's header with its icon and highlights, a path from Draft to Submitted, and the record's tabs.",
+      alt: "A training record in Lightning, recreated with invented content: the app bar, the record's header with its highlights, a path from Draft to Submitted to Complete, the certificate attached in collapsible sections, and beside them the sections still to fill and the record's feed.",
     },
   },
 ];

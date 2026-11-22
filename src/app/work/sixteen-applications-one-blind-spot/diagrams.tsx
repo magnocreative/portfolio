@@ -72,11 +72,8 @@ const PLATFORMS: { key: Platform; label: string; count: number; apps: string[] }
 const label = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
 
 /* --------------------------------------------------------------------------
-   Hero subject: the hub itself, as on the cover (Alejandro, November 2026:
-   the hero matches its thumbnail). The refined dashboard in a window,
-   upright to fit the hero's 16.125rem column: the bar, the status line, the
-   welcome column and the first applications. A picture of the screen, so
-   it stays light in both themes. Defined at the end of the file, with the
+   Hero subject: sixteen applications above one front door, upright to fit
+   the hero's 16.125rem column. Defined at the end of the file, with the
    cover. */
 
 /* --------------------------------------------------------------------------
@@ -2840,14 +2837,77 @@ export function UserMap() {
 }
 
 /* --------------------------------------------------------------------------
-   The cover, for the work index: the hub itself, edge to edge, with nothing
-   behind it, so status at a glance is the first thing the card shows
-   (Alejandro, November 2026, chosen over a before-and-after pair). The
-   refined dashboard from the gallery, with no card hovered, at 800 by 600
-   and twice the density, saved as
-   src/assets/covers/sixteen-applications-one-blind-spot.png; kept here so it
-   can be rendered again. Invented content throughout. */
+   The hero and the cover (Alejandro, November 2026). The hero is the idea:
+   sixteen applications above one front door, and the problem between them.
+   One neutral tile each; three carry the study's status marks, one issue
+   and two maintenance windows, scattered where nobody would see them. The
+   front door gathers the same marks in one line, as the dashboard's status
+   line does. A diagram, not a screen, so it follows the theme. No dashed
+   lines or tiles: in this study dashed means not built. The cover is the
+   product: the dashboard itself, edge to edge, rendered at 800 by 600 at
+   twice the density and saved as
+   src/assets/covers/sixteen-applications-one-blind-spot.png. */
 
+const HERO_MARKS: Record<number, "down" | "warn"> = { 2: "warn", 5: "down", 12: "warn" };
+
+/* The status marks draw in the hub's own colors; here they take the site's */
+const HERO_MARK_COLORS = {
+  "--real-red": "var(--status-danger)",
+  "--real-action": "var(--interactive-default)",
+  "--real-green": "var(--status-success)",
+} as CSSProperties;
+
+function HeroTiles() {
+  return (
+    <div className="grid grid-cols-4 gap-2.5">
+      {Array.from({ length: 16 }, (_, i) => (
+        <span key={i} className="grid h-11 w-11 place-items-center rounded-md border-2 border-border-strong bg-surface-raised">
+          {HERO_MARKS[i] && <StatusIcon tone={HERO_MARKS[i]} className="h-5 w-5" />}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function FrontDoor({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`flex flex-col gap-3 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)] ${className}`}
+    >
+      <span className="flex items-center gap-2 text-sm font-semibold text-text-primary">
+        <span className="grid h-5 w-5 grid-cols-2 gap-[2px] rounded-[4px] bg-interactive p-[3px]" aria-hidden="true">
+          <span className="rounded-[1px] bg-interactive-on" />
+          <span className="rounded-[1px] bg-interactive-on opacity-60" />
+          <span className="rounded-[1px] bg-interactive-on opacity-60" />
+          <span className="rounded-[1px] bg-interactive-on" />
+        </span>
+        GRC Connect
+      </span>
+      <span className="flex items-center gap-3 text-xs whitespace-nowrap text-text-secondary">
+        <span className="flex items-center gap-1.5">
+          <StatusIcon tone="down" />1 issue
+        </span>
+        <span className="flex items-center gap-1.5">
+          <StatusIcon tone="warn" />2 maintenance
+        </span>
+      </span>
+    </span>
+  );
+}
+
+/* The link between them: solid, since dashed means not built here */
+function Link() {
+  return (
+    <span className="flex flex-col items-center" aria-hidden="true">
+      <span className="h-12 border-l-2 border-border-strong" />
+      <span className="-mt-1 h-2.5 w-2.5 rounded-full bg-border-strong" />
+    </span>
+  );
+}
+
+/* The cover: the hub itself, edge to edge, in its refined high fidelity
+   (Alejandro, November 2026: the cover is the product, the hero is the
+   idea). No card hovered. */
 export function CoverArt() {
   return (
     <div data-scheme="light" className="relative h-[600px] w-[800px] overflow-hidden bg-white">
@@ -2987,13 +3047,12 @@ export function GrcFlow() {
 
 export function HeroSubject() {
   return (
-    <div className="flex w-[16.125rem] flex-col gap-3">
-      <span className={label}>GRC Connect</span>
-      <div className="h-[21rem] overflow-hidden rounded-[8px] border border-border-default shadow-[0_14px_36px_color-mix(in_oklab,var(--shadow-ink)_16%,transparent)]">
-        <div data-scheme="light" style={{ ...REAL_SKIN, zoom: 0.5 }} className="w-[1100px] bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
-          <RedesignDashboard selected={-1} />
-        </div>
-      </div>
+    <div className="flex flex-col items-center gap-4" style={HERO_MARK_COLORS}>
+      <span className={label}>Sixteen applications</span>
+      <HeroTiles />
+      <Link />
+      <span className={label}>One front door</span>
+      <FrontDoor className="w-60" />
     </div>
   );
 }
