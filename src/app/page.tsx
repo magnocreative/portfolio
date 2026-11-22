@@ -9,6 +9,7 @@ import { homeHero } from "@/content/home";
 import { Tag } from "@/design-system/components/Tag";
 import { ThemeToggle } from "@/design-system/components/ThemeToggle";
 import { FeaturePanel } from "@/design-system/components/FeaturePanel";
+import { HomeGround } from "./home-ground";
 
 /**
  * A few of the system's own components, live, where a list of facts about the
@@ -64,15 +65,21 @@ export default function Home() {
       <main>
         {/* Hero. The measure is deliberately short — a claim you can read in
             one breath beats a paragraph that hedges it. */}
-        <Container>
-          {/* The eyebrow is the title of record, not the functional one. It
-              reads Senior everywhere a person describes this work, and it
-              will read Senior here the day the promotion lands, but a public
-              page carrying a title that employment verification would not
-              return is a discrepancy waiting to be found at the worst moment.
-              The seniority is argued by the work below it instead. */}
-          <PageHeader type="hero" {...homeHero} />
-        </Container>
+        <section className="relative overflow-hidden">
+          {/* The ground: components outlined on the dot grid (./home-ground) */}
+          <HomeGround />
+          <Container>
+            {/* The eyebrow is the title of record, not the functional one. It
+                reads Senior everywhere a person describes this work, and it
+                will read Senior here the day the promotion lands, but a public
+                page carrying a title that employment verification would not
+                return is a discrepancy waiting to be found at the worst moment.
+                The seniority is argued by the work below it instead. */}
+            <div className="relative">
+              <PageHeader type="hero" {...homeHero} />
+            </div>
+          </Container>
+        </section>
 
         {/* Work index */}
         <Container>

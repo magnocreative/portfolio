@@ -12,9 +12,11 @@ import { Tag } from "@/design-system/components/Tag";
 import { ORG_LOGOS } from "@/design-system/brand/OrgLogos";
 import { CalendarIcon, CodeIcon, PenNibIcon, RoleIcon, ScopeIcon } from "@/design-system/components/Icon";
 import {
+  AppBuilderMock,
   HeroSubject,
   HiFiGallery,
   HomeMock,
+  LayoutRules,
   RecordComparison,
   RecordFlow,
   SketchSheet,
@@ -218,7 +220,27 @@ export default function AQuarterOfTheFields() {
       </CaseStudyPart>
 
       <CaseStudyPart id="how" eyebrow="Part two" title="How I got there" className="mt-28">
-        <CaseStudyBeat id="constraint" heading="The constraint">
+        <CaseStudyBeat
+          id="constraint"
+          heading="The constraint"
+          after={
+            <>
+              <Figure
+                ratio="auto"
+                bare
+                caption="Lightning App Builder, recreated: components on the left, the page on its template in the middle, the template's settings on the right."
+              >
+                <AppBuilderMock />
+              </Figure>
+              <Figure
+                ratio="auto"
+                caption="My notes on what App Builder could lay out, recreated: containers of one, two or three columns, but no mixed columns and no side navigation."
+              >
+                <LayoutRules />
+              </Figure>
+            </>
+          }
+        >
           <p>
             Technology leadership set one rule: build it out of the box, to keep technical debt down. In
             practice that meant Lightning App Builder in the development sandbox and nothing else. Even the
@@ -227,6 +249,10 @@ export default function AQuarterOfTheFields() {
           <p>
             That rule decided what a design could be before any design existed. App Builder offers a fixed
             set of page layouts and components, and anything outside them was off the table.
+          </p>
+          <p>
+            So I learned the limits in the builder itself, and wrote down which layouts it could and could
+            not build. Every design I brought to users after that was one we were able to ship.
           </p>
         </CaseStudyBeat>
 

@@ -1,4 +1,5 @@
 import { CompareSlider } from "@/design-system/components/CompareSlider";
+import { FBox, FC, FDiamond, FlowCanvas, FPanel, L, Lines } from "../flowchart";
 import { RecreatedScreen } from "@/design-system/components/RecreatedScreen";
 import { Button } from "@/design-system/components/Button";
 import { ImageGallery, type GalleryItem } from "@/design-system/components/ImageGallery";
@@ -71,68 +72,12 @@ const PLATFORMS: { key: Platform; label: string; count: number; apps: string[] }
 const label = "font-label text-xs font-medium uppercase tracking-[0.11em] text-text-tertiary";
 
 /* --------------------------------------------------------------------------
-   Hero subject: sixteen applications above one front door, and the problem
-   between them (Alejandro, November 2026: the cover should show the study).
-   One neutral tile each, since the platform split is the constraint's
-   detail, not the cover's; three carry the study's status marks, one issue
-   and two maintenance windows, scattered where nobody would see them. The
-   front door gathers the same marks in one line, as the dashboard's status
-   line does. No dashed tiles: in this study dashed means not built. Upright,
-   to fit the hero's 16.125rem column; also rendered as the work index cover. */
-
-const HERO_MARKS: Record<number, "down" | "warn"> = { 2: "warn", 5: "down", 12: "warn" };
-
-/* The status marks draw in the hub's own colors; here they take the site's */
-const HERO_MARK_COLORS = {
-  "--real-red": "var(--status-danger)",
-  "--real-action": "var(--interactive-default)",
-  "--real-green": "var(--status-success)",
-} as CSSProperties;
-
-export function HeroSubject() {
-  const link = (
-    <span className="flex flex-col items-center" aria-hidden="true">
-      <span className="h-12 border-l-2 border-dashed border-border-strong" />
-      <span className="-mt-1 h-2.5 w-2.5 rounded-full bg-border-strong" />
-    </span>
-  );
-  return (
-    <div className="flex flex-col items-center gap-4" style={HERO_MARK_COLORS}>
-      <span className={label}>Sixteen applications</span>
-      <div className="grid grid-cols-4 gap-2.5">
-        {Array.from({ length: 16 }, (_, i) => (
-          <span
-            key={i}
-            className="grid h-11 w-11 place-items-center rounded-md border-2 border-border-strong bg-surface-raised"
-          >
-            {HERO_MARKS[i] && <StatusIcon tone={HERO_MARKS[i]} className="h-5 w-5" />}
-          </span>
-        ))}
-      </div>
-      {link}
-      <span className={label}>One front door</span>
-      <span className="flex w-60 flex-col gap-3 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)]">
-        <span className="flex items-center gap-2 text-sm font-semibold text-text-primary">
-          <span className="grid h-5 w-5 grid-cols-2 gap-[2px] rounded-[4px] bg-interactive p-[3px]" aria-hidden="true">
-            <span className="rounded-[1px] bg-interactive-on" />
-            <span className="rounded-[1px] bg-interactive-on opacity-60" />
-            <span className="rounded-[1px] bg-interactive-on opacity-60" />
-            <span className="rounded-[1px] bg-interactive-on" />
-          </span>
-          GRC Connect
-        </span>
-        <span className="flex items-center gap-3 text-xs whitespace-nowrap text-text-secondary">
-          <span className="flex items-center gap-1.5">
-            <StatusIcon tone="down" />1 issue
-          </span>
-          <span className="flex items-center gap-1.5">
-            <StatusIcon tone="warn" />2 maintenance
-          </span>
-        </span>
-      </span>
-    </div>
-  );
-}
+   Hero subject: the hub itself, as on the cover (Alejandro, November 2026:
+   the hero matches its thumbnail). The refined dashboard in a window,
+   upright to fit the hero's 16.125rem column: the bar, the status line, the
+   welcome column and the first applications. A picture of the screen, so
+   it stays light in both themes. Defined at the end of the file, with the
+   cover. */
 
 /* --------------------------------------------------------------------------
    The ecosystem: the sixteen in three platform groups, with nothing joining
@@ -2908,6 +2853,146 @@ export function CoverArt() {
     <div data-scheme="light" className="relative h-[600px] w-[800px] overflow-hidden bg-white">
       <div style={{ ...REAL_SKIN, zoom: 800 / 1100 }} className="w-[1100px] bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
         <RedesignDashboard selected={-1} />
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The user flow: Alejandro's own, recreated in his notation (November 2026:
+   bring in the GRC study's user flow, as in the audit study). Cropped to
+   the two parts the hub's MVP was: the alerts and the applications. Left
+   out: sign-in, retry and password reset (the platform's own), the side
+   navigation, admin analytics and the feedback page, which were later
+   releases. His flow named the sixteen real applications; these are the
+   study's invented ones. A white box is his mark for a step left out of the
+   MVP. A picture of his flowchart, so it stays light in both themes. */
+
+const GRC_FLOW_ALT =
+  "My user flow, recreated without its sign-in steps. From the GRC Connect homepage, an alert message can be read in full, as one of four types, maintenance, update, issue or alert, or dismissed; admins can also edit an alert or add a new one, confirm and save it, and return to the message. From the homepage, sixteen applications. For each, the user can launch it and enter the application, view its details and launch it from there, or open more options: submit an access request, give feedback, report an incident, request an enhancement, or go to the application's wiki, each leading to its form or page. A feedback page inside GRC Connect was left for a later release.";
+
+export function GrcFlow() {
+  const apps = AREAS.flatMap((a) => a.apps);
+  const fx = (i: number) => 362 + (i % 8) * 92;
+  const fy = (i: number) => 418 + Math.floor(i / 8) * 46;
+  const actions: { y: number; act: string[]; to: string[]; later?: string[] }[] = [
+    { y: 640, act: ["Submit access", "request"], to: ["Access request", "form"] },
+    { y: 700, act: ["Give feedback"], to: ["Feedback form"], later: ["Feedback page in", "GRC Connect", "(non-MVP)"] },
+    { y: 760, act: ["Report incident"], to: ["Incident form"] },
+    { y: 820, act: ["Enhancement", "request"], to: ["Enhancement", "request form"] },
+    { y: 880, act: ["Go to app wiki"], to: ["Application wiki"] },
+  ];
+  return (
+    <div role="img" aria-label={GRC_FLOW_ALT} className="h-full w-full overflow-x-auto bg-white">
+      <FlowCanvas w={1100} h={920}>
+        {/* Alerts */}
+        <text x={30} y={34} fontSize={19} fill={FC.text}>
+          Alerts (admin and non-admin users)
+        </text>
+        <L p={[[90, 412], [90, 148]]} />
+        <L p={[[140, 120], [165, 120]]} end={false} />
+        <L p={[[165, 70], [165, 250]]} end={false} />
+        <L p={[[165, 70], [260 - 52, 70]]} />
+        <L p={[[165, 130], [260 - 52, 130]]} />
+        <L p={[[165, 190], [260 - 52, 190]]} />
+        <L p={[[165, 250], [260 - 52, 250]]} />
+        <FBox x={90} y={120} w={100} lines={["Alert", "message"]} />
+        <FBox x={260} y={70} w={104} h={44} lines={["Read more"]} />
+        <FBox x={260} y={130} w={104} h={44} lines={["Dismiss"]} />
+        <FBox x={260} y={190} w={104} h={44} lines={["Edit"]} />
+        <FBox x={260} y={250} w={104} h={44} lines={["Add new alert"]} />
+        <L p={[[312, 70], [350, 70]]} />
+        <FPanel x={350} y={42} w={300} h={92} />
+        <text x={366} y={88} fontSize={13} fill={FC.text}>
+          <tspan x={366} dy={-8}>Specific alert</tspan>
+          <tspan x={366} dy={16}>(4 types)</tspan>
+        </text>
+        {[
+          ["Maintenance", 0, 0],
+          ["Update", 1, 0],
+          ["Issue", 0, 1],
+          ["Alert", 1, 1],
+        ].map(([t, cx, cy]) => (
+          <FBox key={t as string} x={512 + (cx as number) * 74} y={66 + (cy as number) * 44} w={68} h={36} size={11.5} lines={[t as string]} />
+        ))}
+        <L p={[[312, 190], [340, 190], [340, 220], [420 - 62, 220]]} end />
+        <L p={[[312, 250], [340, 250], [340, 220]]} end={false} />
+        <FDiamond x={420} y={220} w={124} h={72} lines={["Confirm alert", "and save?"]} />
+        <L p={[[420, 256], [420, 290], [90, 290]]} end={false} />
+        <rect x={700} y={42} width={370} height={206} rx={3} fill={FC.note} stroke={FC.noteEdge} strokeWidth={1} />
+        <Lines
+          x={716}
+          y={145}
+          anchor="start"
+          size={12.5}
+          lines={[
+            "Alert form fields (admins)",
+            "1. Applies to all applications? Checkbox",
+            "2. Applications: multi-select dropdown",
+            "3. Type: dropdown",
+            "4. Title: text input",
+            "5. Description: text input",
+            "6. Start date: date picker",
+            "7. Expiry date: date picker",
+            "8. Can it be dismissed? Checkbox",
+          ]}
+        />
+
+        {/* Applications */}
+        <text x={230} y={364} fontSize={19} fill={FC.text}>
+          Applications (admin and non-admin users)
+        </text>
+        <FBox x={90} y={440} w={104} lines={["GRC Connect", "homepage"]} />
+        <L p={[[142, 440], [230, 440]]} />
+        <FPanel x={230} y={384} w={850} h={112} />
+        <Lines x={272} y={440} lines={["Applications", "(16)"]} />
+        {apps.map((a, i) => (
+          <FBox key={a} x={fx(i)} y={fy(i)} w={86} h={40} size={10.5} lines={a.split(" ").length > 1 ? [a.split(" ").slice(0, -1).join(" "), a.split(" ").slice(-1)[0]] : [a]} />
+        ))}
+
+        {/* What each application offers */}
+        <L p={[[270, 496], [270, 690]]} end={false} />
+        <L p={[[270, 530], [350 - 52, 530]]} />
+        <FBox x={350} y={530} w={104} h={44} lines={["Launch"]} />
+        <L p={[[402, 530], [740 - 60, 530]]} />
+        <L p={[[270, 586], [350 - 52, 586]]} />
+        <FBox x={350} y={586} w={104} h={44} lines={["View details"]} />
+        <L p={[[402, 586], [540 - 52, 586]]} />
+        <FBox x={540} y={586} w={104} h={44} lines={["Launch"]} />
+        <L p={[[592, 586], [740 - 60, 586]]} />
+        <FBox x={740} y={530} w={120} h={44} lines={["Enters", "application"]} />
+        <FBox x={740} y={586} w={120} h={44} lines={["Enters", "application"]} />
+        <L p={[[270, 690], [350 - 52, 690]]} />
+        <FBox x={350} y={690} w={104} h={44} lines={["More options", "[…]"]} />
+        <L p={[[402, 690], [440, 690]]} end={false} />
+        <L p={[[440, 640], [440, 880]]} end={false} />
+        {actions.map((a) => (
+          <g key={a.y}>
+            <L p={[[440, a.y], [540 - 52, a.y]]} />
+            <FBox x={540} y={a.y} w={104} h={44} lines={a.act} />
+            <L p={[[592, a.y], [740 - 60, a.y]]} />
+            <FBox x={740} y={a.y} w={120} h={44} lines={a.to} />
+            {a.later && (
+              <>
+                <L p={[[800, a.y], [920 - 70, a.y]]} />
+                <FBox x={920} y={a.y} w={140} h={50} tone="later" size={12} lines={a.later} />
+              </>
+            )}
+          </g>
+        ))}
+      </FlowCanvas>
+    </div>
+  );
+}
+
+export function HeroSubject() {
+  return (
+    <div className="flex w-[16.125rem] flex-col gap-3">
+      <span className={label}>GRC Connect</span>
+      <div className="h-[21rem] overflow-hidden rounded-[8px] border border-border-default shadow-[0_14px_36px_color-mix(in_oklab,var(--shadow-ink)_16%,transparent)]">
+        <div data-scheme="light" style={{ ...REAL_SKIN, zoom: 0.5 }} className="w-[1100px] bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
+          <RedesignDashboard selected={-1} />
+        </div>
       </div>
     </div>
   );

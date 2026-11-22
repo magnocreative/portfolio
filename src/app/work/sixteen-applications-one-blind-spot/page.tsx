@@ -15,6 +15,7 @@ import {
   ConnectHomeMock,
   DashboardRedesign,
   Ecosystem,
+  GrcFlow,
   HeroSubject,
   HiFiGallery,
   HubMock,
@@ -247,6 +248,12 @@ export default function SixteenApplications() {
                 caption="The same sixteen, two builds. Out of the box gave names, owners and dates; the custom build says what each is for and whether it is up. Drag to compare."
               >
                 <BuildComparison />
+              </Figure>
+              <Figure
+                ratio="auto"
+                caption="My user flow, recreated around the MVP: the alerts and the sixteen applications. The white box was left for a later release."
+              >
+                <GrcFlow />
               </Figure>
             </>
           }

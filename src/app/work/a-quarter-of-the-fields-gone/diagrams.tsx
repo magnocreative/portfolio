@@ -1,5 +1,6 @@
 import { CompareSlider } from "@/design-system/components/CompareSlider";
 import { RecreatedScreen } from "@/design-system/components/RecreatedScreen";
+import { FAction, FBox, FDiamond, FlowCanvas, L, LLabel } from "../flowchart";
 import { ImageGallery, type GalleryItem } from "@/design-system/components/ImageGallery";
 import type { CSSProperties, ReactNode } from "react";
 import sketch1 from "@/assets/audit/sketch-1.png";
@@ -38,63 +39,11 @@ function Bar({ w, strong = false, dashed = false }: { w: string; strong?: boolea
 }
 
 /* --------------------------------------------------------------------------
-   Hero subject: one long list of fields above three short groups. Upright,
-   to fit the hero's 16.125rem column, in the same language as the other two
-   studies: a label, the thing, a dashed link, the next thing.
-
-   Eight rows become six, a quarter fewer. The two that go are drawn in
-   dashed outline, so the cut never rests on color alone. */
-
-const CLASSIC_ROWS: { label: string; value: string; cut?: boolean }[] = [
-  { label: "2.5rem", value: "90%" },
-  { label: "3rem", value: "70%" },
-  { label: "2rem", value: "100%", cut: true },
-  { label: "3.25rem", value: "60%" },
-  { label: "2.5rem", value: "80%" },
-  { label: "2.75rem", value: "75%", cut: true },
-  { label: "3rem", value: "95%" },
-  { label: "2.25rem", value: "70%" },
-];
-
-export function HeroSubject() {
-  const link = (
-    <span className="flex flex-col items-center" aria-hidden="true">
-      <span className="h-12 border-l-2 border-dashed border-border-strong" />
-      <span className="-mt-1 h-2.5 w-2.5 rounded-full bg-border-strong" />
-    </span>
-  );
-  return (
-    <div className="flex flex-col items-center gap-4">
-      <span className={label}>Salesforce Classic</span>
-      <span className="flex w-56 flex-col gap-3 rounded-lg border border-border-default bg-surface-sunken p-4">
-        {CLASSIC_ROWS.map((row, i) => (
-          <span key={i} className="flex items-center gap-3">
-            <span className="shrink-0" style={{ width: row.label }}>
-              <Bar w="100%" dashed={row.cut} />
-            </span>
-            <span className="flex-1">
-              <Bar w={row.value} strong={!row.cut} dashed={row.cut} />
-            </span>
-          </span>
-        ))}
-      </span>
-      {link}
-      <span className={label}>Lightning, out of the box</span>
-      <span className="grid w-56 grid-cols-3 gap-2">
-        {[0, 1, 2].map((g) => (
-          <span
-            key={g}
-            className="flex flex-col gap-2.5 rounded-lg border border-border-subtle bg-surface-raised p-3 shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_8%,transparent)]"
-          >
-            <span className="block h-1.5 w-8 rounded-full bg-interactive" />
-            <Bar w="100%" strong />
-            <Bar w="75%" />
-          </span>
-        ))}
-      </span>
-    </div>
-  );
-}
+   Hero subject: the cover's two windows, upright to fit the hero's
+   16.125rem column (Alejandro, November 2026: the hero matches its
+   thumbnail). Classic behind, Lightning in front, each labeled. Defined at
+   the end of the file, with the cover, since both draw the recreated
+   screens. */
 
 /* --------------------------------------------------------------------------
    The record, before and after. The application held three kinds of record,
@@ -1322,101 +1271,6 @@ export function HiFiGallery() {
 
 const FW = 1220;
 const FH = 830;
-const FC = {
-  screen: "oklch(88.5% 0.055 228)",
-  screenEdge: "oklch(72% 0.07 230)",
-  decision: "oklch(66% 0.14 235)",
-  ok: "oklch(83% 0.11 135)",
-  okEdge: "oklch(64% 0.1 135)",
-  bad: "oklch(86% 0.07 5)",
-  badEdge: "oklch(68% 0.11 5)",
-  line: "oklch(32% 0.02 260)",
-  text: "oklch(24% 0.02 260)",
-};
-
-function Lines({ x, y, lines, size = 13 }: { x: number; y: number; lines: string[]; size?: number }) {
-  const lh = size * 1.18;
-  const top = y - ((lines.length - 1) * lh) / 2;
-  return (
-    <text x={x} textAnchor="middle" dominantBaseline="central" fontSize={size} fill={FC.text}>
-      {lines.map((l, i) => (
-        <tspan key={i} x={x} y={top + i * lh}>
-          {l}
-        </tspan>
-      ))}
-    </text>
-  );
-}
-
-type Tone = "screen" | "ok" | "bad";
-function FBox({ x, y, lines, w = 118, h = 56, tone = "screen" }: { x: number; y: number; lines: string[]; w?: number; h?: number; tone?: Tone }) {
-  const fill = tone === "ok" ? FC.ok : tone === "bad" ? FC.bad : FC.screen;
-  const edge = tone === "ok" ? FC.okEdge : tone === "bad" ? FC.badEdge : FC.screenEdge;
-  return (
-    <g>
-      <rect x={x - w / 2} y={y - h / 2} width={w} height={h} rx={2.5} fill={fill} stroke={edge} strokeWidth={1.2} />
-      <Lines x={x} y={y} lines={lines} />
-    </g>
-  );
-}
-
-function FDiamond({ x, y, lines, w = 124, h = 76 }: { x: number; y: number; lines: string[]; w?: number; h?: number }) {
-  return (
-    <g>
-      <path d={`M${x} ${y - h / 2} L${x + w / 2} ${y} L${x} ${y + h / 2} L${x - w / 2} ${y} Z`} fill="white" stroke={FC.decision} strokeWidth={1.4} strokeLinejoin="round" />
-      <Lines x={x} y={y} lines={lines} size={12.5} />
-    </g>
-  );
-}
-
-/* What the user does: a shape bracketed top and bottom, as in his flow */
-function FAction({ x, y, lines, w = 116, h = 48 }: { x: number; y: number; lines: string[]; w?: number; h?: number }) {
-  const x0 = x - w / 2;
-  const x1 = x + w / 2;
-  const y0 = y - h / 2;
-  const y1 = y + h / 2;
-  return (
-    <g>
-      <rect x={x0} y={y0} width={w} height={h} fill="white" />
-      <path
-        d={`M${x0 + 3} ${y0 + 9} Q${x0 + 3} ${y0} ${x0 + 13} ${y0} L${x1 - 13} ${y0} Q${x1 - 3} ${y0} ${x1 - 3} ${y0 + 9} M${x0 + 3} ${y1 - 9} Q${x0 + 3} ${y1} ${x0 + 13} ${y1} L${x1 - 13} ${y1} Q${x1 - 3} ${y1} ${x1 - 3} ${y1 - 9}`}
-        fill="none"
-        stroke={FC.decision}
-        strokeWidth={1.4}
-        strokeLinecap="round"
-      />
-      <Lines x={x} y={y} lines={lines} />
-    </g>
-  );
-}
-
-/* A connector: a polyline, with an arrowhead at its end unless told not to */
-function L({ p, end = true }: { p: [number, number][]; end?: boolean }) {
-  return (
-    <polyline
-      points={p.map((q) => q.join(",")).join(" ")}
-      fill="none"
-      stroke={FC.line}
-      strokeWidth={1.4}
-      strokeLinejoin="round"
-      markerEnd={end ? "url(#flow-arrow)" : undefined}
-    />
-  );
-}
-
-/* A connector's label, on a white ground so the line breaks around it */
-function LLabel({ x, y, t }: { x: number; y: number; t: string }) {
-  const w = t.length * 6 + 8;
-  return (
-    <g>
-      <rect x={x - w / 2} y={y - 8} width={w} height={16} fill="white" />
-      <text x={x} y={y} textAnchor="middle" dominantBaseline="central" fontSize={10.5} fontWeight={700} fill={FC.text}>
-        {t}
-      </text>
-    </g>
-  );
-}
-
 const C = { home: 70, links: 215, status: 365, list: 515, select: 665, detail: 815, edit: 965, save: 1115 };
 const BW = 118; // box width
 const BH = 56;
@@ -1488,12 +1342,7 @@ const FLOW_ALT =
 export function RecordFlow() {
   return (
     <div role="img" aria-label={FLOW_ALT} className="h-full w-full overflow-x-auto bg-white">
-      <svg viewBox={`0 0 ${FW} ${FH}`} className="block w-full min-w-[46rem]" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>
-        <defs>
-          <marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill={FC.line} />
-          </marker>
-        </defs>
+      <FlowCanvas w={FW} h={FH}>
 
         {/* The homepage, the page links and the trunk to every lane */}
         <L p={[[C.home + BW / 2, 360], [C.links - 58, 360]]} />
@@ -1504,7 +1353,7 @@ export function RecordFlow() {
         ))}
         <FBox x={C.home} y={360} w={112} lines={["Homepage"]} />
         <FAction x={C.links} y={360} lines={["User selects", "page/object links"]} w={124} />
-      </svg>
+      </FlowCanvas>
     </div>
   );
 }
@@ -1534,6 +1383,385 @@ export function CoverArt() {
         <div className="-mt-[44px] w-[720px]">
           <LightningScreen />
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function HeroSubject() {
+  return (
+    <div className="relative h-[23.5rem] w-[16.125rem]">
+      <span className={`${label} absolute top-0 left-0`}>Salesforce Classic</span>
+      <div className="absolute top-6 left-0 h-[10.5rem] w-[13.5rem] overflow-hidden rounded-[8px] border border-border-default bg-white shadow-[0_8px_24px_color-mix(in_oklab,var(--shadow-ink)_10%,transparent)]">
+        <div data-scheme="light" className="w-[620px]" style={{ zoom: 0.55 }}>
+          <ClassicScreen />
+        </div>
+      </div>
+      <span className={`${label} absolute top-[12.75rem] right-0`}>Lightning, out of the box</span>
+      <div className="absolute top-[14.25rem] right-0 h-[9.25rem] w-[13.5rem] overflow-hidden rounded-[8px] border border-border-default shadow-[0_14px_36px_color-mix(in_oklab,var(--shadow-ink)_18%,transparent)]">
+        <div className="-mt-[44px] w-[720px]" style={{ zoom: 0.48 }}>
+          <LightningScreen />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   The constraint, shown: Lightning App Builder, recreated (Alejandro,
+   November 2026: his old portfolio showed the builder to explain out of the
+   box). The builder is the platform's own tool, so it is redrawn here rather
+   than shown as a screenshot, building this study's training record page:
+   the components on the left, the page on its template in the middle, with
+   each region outlined the way the builder outlines it, and the page's
+   properties on the right, its template among them. Invented content. */
+
+const BUILDER_COMPONENTS: [string, string][] = [
+  ["Accordion", "oklch(70% 0.16 55)"],
+  ["Activities", "oklch(66% 0.17 15)"],
+  ["Chatter", "oklch(62% 0.13 235)"],
+  ["Chatter Feed", "oklch(62% 0.13 235)"],
+  ["Flow", "oklch(58% 0.15 255)"],
+  ["Highlights Panel", "oklch(58% 0.15 255)"],
+  ["List View", "oklch(60% 0.14 290)"],
+  ["Path", "oklch(58% 0.15 255)"],
+  ["Recent Items", "oklch(70% 0.16 55)"],
+  ["Record Detail", "oklch(58% 0.15 255)"],
+  ["Related List, Single", "oklch(64% 0.12 195)"],
+  ["Report Chart", "oklch(64% 0.13 160)"],
+  ["Rich Text", "oklch(58% 0.02 250)"],
+  ["Tabs", "oklch(58% 0.15 255)"],
+];
+
+/* A region of the canvas, outlined as the builder outlines it */
+function Region({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <div className={`rounded-[2px] border border-dashed border-[oklch(62%_0.13_250/0.8)] p-1.5 ${className}`}>{children}</div>;
+}
+
+/* A component on the canvas: its card, roughly as it renders */
+function Placed({ title, tile, rows = 2 }: { title: string; tile?: string; rows?: number }) {
+  return (
+    <div className="rounded-[4px] border border-border-default bg-surface-raised p-2.5">
+      <div className="flex items-center gap-2 text-[12px] font-bold text-text-primary">
+        {tile && <Tile kind={tile} size="h-5 w-5" />}
+        {title}
+      </div>
+      <div className="mt-2 flex flex-col gap-1.5">
+        {Array.from({ length: rows }, (_, i) => (
+          <Bar key={i} w={i % 2 ? "60%" : "88%"} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AppBuilderScreen() {
+  const field = "rounded-[4px] border border-border-strong bg-surface-raised px-2.5 py-1.5 text-text-primary";
+  return (
+    <div style={LX_SKIN} className="bg-surface-raised text-[13px] leading-normal text-text-primary">
+      {/* The builder's toolbar */}
+      <div className="flex items-center gap-2 border-b border-border-default px-3 py-2">
+        {[["refresh", "pencil"], ["table", "upload"]].map((g, i) => (
+          <span key={i} className="flex rounded-[4px] border border-border-strong text-text-tertiary">
+            {g.map((n, j) => (
+              <span key={n} className={`px-2 py-1.5 ${j ? "border-l border-border-strong" : ""}`}>
+                <Ico name={n} className="h-3.5 w-3.5" />
+              </span>
+            ))}
+          </span>
+        ))}
+        <span className={`${neutralBtn} ml-2 w-44 justify-between text-text-primary`}>
+          Desktop
+          <Ico name="chevron" className="h-3.5 w-3.5" />
+        </span>
+        <span className={`${neutralBtn} w-36 justify-between text-text-primary`}>
+          Shrink to view
+          <Ico name="chevron" className="h-3.5 w-3.5" />
+        </span>
+        <span className={neutralBtn}>
+          <Ico name="refresh" className="h-3.5 w-3.5" />
+          Refresh
+        </span>
+        <span className="ml-auto flex gap-2">
+          <span className={brandBtn}>Save</span>
+          <span className={brandBtn}>Activation…</span>
+        </span>
+      </div>
+
+      <div className="grid h-[530px] grid-cols-[220px_1fr_250px]">
+        {/* The components */}
+        <div className="flex flex-col gap-3 border-r border-border-default p-3">
+          <div className="border-b border-border-subtle pb-2 font-bold text-text-primary">Lightning Components</div>
+          <span className="flex items-center gap-2 rounded-[4px] border border-border-strong px-2.5 py-1.5 text-text-tertiary">
+            <Ico name="search" className="h-3.5 w-3.5" />
+            Search components…
+          </span>
+          <div className="flex items-center gap-1.5 text-[14px] text-text-primary">
+            <Ico name="chevron" className="h-3.5 w-3.5" />
+            Standard ({BUILDER_COMPONENTS.length})
+          </div>
+          <div className="flex flex-col gap-2 pl-1">
+            {BUILDER_COMPONENTS.map(([n, c]) => (
+              <span key={n} className="flex items-center gap-2.5 text-text-secondary">
+                <span className="h-4 w-4 shrink-0 rounded-[3px]" style={{ background: c }} />
+                {n}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* The canvas: the page on its template */}
+        <div className="overflow-hidden bg-[oklch(86%_0.035_250)] p-3">
+          <div className="flex h-full flex-col gap-2 rounded-[2px] border-2 border-[oklch(55%_0.17_250)] bg-surface-page p-2">
+            <Region>
+              <div className="flex items-center gap-2.5 rounded-[4px] border border-border-default bg-surface-raised p-2.5">
+                <Tile kind="training" size="h-6 w-6" />
+                <span className="flex flex-col leading-tight">
+                  <span className="text-[11px] text-text-secondary">My training</span>
+                  <span className="text-[13px] font-bold">TR-0412</span>
+                </span>
+                <span className="ml-auto flex gap-6 text-[11px] text-text-tertiary">
+                  <span>Certification</span>
+                  <span>Start date</span>
+                  <span>End date</span>
+                </span>
+              </div>
+            </Region>
+            <Region>
+              <div className="rounded-[4px] border border-border-default bg-surface-raised p-2">
+                <Path current={0} />
+              </div>
+            </Region>
+            <div className="grid flex-1 grid-cols-[1fr_190px] gap-2">
+              <Region className="flex flex-col gap-2">
+                <div className="rounded-[4px] border border-border-default bg-surface-raised">
+                  <div className="flex gap-4 border-b border-border-default px-3 pt-2 text-[12px] text-text-secondary">
+                    <span className="-mb-px border-b-2 border-interactive pb-1.5 text-text-primary">Details</span>
+                    <span className="pb-1.5">History</span>
+                  </div>
+                  <div className="flex flex-col gap-2 p-2.5">
+                    {["Certificate of completion", "General information", "Training event", "Record information"].map((t) => (
+                      <div key={t}>
+                        <div className="rounded-[3px] bg-[oklch(95.5%_0.002_70)] px-2 py-1 text-[11.5px]">{t}</div>
+                        <div className="mt-1.5 grid grid-cols-2 gap-x-4 gap-y-1.5 px-1">
+                          <Bar w="80%" />
+                          <Bar w="70%" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Region>
+              <Region className="flex flex-col gap-2">
+                <Placed title="Remaining sections" tile="checklist" rows={2} />
+                <Placed title="Files (0)" tile="file" rows={1} />
+                <Placed title="Chatter" rows={3} />
+              </Region>
+            </div>
+          </div>
+        </div>
+
+        {/* The page's properties */}
+        <div className="flex flex-col gap-3 border-l border-border-default p-3">
+          <div className="border-b border-border-subtle pb-2 text-text-accent">Page</div>
+          {[
+            ["Label", "Training Record Page"],
+            ["API Name", "Training_Record_Page"],
+            ["Page Type", "Record Page"],
+            ["Object", "My training"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex flex-col gap-1">
+              <span className="text-xs text-text-secondary">{k}</span>
+              {k === "Page Type" || k === "Object" ? <span className="text-text-primary">{v}</span> : <span className={field}>{v}</span>}
+            </div>
+          ))}
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-text-secondary">Template</span>
+            <span className="flex items-center justify-between gap-2">
+              <span className="text-text-primary">Header and Right Sidebar</span>
+              <span className={`${neutralBtn} px-2.5 py-1`}>Change</span>
+            </span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-text-secondary">Description</span>
+            <span className={`${field} h-16 text-text-tertiary`} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function AppBuilderMock() {
+  return (
+    <div
+      role="img"
+      aria-label="Lightning App Builder, recreated with invented content, in a browser window: a toolbar with Desktop, Shrink to view, Refresh, Save and Activation; on the left, the standard components, from Accordion and Activities to Record Detail, Report Chart, Rich Text and Tabs; in the middle, the training record page on its template, with the highlights, the path, the details tabs and a sidebar of remaining sections, files and Chatter, each region outlined; on the right, the page's properties, with its template, Header and Right Sidebar, and a button to change it."
+      className="h-full w-full"
+    >
+      <RecreatedScreen address="records.example/lightning/builder" tab="Lightning App Builder" width={1100}>
+        <AppBuilderScreen />
+      </RecreatedScreen>
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   What App Builder allowed: Alejandro's own chart from his old portfolio,
+   recreated (November 2026). Three layouts it could build, in containers of
+   one, two or three columns, and three it could not: mixing column counts
+   in one container, three or more columns in one container, and a side
+   navigation for a page. A check or a cross says which, as well as the
+   color of the content bars. A picture of his chart, so it stays light in
+   both themes. */
+
+const OK = "bg-[oklch(82%_0.11_150)]";
+const NO = "bg-[oklch(78%_0.11_20)]";
+
+function MiniHead() {
+  return (
+    <div className="rounded-[4px] border border-[oklch(80%_0_0)] bg-white">
+      <div className="flex items-center gap-2 bg-[oklch(95%_0_0)] px-2 py-1.5">
+        <span className="grid h-3.5 w-3.5 place-items-center rounded-[2px] bg-[oklch(55%_0.15_250)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+        </span>
+        <span className="h-1.5 w-20 rounded-full bg-[oklch(82%_0_0)]" />
+      </div>
+      <div className="flex gap-2 px-2 py-1.5">
+        {[0, 1, 2].map((i) => (
+          <span key={i} className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)]" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MiniBox({ tone, cols = 1, rows = 3, section = false, className = "" }: { tone: string; cols?: number; rows?: number; section?: boolean; className?: string }) {
+  const bars = (c: number, r: number) => (
+    <div className="grid gap-x-3 gap-y-1.5" style={{ gridTemplateColumns: `repeat(${c}, 1fr)` }}>
+      {Array.from({ length: c * r }, (_, i) => (
+        <span key={i} className={`h-1 rounded-full ${tone}`} style={{ width: i % 2 ? "78%" : "92%" }} />
+      ))}
+    </div>
+  );
+  return (
+    <div className={`rounded-[4px] border border-[oklch(80%_0_0)] bg-white ${className}`}>
+      <div className="flex gap-2 bg-[oklch(95%_0_0)] px-2 pt-1.5 pb-1">
+        <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)] shadow-[0_2px_0_oklch(55%_0.15_250)]" />
+        <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)]" />
+      </div>
+      <div className="flex flex-col gap-2 p-2.5">
+        {bars(cols, rows)}
+        {section && (
+          <>
+            <span className="flex items-center gap-1 rounded-[2px] bg-[oklch(95%_0_0)] px-1 py-0.5 text-[8px] text-[oklch(45%_0_0)]">⌄</span>
+            {bars(1, 3)}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function RuleMark({ ok }: { ok: boolean }) {
+  return (
+    <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full text-white ${ok ? "bg-[oklch(62%_0.16_148)]" : "bg-[oklch(60%_0.2_25)]"}`}>
+      <Ico name={ok ? "check" : "close"} className="h-3 w-3" />
+    </span>
+  );
+}
+
+const RULES: { ok: boolean; title: string; body: ReactNode }[] = [
+  { ok: true, title: "One column container", body: <MiniBox tone={OK} cols={2} rows={3} section /> },
+  {
+    ok: true,
+    title: "Two columns, with column counts set in each section",
+    body: (
+      <div className="grid grid-cols-[2fr_1fr] items-start gap-1.5">
+        <MiniBox tone={OK} cols={2} rows={3} section />
+        <MiniBox tone={OK} rows={4} />
+      </div>
+    ),
+  },
+  {
+    ok: true,
+    title: "Three column containers",
+    body: (
+      <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-3 gap-1.5">
+          <MiniBox tone={OK} rows={3} />
+          <MiniBox tone={OK} rows={3} />
+          <MiniBox tone={OK} rows={3} />
+        </div>
+        <div className="grid grid-cols-[1fr_2fr_1fr] gap-1.5">
+          <MiniBox tone={OK} rows={3} />
+          <MiniBox tone={OK} rows={3} />
+          <MiniBox tone={OK} rows={3} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    ok: false,
+    title: "Mixed column counts in one section",
+    body: (
+      <div className="rounded-[4px] border border-[oklch(80%_0_0)] bg-white">
+        <div className="flex gap-2 bg-[oklch(95%_0_0)] px-2 pt-1.5 pb-1">
+          <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)] shadow-[0_2px_0_oklch(55%_0.15_250)]" />
+          <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)]" />
+        </div>
+        <div className="flex flex-col gap-2.5 p-2.5">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+            {Array.from({ length: 6 }, (_, i) => (
+              <span key={i} className={`h-1 rounded-full ${NO}`} style={{ width: i % 2 ? "78%" : "92%" }} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-1.5">
+            {Array.from({ length: 3 }, (_, i) => (
+              <span key={i} className={`h-1 rounded-full ${NO}`} style={{ width: i % 2 ? "86%" : "96%" }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  { ok: false, title: "Three or more columns in one container", body: <MiniBox tone={NO} cols={3} rows={4} /> },
+  {
+    ok: false,
+    title: "Side navigation for a page",
+    body: (
+      <div className="grid grid-cols-[1fr_3fr] items-stretch gap-1.5">
+        <div className="flex flex-col gap-1.5 rounded-[4px] border border-[oklch(80%_0_0)] bg-white p-2">
+          <span className={`h-2 rounded-full ${NO}`} />
+          {[0, 1, 2].map((i) => (
+            <span key={i} className={`h-1 w-4/5 rounded-full ${NO}`} />
+          ))}
+        </div>
+        <MiniBox tone={NO} cols={2} rows={3} section />
+      </div>
+    ),
+  },
+];
+
+export function LayoutRules() {
+  return (
+    <div
+      role="img"
+      aria-label="My notes on App Builder's layouts, recreated. Allowed, with a check: a one column container; two columns, with the column count set in each section; and three column containers, of equal widths or with a wider middle. Not allowed, with a cross: mixed column counts in one section, three or more columns in one container, and side navigation for a page."
+      data-scheme="light"
+      className="@container h-full w-full bg-white p-5 @lg:p-8"
+    >
+      <div className="grid grid-cols-1 gap-x-10 gap-y-7 @2xl:grid-flow-col @2xl:grid-cols-2 @2xl:grid-rows-3">
+        {RULES.map((r) => (
+          <div key={r.title} className="flex flex-col gap-2.5">
+            <div className="flex items-center gap-2 text-[13px] font-medium text-[oklch(25%_0.01_260)]">
+              <RuleMark ok={r.ok} />
+              {r.title}
+            </div>
+            <MiniHead />
+            {r.body}
+          </div>
+        ))}
       </div>
     </div>
   );
