@@ -2893,3 +2893,22 @@ export function UserMap() {
     </div>
   );
 }
+
+/* --------------------------------------------------------------------------
+   The cover, for the work index: the hub itself, edge to edge, with nothing
+   behind it, so status at a glance is the first thing the card shows
+   (Alejandro, November 2026, chosen over a before-and-after pair). The
+   refined dashboard from the gallery, with no card hovered, at 800 by 600
+   and twice the density, saved as
+   src/assets/covers/sixteen-applications-one-blind-spot.png; kept here so it
+   can be rendered again. Invented content throughout. */
+
+export function CoverArt() {
+  return (
+    <div data-scheme="light" className="relative h-[600px] w-[800px] overflow-hidden bg-white">
+      <div style={{ ...REAL_SKIN, zoom: 800 / 1100 }} className="w-[1100px] bg-surface-page text-text-primary [&_.font-label]:[font-family:inherit]">
+        <RedesignDashboard selected={-1} />
+      </div>
+    </div>
+  );
+}

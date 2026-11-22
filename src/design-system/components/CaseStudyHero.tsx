@@ -4,38 +4,39 @@ import type { Crumb } from "./Breadcrumbs";
 import { Container } from "@/design-system/primitives/Container";
 
 /**
- * The fade on the hero's ground. Transparent for its first 140px, solid from
- * 405px, and faded again over the bottom quarter. Intersected, so the two
- * fades multiply rather than one painting over the other.
+ * The fade on the hero's ground. The ground runs the full width of the band,
+ * behind the text as well as the art (Alejandro, November 2026: continue the
+ * dots on the left), so the hero reads as one canvas. Behind the text it is
+ * held at 45%, rising to full strength from 52% to 72% across, where the
+ * subject sits, and it fades out over the bottom quarter. Intersected, so the
+ * two fades multiply rather than one painting over the other.
  *
- * In pixels, not percentages: the ground grows with the window, and a
- * percentage fade grew with it, so at 2560 the dots stayed transparent until
- * well past the subject and it floated on nothing. 140 and 405 are 22% and
- * 64% of the ground at 1440, so that width is unchanged; at 1280 the text
- * column still ends before the first dot shows.
+ * The dots are the faint border color on the page's own ground, so the
+ * title and lede keep their contrast against the page; at 45% they are a
+ * texture under the words, not a pattern competing with them.
  */
 const heroFade = {
   maskImage:
-    "linear-gradient(to right, transparent 140px, black 405px), linear-gradient(to bottom, black 72%, transparent)",
+    "linear-gradient(to right, rgb(0 0 0 / 0.45) 52%, black 72%), linear-gradient(to bottom, black 72%, transparent)",
   maskComposite: "intersect",
   WebkitMaskImage:
-    "linear-gradient(to right, transparent 140px, black 405px), linear-gradient(to bottom, black 72%, transparent)",
+    "linear-gradient(to right, rgb(0 0 0 / 0.45) 52%, black 72%), linear-gradient(to bottom, black 72%, transparent)",
   WebkitMaskComposite: "source-in",
 } as const;
 
 /**
  * The opening band of a case study: the breadcrumb, the title and the intro
- * on the left, on the page's own ground, and art on the right.
+ * on the left, and art on the right, on one dotted ground across both.
  *
  * The art comes in two layers, because they want opposite things from a wide
  * screen:
  *
- *   art: the ground. A picture or a pattern that bleeds off the right edge of
- *     the window and fades out toward the text. The fade is a mask to
- *     transparent, not a gradient to a color, so whatever ground the page has
- *     shows through and one piece of art serves both themes. It is fully
- *     transparent before it reaches the text, so the title's contrast never
- *     depends on it, and it fades at the bottom so the band ends in the page.
+ *   art: the ground. A picture or a pattern that bleeds off both edges of
+ *     the window, quieter behind the text and full strength around the
+ *     subject. The fade is a mask to transparent, not a gradient to a color,
+ *     so whatever ground the page has shows through and one piece of art
+ *     serves both themes. It fades at the bottom so the band ends in the
+ *     page. Only a faint pattern belongs here, since it sits under the title.
  *
  *   subject: the thing the art is of, kept solid. It sits in a 16.125rem
  *     column against the content's right edge, the edge the nav's controls
@@ -46,13 +47,12 @@ const heroFade = {
  *     grows into the extra room.
  *
  * Both layers are measured from a box with the Container's cap and gutters,
- * so they line up with the text and the nav. At 1440 the ground starts 56.4%
- * into that box (806px, the same place as before) and the subject centers
- * 129px in from the content edge.
+ * so they line up with the text and the nav. The subject centers 129px in
+ * from the content edge at 1440.
  *
  * Desktop only, from 1280 (xl). From 1440 the text column widens to 51rem so
  * a 64px title of this length sets in three lines (Alejandro, November 2026);
- * between 1280 and 1439 the ground starts at 44% and the title takes four.
+ * between 1280 and 1439 the title takes four.
  * Below 1280 the band is the plain page header on the plain ground: on a
  * phone a side image has no room, and an image above the title pushes the
  * title halfway down the first screen.
@@ -87,7 +87,7 @@ export function CaseStudyHero({
           <div className="relative mx-auto h-full max-w-wide px-16">
             {art && (
               <div
-                className="absolute inset-y-0 right-[min(0px,calc((84rem_-_100vw)/2))] left-[44%] min-[1440px]:left-[56.4%]"
+                className="absolute inset-y-0 right-[min(0px,calc((84rem_-_100vw)/2))] left-[min(0px,calc((84rem_-_100vw)/2))]"
                 style={heroFade}
               >
                 {art}
@@ -103,9 +103,8 @@ export function CaseStudyHero({
       )}
 
       <Container>
-        {/* The column is sized against the art, so the text never sits on
-            it: where the column ends, the ground's mask is still fully
-            transparent. From 1280 the column is 40rem. From 1440 there is
+        {/* The column is sized against the subject, so the text never runs
+            into it. From 1280 the column is 40rem. From 1440 there is
             room for a 51rem column, which sets a 64px title of this length
             in three lines rather than four (Alejandro, November 2026).
             Between 1280 and 1439 both cannot fit, and the title takes four

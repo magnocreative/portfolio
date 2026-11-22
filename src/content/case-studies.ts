@@ -94,13 +94,12 @@ export const caseStudies: CaseStudy[] = [
     logo: "usaa",
     period: "2022",
     status: "published",
-    // The hero's own art on the dotted ground, rendered from the page
-    // (./diagrams HeroSubject): sixteen tiles, three marked with an issue or
-    // maintenance, above one front door that shows them in one line. Made
-    // for this site; nothing from USAA.
+    // The hub itself, edge to edge, rendered from the page's own
+    // recreation (./diagrams CoverArt, Alejandro, November 2026). Invented
+    // content; nothing from USAA.
     cover: {
       src: sixteenCover,
-      alt: "Sixteen square tiles in four rows, three of them marked: one with a red warning triangle, two with amber clocks. A dashed line runs down to a single card labeled One front door, GRC Connect, showing 1 issue and 2 maintenance in one line.",
+      alt: "The GRC Connect dashboard, recreated with invented content: a status line reading 1 issue, 2 maintenance windows and 2 updates, a welcome column, the person's applications as cards that say what each is for, one marked for maintenance and one slow to load, each with Launch, and below them the applications available to request.",
     },
   },
   // Third, and the GRC study's counterpart: there the argument for custom
