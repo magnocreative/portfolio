@@ -17,6 +17,9 @@ import storybookDark from "@/assets/evidence/storybook-dark.png";
  * and a button used to stand in for it (Alejandro, November 2026). One
  * composition for both, so the two can't disagree about the counts.
  */
+/* The capture's sidebar is exactly its left quarter (600 of 2400px) */
+const phoneCrop = "max-sm:left-[-33.333%]! max-sm:w-[133.333%]! max-sm:max-w-none";
+
 export function StorybookPanel({
   eyebrow,
   heading,
@@ -55,8 +58,14 @@ export function StorybookPanel({
           ratio="16/10"
           caption="The Button's States story: every variant at rest, hover, selected and disabled, with the controls to change any of it. Captured from storybook.magnocreative.com."
         >
-          <Image src={storybookLight} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 100vw" className="object-cover object-left-top scheme-dark:hidden" />
-          <Image src={storybookDark} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 100vw" className="hidden object-cover object-left-top scheme-dark:block" />
+          {/* On a phone, a closer crop: Storybook's sidebar (the left
+              quarter of the capture) is left out and the rest drawn 4/3 as
+              large, so the button states and the top of the controls read
+              instead of shrinking to 7px (Alejandro, November 2026). The
+              image is widened by a third and shifted left by the sidebar's
+              width; the frame keeps its 16:10 ratio. */}
+          <Image src={storybookLight} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 134vw" className={`${phoneCrop} object-cover object-left-top scheme-dark:hidden`} />
+          <Image src={storybookDark} alt={storybookAlt} fill sizes="(min-width: 1024px) 56rem, 134vw" className={`${phoneCrop} hidden object-cover object-left-top scheme-dark:block`} />
         </Figure>
       }
       aside={
