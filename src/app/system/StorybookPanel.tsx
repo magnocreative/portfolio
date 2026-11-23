@@ -55,7 +55,15 @@ export function StorybookPanel({
         // with the page (scheme-dark, globals.css): a light Storybook
         // on a dark page read as a hole in it.
         <Figure
-          ratio="16/10"
+          /* 16:10 as captured; on a phone the frame is a little taller
+             (1800 by 1248 of the capture's pixels), so the closer crop
+             ends on a clean line under the variant row instead of cutting
+             through the controls (Alejandro, November 2026) */
+          ratio="var(--storybook-ratio)"
+          /* And it stays inside the page margins on a phone, with its full
+             frame, rather than bleeding edge to edge like other framed
+             figures (Alejandro, November 2026) */
+          className="[--storybook-ratio:16/10] max-sm:[--storybook-ratio:1800/1248] max-sm:[&>div:first-child]:mx-0! max-sm:[&>div:first-child]:w-full! max-sm:[&>div:first-child]:rounded-sm! max-sm:[&>div:first-child]:border-x!"
           caption="The Button's States story: every variant at rest, hover, selected and disabled, with the controls to change any of it. Captured from storybook.magnocreative.com."
         >
           {/* On a phone, a closer crop: Storybook's sidebar (the left
