@@ -820,7 +820,10 @@ function Artboard({ name, children }: { name: string; children: ReactNode }) {
     <div data-scheme="light" data-artboard={name} className="bg-surface-sunken p-10" style={{ width: W }}>
       {/* No artboard name above the screen (Alejandro, November 2026); it
           stays on the element for anyone inspecting it */}
-      <div style={WIRE_SKIN} className="relative min-h-[720px] overflow-hidden border border-border-default bg-surface-raised text-text-primary shadow-[var(--shadow-chip)] [filter:grayscale(1)]">
+      {/* 745px tall: with the 40px ground above and below, the artboard is
+          4:3 like the gallery's thumbnails, so no white strip shows under a
+          shorter screen (Alejandro, November 2026) */}
+      <div style={WIRE_SKIN} className="relative min-h-[745px] overflow-hidden border border-border-default bg-surface-raised text-text-primary shadow-[var(--shadow-chip)] [filter:grayscale(1)]">
         {children}
       </div>
     </div>

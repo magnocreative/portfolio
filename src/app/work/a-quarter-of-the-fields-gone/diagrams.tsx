@@ -1161,7 +1161,10 @@ const ZOOM = 1.15;
 function Artboard({ children }: { children: ReactNode }) {
   return (
     <div data-scheme="light" className="bg-surface-sunken p-10" style={{ width: W }}>
-      <div className="relative h-[720px] overflow-hidden border border-border-default bg-surface-raised text-text-primary shadow-[var(--shadow-chip)] [filter:grayscale(1)]">
+      {/* 745px tall: with the 40px ground above and below, the artboard is
+          4:3 like the gallery's thumbnails, so no white strip shows under a
+          shorter screen (Alejandro, November 2026) */}
+      <div className="relative h-[745px] overflow-hidden border border-border-default bg-surface-raised text-text-primary shadow-[var(--shadow-chip)] [filter:grayscale(1)]">
         <div style={{ zoom: ZOOM }}>{children}</div>
       </div>
     </div>
