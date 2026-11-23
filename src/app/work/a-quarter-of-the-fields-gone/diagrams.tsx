@@ -1775,11 +1775,11 @@ function RuleBlock({ tone, cols = 1, rows = 3, narrow = false }: { tone: Tone; c
   return (
     /* Rows share the block's height, so the bars fill it at any size */
     <span
-      className={`grid h-full items-center gap-x-1.5 rounded-[3px] border bg-white px-1.5 py-1 ${tone.edge}`}
+      className={`grid h-full items-center gap-x-[4.8cqw] rounded-[2.4cqw] border bg-white px-[4.8cqw] py-[3.2cqw] ${tone.edge}`}
       style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)` }}
     >
       {Array.from({ length: cols * rows }, (_, i) => (
-        <span key={i} className={`h-[3px] rounded-full ${tone.bar}`} style={{ width: widths[Math.floor(i / cols) % 2] }} />
+        <span key={i} className={`h-[2.4cqw] rounded-full ${tone.bar}`} style={{ width: widths[Math.floor(i / cols) % 2] }} />
       ))}
     </span>
   );
@@ -1787,13 +1787,18 @@ function RuleBlock({ tone, cols = 1, rows = 3, narrow = false }: { tone: Tone; c
 
 /* A small page: the record's header strip, then the layout under test */
 function RulePage({ children }: { children: ReactNode }) {
+  /* Sized in the container's width (1px of the 125px design = 0.8cqw), so
+     the page scales as one picture: on a phone it grows without its bars
+     drifting apart (Alejandro, November 2026) */
   return (
-    <span className="flex aspect-[3/2] w-full flex-col gap-1.5 overflow-hidden rounded-[4px] border border-[oklch(82%_0_0)] bg-[oklch(97%_0_0)] p-1.5">
-      <span className="flex items-center gap-1 rounded-[3px] bg-white px-1.5 py-1">
-        <span className="h-2 w-2 rounded-[2px] bg-[oklch(55%_0.15_250)]" />
-        <span className="h-[3px] w-8 rounded-full bg-[oklch(82%_0_0)]" />
+    <span className="@container block w-full">
+      <span className="flex aspect-[3/2] w-full flex-col gap-[4.8cqw] overflow-hidden rounded-[3.2cqw] border border-[oklch(82%_0_0)] bg-[oklch(97%_0_0)] p-[4.8cqw]">
+        <span className="flex items-center gap-[3.2cqw] rounded-[2.4cqw] bg-white px-[4.8cqw] py-[3.2cqw]">
+          <span className="h-[6.4cqw] w-[6.4cqw] rounded-[1.6cqw] bg-[oklch(55%_0.15_250)]" />
+          <span className="h-[2.4cqw] w-[25.6cqw] rounded-full bg-[oklch(82%_0_0)]" />
+        </span>
+        <span className="min-h-0 flex-1 overflow-hidden">{children}</span>
       </span>
-      <span className="min-h-0 flex-1 overflow-hidden">{children}</span>
     </span>
   );
 }
@@ -1815,7 +1820,7 @@ const RULE_SIDES: { ok: boolean; title: string; cases: { label: string; page: Re
       {
         label: "Two columns",
         page: (
-          <span className="grid h-full grid-cols-[2fr_1fr] gap-1">
+          <span className="grid h-full grid-cols-[2fr_1fr] gap-[3.2cqw]">
             <RuleBlock tone={OK_TONE} rows={4} />
             <RuleBlock tone={OK_TONE} rows={4} narrow />
           </span>
@@ -1824,7 +1829,7 @@ const RULE_SIDES: { ok: boolean; title: string; cases: { label: string; page: Re
       {
         label: "Three columns",
         page: (
-          <span className="grid h-full grid-cols-3 gap-1">
+          <span className="grid h-full grid-cols-3 gap-[3.2cqw]">
             <RuleBlock tone={OK_TONE} rows={4} narrow />
             <RuleBlock tone={OK_TONE} rows={4} narrow />
             <RuleBlock tone={OK_TONE} rows={4} narrow />
@@ -1842,21 +1847,21 @@ const RULE_SIDES: { ok: boolean; title: string; cases: { label: string; page: Re
         page: (
           /* Two columns over one, inside the same section: the line between
              them marks where the count changes */
-          <span className={`flex h-full flex-col justify-around rounded-[3px] border bg-white px-1.5 py-1 ${NO_TONE.edge}`}>
-            <span className="grid grid-cols-2 gap-x-1.5 gap-y-1.5">
+          <span className={`flex h-full flex-col justify-around rounded-[2.4cqw] border bg-white px-[4.8cqw] py-[3.2cqw] ${NO_TONE.edge}`}>
+            <span className="grid grid-cols-2 gap-x-[4.8cqw] gap-y-[4.8cqw]">
               {Array.from({ length: 4 }, (_, i) => (
-                <span key={i} className={`h-[3px] rounded-full ${NO_TONE.bar}`} style={{ width: i < 2 ? "92%" : "68%" }} />
+                <span key={i} className={`h-[2.4cqw] rounded-full ${NO_TONE.bar}`} style={{ width: i < 2 ? "92%" : "68%" }} />
               ))}
             </span>
             <span className="h-px bg-[oklch(90%_0_0)]" />
-            <span className={`h-[3px] rounded-full ${NO_TONE.bar}`} style={{ width: "96%" }} />
+            <span className={`h-[2.4cqw] rounded-full ${NO_TONE.bar}`} style={{ width: "96%" }} />
           </span>
         ),
       },
       {
         label: "4+ columns",
         page: (
-          <span className="grid h-full grid-cols-4 gap-1">
+          <span className="grid h-full grid-cols-4 gap-[3.2cqw]">
             {[0, 1, 2, 3].map((i) => (
               <RuleBlock key={i} tone={NO_TONE} rows={4} narrow />
             ))}
@@ -1866,10 +1871,10 @@ const RULE_SIDES: { ok: boolean; title: string; cases: { label: string; page: Re
       {
         label: "A side navigation",
         page: (
-          <span className="grid h-full grid-cols-[1fr_3fr] gap-1">
-            <span className={`flex flex-col justify-around rounded-[3px] border bg-white px-1.5 py-1 ${NO_TONE.edge}`}>
+          <span className="grid h-full grid-cols-[1fr_3fr] gap-[3.2cqw]">
+            <span className={`flex flex-col justify-around rounded-[2.4cqw] border bg-white px-[4.8cqw] py-[3.2cqw] ${NO_TONE.edge}`}>
               {[0, 1, 2, 3].map((i) => (
-                <span key={i} className={`h-[3px] rounded-full ${NO_TONE.bar}`} style={{ width: i ? "80%" : "100%" }} />
+                <span key={i} className={`h-[2.4cqw] rounded-full ${NO_TONE.bar}`} style={{ width: i ? "80%" : "100%" }} />
               ))}
             </span>
             <RuleBlock tone={NO_TONE} cols={2} rows={4} />
@@ -1902,7 +1907,7 @@ export function LayoutRules() {
             <div className="grid grid-cols-1 gap-y-5 @2xl:grid-cols-3 @2xl:gap-x-2.5">
               {side.cases.map((c) => (
                 <div key={c.label} className="flex flex-col items-center gap-2 @2xl:items-stretch @2xl:gap-1.5">
-                  <span className="w-full max-w-44 @2xl:max-w-none">
+                  <span className="w-full max-w-72 @2xl:max-w-none">
                     <RulePage>{c.page}</RulePage>
                   </span>
                   <span className="text-center text-[13px] leading-snug whitespace-nowrap text-[oklch(35%_0.01_260)] @2xl:text-left @2xl:text-[11.5px]">{c.label}</span>
