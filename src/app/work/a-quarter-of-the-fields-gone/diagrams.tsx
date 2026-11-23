@@ -1456,6 +1456,9 @@ export function HeroSubject() {
    each region outlined the way the builder outlines it, and the page's
    properties on the right, its template among them. Invented content. */
 
+/* Each standard component with its tile: the color and a white glyph, as
+   the builder's palette draws them (Alejandro, November 2026: icons in the
+   tiles, not plain color blocks). Glyphs on a 24-unit grid. */
 const BUILDER_COMPONENTS: [string, string][] = [
   ["Accordion", "oklch(70% 0.16 55)"],
   ["Activities", "oklch(66% 0.17 15)"],
@@ -1473,13 +1476,30 @@ const BUILDER_COMPONENTS: [string, string][] = [
   ["Tabs", "oklch(58% 0.15 255)"],
 ];
 
+const BUILDER_GLYPHS: Record<string, ReactNode> = {
+  "Accordion": <><path d="M4 6h16M4 12h16M4 18h16" /><path d="m15 9.5 1.5-1.5 1.5 1.5" /></>,
+  "Activities": <><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 10h16M9 3v4M15 3v4" /></>,
+  "Chatter": <path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />,
+  "Chatter Feed": <><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" /><path d="M8 9h8M8 12h5" /></>,
+  "Flow": <><rect x="3" y="4" width="6" height="5" rx="1" /><rect x="15" y="4" width="6" height="5" rx="1" /><rect x="9" y="15" width="6" height="5" rx="1" /><path d="M9 6.5h6M6 9v3.5h6V15M18 9v3.5h-6" /></>,
+  "Highlights Panel": <><rect x="3" y="6" width="18" height="12" rx="2" /><path d="m8 9.5.9 1.8 2 .3-1.45 1.4.35 2L8 14l-1.8 1 .35-2L5.1 11.6l2-.3z" /><path d="M13 11h5M13 14h3" /></>,
+  "List View": <><path d="M9 6h11M9 12h11M9 18h11" /><circle cx="5" cy="6" r=".8" /><circle cx="5" cy="12" r=".8" /><circle cx="5" cy="18" r=".8" /></>,
+  "Path": <><path d="m4 7 4 5-4 5" /><path d="m10 7 4 5-4 5" /><path d="m16 7 4 5-4 5" /></>,
+  "Recent Items": <><circle cx="12" cy="12" r="8" /><path d="M12 7.5V12l3 2" /></>,
+  "Record Detail": <><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" /><path d="M14 3v5h5M9 13h6M9 17h6" /></>,
+  "Related List, Single": <><path d="M4 6h10M4 11h10M4 16h6" /><path d="M15.5 15.5 18 13a2 2 0 0 1 2.8 2.8l-2.5 2.5a2 2 0 0 1-2.8 0M17 17.5l-2.5 2.5a2 2 0 0 1-2.8-2.8l2.5-2.5" /></>,
+  "Report Chart": <><path d="M4 20h16" /><path d="M7 16v-5M12 16V7M17 16v-8" /></>,
+  "Rich Text": <><path d="M5 6V4h10v2M10 4v12M8 16h4" /><path d="M14 13h6M14 17h6M14 20h4" /></>,
+  "Tabs": <><path d="M3 20V8a1 1 0 0 1 1-1h5l1.5 2H20a1 1 0 0 1 1 1v10z" /><path d="M10.5 9V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></>,
+};
+
 /* A region of the canvas, outlined as the builder outlines it */
 function Region({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`rounded-[2px] border border-dashed border-[oklch(62%_0.13_250/0.8)] p-1.5 ${className}`}>{children}</div>;
 }
 
 /* A component on the canvas: its card, roughly as it renders */
-function Placed({ title, tile, rows = 2 }: { title: string; tile?: string; rows?: number }) {
+function Placed({ title, tile, rows = 2, children }: { title: string; tile?: string; rows?: number; children?: ReactNode }) {
   return (
     <div className="rounded-[4px] border border-border-default bg-surface-raised p-2.5">
       <div className="flex items-center gap-2 text-[12px] font-bold text-text-primary">
@@ -1487,11 +1507,22 @@ function Placed({ title, tile, rows = 2 }: { title: string; tile?: string; rows?
         {title}
       </div>
       <div className="mt-2 flex flex-col gap-1.5">
-        {Array.from({ length: rows }, (_, i) => (
-          <Bar key={i} w={i % 2 ? "60%" : "88%"} />
-        ))}
+        {children ??
+          Array.from({ length: rows }, (_, i) => (
+            <Bar key={i} w={i % 2 ? "60%" : "88%"} />
+          ))}
       </div>
     </div>
+  );
+}
+
+/* A field on the canvas: label over value, as the record detail renders it */
+function CanvasField({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <span className="flex flex-col border-b border-border-subtle pb-1 leading-tight">
+      <span className="text-[9.5px] text-text-tertiary">{label}</span>
+      <span className="text-[11px] text-text-primary">{children}</span>
+    </span>
   );
 }
 
@@ -1499,6 +1530,21 @@ function AppBuilderScreen() {
   const field = "rounded-[4px] border border-border-strong bg-surface-raised px-2.5 py-1.5 text-text-primary";
   return (
     <div style={LX_SKIN} className="bg-surface-raised text-[13px] leading-normal text-text-primary">
+      {/* The builder's own header: back to setup, its name and the page */}
+      <div className="flex items-center gap-3 bg-[oklch(30%_0.05_255)] px-3 py-1.5 text-[12px] text-white">
+        <span className="flex items-center gap-1">
+          <Ico name="chevron" className="h-3.5 w-3.5 rotate-90" />
+          Back
+        </span>
+        <span className="h-4 w-px bg-white/30" />
+        <Ico name="gear" className="h-3.5 w-3.5" />
+        <span className="font-bold">Lightning App Builder</span>
+        <span className="text-white/75">Page: Training Record Page</span>
+        <span className="ml-auto flex items-center gap-1">
+          <Ico name="help" className="h-3.5 w-3.5" />
+          Help
+        </span>
+      </div>
       {/* The builder's toolbar */}
       <div className="flex items-center gap-2 border-b border-border-default px-3 py-2">
         {[["refresh", "pencil"], ["table", "upload"]].map((g, i) => (
@@ -1528,7 +1574,7 @@ function AppBuilderScreen() {
         </span>
       </div>
 
-      <div className="grid h-[530px] grid-cols-[220px_1fr_250px]">
+      <div className="grid h-[575px] grid-cols-[220px_1fr_250px]">
         {/* The components */}
         <div className="flex flex-col gap-3 border-r border-border-default p-3">
           <div className="border-b border-border-subtle pb-2 font-bold text-text-primary">Lightning Components</div>
@@ -1540,11 +1586,25 @@ function AppBuilderScreen() {
             <Ico name="chevron" className="h-3.5 w-3.5" />
             Standard ({BUILDER_COMPONENTS.length})
           </div>
-          <div className="flex flex-col gap-2 pl-1">
+          <div className="flex flex-col gap-1.5 pl-1">
             {BUILDER_COMPONENTS.map(([n, c]) => (
               <span key={n} className="flex items-center gap-2.5 text-text-secondary">
-                <span className="h-4 w-4 shrink-0 rounded-[3px]" style={{ background: c }} />
+                <span className="grid h-[18px] w-[18px] shrink-0 place-items-center rounded-[3px] text-white" style={{ background: c }}>
+                  <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    {BUILDER_GLYPHS[n]}
+                  </svg>
+                </span>
                 {n}
+              </span>
+            ))}
+          </div>
+          {/* The other palettes, collapsed and empty: this team built
+              nothing custom, so there was nothing to list */}
+          <div className="mt-auto flex flex-col gap-2 border-t border-border-subtle pt-2.5 text-[13px] text-text-primary">
+            {["Custom (0)", "Custom - Managed (0)"].map((t) => (
+              <span key={t} className="flex items-center gap-1.5">
+                <Ico name="chevron" className="h-3.5 w-3.5 -rotate-90" />
+                {t}
               </span>
             ))}
           </div>
@@ -1560,10 +1620,21 @@ function AppBuilderScreen() {
                   <span className="text-[11px] text-text-secondary">My training</span>
                   <span className="text-[13px] font-bold">TR-0412</span>
                 </span>
-                <span className="ml-auto flex gap-6 text-[11px] text-text-tertiary">
-                  <span>Certification</span>
-                  <span>Start date</span>
-                  <span>End date</span>
+                <span className="ml-auto flex items-center gap-5">
+                  {[
+                    ["Certification", <Check key="c" on={false} />],
+                    ["Start date", "Oct 3"],
+                    ["End date", "Oct 21"],
+                  ].map(([k, v]) => (
+                    <span key={k as string} className="flex flex-col gap-0.5 leading-tight">
+                      <span className="text-[10px] text-text-tertiary">{k}</span>
+                      <span className="text-[11px]">{v}</span>
+                    </span>
+                  ))}
+                  <span className="flex rounded-[4px] border border-border-strong text-[11px] text-text-accent">
+                    <span className="px-2 py-0.5">+ Follow</span>
+                    <span className="border-l border-border-strong px-2 py-0.5">Edit</span>
+                  </span>
                 </span>
               </div>
             </Region>
@@ -1580,12 +1651,25 @@ function AppBuilderScreen() {
                     <span className="pb-1.5">History</span>
                   </div>
                   <div className="flex flex-col gap-2 p-2.5">
-                    {["Certificate of completion", "General information", "Training event", "Record information"].map((t) => (
+                    {(
+                      [
+                        ["Certificate of completion", [["Certificate attached", <Check key="c" on={false} />], ["Certificate type", "Course completion"]]],
+                        ["General information", [["Employee name", "Jordan Ellis"], ["Employee ID", "E-204817"]]],
+                        ["Training event", [["Course title", "Data Analytics for Auditors"], ["Course status", "Attended"]]],
+                        ["Record information", [["Created by", "J. Ellis, Oct 2"], ["Last modified by", "Sam Rivera, Oct 22"]]],
+                      ] as [string, [string, ReactNode][]][]
+                    ).map(([t, fields]) => (
                       <div key={t}>
-                        <div className="rounded-[3px] bg-[oklch(95.5%_0.002_70)] px-2 py-1 text-[11.5px]">{t}</div>
+                        <div className="flex items-center gap-1 rounded-[3px] bg-[oklch(95.5%_0.002_70)] px-2 py-1 text-[11.5px]">
+                          <Ico name="chevron" className="h-3 w-3" />
+                          {t}
+                        </div>
                         <div className="mt-1.5 grid grid-cols-2 gap-x-4 gap-y-1.5 px-1">
-                          <Bar w="80%" />
-                          <Bar w="70%" />
+                          {fields.map(([k, v]) => (
+                            <CanvasField key={k} label={k}>
+                              {v}
+                            </CanvasField>
+                          ))}
                         </div>
                       </div>
                     ))}
@@ -1593,9 +1677,33 @@ function AppBuilderScreen() {
                 </div>
               </Region>
               <Region className="flex flex-col gap-2">
-                <Placed title="Remaining sections" tile="checklist" rows={2} />
-                <Placed title="Files (0)" tile="file" rows={1} />
-                <Placed title="Chatter" rows={3} />
+                <Placed title="Remaining sections" tile="checklist">
+                  <span className="flex items-center gap-1.5 text-[11px] text-text-secondary">
+                    <span className="h-3 w-3 shrink-0 rounded-full border border-border-strong" />
+                    Certificate of completion
+                  </span>
+                </Placed>
+                <Placed title="Files (0)" tile="file">
+                  {/* The platform's own drop zone, dashed as it draws it */}
+                  <span className="flex flex-col items-center gap-1 rounded-[4px] border border-dashed border-border-strong py-1.5 text-[10.5px] text-text-tertiary">
+                    <span className="flex items-center gap-1 rounded-[4px] border border-border-strong bg-surface-raised px-2 py-0.5 text-text-accent">
+                      <Ico name="upload" className="h-3 w-3" />
+                      Upload Files
+                    </span>
+                    Or drop files
+                  </span>
+                </Placed>
+                <Placed title="Chatter">
+                  <span className="flex gap-3 border-b border-border-subtle text-[10.5px] text-text-secondary">
+                    <span className="-mb-px border-b-2 border-interactive pb-1 text-text-primary">Post</span>
+                    <span className="pb-1">Poll</span>
+                    <span className="pb-1">Question</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="flex-1 rounded-[4px] border border-border-strong px-1.5 py-0.5 text-[10.5px] text-text-tertiary">Share an update…</span>
+                    <span className="rounded-[4px] bg-interactive px-1.5 py-0.5 text-[10.5px] text-interactive-on">Share</span>
+                  </span>
+                </Placed>
               </Region>
             </div>
           </div>
@@ -1636,7 +1744,7 @@ export function AppBuilderMock() {
   return (
     <div
       role="img"
-      aria-label="Lightning App Builder, recreated with invented content, in a browser window: a toolbar with Desktop, Shrink to view, Refresh, Save and Activation; on the left, the standard components, from Accordion and Activities to Record Detail, Report Chart, Rich Text and Tabs; in the middle, the training record page on its template, with the highlights, the path, the details tabs and a sidebar of remaining sections, files and Chatter, each region outlined; on the right, the page's properties, with its template, Header and Right Sidebar, and a button to change it."
+      aria-label="Lightning App Builder, recreated with invented content, in a browser window: the builder's header with Back and the page's name, then a toolbar with Desktop, Shrink to view, Refresh, Save and Activation; on the left, the fourteen standard components, each with its icon, from Accordion and Activities to Record Detail, Report Chart, Rich Text and Tabs, and the Custom palettes empty; in the middle, the training record page on its template, with the highlights, the path, the details tabs with their fields, and a sidebar of remaining sections, files and Chatter, each region outlined; on the right, the page's properties, with its template, Header and Right Sidebar, and a button to change it."
       className="h-full w-full"
     >
       <RecreatedScreen address="records.example/lightning/builder" tab="Lightning App Builder" width={1100}>
