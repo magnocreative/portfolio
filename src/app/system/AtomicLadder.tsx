@@ -189,9 +189,13 @@ function Wide() {
   );
 }
 
+/* On a phone the stack sits on the page itself, with no frame around it:
+   the frame plus the example panels was a card in a card, and dropping it
+   gives the panels the full text width (Alejandro, November 2026). From
+   sm up the stack keeps its frame. */
 function Narrow() {
   return (
-    <ol className="relative flex flex-col gap-6 p-5">
+    <ol className="relative flex flex-col gap-6 p-5 max-sm:p-0">
       {stages.map((s, i) => (
         <li key={s.name} className="relative grid grid-cols-[2.75rem_1fr] gap-4">
           {/* The same 2px line, down to the next marker, 6px clear of each circle */}
@@ -225,7 +229,7 @@ export function AtomicLadder() {
   return (
     <figure
       aria-label="Atomic design in five stages, drawn with this site's parts. 1, atoms: a button, a status tag and an icon. 2, molecules: a search field with its button. 3, organisms: an application card with a name, a status and a Launch button. 4, templates: a page layout with placeholder bars and two cards. 5, pages: the same layout with the logo, a title and named cards."
-      className="@container overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken"
+      className="@container overflow-hidden rounded-sm border border-border-subtle bg-surface-sunken max-sm:rounded-none max-sm:border-0 max-sm:bg-transparent"
     >
       <div className="hidden @min-[52rem]:block">
         <ScaledFrame width={1100}>

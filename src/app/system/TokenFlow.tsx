@@ -106,7 +106,9 @@ const mono = "font-label text-xs";
 
 function Arrow() {
   return (
-    <span aria-hidden="true" className="flex items-center justify-center text-border-strong">
+    /* Stacked, the arrow sits under the swatches, so the flow runs down one
+       line with them; side by side it is centered between the columns */
+    <span aria-hidden="true" className="flex items-center justify-start pl-1 text-border-strong @2xl:justify-center @2xl:pl-0">
       <svg viewBox="0 0 20 20" className="h-4 w-4 rotate-90 @2xl:rotate-0" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 10h13M12 6l4 4-4 4" />
       </svg>
@@ -169,13 +171,17 @@ export function TokenFlow() {
             <Arrow />
 
             {/* Semantic: the role, and what it is for */}
-            <div className="flex flex-col gap-1.5 @2xl:justify-center">
+            <div className="flex flex-col gap-2 @2xl:justify-center">
               <span className={`${head} @2xl:hidden`}>02 · Semantic</span>
+              {/* The purpose sits under the role's name, the way the theme
+                  sits under a primitive's, so both tiers read the same way */}
               <span className="flex items-center gap-2.5">
                 <span aria-hidden="true" className="h-6 w-6 shrink-0 rounded-full border border-border-default" style={{ background: `var(${c.role})` }} />
-                <span className={`${mono} text-text-primary`}>{c.role}</span>
+                <span className="flex flex-col">
+                  <span className={`${mono} text-text-primary`}>{c.role}</span>
+                  <span className="text-sm text-text-secondary">{c.purpose}</span>
+                </span>
               </span>
-              <span className="text-sm text-text-secondary">{c.purpose}</span>
             </div>
 
             <Arrow />
