@@ -1756,58 +1756,45 @@ export function AppBuilderMock() {
 
 /* --------------------------------------------------------------------------
    What App Builder allowed: Alejandro's own chart from his old portfolio,
-   recreated (November 2026). Three layouts it could build, in containers of
-   one, two or three columns, and three it could not: mixing column counts
-   in one container, three or more columns in one container, and a side
-   navigation for a page. A check or a cross says which, as well as the
-   color of the content bars. A picture of his chart, so it stays light in
-   both themes. */
+   recreated (November 2026), then simplified so it reads in a glance
+   (Alejandro, November 2026: the six-cell chart made the reader work).
+   Two sides, could build and could not build, three plain cases each, every
+   case a small page: one, two or three columns it could build; mixed
+   columns in one section, more than three columns, or a side navigation it
+   could not. A check or a cross heads each side, as well as the color of
+   the blocks. A picture of his chart, so it stays light in both themes. */
 
-const OK = "bg-[oklch(82%_0.11_150)]";
-const NO = "bg-[oklch(78%_0.11_20)]";
+const OK_TONE = { bar: "bg-[oklch(78%_0.1_150)]", edge: "border-[oklch(80%_0.06_150)]" };
+const NO_TONE = { bar: "bg-[oklch(76%_0.1_22)]", edge: "border-[oklch(80%_0.06_22)]" };
+type Tone = typeof OK_TONE;
 
-function MiniHead() {
+/* One block on the small page: a box of content bars, in one or more columns */
+function RuleBlock({ tone, cols = 1, rows = 3, narrow = false }: { tone: Tone; cols?: number; rows?: number; narrow?: boolean }) {
+  /* Narrow blocks keep their bars long, so a bar never shrinks to a dot */
+  const widths = narrow ? ["100%", "80%"] : ["92%", "68%"];
   return (
-    <div className="rounded-[4px] border border-[oklch(80%_0_0)] bg-white">
-      <div className="flex items-center gap-2 bg-[oklch(95%_0_0)] px-2 py-1.5">
-        <span className="grid h-3.5 w-3.5 place-items-center rounded-[2px] bg-[oklch(55%_0.15_250)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-white" />
-        </span>
-        <span className="h-1.5 w-20 rounded-full bg-[oklch(82%_0_0)]" />
-      </div>
-      <div className="flex gap-2 px-2 py-1.5">
-        {[0, 1, 2].map((i) => (
-          <span key={i} className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)]" />
-        ))}
-      </div>
-    </div>
+    /* Rows share the block's height, so the bars fill it at any size */
+    <span
+      className={`grid h-full items-center gap-x-1.5 rounded-[3px] border bg-white px-1.5 py-1 ${tone.edge}`}
+      style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)` }}
+    >
+      {Array.from({ length: cols * rows }, (_, i) => (
+        <span key={i} className={`h-[3px] rounded-full ${tone.bar}`} style={{ width: widths[Math.floor(i / cols) % 2] }} />
+      ))}
+    </span>
   );
 }
 
-function MiniBox({ tone, cols = 1, rows = 3, section = false, className = "" }: { tone: string; cols?: number; rows?: number; section?: boolean; className?: string }) {
-  const bars = (c: number, r: number) => (
-    <div className="grid gap-x-3 gap-y-1.5" style={{ gridTemplateColumns: `repeat(${c}, 1fr)` }}>
-      {Array.from({ length: c * r }, (_, i) => (
-        <span key={i} className={`h-1 rounded-full ${tone}`} style={{ width: i % 2 ? "78%" : "92%" }} />
-      ))}
-    </div>
-  );
+/* A small page: the record's header strip, then the layout under test */
+function RulePage({ children }: { children: ReactNode }) {
   return (
-    <div className={`rounded-[4px] border border-[oklch(80%_0_0)] bg-white ${className}`}>
-      <div className="flex gap-2 bg-[oklch(95%_0_0)] px-2 pt-1.5 pb-1">
-        <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)] shadow-[0_2px_0_oklch(55%_0.15_250)]" />
-        <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)]" />
-      </div>
-      <div className="flex flex-col gap-2 p-2.5">
-        {bars(cols, rows)}
-        {section && (
-          <>
-            <span className="flex items-center gap-1 rounded-[2px] bg-[oklch(95%_0_0)] px-1 py-0.5 text-[8px] text-[oklch(45%_0_0)]">⌄</span>
-            {bars(1, 3)}
-          </>
-        )}
-      </div>
-    </div>
+    <span className="flex aspect-[3/2] w-full flex-col gap-1.5 overflow-hidden rounded-[4px] border border-[oklch(82%_0_0)] bg-[oklch(97%_0_0)] p-1.5">
+      <span className="flex items-center gap-1 rounded-[3px] bg-white px-1.5 py-1">
+        <span className="h-2 w-2 rounded-[2px] bg-[oklch(55%_0.15_250)]" />
+        <span className="h-[3px] w-8 rounded-full bg-[oklch(82%_0_0)]" />
+      </span>
+      <span className="min-h-0 flex-1 overflow-hidden">{children}</span>
+    </span>
   );
 }
 
@@ -1819,75 +1806,77 @@ function RuleMark({ ok }: { ok: boolean }) {
   );
 }
 
-const RULES: { ok: boolean; title: string; body: ReactNode }[] = [
-  { ok: true, title: "One column container", body: <MiniBox tone={OK} cols={2} rows={3} section /> },
+const RULE_SIDES: { ok: boolean; title: string; cases: { label: string; page: ReactNode }[] }[] = [
   {
     ok: true,
-    title: "Two columns, with column counts set in each section",
-    body: (
-      <div className="grid grid-cols-[2fr_1fr] items-start gap-1.5">
-        <MiniBox tone={OK} cols={2} rows={3} section />
-        <MiniBox tone={OK} rows={4} />
-      </div>
-    ),
-  },
-  {
-    ok: true,
-    title: "Three column containers",
-    body: (
-      <div className="flex flex-col gap-2">
-        <div className="grid grid-cols-3 gap-1.5">
-          <MiniBox tone={OK} rows={3} />
-          <MiniBox tone={OK} rows={3} />
-          <MiniBox tone={OK} rows={3} />
-        </div>
-        <div className="grid grid-cols-[1fr_2fr_1fr] gap-1.5">
-          <MiniBox tone={OK} rows={3} />
-          <MiniBox tone={OK} rows={3} />
-          <MiniBox tone={OK} rows={3} />
-        </div>
-      </div>
-    ),
+    title: "Could build",
+    cases: [
+      { label: "One column", page: <RuleBlock tone={OK_TONE} rows={4} /> },
+      {
+        label: "Two columns",
+        page: (
+          <span className="grid h-full grid-cols-[2fr_1fr] gap-1">
+            <RuleBlock tone={OK_TONE} rows={4} />
+            <RuleBlock tone={OK_TONE} rows={4} narrow />
+          </span>
+        ),
+      },
+      {
+        label: "Three columns",
+        page: (
+          <span className="grid h-full grid-cols-3 gap-1">
+            <RuleBlock tone={OK_TONE} rows={4} narrow />
+            <RuleBlock tone={OK_TONE} rows={4} narrow />
+            <RuleBlock tone={OK_TONE} rows={4} narrow />
+          </span>
+        ),
+      },
+    ],
   },
   {
     ok: false,
-    title: "Mixed column counts in one section",
-    body: (
-      <div className="rounded-[4px] border border-[oklch(80%_0_0)] bg-white">
-        <div className="flex gap-2 bg-[oklch(95%_0_0)] px-2 pt-1.5 pb-1">
-          <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)] shadow-[0_2px_0_oklch(55%_0.15_250)]" />
-          <span className="h-1 w-5 rounded-full bg-[oklch(82%_0_0)]" />
-        </div>
-        <div className="flex flex-col gap-2.5 p-2.5">
-          <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
-            {Array.from({ length: 6 }, (_, i) => (
-              <span key={i} className={`h-1 rounded-full ${NO}`} style={{ width: i % 2 ? "78%" : "92%" }} />
+    title: "Could not build",
+    cases: [
+      {
+        label: "Mixed columns",
+        page: (
+          /* Two columns over one, inside the same section: the line between
+             them marks where the count changes */
+          <span className={`flex h-full flex-col justify-around rounded-[3px] border bg-white px-1.5 py-1 ${NO_TONE.edge}`}>
+            <span className="grid grid-cols-2 gap-x-1.5 gap-y-1.5">
+              {Array.from({ length: 4 }, (_, i) => (
+                <span key={i} className={`h-[3px] rounded-full ${NO_TONE.bar}`} style={{ width: i < 2 ? "92%" : "68%" }} />
+              ))}
+            </span>
+            <span className="h-px bg-[oklch(90%_0_0)]" />
+            <span className={`h-[3px] rounded-full ${NO_TONE.bar}`} style={{ width: "96%" }} />
+          </span>
+        ),
+      },
+      {
+        label: "4+ columns",
+        page: (
+          <span className="grid h-full grid-cols-4 gap-1">
+            {[0, 1, 2, 3].map((i) => (
+              <RuleBlock key={i} tone={NO_TONE} rows={4} narrow />
             ))}
-          </div>
-          <div className="flex flex-col gap-1.5">
-            {Array.from({ length: 3 }, (_, i) => (
-              <span key={i} className={`h-1 rounded-full ${NO}`} style={{ width: i % 2 ? "86%" : "96%" }} />
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  { ok: false, title: "Three or more columns in one container", body: <MiniBox tone={NO} cols={3} rows={4} /> },
-  {
-    ok: false,
-    title: "Side navigation for a page",
-    body: (
-      <div className="grid grid-cols-[1fr_3fr] items-stretch gap-1.5">
-        <div className="flex flex-col gap-1.5 rounded-[4px] border border-[oklch(80%_0_0)] bg-white p-2">
-          <span className={`h-2 rounded-full ${NO}`} />
-          {[0, 1, 2].map((i) => (
-            <span key={i} className={`h-1 w-4/5 rounded-full ${NO}`} />
-          ))}
-        </div>
-        <MiniBox tone={NO} cols={2} rows={3} section />
-      </div>
-    ),
+          </span>
+        ),
+      },
+      {
+        label: "A side navigation",
+        page: (
+          <span className="grid h-full grid-cols-[1fr_3fr] gap-1">
+            <span className={`flex flex-col justify-around rounded-[3px] border bg-white px-1.5 py-1 ${NO_TONE.edge}`}>
+              {[0, 1, 2, 3].map((i) => (
+                <span key={i} className={`h-[3px] rounded-full ${NO_TONE.bar}`} style={{ width: i ? "80%" : "100%" }} />
+              ))}
+            </span>
+            <RuleBlock tone={NO_TONE} cols={2} rows={4} />
+          </span>
+        ),
+      },
+    ],
   },
 ];
 
@@ -1895,19 +1884,31 @@ export function LayoutRules() {
   return (
     <div
       role="img"
-      aria-label="My notes on App Builder's layouts, recreated. Allowed, with a check: a one column container; two columns, with the column count set in each section; and three column containers, of equal widths or with a wider middle. Not allowed, with a cross: mixed column counts in one section, three or more columns in one container, and side navigation for a page."
+      aria-label="My notes on App Builder's layouts, recreated as small pages. Could build, with a check: one column, two columns, three columns. Could not build, with a cross: mixed columns in one section, four or more columns, and a side navigation."
       data-scheme="light"
-      className="@container h-full w-full bg-white p-5 @lg:p-8"
+      className="@container h-full w-full bg-white p-5 @lg:p-7"
     >
-      <div className="grid grid-cols-1 gap-x-10 gap-y-7 @2xl:grid-flow-col @2xl:grid-cols-2 @2xl:grid-rows-3">
-        {RULES.map((r) => (
-          <div key={r.title} className="flex flex-col gap-2.5">
-            <div className="flex items-center gap-2 text-[13px] font-medium text-[oklch(25%_0.01_260)]">
-              <RuleMark ok={r.ok} />
-              {r.title}
+      <div className="grid grid-cols-1 gap-y-6 @2xl:grid-cols-2 @2xl:gap-x-0">
+        {RULE_SIDES.map((side, s) => (
+          <div key={side.title} className={`flex flex-col gap-3 ${s ? "@2xl:border-l @2xl:border-[oklch(90%_0_0)] @2xl:pl-7" : "@2xl:border-r @2xl:border-transparent @2xl:pr-7"}`}>
+            <div className="flex items-center justify-center gap-2 text-[13px] font-medium text-[oklch(25%_0.01_260)] @2xl:justify-start">
+              <RuleMark ok={side.ok} />
+              {side.title}
             </div>
-            <MiniHead />
-            {r.body}
+            {/* On a phone the cases stack down the middle, each label centered
+                under its page (Alejandro, November 2026: a label beside the
+                page left the right side empty); from @2xl they sit three
+                across, labels beneath and flush left */}
+            <div className="grid grid-cols-1 gap-y-5 @2xl:grid-cols-3 @2xl:gap-x-2.5">
+              {side.cases.map((c) => (
+                <div key={c.label} className="flex flex-col items-center gap-2 @2xl:items-stretch @2xl:gap-1.5">
+                  <span className="w-full max-w-44 @2xl:max-w-none">
+                    <RulePage>{c.page}</RulePage>
+                  </span>
+                  <span className="text-center text-[13px] leading-snug whitespace-nowrap text-[oklch(35%_0.01_260)] @2xl:text-left @2xl:text-[11.5px]">{c.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>

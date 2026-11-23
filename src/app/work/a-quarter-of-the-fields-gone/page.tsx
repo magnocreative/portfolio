@@ -234,7 +234,7 @@ export default function AQuarterOfTheFields() {
               </Figure>
               <Figure
                 ratio="auto"
-                caption="My notes on what App Builder could lay out, recreated: containers of one, two or three columns, but no mixed columns and no side navigation."
+                caption="My notes on what App Builder could lay out, recreated. Every layout I tested was one it could build, like the homepage’s three columns."
               >
                 <LayoutRules />
               </Figure>
