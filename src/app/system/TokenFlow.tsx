@@ -117,7 +117,7 @@ function Arrow() {
 export function TokenFlow() {
   const active = useResolved();
   return (
-    <figure className="@container rounded-sm border border-border-subtle bg-surface-sunken p-5 sm:p-8">
+    <figure className="@container rounded-sm border border-border-default bg-surface-inset p-5 sm:p-8">
       {/* Column heads, on a wide frame only; on a narrow one each cell names its tier. */}
       <div className="hidden @2xl:grid @2xl:grid-cols-[1fr_auto_1fr_auto_1fr] @2xl:gap-x-4 pb-4">
         <span className={head}>01 · Primitive</span>
@@ -134,7 +134,7 @@ export function TokenFlow() {
         {chains.map((c) => (
           <li
             key={c.key}
-            className="grid grid-cols-1 gap-2.5 border-t border-border-subtle py-6 first:border-t-0 first:pt-0 last:pb-0 @2xl:grid-cols-[1fr_auto_1fr_auto_1fr] @2xl:items-center @2xl:gap-x-4 @2xl:py-5"
+            className="grid grid-cols-1 gap-2.5 border-t border-border-default py-6 first:border-t-0 first:pt-0 last:pb-0 @2xl:grid-cols-[1fr_auto_1fr_auto_1fr] @2xl:items-center @2xl:gap-x-4 @2xl:py-5"
           >
             {/* Primitive: one swatch, or one per theme with the live one lit */}
             <div className="flex flex-col gap-2 @2xl:justify-center">
@@ -142,17 +142,23 @@ export function TokenFlow() {
               {c.primitives.map((p) => {
                 const lit = c.primitives.length === 1 || active[c.key] === p.token;
                 return (
-                  <span
-                    key={p.token}
-                    className={`flex items-center gap-2.5 transition-opacity duration-[160ms] ${lit ? "opacity-100" : "opacity-40"}`}
-                  >
+                  /* The theme not in use dims its swatch only: its name stays
+                     readable, in the secondary and tertiary text colors, so
+                     every label here passes contrast (Alejandro, November
+                     2026: at 40% the whole row was hard to read, in light
+                     above all). The live one is lit by the ring and the
+                     primary text color. */
+                  <span key={p.token} className="flex items-center gap-2.5">
                     <span
                       aria-hidden="true"
-                      className={`h-6 w-6 shrink-0 rounded-[5px] border border-border-default ${lit && c.primitives.length > 1 ? "ring-2 ring-focus-ring ring-offset-2 ring-offset-surface-sunken" : ""}`}
-                      style={{ background: `var(${p.token})` }}
+                      /* Only the fill fades, so the swatch keeps its edge
+                         and still reads as a swatch when its color is close
+                         to the figure's ground */
+                      className={`h-6 w-6 shrink-0 rounded-[5px] border border-border-default ${lit && c.primitives.length > 1 ? "ring-2 ring-focus-ring ring-offset-2 ring-offset-surface-inset" : ""}`}
+                      style={{ background: lit ? `var(${p.token})` : `color-mix(in oklab, var(${p.token}) 35%, transparent)` }}
                     />
                     <span className="flex flex-col">
-                      <span className={`${mono} text-text-primary`}>{p.token}</span>
+                      <span className={`${mono} ${lit ? "text-text-primary" : "text-text-secondary"}`}>{p.token}</span>
                       <span className={`${mono} text-text-tertiary`}>{p.theme ? `${p.theme} theme` : "Both themes"}</span>
                     </span>
                   </span>
