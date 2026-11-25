@@ -19,6 +19,7 @@ import type { OrgLogo } from "@/design-system/brand/OrgLogos";
 import systemCover from "@/assets/covers/a-system-you-can-inspect.png";
 import sixteenCover from "@/assets/covers/sixteen-applications-one-blind-spot.png";
 import quarterCover from "@/assets/covers/a-quarter-of-the-fields-gone.png";
+import labsCover from "@/assets/covers/one-front-door-three-companies.png";
 
 export type CaseStudy = {
   slug: string;
@@ -123,6 +124,28 @@ export const caseStudies: CaseStudy[] = [
     cover: {
       src: quarterCover,
       alt: "A training record in Lightning, recreated with invented content: the app bar, the record's header with its highlights, a path from Draft to Submitted to Complete, the certificate attached in collapsible sections, and beside them the sections still to fill and the record's feed.",
+    },
+  },
+  // Fourth: two concepts from USAA's innovation lab, Small Business and
+  // College Bound, told as one idea tested twice (Alejandro, November 2026).
+  // The only study that did not ship, and it says so. The six partner
+  // companies stay unnamed.
+  {
+    slug: "one-front-door-three-companies",
+    title: "One front door, three companies behind it",
+    standfirst:
+      "An innovation lab wanted members to reach three outside companies from one place. I gave each company its own page, and found the step where members stopped trusting the idea: signing in on someone else’s site.",
+    disciplines: ["Concept design", "Research", "Information architecture"],
+    employer: "USAA",
+    logo: "usaa",
+    period: "2017",
+    status: "published",
+    // The product on the card, the idea in the hero: the final dashboard,
+    // edge to edge, rendered from the page's own recreation (./diagrams
+    // CoverArt). Invented content; nothing from USAA or the partners.
+    cover: {
+      src: labsCover,
+      alt: "A small business dashboard, recreated with invented content: a dark blue rail of pages, a welcome, four numbers for payroll, money in, money out and sales, invoices and bills with one past due, and a cash flow chart.",
     },
   },
 ];
